@@ -17,4 +17,9 @@ AnswerSchema.pre('remove', function (next) {
 	next();
 });
 
+AnswerSchema.post('save', function (answer) {
+	Choice.update({ _id: this.choice }, { $push: { answers: answer._id } }).exec();
+	Participation.update({ _id: this.participation }, { $push: { answers: answer._id } }).exec();
+});
+
 module.exports = mongoose.model('Answer', AnswerSchema);

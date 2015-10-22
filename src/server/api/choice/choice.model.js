@@ -22,4 +22,8 @@ ChoiceSchema.pre('remove', function (next) {
 	next();
 });
 
+ChoiceSchema.post('save', function (choice) {
+	Question.update({ _id: this.question }, { $push: { choices: choice._id } }).exec();
+});
+
 module.exports = mongoose.model('Choice', ChoiceSchema);

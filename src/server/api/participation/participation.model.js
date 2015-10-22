@@ -19,4 +19,8 @@ ParticipationSchema.pre('remove', function (next) {
 	next();
 });
 
+ParticipationSchema.post('save', function (participation) {
+	Poll.update({ _id: this.poll }, { $push: { participations: participation._id } }).exec();
+});
+
 module.exports = mongoose.model('Participation', ParticipationSchema);

@@ -19,4 +19,8 @@ QuestionSchema.pre('remove', function (next) {
 	next();
 });
 
+QuestionSchema.post('save', function (question) {
+	Poll.update({ _id: this.poll }, { $push: { questions: question._id } }).exec();
+});
+
 module.exports = mongoose.model('Question', QuestionSchema);
