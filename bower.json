@@ -1,0 +1,18 @@
+{
+  "name": "pollydoc",
+  "description": "Product page",
+  "main": "_site/index.html",
+  "authors": [
+    "paul ntawuruhunga"
+  ],
+  "license": "MIT",
+  "homepage": "http://paulnta.github.io/Teaching-HEIGVD-TWEB-2015-Project",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
