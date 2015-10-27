@@ -10,8 +10,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-template');
 
     grunt.initConfig({
+        jekyllConfig: grunt.file.readYAML('_config.yml'),
+        jekyllConfig_dev: grunt.file.readYAML('_config.dev.yml'),
 
         // Copying bower dependencies main files
         copy: {
@@ -75,15 +78,23 @@ module.exports = function (grunt) {
             }
         },
 
-        processhtml:{
-            config:{
-                data:{
-                   path_prefix: "{{ site.baseurl }}/"
+        template:{
+            options:{
+                data: {
+                    baseurl : grunt.file.readYAML('_config.yml').baseurl
                 }
             },
+           html:{
+                files:{
+                    '_includes/head.html': ['app/head.html']
+                }
+            }
+        },
+
+        processhtml:{
             dist:{
                 files:{
-                    'grunt-test/index.html': ['_includes/head.html']
+                    '_includes/head.html': ['_includes/head.html']
                 }
             }
 
@@ -101,7 +112,9 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.registerTask('grunt-test', ['processhtml']);
+
+    grunt.registerTask('html', ['processhtml']);
+    grunt.registerTask('template-html', ['template', 'processhtml']);
 
     grunt.registerTask('build', [
         'copy',
