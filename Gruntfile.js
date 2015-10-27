@@ -9,6 +9,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-processhtml');
 
     grunt.initConfig({
 
@@ -67,10 +68,25 @@ module.exports = function (grunt) {
                     '_config.yml',
                     '_config.dev.yml',
                     '*.html',
-                    '*.md'
+                    '*.md',
+                    'app/**/*'
                 ],
                 tasks: ['exec:jekyll']
             }
+        },
+
+        processhtml:{
+            config:{
+                data:{
+                   path_prefix: "{{ site.baseurl }}/"
+                }
+            },
+            dist:{
+                files:{
+                    'grunt-test/index.html': ['_includes/head.html']
+                }
+            }
+
         },
 
         connect:{
@@ -84,6 +100,8 @@ module.exports = function (grunt) {
         }
 
     });
+
+    grunt.registerTask('grunt-test', ['processhtml']);
 
     grunt.registerTask('build', [
         'copy',
