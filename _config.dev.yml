@@ -8,8 +8,6 @@ description: > # this means to ignore newlines until "baseurl:"
 url: "http://paulnta.github.io/Teaching-HEIGVD-TWEB-2015-Project" # the base hostname & protocol for your site
 twitter_username: jekyllrb
 github_username:  jekyll
-source:      dist
-destination: _site
 
 # Build settings
 markdown: kramdown
