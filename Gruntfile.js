@@ -11,36 +11,40 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-template');
+    grunt.loadNpmTasks('grunt-vulcanize');
 
     grunt.initConfig({
         jekyllConfig: grunt.file.readYAML('_config.yml'),
         jekyllConfig_dev: grunt.file.readYAML('_config.dev.yml'),
 
-        // Copying bower dependencies main files
         copy: {
 
-            jquery: {
-                files: [{
-                    expand: true,
-                    cwd: 'bower_components/jquery/dist',
-                    src: 'jquery.min.js',
-                    dest: 'vendor/js/'
-                }]
-            },
+            app:{
+                files: [
+                    { expand:true, cwd: 'bower_components/webcomponentsjs/',
+                        src: 'webcomponents.min.js',
+                        dest: 'vendor/'},
+                    { expand:true, cwd: 'app/includes', src: '**/*', dest: '_includes/'},
+                    { expand:true, cwd: 'app/elements', src: '**/*', dest: 'elements/'},
+                    { expand:true, cwd: 'app/layouts', src: '**/*', dest: '_layouts/'},
+                    { expand:true, cwd: 'app/posts', src: '**/*', dest: '_posts/'},
+                    { expand:true, cwd: 'app/sass', src: '**/*', dest: '_sass/'},
+                    { expand:true, cwd: 'app/css', src: '**/*', dest: 'css/'},
+                    { expand:true, cwd: 'app/', src: '*.html', dest: './'},
+                ]
+            }
+        },
 
-            bootstrap: {
-                files: [{
-                    expand: true,
-                    cwd: 'bower_components/bootstrap/dist/js',
-                    src: 'bootstrap.min.js',
-                    dest: 'vendor/js/'
+        vulcanize: {
+            dist: {
+                options: {
+                    inlineScripts: true,
+                    inlineCss: true,
+                    stripComments: true
                 },
-                    {
-                        expand: true,
-                        cwd: 'bower_components/bootstrap/dist/css',
-                        src: 'bootstrap.min.css',
-                        dest: 'vendor/css/'
-                    }]
+                files: {
+                    'elements/elements.vulcanized.html': 'app/elements/elements.html'
+                }
             }
         },
 
@@ -60,21 +64,8 @@ module.exports = function (grunt) {
                 livereload: true
             },
             source:{
-                files: [
-                    '_drafts/**/*',
-                    '_includes/**/*',
-                    '_layouts/**/*',
-                    '_posts/**/*',
-                    '_sass/**/*',
-                    'css/**/*',
-                    'js/**/*',
-                    '_config.yml',
-                    '_config.dev.yml',
-                    '*.html',
-                    '*.md',
-                    'app/**/*'
-                ],
-                tasks: ['exec:jekyll']
+                files: ['app/**/*'],
+                tasks: ['build']
             }
         },
 
@@ -86,7 +77,7 @@ module.exports = function (grunt) {
             },
            html:{
                 files:{
-                    '_includes/head.html': ['app/head.html']
+                    '_includes/head.html': ['app/includes/head.html']
                 }
             }
         },
@@ -96,8 +87,12 @@ module.exports = function (grunt) {
                 files:{
                     '_includes/head.html': ['_includes/head.html']
                 }
+            },
+            dev:{
+                files:{
+                    '_includes/head.html': ['_includes/head.html']
+                }
             }
-
         },
 
         connect:{
@@ -112,12 +107,18 @@ module.exports = function (grunt) {
 
     });
 
-
-    grunt.registerTask('html', ['processhtml']);
-    grunt.registerTask('template-html', ['template', 'processhtml']);
-
     grunt.registerTask('build', [
         'copy',
+        'template',
+        'processhtml:dev',
+        'exec:jekyll'
+    ]);
+
+    grunt.registerTask('build-dist', [
+        'copy',
+        'template',
+        'processhtml:dist',
+        'vulcanize:dist',
         'exec:jekyll'
     ]);
 

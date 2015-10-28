@@ -12,3 +12,12 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
+exclude: ['app',
+          'node_modules',
+          '_config.dev.yml',
+          '_config.yml',
+          'bower.json',
+          'Gemfile',
+          'Gemfile.lock',
+          'Gruntfile.js',
+          'package.json']
