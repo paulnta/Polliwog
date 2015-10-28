@@ -23,10 +23,11 @@ module.exports = function (grunt) {
                 files: [
                     { expand:true, cwd: 'bower_components/webcomponentsjs/',
                         src: 'webcomponents-lite.min.js',
-                        dest: 'scripts/vendor/'},
+                        dest: 'app/scripts/vendor/'},
                     { expand:true, cwd: 'app/includes', src: '**/*', dest: '_includes/'},
                     { expand:true, cwd: 'app/elements', src: '**/*', dest: 'elements/'},
                     { expand:true, cwd: 'app/layouts', src: '**/*', dest: '_layouts/'},
+                    { expand:true, cwd: 'app/scripts', src: '**/*', dest: 'scripts/'},
                     { expand:true, cwd: 'app/posts', src: '**/*', dest: '_posts/'},
                     { expand:true, cwd: 'app/sass', src: '**/*', dest: '_sass/'},
                     { expand:true, cwd: 'app/css', src: '**/*', dest: 'css/'},
@@ -76,22 +77,25 @@ module.exports = function (grunt) {
                 }
             },
            html:{
-                files:{
-                    '_includes/head.html': ['app/includes/head.html']
-                }
+               files:[
+                   {src: '_includes/head.html', dest: '_includes/head.html'},
+                   {src: '_layouts/default.html', dest: '_layouts/default.html'}
+               ]
             }
         },
 
         processhtml:{
             dist:{
-                files:{
-                    '_includes/head.html': ['_includes/head.html']
-                }
+                files:[
+                    {src: '_includes/head.html', dest: '_includes/head.html'},
+                    {src: '_layouts/default.html', dest: '_layouts/default.html'}
+                ]
             },
             dev:{
-                files:{
-                    '_includes/head.html': ['_includes/head.html']
-                }
+                files:[
+                    {src: '_includes/head.html', dest: '_includes/head.html'},
+                    {src: '_layouts/default.html', dest: '_layouts/default.html'}
+                ]
             }
         },
 
@@ -114,7 +118,7 @@ module.exports = function (grunt) {
         'exec:jekyll'
     ]);
 
-    grunt.registerTask('build-dist', [
+    grunt.registerTask('build:dist', [
         'copy',
         'template',
         'processhtml:dist',
