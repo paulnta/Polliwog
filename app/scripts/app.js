@@ -1,4 +1,3 @@
-console.log(baseurl);
 // 4. Conditionally load the webcomponents polyfill if needed by the browser.
 var webComponentsSupported = ('registerElement' in document
 && 'import' in document.createElement('link')
