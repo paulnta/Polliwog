@@ -12,6 +12,7 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
+include: ['scripts']
 exclude: ['app',
           'node_modules',
           '_config.dev.yml',

@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 files: [
                     { expand:true, cwd: 'bower_components/webcomponentsjs/',
                         src: 'webcomponents.min.js',
-                        dest: 'vendor/'},
+                        dest: 'scripts/vendor/'},
                     { expand:true, cwd: 'app/includes', src: '**/*', dest: '_includes/'},
                     { expand:true, cwd: 'app/elements', src: '**/*', dest: 'elements/'},
                     { expand:true, cwd: 'app/layouts', src: '**/*', dest: '_layouts/'},
