@@ -14,6 +14,10 @@ if (!webComponentsSupported) {
     finishLazyLoading();
 }
 
+function cssLoaded(){
+    console.log("Yeaa!");
+}
+
 function finishLazyLoading() {
 
     // Use native Shadow DOM if it's available in the browser.

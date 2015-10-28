@@ -18,15 +18,20 @@
         }
     </style>
 
+
     <!-- 1. Async HTML Imports do not block rending. Benefit of keeping it declarative
        (instead of dynamically loading it later in JS) is that the parser can go
        to town pre-fetching resources, etc. -->
-    <link rel="import" id="bundle" href="/Teaching-HEIGVD-TWEB-2015-Project/elements/elements.vulcanized.html" async>
+    <!-- build:[href]:dist /Teaching-HEIGVD-TWEB-2015-Project/elements/elements.vulcanized.html -->
+    <link rel="import" id="bundle" href="/elements/elements.vulcanized.html" async>
+    <!-- /build -->
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/Teaching-HEIGVD-TWEB-2015-Project/css/main.css">
+    <!-- build:[href]:dist /Teaching-HEIGVD-TWEB-2015-Project/css/ -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- /build -->
 
     <title>Landing page</title>
 </head>

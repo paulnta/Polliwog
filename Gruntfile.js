@@ -11,6 +11,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-template');
+    grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-vulcanize');
 
     grunt.initConfig({
@@ -44,7 +45,7 @@ module.exports = function (grunt) {
                     stripComments: true
                 },
                 files: {
-                    'elements/elements.vulcanized.html': 'app/elements/elements.html'
+                    'elements/elements.vulcanized.html': 'app/elements.html'
                 }
             }
         },
@@ -115,7 +116,8 @@ module.exports = function (grunt) {
         'copy',
         'template',
         'processhtml:dev',
-        'exec:jekyll'
+        'vulcanize:dist',
+        'exec:jekyll',
     ]);
 
     grunt.registerTask('build:dist', [
@@ -123,7 +125,7 @@ module.exports = function (grunt) {
         'template',
         'processhtml:dist',
         'vulcanize:dist',
-        'exec:jekyll'
+        'exec:jekyll',
     ]);
 
     grunt.registerTask('serve', [

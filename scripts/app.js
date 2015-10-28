@@ -1,4 +1,3 @@
-console.log(baseurl);
 // 4. Conditionally load the webcomponents polyfill if needed by the browser.
 var webComponentsSupported = ('registerElement' in document
 && 'import' in document.createElement('link')
@@ -13,6 +12,10 @@ if (!webComponentsSupported) {
     document.head.appendChild(script);
 } else {
     finishLazyLoading();
+}
+
+function cssLoaded(){
+    console.log("Yeaa!");
 }
 
 function finishLazyLoading() {

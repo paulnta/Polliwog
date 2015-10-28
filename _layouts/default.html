@@ -5,7 +5,7 @@
 
   <!-- hides the page with a splash screen until
   imports and Polymer are loaded. -->
-  <body class="loading">
+  <body class="loading fullbleed layout vertical">
 
   <!-- 3. Light weight splash screen is outside of
   Polymer/imports and styled by the main page. -->
@@ -15,16 +15,14 @@
     {{ content }}
     {% include footer.html %}
 
-
-
+  <!-- build:template:dist
   <script>
-  var baseurl = "/Teaching-HEIGVD-TWEB-2015-Project";
-  </script>
-  <!-- build:template:dev
-  <script>
-    var baseurl = "";
+    var baseurl = "/Teaching-HEIGVD-TWEB-2015-Project";
   </script>
   /build -->
+  <script>
+  var baseurl = "";
+  </script>
 
   <!-- build:[src]:dist /Teaching-HEIGVD-TWEB-2015-Project/scripts/ -->
   <script src="scripts/app.js" async></script>
