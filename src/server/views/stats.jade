@@ -1,0 +1,26 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(href="/css/bootstrap.min.css", rel="stylesheet")
+        link(href="/css/stylish-portfolio.css", rel="stylesheet")
+        link(href="/font-awesome/css/font-awesome.min.css", rel="stylesheet", type="text/css")
+        link(href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic", rel="stylesheet", type="text/css")
+        title PollY
+    body
+      .header.header(id="top")
+        .text-vertical-center
+          h1 PollY - Easy Polls
+          if poll_count == 1
+            h3 #{poll_count} poll has been created in total
+          else
+            h3 #{poll_count} polls have been created in total
+          if active_count == 1
+            h3 #{active_count} is still open
+          else
+            h3 #{active_count} are still open
+                  
+      script(src='/js/jquery.js')
+      script(src='/js/bootstrap.min.js')

@@ -24,8 +24,22 @@ module.exports = function(app) {
    .get(errors[404]);
 
   // All other routes should redirect to the index.html
-  app.route('/*')
+  /*app.route('/*')
     .get(function(req, res) {
       res.sendFile(path.resolve(app.get('appPath') + '/index.html'));
+    });*/
+  
+  // All other routes are redirected to landing page
+  app.get('/*', function(req, res) {
+      var Poll = require('./api/poll/poll.model');
+      Poll.find(function (err, polls) {
+          if(err) {return handleError(res, err); }
+          var active_count = polls.map(function (x) {
+              return x.active ? 1 : 0;
+              }).reduce(function (x, y) {
+                  return x + y;
+                  });
+          res.render('stats', {poll_count: polls.length, active_count: active_count});
+        });
     });
 };
