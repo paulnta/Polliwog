@@ -8,78 +8,93 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
 
 <dom-module id="app-card-details">
     <style>
         :host {
             display: block;
+            overflow: hidden;
         }
-        #square{
-            display: inline-block;
-            box-sizing: border-box;
-            width: 300px;
-            height: 300px;
-            margin: 16px;
-            background: var(--accent-color);
+        #placeholder {
+            opacity: 0;
+            background-color: var(--accent-color);
         }
-
     </style>
     <template>
-        <div id="square"></div>
+        <div id="placeholder" class="fit"></div>
+        <div id="container">
+            <content select="div"></content>
+        </div>
     </template>
-    <script>
-        (function() {
-            'use strict';
+</dom-module>
 
-            Polymer({
-                is: 'app-card-details',
-                behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
-                properties: {
-                    foo: {
-                        type: String,
-                        value: 'app-card-details',
-                        notify: true
-                    },
+<script>
+    (function() {
+        Polymer({
+            is: 'app-card-details',
+            behaviors: [
+                Polymer.NeonSharedElementAnimatableBehavior
+            ],
+            properties: {
+                animationConfig: {
+                    value: function() {
+                        return {
 
-                    animationConfig:{
-                        value: function () {
-                            return {
-                                'entry': [
-                                    {
-                                        name: 'hero-animation',
-                                        id: 'hero',
-                                        toPage: this
-                                    },
-                                    {
-                                        name: 'fade-in-animation',
-                                        node: this
-                                    }
-                                ],
-                                'exit':{
-                                    name: 'fade-out-animation',
-                                    node: this
+                            /* ENTRY ANIMATIONS */
+                            'entry': [{
+                                // the ripple comes form the previous page
+                                name: 'ripple-animation',
+                                id: 'ripple',
+                                toPage: this
+                            }, {
+                                // and then we hide only the placeholder
+                                name: 'fade-out-animation',
+                                node: this.$.placeholder,
+                                timing: {
+                                    delay: 250
                                 }
-                            }
-                        }
-                    },
+                            }, {
+                                // finally show the content
+                                name: 'fade-in-animation',
+                                node: this.$.container,
+                                timing: {
+                                    delay: 50
+                                }
+                            }],
 
-                    sharedElements:{
-                        value: function () {
-                            return {
-                                'hero': this.$.square
-                            }
-                        }
+                            /* EXIT ANIMATIONS */
+                            'exit': [{
+                                // hide the content with the placeholder
+                                name: 'opaque-animation',
+                                node: this.$.placeholder
+                            }, {
+                                // hide the content
+                                name: 'fade-out-animation',
+                                node: this.$.container,
+                                timing: {
+                                    duration: 0
+                                }
+                            }, {
+                                // the ripple reverse is shared with the previous page
+                                name: 'reverse-ripple-animation',
+                                id: 'reverse-ripple',
+                                fromPage: this
+                            }]
+                        };
                     }
                 },
-                listeners: {
-                    'click': '_onClick'
-                },
-                _onClick: function (event) {
-                    console.log('square clicked');
-                    this.fire('square-clicked');
+                sharedElements: {
+                    value: function() {
+                        return {
+                            // the ripple is shared for entry and exit
+                            'ripple': this.$.placeholder,
+                            'reverse-ripple': this.$.placeholder
+                        };
+                    }
                 }
-            });
-        })();
-    </script>
-</dom-module>
+            }
+        });
+    })();
+</script>

@@ -13301,6 +13301,132 @@ The `aria-labelledby` attribute will be set to the header element, if one exists
 
 
 
+
+
+
+
+
+
+<script>
+
+  Polymer({
+
+    is: 'cascaded-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    properties: {
+
+      /** @type {!Polymer.IronMeta} */
+      _animationMeta: {
+        type: Object,
+        value: function() {
+          return new Polymer.IronMeta({type: 'animation'});
+        }
+      }
+
+    },
+
+    /**
+     * @param {{
+     *   animation: string,
+     *   nodes: !Array<!Element>,
+     *   nodeDelay: (number|undefined),
+     *   timing: (Object|undefined)
+     *  }} config
+     */
+    configure: function(config) {
+      var animationConstructor = /** @type {Function} */ (
+          this._animationMeta.byKey(config.animation));
+      if (!animationConstructor) {
+        console.warn(this.is + ':', 'constructor for', config.animation, 'not found!');
+        return;
+      }
+
+      this._animations = [];
+      var nodes = config.nodes;
+      var effects = [];
+      var nodeDelay = config.nodeDelay || 50;
+
+      config.timing = config.timing || {};
+      config.timing.delay = config.timing.delay || 0;
+
+      var oldDelay = config.timing.delay;
+      for (var node, index = 0; node = nodes[index]; index++) {
+        config.timing.delay += nodeDelay;
+        config.node = node;
+
+        var animation = new animationConstructor();
+        var effect = animation.configure(config);
+
+        this._animations.push(animation);
+        effects.push(effect);
+      }
+      config.timing.delay = oldDelay;
+
+      this._effect = new GroupEffect(effects);
+      return this._effect;
+    },
+
+    complete: function() {
+      for (var animation, index = 0; animation = this._animations[index]; index++) {
+        animation.complete(animation.config);
+      }
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'fade-in-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+      this._effect = new KeyframeEffect(node, [
+        {'opacity': '0'},
+        {'opacity': '1'}
+      ], this.timingFromConfig(config));
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'fade-out-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+      this._effect = new KeyframeEffect(node, [
+        {'opacity': '1'},
+        {'opacity': '0'}
+      ], this.timingFromConfig(config));
+      return this._effect;
+    }
+
+  });
+
+</script>
 <script>
 
   /**
@@ -13362,130 +13488,6 @@ The `aria-labelledby` attribute will be set to the header element, if one exists
 </script>
 
 
-
-
-<script>
-
-  Polymer({
-
-    is: 'scale-up-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-
-      if (config.transformOrigin) {
-        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
-      }
-
-      var scaleProperty = 'scale(0)';
-      if (config.axis === 'x') {
-        scaleProperty = 'scale(0, 1)';
-      } else if (config.axis === 'y') {
-        scaleProperty = 'scale(1, 0)';
-      }
-
-      this._effect = new KeyframeEffect(node, [
-        {'transform': scaleProperty},
-        {'transform': 'scale(1, 1)'}
-      ], this.timingFromConfig(config));
-
-      return this._effect;
-    }
-
-  });
-
-</script>
-
-
-<script>
-
-  Polymer({
-
-    is: 'scale-down-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-
-      if (config.transformOrigin) {
-        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
-      }
-
-      var scaleProperty = 'scale(0, 0)';
-      if (config.axis === 'x') {
-        scaleProperty = 'scale(0, 1)';
-      } else if (config.axis === 'y') {
-        scaleProperty = 'scale(1, 0)';
-      }
-
-      this._effect = new KeyframeEffect(node, [
-        {'transform': 'scale(1,1)'},
-        {'transform': scaleProperty}
-      ], this.timingFromConfig(config));
-
-      return this._effect;
-    }
-
-  });
-
-</script>
-
-
-<script>
-
-  Polymer({
-
-    is: 'fade-out-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-      this._effect = new KeyframeEffect(node, [
-        {'opacity': '1'},
-        {'opacity': '0'}
-      ], this.timingFromConfig(config));
-      return this._effect;
-    }
-
-  });
-
-</script>
-
-
-<script>
-
-  Polymer({
-
-    is: 'fade-in-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-      this._effect = new KeyframeEffect(node, [
-        {'opacity': '0'},
-        {'opacity': '1'}
-      ], this.timingFromConfig(config));
-      return this._effect;
-    }
-
-  });
-
-</script>
-
-
 <script>
 
   Polymer({
@@ -13532,6 +13534,451 @@ The `aria-labelledby` attribute will be set to the header element, if one exists
     }
 
   });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'ripple-animation',
+
+    behaviors: [
+      Polymer.NeonSharedElementAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var shared = this.findSharedElements(config);
+      if (!shared) {
+        return null;
+      }
+
+      var translateX, translateY;
+      var toRect = shared.to.getBoundingClientRect();
+      if (config.gesture) {
+        translateX = config.gesture.x - (toRect.left + (toRect.width / 2));
+        translateY = config.gesture.y - (toRect.top + (toRect.height / 2));
+      } else {
+        var fromRect = shared.from.getBoundingClientRect();
+        translateX = (fromRect.left + (fromRect.width / 2)) - (toRect.left + (toRect.width / 2));
+        translateY = (fromRect.top + (fromRect.height / 2)) - (toRect.top + (toRect.height / 2));
+      }
+      var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
+
+      var size = Math.max(toRect.width + Math.abs(translateX) * 2, toRect.height + Math.abs(translateY) * 2);
+      var diameter = Math.sqrt(2 * size * size);
+      var scaleX = diameter / toRect.width;
+      var scaleY = diameter / toRect.height;
+      var scale = 'scale(' + scaleX + ',' + scaleY + ')';
+
+      this.setPrefixedProperty(shared.to, 'transformOrigin', '50% 50%');
+      shared.to.style.borderRadius = '50%';
+
+      this._effect = new KeyframeEffect(shared.to, [
+        {'transform': translate + ' scale(0)'},
+        {'transform': translate + ' ' + scale}
+      ], this.timingFromConfig(config));
+      return this._effect;
+    },
+
+    complete: function() {
+      if (this.sharedElements) {
+        this.setPrefixedProperty(this.sharedElements.to, 'transformOrigin', '');
+        this.sharedElements.to.style.borderRadius = '';
+      }
+    }
+
+  });
+
+</script>
+
+
+<script>
+  Polymer({
+    is: 'reverse-ripple-animation',
+
+    behaviors: [
+      Polymer.NeonSharedElementAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var shared = this.findSharedElements(config);
+      if (!shared) {
+        return null;
+      }
+
+      var translateX, translateY;
+      var fromRect = shared.from.getBoundingClientRect();
+      if (config.gesture) {
+        translateX = config.gesture.x - (fromRect.left + (fromRect.width / 2));
+        translateY = config.gesture.y - (fromRect.top + (fromRect.height / 2));
+      } else {
+        var toRect = shared.to.getBoundingClientRect();
+        translateX = (toRect.left + (toRect.width / 2)) - (fromRect.left + (fromRect.width / 2));
+        translateY = (toRect.top + (toRect.height / 2)) - (fromRect.top + (fromRect.height / 2));
+      }
+      var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
+
+      var size = Math.max(fromRect.width + Math.abs(translateX) * 2, fromRect.height + Math.abs(translateY) * 2);
+      var diameter = Math.sqrt(2 * size * size);
+      var scaleX = diameter / fromRect.width;
+      var scaleY = diameter / fromRect.height;
+      var scale = 'scale(' + scaleX + ',' + scaleY + ')';
+
+      this.setPrefixedProperty(shared.from, 'transformOrigin', '50% 50%');
+      shared.from.style.borderRadius = '50%';
+
+      this._effect = new KeyframeEffect(shared.from, [
+        {'transform': translate + ' ' + scale},
+        {'transform': translate + ' scale(0)'}
+      ], this.timingFromConfig(config));
+      return this._effect;
+    },
+
+    complete: function() {
+      if (this.sharedElements) {
+        this.setPrefixedProperty(this.sharedElements.from, 'transformOrigin', '');
+        this.sharedElements.from.style.borderRadius = '';
+      }
+    }
+  });
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'scale-down-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      }
+
+      var scaleProperty = 'scale(0, 0)';
+      if (config.axis === 'x') {
+        scaleProperty = 'scale(0, 1)';
+      } else if (config.axis === 'y') {
+        scaleProperty = 'scale(1, 0)';
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'scale(1,1)'},
+        {'transform': scaleProperty}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'scale-up-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      }
+
+      var scaleProperty = 'scale(0)';
+      if (config.axis === 'x') {
+        scaleProperty = 'scale(0, 1)';
+      } else if (config.axis === 'y') {
+        scaleProperty = 'scale(1, 0)';
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': scaleProperty},
+        {'transform': 'scale(1, 1)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'slide-from-left-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateX(-100%)'},
+        {'transform': 'none'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'slide-from-right-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateX(100%)'},
+        {'transform': 'none'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'slide-left-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'none'},
+        {'transform': 'translateX(-100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'slide-right-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'none'},
+        {'transform': 'translateX(100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'slide-up-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translate(0)'},
+        {'transform': 'translateY(-100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'slide-down-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateY(-100%)'},
+        {'transform': 'none'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+
+
+<script>
+
+  Polymer({
+
+    is: 'transform-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    /**
+     * @param {{
+     *   node: !Element,
+     *   transformOrigin: (string|undefined),
+     *   transformFrom: (string|undefined),
+     *   transformTo: (string|undefined),
+     *   timing: (Object|undefined)
+     * }} config
+     */
+    configure: function(config) {
+      var node = config.node;
+      var transformFrom = config.transformFrom || 'none';
+      var transformTo = config.transformTo || 'none';
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': transformFrom},
+        {'transform': transformTo}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script>
+<script>
+
+  /**
+   * Use `Polymer.NeonSharedElementAnimatableBehavior` to implement elements containing shared element
+   * animations.
+   * @polymerBehavior Polymer.NeonSharedElementAnimatableBehavior
+   */
+  Polymer.NeonSharedElementAnimatableBehaviorImpl = {
+
+    properties: {
+
+      /**
+       * A map of shared element id to node.
+       */
+      sharedElements: {
+        type: Object,
+        value: {}
+      }
+
+    }
+
+  };
+
+  /** @polymerBehavior Polymer.NeonSharedElementAnimatableBehavior */
+  Polymer.NeonSharedElementAnimatableBehavior = [
+    Polymer.NeonAnimatableBehavior,
+    Polymer.NeonSharedElementAnimatableBehaviorImpl
+  ];
 
 </script>
 
@@ -17762,6 +18209,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 })();
 </script>
+<dom-module id="neon-animatable" assetpath="../bower_components/neon-animation/">
+
+  <style>
+
+    :host {
+      display: block;
+    }
+
+  </style>
+
+  <template>
+    <content></content>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'neon-animatable',
+
+    behaviors: [
+      Polymer.NeonAnimatableBehavior
+    ]
+
+  });
+
+</script>
 <dom-module id="app-header" assetpath="elements/app-header/">
   <template>
 	<style>
@@ -17958,14 +18434,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="wrapper flex layout vertical">
 
-        <div class="overview layout horizontal">
-            <div class="flex"></div>
-            <icon-box></icon-box>
-            <icon-box></icon-box>
-            <icon-box></icon-box>
-            <div class="flex"></div>
-        </div>
+        <neon-animated-pages class="flex" id="pages" selected="0">
 
+            <app-card id="list">
+
+                <div class="fit layout vertical center-center">
+
+                    <h2>Choose a subject</h2>
+                    <div class="flex layout horizontal around-justified large">
+
+                        <div class="blue raised button" on-click="_onPolymerClick">
+                            POLYMER
+                        </div>
+                        <div class="blue raised button" on-click="_onAngularClick">
+                            ANGULAR
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </app-card>
+            
+
+                
+
+                    
+                        
+                    
+                    
+                    
+                        
+                        
+                        
+                        
+                        
+                        
+                    
+
+                
+
+            
+            
+
+                
+
+                    
+                        
+                    
+                    
+                    
+                        
+                        
+                        
+                        
+                        
+                        
+                    
+
+                
+
+            
+
+        </neon-animated-pages>
     </div>
 
   </template>
@@ -18020,22 +18551,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
     
 
-      
-                    
-                    
-          
-          
-              
+      <paper-dialog id="dial" entry-animation="scale-up-animation" exit-animation="scale-down-animation">
+          <h2>Header</h2>
+          <paper-dialog-scrollable>
+              Donec ullamcorper nulla non metus auctor fringilla. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam quis risus eget urna mollis ornare vel eu leo.
 
-              
+              Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod.
 
-              
-          
-          
-              
-              
-          
-      
+              Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+          </paper-dialog-scrollable>
+          <div class="buttons">
+              <paper-button dialog-dismiss="">Cancel</paper-button>
+              <paper-button dialog-confirm="">Accept</paper-button>
+          </div>
+      </paper-dialog>
 
       <paper-card heading="Card Title">
           <div class="card-content"><iron-icon icon="favorite"></iron-icon>{{tittle}}</div>
@@ -18196,147 +18725,145 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
         :host {
             display: block;
-
+            overflow: hidden;
         }
-
-        #circle {
-            display: inline-block;
-            box-sizing: border-box;
-            width: 100px;
-            height: 100px;
-            margin: 16px;
-            border-radius: 50%;
-            background: var(--accent-color);
+        #placeholder {
+            opacity: 0;
+            background-color: var(--accent-color);
         }
-
     </style>
     <template>
-        <div id="circle"></div>
+        <div id="placeholder" class="fit"></div>
+        <div id="container">
+            <content select="div"></content>
+        </div>
     </template>
-    <script>
-        (function() {
-            'use strict';
-
-            Polymer({
-                is: 'app-card',
-                behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
-                properties: {
-                    foo: {
-                        type: String,
-                        value: 'app-card',
-                        notify: true
-                    },
-                    animationConfig:{
-                        value: function () {
-                            return {
-                                'entry':{
-                                    name: 'fade-in-animation',
-                                    node: this
-                                },
-                                'exit': [{
-                                    name: 'hero-animation',
-                                    id: 'hero',
-                                    fromPage: this
-                                }, {
-                                    name: 'fade-out-animation',
-                                    node: this
-                                }]
-                            }
-                        }
-                    },
-
-                    // We specifiy wich element in our DOM is the shared element
-                    // with the id 'hero'
-                    sharedElements:{
-                        value: function () {
-                            return {
-                                'hero' : this.$.circle
-                            }
-                        }
-                    }
-                },
-                listeners: {
-                    'click': '_onClick'
-                },
-                _onClick: function (event) {
-                    console.log('circle clicked');
-                    this.fire('circle-clicked');
-                }
-            });
-        })();
-    </script>
 </dom-module>
-<dom-module id="app-card-details" assetpath="elements/app-card-details/">
+
+<script>
+    (function() {
+        Polymer({
+            is: 'app-card',
+            behaviors: [
+                Polymer.NeonSharedElementAnimatableBehavior
+            ],
+            properties: {
+                animationConfig: {
+                    value: function() {
+                        return {
+                            /* ENTRY ANIMATIONS */
+                            'entry': [{
+                                // get the ripple from the last page and animate it in reverse
+                                name: 'reverse-ripple-animation',
+                                id: 'reverse-ripple',
+                                toPage: this
+                            }],
+
+                            /* EXIT ANIMATIONS */
+                            'exit': [{
+                                // hide the content of the page
+                                name: 'fade-out-animation',
+                                node: this.$.container,
+                                timing: {
+                                    delay: 150,
+                                    duration: 0
+                                }
+                            }, {
+                                // play the ripple animation and share it to the next page
+                                name: 'ripple-animation',
+                                id: 'ripple',
+                                fromPage: this
+                            }]
+                        };
+                    }
+                }
+            }
+        });
+    })();
+</script><dom-module id="app-card-details" assetpath="elements/app-card-details/">
     <style>
         :host {
             display: block;
+            overflow: hidden;
         }
-        #square{
-            display: inline-block;
-            box-sizing: border-box;
-            width: 300px;
-            height: 300px;
-            margin: 16px;
-            background: var(--accent-color);
+        #placeholder {
+            opacity: 0;
+            background-color: var(--accent-color);
         }
-
     </style>
     <template>
-        <div id="square"></div>
+        <div id="placeholder" class="fit"></div>
+        <div id="container">
+            <content select="div"></content>
+        </div>
     </template>
-    <script>
-        (function() {
-            'use strict';
+</dom-module>
 
-            Polymer({
-                is: 'app-card-details',
-                behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
-                properties: {
-                    foo: {
-                        type: String,
-                        value: 'app-card-details',
-                        notify: true
-                    },
+<script>
+    (function() {
+        Polymer({
+            is: 'app-card-details',
+            behaviors: [
+                Polymer.NeonSharedElementAnimatableBehavior
+            ],
+            properties: {
+                animationConfig: {
+                    value: function() {
+                        return {
 
-                    animationConfig:{
-                        value: function () {
-                            return {
-                                'entry': [
-                                    {
-                                        name: 'hero-animation',
-                                        id: 'hero',
-                                        toPage: this
-                                    },
-                                    {
-                                        name: 'fade-in-animation',
-                                        node: this
-                                    }
-                                ],
-                                'exit':{
-                                    name: 'fade-out-animation',
-                                    node: this
+                            /* ENTRY ANIMATIONS */
+                            'entry': [{
+                                // the ripple comes form the previous page
+                                name: 'ripple-animation',
+                                id: 'ripple',
+                                toPage: this
+                            }, {
+                                // and then we hide only the placeholder
+                                name: 'fade-out-animation',
+                                node: this.$.placeholder,
+                                timing: {
+                                    delay: 250
                                 }
-                            }
-                        }
-                    },
+                            }, {
+                                // finally show the content
+                                name: 'fade-in-animation',
+                                node: this.$.container,
+                                timing: {
+                                    delay: 50
+                                }
+                            }],
 
-                    sharedElements:{
-                        value: function () {
-                            return {
-                                'hero': this.$.square
-                            }
-                        }
+                            /* EXIT ANIMATIONS */
+                            'exit': [{
+                                // hide the content with the placeholder
+                                name: 'opaque-animation',
+                                node: this.$.placeholder
+                            }, {
+                                // hide the content
+                                name: 'fade-out-animation',
+                                node: this.$.container,
+                                timing: {
+                                    duration: 0
+                                }
+                            }, {
+                                // the ripple reverse is shared with the previous page
+                                name: 'reverse-ripple-animation',
+                                id: 'reverse-ripple',
+                                fromPage: this
+                            }]
+                        };
                     }
                 },
-                listeners: {
-                    'click': '_onClick'
-                },
-                _onClick: function (event) {
-                    console.log('square clicked');
-                    this.fire('square-clicked');
+                sharedElements: {
+                    value: function() {
+                        return {
+                            // the ripple is shared for entry and exit
+                            'ripple': this.$.placeholder,
+                            'reverse-ripple': this.$.placeholder
+                        };
+                    }
                 }
-            });
-        })();
-    </script>
-</dom-module>
-</div></body></html>
+            }
+        });
+    })();
+</script></div></body></html>

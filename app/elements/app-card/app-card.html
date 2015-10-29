@@ -8,79 +8,65 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
 
 <dom-module id="app-card">
     <style>
         :host {
             display: block;
-
+            overflow: hidden;
         }
-
-        #circle {
-            display: inline-block;
-            box-sizing: border-box;
-            width: 100px;
-            height: 100px;
-            margin: 16px;
-            border-radius: 50%;
-            background: var(--accent-color);
+        #placeholder {
+            opacity: 0;
+            background-color: var(--accent-color);
         }
-
     </style>
     <template>
-        <div id="circle"></div>
+        <div id="placeholder" class="fit"></div>
+        <div id="container">
+            <content select="div"></content>
+        </div>
     </template>
-    <script>
-        (function() {
-            'use strict';
-
-            Polymer({
-                is: 'app-card',
-                behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
-                properties: {
-                    foo: {
-                        type: String,
-                        value: 'app-card',
-                        notify: true
-                    },
-                    animationConfig:{
-                        value: function () {
-                            return {
-                                'entry':{
-                                    name: 'fade-in-animation',
-                                    node: this
-                                },
-                                'exit': [{
-                                    name: 'hero-animation',
-                                    id: 'hero',
-                                    fromPage: this
-                                }, {
-                                    name: 'fade-out-animation',
-                                    node: this
-                                }]
-                            }
-                        }
-                    },
-
-                    // We specifiy wich element in our DOM is the shared element
-                    // with the id 'hero'
-                    sharedElements:{
-                        value: function () {
-                            return {
-                                'hero' : this.$.circle
-                            }
-                        }
-                    }
-                },
-                listeners: {
-                    'click': '_onClick'
-                },
-                _onClick: function (event) {
-                    console.log('circle clicked');
-                    this.fire('circle-clicked');
-                }
-            });
-        })();
-    </script>
 </dom-module>
+
+<script>
+    (function() {
+        Polymer({
+            is: 'app-card',
+            behaviors: [
+                Polymer.NeonSharedElementAnimatableBehavior
+            ],
+            properties: {
+                animationConfig: {
+                    value: function() {
+                        return {
+                            /* ENTRY ANIMATIONS */
+                            'entry': [{
+                                // get the ripple from the last page and animate it in reverse
+                                name: 'reverse-ripple-animation',
+                                id: 'reverse-ripple',
+                                toPage: this
+                            }],
+
+                            /* EXIT ANIMATIONS */
+                            'exit': [{
+                                // hide the content of the page
+                                name: 'fade-out-animation',
+                                node: this.$.container,
+                                timing: {
+                                    delay: 150,
+                                    duration: 0
+                                }
+                            }, {
+                                // play the ripple animation and share it to the next page
+                                name: 'ripple-animation',
+                                id: 'ripple',
+                                fromPage: this
+                            }]
+                        };
+                    }
+                }
+            }
+        });
+    })();
+</script>
