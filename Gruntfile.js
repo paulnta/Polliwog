@@ -2,6 +2,9 @@
  * Created by paulnta on 23.10.15.
  */
 
+
+
+
 module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-bower-task');
@@ -126,6 +129,10 @@ module.exports = function (grunt) {
 
     });
 
+    grunt.registerTask('copilot', function () {
+        console.log("scenario");
+    });
+
     grunt.registerTask('build', [
         'copy',
         'template',
@@ -149,6 +156,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
+        'copilot',
         'serve'
     ]);
 

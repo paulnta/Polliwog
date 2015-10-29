@@ -13301,6 +13301,67 @@ The `aria-labelledby` attribute will be set to the header element, if one exists
 
 
 
+<script>
+
+  /**
+   * Use `Polymer.NeonSharedElementAnimationBehavior` to implement shared element animations.
+   * @polymerBehavior Polymer.NeonSharedElementAnimationBehavior
+   */
+  Polymer.NeonSharedElementAnimationBehaviorImpl = {
+
+    properties: {
+
+      /**
+       * Cached copy of shared elements.
+       */
+      sharedElements: {
+        type: Object
+      }
+
+    },
+
+    /**
+     * Finds shared elements based on `config`.
+     */
+    findSharedElements: function(config) {
+      var fromPage = config.fromPage;
+      var toPage = config.toPage;
+      if (!fromPage || !toPage) {
+        console.warn(this.is + ':', !fromPage ? 'fromPage' : 'toPage', 'is undefined!');
+        return null;
+      };
+
+      if (!fromPage.sharedElements || !toPage.sharedElements) {
+        console.warn(this.is + ':', 'sharedElements are undefined for', !fromPage.sharedElements ? fromPage : toPage);
+        return null;
+      };
+
+      var from = fromPage.sharedElements[config.id]
+      var to = toPage.sharedElements[config.id];
+
+      if (!from || !to) {
+        console.warn(this.is + ':', 'sharedElement with id', config.id, 'not found in', !from ? fromPage : toPage);
+        return null;
+      }
+
+      this.sharedElements = {
+        from: from,
+        to: to
+      };
+      return this.sharedElements;
+    }
+
+  };
+
+  /** @polymerBehavior Polymer.NeonSharedElementAnimationBehavior */
+  Polymer.NeonSharedElementAnimationBehavior = [
+    Polymer.NeonAnimationBehavior,
+    Polymer.NeonSharedElementAnimationBehaviorImpl
+  ];
+
+</script>
+
+
 
 
 <script>
@@ -13421,65 +13482,6 @@ The `aria-labelledby` attribute will be set to the header element, if one exists
     }
 
   });
-
-</script>
-<script>
-
-  /**
-   * Use `Polymer.NeonSharedElementAnimationBehavior` to implement shared element animations.
-   * @polymerBehavior Polymer.NeonSharedElementAnimationBehavior
-   */
-  Polymer.NeonSharedElementAnimationBehaviorImpl = {
-
-    properties: {
-
-      /**
-       * Cached copy of shared elements.
-       */
-      sharedElements: {
-        type: Object
-      }
-
-    },
-
-    /**
-     * Finds shared elements based on `config`.
-     */
-    findSharedElements: function(config) {
-      var fromPage = config.fromPage;
-      var toPage = config.toPage;
-      if (!fromPage || !toPage) {
-        console.warn(this.is + ':', !fromPage ? 'fromPage' : 'toPage', 'is undefined!');
-        return null;
-      };
-
-      if (!fromPage.sharedElements || !toPage.sharedElements) {
-        console.warn(this.is + ':', 'sharedElements are undefined for', !fromPage.sharedElements ? fromPage : toPage);
-        return null;
-      };
-
-      var from = fromPage.sharedElements[config.id]
-      var to = toPage.sharedElements[config.id];
-
-      if (!from || !to) {
-        console.warn(this.is + ':', 'sharedElement with id', config.id, 'not found in', !from ? fromPage : toPage);
-        return null;
-      }
-
-      this.sharedElements = {
-        from: from,
-        to: to
-      };
-      return this.sharedElements;
-    }
-
-  };
-
-  /** @polymerBehavior Polymer.NeonSharedElementAnimationBehavior */
-  Polymer.NeonSharedElementAnimationBehavior = [
-    Polymer.NeonAnimationBehavior,
-    Polymer.NeonSharedElementAnimationBehaviorImpl
-  ];
 
 </script>
 
@@ -17560,6 +17562,206 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 })();
 
 </script>
+<dom-module id="neon-animated-pages" assetpath="../bower_components/neon-animation/">
+
+  <style>
+
+    :host {
+      display: block;
+      position: relative;
+    }
+
+    :host > ::content > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 100%;
+    }
+
+    :host > ::content > :not(.iron-selected):not(.neon-animating) {
+      display: none !important;
+    }
+
+    :host > ::content > .neon-animating {
+      pointer-events: none;
+    }
+
+  </style>
+
+  <template>
+    <content id="content"></content>
+  </template>
+
+</dom-module>
+
+<script>
+(function() {
+
+  Polymer({
+
+    is: 'neon-animated-pages',
+
+    behaviors: [
+      Polymer.IronResizableBehavior,
+      Polymer.IronSelectableBehavior,
+      Polymer.NeonAnimationRunnerBehavior
+    ],
+
+    properties: {
+
+      activateEvent: {
+        type: String,
+        value: ''
+      },
+
+      // if true, the initial page selection will also be animated according to its animation config.
+      animateInitialSelection: {
+        type: Boolean,
+        value: false
+      }
+
+    },
+
+    observers: [
+      '_selectedChanged(selected)'
+    ],
+
+    listeners: {
+      'neon-animation-finish': '_onNeonAnimationFinish'
+    },
+
+    _selectedChanged: function(selected) {
+
+      var selectedPage = this.selectedItem;
+      var oldPage = this._valueToItem(this._prevSelected) || false;
+      this._prevSelected = selected;
+
+      // on initial load and if animateInitialSelection is negated, simply display selectedPage.
+      if (!oldPage && !this.animateInitialSelection) {
+        this._completeSelectedChanged();
+        return;
+      }
+
+      // insert safari fix.
+      this.animationConfig = [{
+        name: 'opaque-animation',
+        node: selectedPage
+      }];
+
+      // configure selectedPage animations.
+      if (this.entryAnimation) {
+        this.animationConfig.push({
+          name: this.entryAnimation,
+          node: selectedPage
+        });
+      } else {
+        if (selectedPage.getAnimationConfig) {
+          this.animationConfig.push({
+            animatable: selectedPage,
+            type: 'entry'
+          });
+        }
+      }
+
+      // configure oldPage animations iff exists.
+      if (oldPage) {
+
+        // cancel the currently running animation if one is ongoing.
+        if (oldPage.classList.contains('neon-animating')) {
+          this._squelchNextFinishEvent = true;
+          this.cancelAnimation();
+          this._completeSelectedChanged();
+          this._squelchNextFinishEvent = false;
+        }
+
+        // configure the animation.
+        if (this.exitAnimation) {
+          this.animationConfig.push({
+            name: this.exitAnimation,
+            node: oldPage
+          });
+        } else {
+          if (oldPage.getAnimationConfig) {
+            this.animationConfig.push({
+              animatable: oldPage,
+              type: 'exit'
+            });
+          }
+        }
+
+        // display the oldPage during the transition.
+        oldPage.classList.add('neon-animating');
+      }
+
+      // display the selectedPage during the transition.
+      selectedPage.classList.add('neon-animating');
+
+      // actually run the animations.
+      if (this.animationConfig.length > 1) {
+
+        // on first load, ensure we run animations only after element is attached.
+        if (!this.isAttached) {
+          this.async(function () {
+            this.playAnimation(undefined, {
+              fromPage: null,
+              toPage: selectedPage
+            });
+          });
+
+        } else {
+          this.playAnimation(undefined, {
+            fromPage: oldPage,
+            toPage: selectedPage
+          });
+        }
+
+      } else {
+        this._completeSelectedChanged(oldPage, selectedPage);
+      }
+    },
+
+    /**
+     * @param {Object=} oldPage
+     * @param {Object=} selectedPage
+     */
+    _completeSelectedChanged: function(oldPage, selectedPage) {
+      if (selectedPage) {
+        selectedPage.classList.remove('neon-animating');
+      }
+      if (oldPage) {
+        oldPage.classList.remove('neon-animating');
+      }
+      if (!selectedPage || !oldPage) {
+        var nodes = Polymer.dom(this.$.content).getDistributedNodes();
+        for (var node, index = 0; node = nodes[index]; index++) {
+          node.classList && node.classList.remove('neon-animating');
+        }
+      }
+      this.async(this._notifyPageResize);
+    },
+
+    _onNeonAnimationFinish: function(event) {
+      if (this._squelchNextFinishEvent) {
+        this._squelchNextFinishEvent = false;
+        return;
+      }
+      this._completeSelectedChanged(event.detail.fromPage, event.detail.toPage);
+    },
+
+    _notifyPageResize: function() {
+      var selectedPage = this.selectedItem;
+      this.resizerShouldNotify = function(element) {
+        return element == selectedPage;
+      }
+      this.notifyResize();
+    }
+
+  })
+
+})();
+</script>
 <dom-module id="app-header" assetpath="elements/app-header/">
   <template>
 	<style>
@@ -17649,7 +17851,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 		  
 		  <div class="top layout vertical flex center-justified">
-			  <div class="self-center title">Publish your app with Quality Presentation.</div>
+			  <div class="self-center title">YO</div>
 			  <div class="self-center sub-title">get your app landing page carefully designed and ready to go</div>
 		  </div>
 
@@ -17818,20 +18020,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
     
 
-      <paper-dialog id="dial" entry-animation="scale-up-animation" exit-animation="scale-down-animation">
-          <h2>Header</h2>
-          <paper-dialog-scrollable>
-              Donec ullamcorper nulla non metus auctor fringilla. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam quis risus eget urna mollis ornare vel eu leo.
+      
+                    
+                    
+          
+          
+              
 
-              Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod.
+              
 
-              Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-          </paper-dialog-scrollable>
-          <div class="buttons">
-              <paper-button dialog-dismiss="">Cancel</paper-button>
-              <paper-button dialog-confirm="">Accept</paper-button>
-          </div>
-      </paper-dialog>
+              
+          
+          
+              
+              
+          
+      
 
       <paper-card heading="Card Title">
           <div class="card-content"><iron-icon icon="favorite"></iron-icon>{{tittle}}</div>
@@ -17918,6 +18122,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template>
         <style>
             :host {
+                display: block;
+            }
+
+            #animable{
                 display: none;
             }
 
@@ -17927,8 +18135,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 min-width: 200px;
             }
         </style>
-
-        <paper-material>
+        <paper-button on-tap="toggle">Show</paper-button>
+        <paper-material id="animable">
             <h1>hello world</h1>
         </paper-material>
     </template>
@@ -17949,30 +18157,184 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             return {
                                 'entry': {
                                     name: 'scale-up-animation',
-                                    node: this
+                                    node: this.$.animable
                                 },
                                 'exit': {
                                     name: 'scale-down-animation',
-                                    node:this
+                                    node: this.$.animable
+
                                 }
                             }
                         }
                     }
-
                 },
 
                 show: function () {
                     this.opened = true;
-                    this.style.display = 'inline-block';
+                    this.$.animable.style.display = 'inline-block';
                     this.playAnimation('entry');
                 },
 
                 hide: function () {
                     this.opened = false;
-                    this.style.display = 'none';
+                    this.$.animable.style.display = 'none';
                     this.playAnimation('exit');
-                }
+                },
 
+                toggle: function(){
+                    if(this.opened){
+                        this.hide();
+                    } else {
+                        this.show();
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>
+<dom-module id="app-card" assetpath="elements/app-card/">
+    <style>
+        :host {
+            display: block;
+
+        }
+
+        #circle {
+            display: inline-block;
+            box-sizing: border-box;
+            width: 100px;
+            height: 100px;
+            margin: 16px;
+            border-radius: 50%;
+            background: var(--accent-color);
+        }
+
+    </style>
+    <template>
+        <div id="circle"></div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'app-card',
+                behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
+                properties: {
+                    foo: {
+                        type: String,
+                        value: 'app-card',
+                        notify: true
+                    },
+                    animationConfig:{
+                        value: function () {
+                            return {
+                                'entry':{
+                                    name: 'fade-in-animation',
+                                    node: this
+                                },
+                                'exit': [{
+                                    name: 'hero-animation',
+                                    id: 'hero',
+                                    fromPage: this
+                                }, {
+                                    name: 'fade-out-animation',
+                                    node: this
+                                }]
+                            }
+                        }
+                    },
+
+                    // We specifiy wich element in our DOM is the shared element
+                    // with the id 'hero'
+                    sharedElements:{
+                        value: function () {
+                            return {
+                                'hero' : this.$.circle
+                            }
+                        }
+                    }
+                },
+                listeners: {
+                    'click': '_onClick'
+                },
+                _onClick: function (event) {
+                    console.log('circle clicked');
+                    this.fire('circle-clicked');
+                }
+            });
+        })();
+    </script>
+</dom-module>
+<dom-module id="app-card-details" assetpath="elements/app-card-details/">
+    <style>
+        :host {
+            display: block;
+        }
+        #square{
+            display: inline-block;
+            box-sizing: border-box;
+            width: 300px;
+            height: 300px;
+            margin: 16px;
+            background: var(--accent-color);
+        }
+
+    </style>
+    <template>
+        <div id="square"></div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'app-card-details',
+                behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
+                properties: {
+                    foo: {
+                        type: String,
+                        value: 'app-card-details',
+                        notify: true
+                    },
+
+                    animationConfig:{
+                        value: function () {
+                            return {
+                                'entry': [
+                                    {
+                                        name: 'hero-animation',
+                                        id: 'hero',
+                                        toPage: this
+                                    },
+                                    {
+                                        name: 'fade-in-animation',
+                                        node: this
+                                    }
+                                ],
+                                'exit':{
+                                    name: 'fade-out-animation',
+                                    node: this
+                                }
+                            }
+                        }
+                    },
+
+                    sharedElements:{
+                        value: function () {
+                            return {
+                                'hero': this.$.square
+                            }
+                        }
+                    }
+                },
+                listeners: {
+                    'click': '_onClick'
+                },
+                _onClick: function (event) {
+                    console.log('square clicked');
+                    this.fire('square-clicked');
+                }
             });
         })();
     </script>

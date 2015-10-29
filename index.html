@@ -22,11 +22,13 @@ Use href="{{ your url.. | prepend: site.baseurl }}">
             <app-overview></app-overview>
         </section>
 
-        <section id="how-does-it-works" class="page-header layout horizontal start flex">
-
-            <paper-button on-tap="showElement">Show</paper-button>
-            <test-behavior></test-behavior>
-
+        <section id="how-does-it-works" class="page-header layout horizontal start flex>
+            <neon-animated-pages selected="{{selected}}" on-tap="changePage">
+                <!--<app-card on-circle-clicked="_onCircleClick"></app-card>-->
+                <!--<app-card-details on-square-clicked="_onSquareClick"></app-card-details>-->
+                <app-card></app-card>
+                <app-card-details></app-card-details>
+            </neon-animated-pages>
         </section>
     </template>
     {% endraw %}

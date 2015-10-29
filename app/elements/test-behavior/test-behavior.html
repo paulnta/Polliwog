@@ -14,6 +14,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template>
         <style>
             :host {
+                display: block;
+            }
+
+            #animable{
                 display: none;
             }
 
@@ -23,8 +27,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 min-width: 200px;
             }
         </style>
-
-        <paper-material>
+        <paper-button on-tap="toggle">Show</paper-button>
+        <paper-material id="animable">
             <h1>hello world</h1>
         </paper-material>
     </template>
@@ -45,30 +49,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             return {
                                 'entry': {
                                     name: 'scale-up-animation',
-                                    node: this
+                                    node: this.$.animable
                                 },
                                 'exit': {
                                     name: 'scale-down-animation',
-                                    node:this
+                                    node: this.$.animable
+
                                 }
                             }
                         }
                     }
-
                 },
 
                 show: function () {
                     this.opened = true;
-                    this.style.display = 'inline-block';
+                    this.$.animable.style.display = 'inline-block';
                     this.playAnimation('entry');
                 },
 
                 hide: function () {
                     this.opened = false;
-                    this.style.display = 'none';
+                    this.$.animable.style.display = 'none';
                     this.playAnimation('exit');
-                }
+                },
 
+                toggle: function(){
+                    if(this.opened){
+                        this.hide();
+                    } else {
+                        this.show();
+                    }
+                }
             });
         })();
     </script>
