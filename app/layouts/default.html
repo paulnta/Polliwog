@@ -11,9 +11,13 @@
   Polymer/imports and styled by the main page. -->
   <div id="splash"></div>
 
-    {% include header.html %}
-    {{ content }}
-    {% include footer.html %}
+  <!--<template is="dom-bind" id="app">-->
+  <paper-header-panel class="flex layout vertical" mode="waterfall" >
+      {% include header.html %}
+      {{ content }}
+      {% include footer.html %}
+  </paper-header-panel>
+  </template>
 
   <!-- build:template:dist
   <script>
@@ -25,9 +29,17 @@
     var baseurl = "";
   </script>
   /build -->
-
   <!-- build:[src]:dist <%= baseurl %>/scripts/ -->
-  <script src="scripts/app.js" async></script>
-  </body>
+  <script>
+      var app = document.querySelector('#app');
+      var el = document.querySelector('test-behavior');
 
+      app.showElement = function () {
+          console.log('show element');
+          el.show();
+      };
+
+  </script>
+  <script src="/scripts/app.js" async></script>
+  </body>
 </html>

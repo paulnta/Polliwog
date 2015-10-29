@@ -13,6 +13,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-template');
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-vulcanize');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
 
     grunt.initConfig({
         jekyllConfig: grunt.file.readYAML('_config.yml'),
@@ -32,9 +33,22 @@ module.exports = function (grunt) {
                     { expand:true, cwd: 'app/posts', src: '**/*', dest: '_posts/'},
                     { expand:true, cwd: 'app/sass', src: '**/*', dest: '_sass/'},
                     { expand:true, cwd: 'app/css', src: '**/*', dest: 'css/'},
+                    { expand:true, cwd: 'app/assets', src: '**/*', dest: 'assets/'},
                     { expand:true, cwd: 'app/', src: '*.html', dest: './'},
+                    { expand:true, cwd: 'app/', src: '*.md', dest: './'},
                 ]
             }
+        },
+
+        imagemin: {
+            static: {
+                options: {
+                    optimizationLevel: 3,
+                },
+                files: {
+                    'assets/img.png': 'app/assets/img.png'
+                }
+            },
         },
 
         vulcanize: {

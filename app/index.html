@@ -7,7 +7,27 @@ Use href="{{ your url.. | prepend: site.baseurl }}">
 
 -->
 
-<div class="home">
-    <my-list></my-list>
-    <div id="content">content</div>
+<!-- vertical layout for each sections-->
+<div class="layout vertical">
+
+    {% raw %}
+
+    <template is="dom-bind" id="app">
+        <section id="page-header" class="page-header layout vertical flex">
+            <app-header></app-header>
+        </section>
+
+        <section id="overview" class="page-header layout vertical flex">
+            <section-heading title="App overview" sub-title="sub title"></section-heading>
+            <app-overview></app-overview>
+        </section>
+
+        <section id="how-does-it-works" class="page-header layout horizontal start flex">
+
+            <paper-button on-tap="showElement">Show</paper-button>
+            <test-behavior></test-behavior>
+
+        </section>
+    </template>
+    {% endraw %}
 </div>

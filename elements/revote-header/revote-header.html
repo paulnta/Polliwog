@@ -1,0 +1,47 @@
+<!--
+Page header with an image
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="revote-header">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+      <section id="page-header" class="page-header layout vertical flex">
+          <div class="self-center">
+          </div>
+
+          <div class="layout horizontal flex">
+              <div class="flex"></div>
+              <!--image app-->
+              <div class="container layout flex">
+                  <img class="flex phone" src="/assets/img.png">
+              </div>
+              <div class="flex"></div>
+          </div>
+      </section>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'revote-header',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'revote-header',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
