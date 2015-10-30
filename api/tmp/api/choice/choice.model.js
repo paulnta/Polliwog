@@ -14,16 +14,21 @@ var ChoiceSchema = new Schema({
 });
 
 ChoiceSchema.pre('remove', function (next) {
-	Question.update({ _id: this.question }, { $pull: { choices: this._id } });
-	Answer.find({ _id: { $in: this.answers } }, function(err, answers) {
+	Question.findByIdAndUpdate(this.question, { $pull: { choices: this._id } }).exec();
+	Answer.find({ _id: { $in: this.answers } }, function (err, answers) {
 		if(err) { throw err; }
 		answers.forEach(function (answer) { answer.remove(); });
-	});
+	}).exec();
+	next();
+});
+
+ChoiceSchema.pre('save', function (next) {
+	this.wasNew = this.isNew;
 	next();
 });
 
 ChoiceSchema.post('save', function () {
-	if(this.isNew) { Question.update({ _id: this.question }, { $push: { choices: this._id } }); }
+	if(this.wasNew) { Question.findByIdAndUpdate(this.question, { $push: { choices: this._id } }).exec(); }
 });
 
 module.exports = mongoose.model('Choice', ChoiceSchema);

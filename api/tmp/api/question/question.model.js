@@ -14,18 +14,21 @@ var QuestionSchema = new Schema({
 });
 
 QuestionSchema.pre('remove', function (next) {
-	// Note: There is no hook for Model.remove() i.e. delete on cascade does not work.
-	Poll.update({ _id: this.poll }, { $pull: { questions: this._id } });
+	Poll.findByIdAndUpdate(this.poll, { $pull: { questions: this._id } }).exec();
 	Choice.find({ question: this._id }, function (err, choices) {
 		if(err) { throw err; }
 		choices.forEach(function (choice) { choice.remove() });
-	});
+	}).exec();
 	next();
 });
 
+QuestionSchema.pre('save', function (next) {
+	this.wasNew = this.isNew;
+	next();
+});
 
-QuestionSchema.post('save', function () {
-	if(this.isNew) { Poll.findById(this.poll, { $push: { questions: this._id } }); }
+QuestionSchema.post('save', function (question) {
+	if(this.wasNew) { Poll.findByIdAndUpdate(question.poll, { $push: { questions: question._id } }).exec(); }
 });
 
 module.exports = mongoose.model('Question', QuestionSchema);

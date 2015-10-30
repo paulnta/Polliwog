@@ -14,16 +14,21 @@ var ParticipationSchema = new Schema({
 });
 
 ParticipationSchema.pre('remove', function (next) {
-	Poll.update({ _id: this.poll }, { $pull: { participations: this._id } });
+	Poll.findByIdAndUpdate(this.poll, { $pull: { participations: this._id } }).exec();
 	Answer.find({ participation: this._id }, function (err, answers) {
 		if(err) { throw err; }
 		answers.forEach(function (answer) { answer.remove(); });
-	});
+	}).exec();
+	next();
+});
+
+ParticipationSchema.pre('save', function (next) {
+	this.wasNew = this.isNew;
 	next();
 });
 
 ParticipationSchema.post('save', function () {
-	if(this.isNew) { Poll.update({ _id: this.poll }, { $push: { participations: this._id } });}
+	if(this.isNew) { Poll.findByIdAndUpdate(this.poll, { $push: { participations: this._id } });}
 });
 
 module.exports = mongoose.model('Participation', ParticipationSchema);

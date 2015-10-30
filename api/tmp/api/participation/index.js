@@ -1,12 +1,12 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./question.controller');
+var controller = require('./participation.controller');
 
 var router = express.Router();
 
-router.get('/:poll_id/', controller.index);
-router.get('/:poll_id/questions/:id', controller.show);
+router.get('/', controller.index);
+router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);

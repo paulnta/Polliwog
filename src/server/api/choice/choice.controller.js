@@ -2,10 +2,16 @@
 
 var _ = require('lodash');
 var Choice = require('./choice.model');
+var Question = require('../question/question.model');
 
 // Get list of choices
 exports.index = function(req, res) {
-  Choice.find(function (err, choices) {
+  Question.findById(req.params.question_id, function (err, question) {
+    if(err) { return handleError(res, err); }
+    if(!question) { return res.status(404).send('Not Found'); }
+    if(question.poll !== req.params.poll_id) { return res.status(404).send('Not Found'); }
+  });
+  Choice.find({ question: req.params.question_id }, function (err, choices) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(choices);
   });
@@ -13,7 +19,12 @@ exports.index = function(req, res) {
 
 // Get a single choice
 exports.show = function(req, res) {
-  Choice.findById(req.params.id, function (err, choice) {
+  Question.findById(req.params.question_id, function (err, question) {
+    if(err) { return handleError(res, err); }
+    if(!question) { return res.status(404).send('Not Found'); }
+    if(question.poll !== req.params.poll_id) { return res.status(404).send('Not Found'); }
+  });
+  Choice.findOne({ _id: req.params.id, question: req.params.question_id }, function (err, choice) {
     if(err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
     return res.json(choice);
@@ -22,6 +33,13 @@ exports.show = function(req, res) {
 
 // Creates a new choice in the DB.
 exports.create = function(req, res) {
+  Question.findById(req.params.question_id, function (err, question) {
+    if(err) { return handleError(res, err); }
+    if(!question) { return res.status(404).send('Not Found'); }
+    if(question.poll !== req.params.poll_id) { return res.status(404).send('Not Found'); }
+  });
+  req.body.question = req.params.question_id;
+  if(req.body.answers) { delete req.body.answers; }
   Choice.create(req.body, function(err, choice) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(choice);
@@ -30,8 +48,14 @@ exports.create = function(req, res) {
 
 // Updates an existing choice in the DB.
 exports.update = function(req, res) {
+  Question.findById(req.params.question_id, function (err, question) {
+    if(err) { return handleError(res, err); }
+    if(!question) { return res.status(404).send('Not Found'); }
+    if(question.poll !== req.params.poll_id) { return res.status(404).send('Not Found'); }
+  });
   if(req.body._id) { delete req.body._id; }
-  Choice.findById(req.params.id, function (err, choice) {
+  if(req.body.answers) { delete req.body.answers; }
+  Choice.findOne({ _id: req.params.id, question: req.params.question_id }, function (err, choice) {
     if (err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
     var updated = _.merge(choice, req.body);
@@ -44,7 +68,12 @@ exports.update = function(req, res) {
 
 // Deletes a choice from the DB.
 exports.destroy = function(req, res) {
-  Choice.findById(req.params.id, function (err, choice) {
+  Question.findById(req.params.question_id, function (err, question) {
+    if(err) { return handleError(res, err); }
+    if(!question) { return res.status(404).send('Not Found'); }
+    if(question.poll !== req.params.poll_id) { return res.status(404).send('Not Found'); }
+  });
+  Choice.findOne({ _id: req.params.id, question: req.params.question_id }, function (err, choice) {
     if(err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
     choice.remove(function(err) {

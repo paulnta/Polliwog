@@ -1,0 +1,67 @@
+var copilot = require('api-copilot');
+var poll 		= {};
+
+var scenario = new copilot.Scenario({ 
+  name: 'Participation Constraints',
+  summary: 'Check participation model validation constraints.',
+  baseUrl: 'http://localhost:3000/api/polls',
+  defaultRequestOptions: {
+    json: true
+  }
+});
+
+scenario.step('create a poll', function() {
+  return this.post({
+    body: {
+    	title: 'api-copilot'
+    },
+    expect: {
+      statusCode: 201
+    }
+  });
+});
+
+scenario.step('log created poll', function(response) {
+	poll = response.body;
+	console.log(poll);  
+});
+
+scenario.step('create an empty participation', function() {
+	return this.post({
+		url: '/' + poll._id + '/participations',
+		body: {},
+		expect: {
+			statusCode: 500
+		}
+	});
+});
+
+scenario.step('create a participation with an empty participant', function() {
+	return this.post({
+    url: '/' + poll._id + '/participations',
+    body: {
+      participant: ''
+    },
+    expect: {
+      statusCode: 500
+    }
+  });
+});
+
+scenario.step('create a valid participation', function() {
+	return this.post({
+    url: '/' + poll._id + '/participations',
+    body: {
+      participant: 'yibnl'
+    },
+    expect: {
+      statusCode: 201
+    }
+  });
+});
+
+scenario.step('log created participation', function(response) {
+	console.log(response.body);
+});
+
+module.exports = scenario;

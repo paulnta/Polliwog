@@ -9,21 +9,20 @@ var Participation = require('../participation/participation.model');
 var PollSchema = new Schema({
 	title					:	{ type: String, trim: true, required: true },
 	creationDate 	:	{ type: Date, 	default: Date.now },
-	state					:	{ type: String, default: 'draft', enum: ['draft', 'active', 'closed']},
+	state					:	{ type: String, default: 'drafti', enum: ['drafti', 'active', 'closed']},
 	questions			:	[{ type: Schema.ObjectId, ref: 'Question' }],
 	participations:	[{ type: Schema.ObjectId, ref: 'Participation' }]
 });
 
 PollSchema.pre('remove', function (next) {
-	// Note: There is no hook for Model.remove() i.e. delete on cascade does not work.
-	/*Question.find({ poll: this._id }, function (err, questions) {
+	Question.find({ poll: this._id }, function (err, questions) {
 		if(err) { throw err; }
 		questions.forEach(function (question) { question.remove(); });
-	});*/
+	}).exec();
 	Participation.find({ poll: this._id }, function (err, participations) {
 		if(err) { throw err; }
 		participations.forEach(function (participation) { participation.remove(); });
-	});
+	}).exec();
 	next();
 });
 
