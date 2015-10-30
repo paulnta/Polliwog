@@ -23,22 +23,12 @@ module.exports = function(app) {
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
 
-  // All other routes should redirect to the index.html
-  /*app.route('/*')
-    .get(function(req, res) {
-      res.sendFile(path.resolve(app.get('appPath') + '/index.html'));
-    });*/
-  
   // All other routes are redirected to landing page
-  app.get('/*', function(req, res) {
+  app.get('/*', function stat_view(req, res) {
       var Poll = require('./api/poll/poll.model');
       Poll.find(function (err, polls) {
           if(err) {return handleError(res, err); }
-          var active_count = polls.map(function (x) {
-              return x.active ? 1 : 0;
-              }).reduce(function (x, y) {
-                  return x + y;
-                  });
+          var active_count = polls.filter(function (x) { return x.active; }).length;
           res.render('stats', {poll_count: polls.length, active_count: active_count});
         });
     });
