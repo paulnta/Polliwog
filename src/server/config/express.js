@@ -45,7 +45,8 @@ module.exports = function(app) {
   
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
+    // index: false -> in order for localhost:9000 to directly show splash page
+    app.use(express.static(path.join(config.root, 'public'), {index: false}));
     app.set('appPath', path.join(config.root, 'public'));
     app.use(morgan('dev'));
   }
@@ -53,7 +54,8 @@ module.exports = function(app) {
   if ('development' === env || 'test' === env) {
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
-    app.use(express.static(path.join(config.root, 'client')));
+    // index: false -> in order for localhost:9000 to directly show splash page
+    app.use(express.static(path.join(config.root, 'client'), {index: false}));
     app.set('appPath', path.join(config.root, 'client'));
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
