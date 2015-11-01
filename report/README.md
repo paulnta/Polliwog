@@ -76,7 +76,7 @@ The data model takes a relational database's traditionnal approach in which refe
 
 * It can benefits from Mongoose population mechanism. One can retrieve one document id or document content by using the **Document#populate** function. Moreover, it would still be possible to propose the alternative URLs to reference a document collection.
 
-On the one hand , the data model takes advantage of the flexibility of document-oriented databases. On the other hand, it enjoys the security provided by referential constraints of relational databases.
+On the one hand, the data model takes advantage of the flexibility of document-oriented databases. On the other hand, it enjoys the security provided by referential constraints of relational databases.
 
 #### Documents structure
 
@@ -91,9 +91,8 @@ On the one hand , the data model takes advantage of the flexibility of document-
     participations: [<ObjectId>]
 }
 ```
-*Example*
 
-***
+*Example*
 ```javascript
 {
     _id: 345ae2224df,
@@ -104,6 +103,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
     participations: [1225578, 1233548, 58666, 45258]
 }
 ```
+
 **Questions**
 ```javascript
 {
@@ -205,8 +205,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 | questions     |       |           | x     |           |
 | participations|       |           | x     |           |
 
-**state's possible values can be drafti, active and closed.*
-
+*state's possible values can be drafti, active and closed.*
 ***
 
 **Questions**
@@ -218,8 +217,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 | title     |       | x         |       |           |
 | type      |       |           | x     | empty     |
 | choices   |       |           | x     |           |
-
-**
+***
 
 **Choices**
 
@@ -230,8 +228,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 | key |     | x     |           |       |           |
 | text      |       | x         |       |           |
 | answers   |       |           | x     |           |
-
-**
+***
 
 **Participations**
 
@@ -278,18 +275,91 @@ The REST API resources are taken from the data model. Note the following element
 
 #### URL Structure
 
+The resources description shows both composition and aggregation relationships between entities. The most appropriate URL structure therefore is alternate collection / resource path segments relative to the API entry point.
+
+| URL                           | Description                                |
+|-------------------------------|--------------------------------------------|
+| /api                          | The API entry point                        |
+| /api/:coll                    | A top-level collection named “coll”        |
+| /api/:coll/:id                | The resource “id” inside collection “coll” |
+| /api/:coll/:id/:subcol        | Sub-collection “subcol” under resource “id”|
+| /api/:coll/:id/:subcol/:subid | The resource “subid” inside “subcol”       |
+
 #### Linked resources
+
+Since every entities reference parent and children entities, payloads returned should be easy to process when invoking URLs. It have to be true on both client and server sides. IDs are used for that purpose in the database. This is the easiest way to handle data requests on the server side. However, it would be unpleasant for any client to be forced to build URLs from IDs in order to submit any HTTP requests. This is why payloads returned provide resources URLs instead for any children references only, not parent references. 
+
+Let's take an example. Assume that we want to retrieve poll #1 data for which questions #2, #3 and #4 have been created. The request would be:
+
+```
+GET /.../api/polls/1 HTTP/1.1
+...
+```
+
+According to what has been said, the response returned should contain URLs to any question related to the given poll. The payload response therefore would look like this:
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    _id: 1,
+    title: 'myTitle',
+    state: 'drafti',
+    questions: [
+        '/polls/1/questions/2', 
+        '/polls/1/questions/3',
+        '/polls/1/questions/4'
+    ],
+    participations: []
+}
+```
+
+In the case of a deeper resource like a question, the response would contain a URLs array of choices. However, the parent property value referencing the containing poll would be the poll ID, not a URL. 
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    _id: 2,
+    poll: 1,
+    title: 'myQuestion',
+    type: 'anyType',
+    choices: [
+        '/polls/1/questions/2/choices/5', 
+        '/polls/1/questions/2/choices/6',
+        '/polls/1/questions/2/choices/7'
+    ]
+}
+```
 
 #### Resources & actions
 
 ![Resources & actions](images/resources_actions.png)
+
+The illustration shows common supported CRUD operations according to the resource type:
+
+* In the case of collections, READ and CREATE operations are provided.
+
+* In the case of documents, READ, UPDATE et DELETE operations are provided.
+
+One can also notice the PATCH HTTP method which is supposed to allow partial updates on resources of document type. In the case of the REST API, the behavior is the same as the PUT's one. They share the same update algorithm. Besides, Mongoose library provides merging functions making easy to implement partial updates. This is exactly the way it has been implemented.
+
+It could be found strange to use the PATH HTTP method on some resources. However, this method happens to be very useful when a typo mistake has been made. This is why the REST API makes it available on any document resource.
+
+One of the basic feature the REST API should provide according to the part 1 specification is poll's state change. Neither particular resource nor particular verb is defined to process a such operation. Changing the state of a poll is basically an update. Invoking both PUT and PATCH HTTP methods allows anyone to do so.
+
+The illustration does not provide any information on the precise way to answer questions. One could submit a POST request to /polls/{poll}/participations/{participation}/answers. This is correct but unsufficient. Query parameters are required in order to specify which **question** a user wants to answer and which **choice** the same user has chosen.
+
+According to the part 1 spectification, answering a question should automatically create a participation. This has not been designed yet. A user entity is probably required to provide a such behavior. 
 
 #### HTTP status code
 Errors can occur while processing HTTP requests or while computing HTTP responses. The web application server is likely to return HTTP status code:
 
 * 200 - *It is returned when a GET request or a PUT/PATCH request is submitted and succeed. The requested/updated data is returned as the response payload.* 
 
-* 201 - *It is returned when a POST request is submit and succeed. The created data is returned as the response payload.* 
+* 201 - *It is returned when a POST request is submitted and succeed. The created data is returned as the response payload.* 
 
 * 204 - No Content. *It is returned when a DELETE request is submitted and succeed.*
 
@@ -304,6 +374,8 @@ Errors can occur while processing HTTP requests or while computing HTTP response
 The web application returns no more information about any occured error than these HTTP status codes.
 
 ### <a name="Patterns"></a> Design patterns
+
+The web application is built on the Model–view–controller pattern. Models are Mongoose Schemas. Controllers are a combination of Express.js routers and Javascript functions. The view is a basic HTML page fetching dynamic content via AJAX by submitting HTTP requests and retrieving representative models' payloads. It is only web application statistics actually.
 
 ## <a name="Implementation"></a> Implementation
 
