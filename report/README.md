@@ -4,8 +4,8 @@
 
 ### Team
 
-Last name, first name | Github ID   | Role
-----------------------|-------------|-------------------------
+Last name, first name | Github ID   | Role                          |
+----------------------|-------------|-------------------------------|
 D'Agostino, Eléonore  | [paranoodle](https://github.com/paranoodle) | 
 Ghozlani, Karim       | [gweezer7](https://github.com/gweezer7)     | 
 Kammoun, Yassin       | [yibnl](https://github.com/yibnl)           | 
@@ -45,12 +45,11 @@ The purposes of this project is to develop an **interactive presentations** web 
 * [poll.iwog REST API](http://polliwog.herokuapp.com/api).
 * [poll.iwog REST API Documentation](http://polliwog.herokuapp.com/api).
 * [poll.iwog product page](http://###). 
+* [poll.iwog product specification](http://###).
 
 ### How to use the application
 
 The web application is a very simple landing page with a tiny bit of dynamic content fetched via AJAX yet at the moment. Its only feature is to display various statistics. 
-
-### How to run the automated test procedure
 
 ## <a name="Design"></a> Design
 
@@ -124,7 +123,7 @@ On the one hand, the data model takes advantage of the flexibility of document-o
 {
     _id: 422334578,
     poll: 345ae2224df,
-    title: 'What is a scenario',
+    title: 'What is a scenario?',
     type: 'reminder',
     choices: [899982, 42257, 12347]
 }
@@ -386,6 +385,7 @@ The web application is built on the Model–view–controller pattern. Models ar
 ## <a name="Implementation"></a> Implementation
 
 ### <a name="Structure"></a> Structure
+
 ### <a name="Datagen"></a> Test data generation
 
 ### <a name="Aspects"></a> Selected aspects
@@ -459,10 +459,12 @@ Documentation : https://github.com/AlphaHydrae/api-copilot
 ##### Polls
 
 Scenario: Poll Constraints
+
 File: ***poll.constraints.scenario.js***
+
 ```
 The purpose of this scenario is to test poll constraints validating rules. 
-The scenario is divided into a series of steps in which the script will attempts to create poll documents. The steps follow this logic:
+The scenario is divided into a series of steps in which the script attempts to create poll documents. The steps follow this logic:
 
 1. We will try to create an empty poll document.
     -> It should fail and return the 500 status code.
@@ -481,44 +483,299 @@ The scenario is divided into a series of steps in which the script will attempts
 ##### Questions
 
 Scenario: Question Constraints
-File: ***question.constraints.scenario.js***
-```
 
+File: ***question.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test question constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an empty question document.
+    -> It should fail and return the 500 status code.
+3. We will try to create a question document with an empty title.
+    -> It should fail and return the 500 status code.
+4. We will try to create a question document with a default type (empty).
+    -> It should succeed, return the 201 status code and the payload of the created document with a default type (empty).
+5. We will try to create a question document with a custom type (reminder).
+    -> It should succeed, return the 201 status code and the payload of the created document with a custom type (reminder).
 ```
 
 ##### Choice
 
 Scenario: Choice Constraints
+
 File: ***choice.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test choice constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an base question document.
+    -> It should succeed and return the 201 status code.
+3. We will try to create a empty choice document.
+    -> It should fail and return the 500 status code.
+4. We will try to create a choice document with an empty key.
+    -> It should fail and return the 500 status code.
+5. We will try to create a choice document with an empty text.
+    -> It should fail and return the 500 status code.
+6. We will try to create a valid choice document.
+    -> It should succeed, return the 201 status code and the payload of the created document.
+```
+
+##### Participations
+
+Scenario: Participation Constraints
+
+File: ***participation.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test participation constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an empty participation document.
+    -> It should fail and return the 500 status code.
+3. We will try to create a participation document with an empty participant.
+    -> It should fail and return the 500 status code.
+4. We will try to create a valid participation document.
+    -> It should succeed, return the 201 status code and the payload of the created document.
+```
+
+##### Answers
+
+Scenario: Answer Constraints
+
+File: ***answer.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test answer constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an base participation document.
+    -> It should succeed and return the 201 status code.
+3. We will try to create an base question document.
+    -> It should succeed and return the 201 status code.
+4. We will try to create a base choice document.
+    -> It should succeed and return the 201 status code.
+5. We will try to create an answer document without associated question.
+    -> It should fail and return the 500 status code.
+6. We will try to create an answer document without associated choice.
+    -> It should fail and return the 500 status code.
+7. We will try to create a valid answer document.
+    -> It should succeed, return the 201 status code and the payload of the created document.
+```
+
+#### CRUD Testing
+
+##### Polls
+
+Scenario: Poll CREATE RUD
+
+File: ***poll.create.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Poll C READ UD
+
+File: ***poll.read.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Poll CR UPDATE D
+
+File: ***poll.update.scenario.js***
+
+```
+
+```
+
+Scenario: Poll CRU DELETE
+
+File: ***Poll.delete.scenario.js***
+
+```
+
+```
+
+##### Questions
+
+Scenario: Answer CREATE RUD
+
+File: ***question.create.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Question C READ UD
+
+File: ***question.read.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Question CR UPDATE D
+
+File: ***question.update.scenario.js***
+
+```
+
+```
+
+Scenario: Question CRU DELETE
+
+File: ***question.delete.scenario.js***
+
 ```
 
 ```
 
 ##### Participations
 
-Scenario: Participation Constraints
-File: ***participation.constraints.scenario.js***
+Scenario: Participation CREATE RUD
+
+File: ***participation.create.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Participation C READ UD
+
+File: ***participation.read.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Participation CR UPDATE D
+
+File: ***participation.update.scenario.js***
+
+```
+
+```
+
+Scenario: Participation CRU DELETE
+
+File: ***participation.delete.scenario.js***
+
+```
+
+```
+
+##### Choices
+
+Scenario: Choice CREATE RUD
+
+File: ***choice.create.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Choice C READ UD
+
+File: ***choice.read.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Choice CR UPDATE D
+
+File: ***choice.update.scenario.js***
+
+```
+
+```
+
+Scenario: Choice CRU DELETE
+
+File: ***choice.delete.scenario.js***
+
 ```
 
 ```
 
 ##### Answers
 
-Scenario: Answer Constraints
-File: ***answer.constraints.scenario.js***
+Scenario: Answer CREATE RUD
+
+File: ***answer.create.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Answer C READ UD
+
+File: ***answer.read.scenario.js***
+
+```
+
+```
+
+***
+
+Scenario: Answer CR UPDATE D
+
+File: ***answer.update.scenario.js***
+
+```
+
+```
+
+Scenario: Answer CRU DELETE
+
+File: ***answer.delete.scenario.js***
+
 ```
 
 ```
 
 ### <a name="Results"></a> Results
 
+#### Constraints Testing
+
 ##### Polls
 
 Scenario: Poll Constraints
+
 File: ***poll.constraints.scenario.js***
+
 Output
 ```
-
 [1mPoll Constraints[22m
 
 [1mSTEP 1: create an empty poll[22m
@@ -585,17 +842,1222 @@ Completed in 9ms
 Completed in 1ms
 
 [32mDONE in 0.10s![39m
+```
 
+##### Questions
+
+Scenario: Question Constraints
+
+File: ***question.constraints.scenario.js***
+
+Output
+```
+[1mQuestion Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 722ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '5636373d092d316c11a4b32b',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:01:01.682Z' }
+Completed in 4ms
+
+[1mSTEP 3: create an empty question[22m
+Completed in 15ms
+
+[1mSTEP 4: log response when creating an empty question[22m
+500
+Completed in 1ms
+
+[1mSTEP 5: create a question with an empty title[22m
+Completed in 8ms
+
+[1mSTEP 6: log response when creating an question with an empty title[22m
+500
+Completed in 0ms
+
+[1mSTEP 7: create a valid question with default type[22m
+Completed in 12ms
+
+[1mSTEP 8: log created question with default type[22m
+201
+{ __v: 0,
+  title: 'What is api-copilot ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32e',
+  choices: [],
+  type: '' }
+Completed in 1ms
+
+[1mSTEP 9: create a valid question with custom type[22m
+Completed in 16ms
+
+[1mSTEP 10: log created question with custom type[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32f',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[32mDONE in 0.78s![39m
+```
+
+##### Choice
+
+Scenario: Choice Constraints
+
+File: ***choice.constraints.scenario.js***
+
+Output
+```
+[1mQuestion Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 722ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '5636373d092d316c11a4b32b',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:01:01.682Z' }
+Completed in 4ms
+
+[1mSTEP 3: create an empty question[22m
+Completed in 15ms
+
+[1mSTEP 4: log response when creating an empty question[22m
+500
+Completed in 1ms
+
+[1mSTEP 5: create a question with an empty title[22m
+Completed in 8ms
+
+[1mSTEP 6: log response when creating an question with an empty title[22m
+500
+Completed in 0ms
+
+[1mSTEP 7: create a valid question with default type[22m
+Completed in 12ms
+
+[1mSTEP 8: log created question with default type[22m
+201
+{ __v: 0,
+  title: 'What is api-copilot ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32e',
+  choices: [],
+  type: '' }
+Completed in 1ms
+
+[1mSTEP 9: create a valid question with custom type[22m
+Completed in 16ms
+
+[1mSTEP 10: log created question with custom type[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32f',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[32mDONE in 0.78s![39m
+```
+
+##### Participations
+
+Scenario: Participation Constraints
+
+File: ***participation.constraints.scenario.js***
+
+Output
+```
+[1mParticipation Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 399ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56363e64092d316c11a4b33a',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:31:32.820Z' }
+Completed in 5ms
+
+[1mSTEP 3: create an empty participation[22m
+Completed in 20ms
+
+[1mSTEP 4: log response when creating an empty participation[22m
+500
+Completed in 1ms
+
+[1mSTEP 5: create a participation with an empty participant[22m
+Completed in 12ms
+
+[1mSTEP 6: log response when creating a participation with an empty participant[22m
+500
+Completed in 1ms
+
+[1mSTEP 7: create a valid participation[22m
+Completed in 9ms
+
+[1mSTEP 8: log created participation[22m
+201
+{ __v: 0,
+  participant: 'yibnl',
+  poll: '56363e64092d316c11a4b33a',
+  _id: '56363e65092d316c11a4b33d',
+  answers: [],
+  submissionDate: '2015-11-01T16:31:33.237Z' }
+Completed in 1ms
+
+[32mDONE in 0.45s![39m
+```
+
+##### Answers
+
+Scenario: Answer Constraints
+
+File: ***answer.constraints.scenario.js***
+
+Output
+```
+[1mAnswer Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 393ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56364218092d316c11a4b343',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:47:20.040Z' }
+Completed in 7ms
+
+[1mSTEP 3: create a valid participation[22m
+Completed in 21ms
+
+[1mSTEP 4: log created participation[22m
+201
+{ __v: 0,
+  participant: 'yibnl',
+  poll: '56364218092d316c11a4b343',
+  _id: '56364218092d316c11a4b344',
+  answers: [],
+  submissionDate: '2015-11-01T16:47:20.426Z' }
+Completed in 0ms
+
+[1mSTEP 5: create a question[22m
+Completed in 11ms
+
+[1mSTEP 6: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '56364218092d316c11a4b343',
+  _id: '56364218092d316c11a4b345',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[1mSTEP 7: create a choice[22m
+Completed in 16ms
+
+[1mSTEP 8: log created choice[22m
+201
+{ __v: 0,
+  key: 'a',
+  text: 'A scenario is a series of steps that are executed in order.',
+  question: '56364218092d316c11a4b345',
+  _id: '56364218092d316c11a4b346',
+  answers: [] }
+Completed in 2ms
+
+[1mSTEP 9: create an answer without associated question[22m
+Completed in 9ms
+
+[1mSTEP 10: log response status code returned since question is missing[22m
+400
+Completed in 0ms
+
+[1mSTEP 11: create an answer without associated choice[22m
+Completed in 7ms
+
+[1mSTEP 12: log response status code returned since choice is missing[22m
+400
+Completed in 1ms
+
+[1mSTEP 13: create an answer[22m
+Completed in 16ms
+
+[1mSTEP 14: log created answer[22m
+201
+{ __v: 0,
+  participation: '56364218092d316c11a4b344',
+  choice: '56364218092d316c11a4b346',
+  _id: '56364218092d316c11a4b347' }
+Completed in 1ms
+
+[32mDONE in 0.49s![39m
 ```
 
 #### CRUD Testing
 
-#### Story Testing
+##### Polls
 
-Not implemented yet.
+Scenario: Poll CREATE RUD
+
+File: ***poll.create.scenario.js***
+
+Output
+```
+
+```
+
+***
+
+Scenario: Poll C READ UD
+
+File: ***poll.read.scenario.js***
+
+Output
+```
+
+```
+
+***
+
+Scenario: Poll CR UPDATE D
+
+File: ***poll.update.scenario.js***
+
+Output
+```
+
+```
+
+Scenario: Poll CRU DELETE
+
+File: ***Poll.delete.scenario.js***
+
+Output
+```
+
+```
+
+##### Questions
+
+Scenario: Answer CREATE RUD
+
+File: ***question.create.scenario.js***
+
+Output
+```
+
+```
+
+***
+
+Scenario: Question C READ UD
+
+File: ***question.read.scenario.js***
+
+Output
+```
+
+```
+
+***
+
+Scenario: Question CR UPDATE D
+
+File: ***question.update.scenario.js***
+
+Output
+```
+
+```
+
+Scenario: Question CRU DELETE
+
+File: ***question.delete.scenario.js***
+
+Output
+```
+
+```
+
+##### Participations
+
+Scenario: Participation CREATE RUD
+
+File: ***participation.create.scenario.js***
+
+Output
+```
+
+```
+
+***
+
+Scenario: Participation C READ UD
+
+File: ***participation.read.scenario.js***
+
+Output
+```
+
+```
+
+***
+
+Scenario: Participation CR UPDATE D
+
+File: ***participation.update.scenario.js***
+
+Output
+```
+
+```
+
+Scenario: Participation CRU DELETE
+
+File: ***participation.delete.scenario.js***
+
+Output
+```
+
+```
+
+##### Choices
+
+Scenario: Choice CREATE RUD
+
+File: ***choice.create.scenario.js***
+
+Output
+```
+[1mChoice CREATE RUD[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 582ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '563646c3092d316c11a4b352',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:07:15.851Z' }
+Completed in 4ms
+
+[1mSTEP 3: create a question[22m
+Completed in 32ms
+
+[1mSTEP 4: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '563646c3092d316c11a4b352',
+  _id: '563646c4092d316c11a4b353',
+  choices: [],
+  type: 'reminder' }
+Completed in 0ms
+
+[1mSTEP 5: create choices[22m
+Completed in 33ms
+
+[1mSTEP 6: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '563646c4092d316c11a4b353',
+  _id: '563646c4092d316c11a4b354',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '563646c4092d316c11a4b353',
+  _id: '563646c4092d316c11a4b355',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '563646c4092d316c11a4b353',
+  _id: '563646c4092d316c11a4b356',
+  answers: [] }
+Completed in 2ms
+
+[32mDONE in 0.66s![39m
+```
+
+***
+
+Scenario: Choice C READ UD
+
+File: ***choice.read.scenario.js***
+
+Output
+```
+[1mChoice C READ UD[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 404ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56364785092d316c11a4b35c',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:10:29.966Z' }
+Completed in 3ms
+
+[1mSTEP 3: create a question[22m
+Completed in 17ms
+
+[1mSTEP 4: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '56364785092d316c11a4b35c',
+  _id: '56364786092d316c11a4b35d',
+  choices: [],
+  type: 'reminder' }
+Completed in 0ms
+
+[1mSTEP 5: create choices[22m
+Completed in 31ms
+
+[1mSTEP 6: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '56364786092d316c11a4b35d',
+  _id: '56364786092d316c11a4b35e',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '56364786092d316c11a4b35d',
+  _id: '56364786092d316c11a4b35f',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '56364786092d316c11a4b35d',
+  _id: '56364786092d316c11a4b360',
+  answers: [] }
+Completed in 3ms
+
+[1mSTEP 7: read all choices[22m
+Completed in 12ms
+
+[1mSTEP 8: log all read choices[22m
+200
+3 choices read:
+[ { _id: '56364786092d316c11a4b35e',
+    key: 'c',
+    text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+    question: '56364786092d316c11a4b35d',
+    __v: 0,
+    answers: [] },
+  { _id: '56364786092d316c11a4b35f',
+    key: 'b',
+    text: 'A series of steps that are executed in order using the "step" method.',
+    question: '56364786092d316c11a4b35d',
+    __v: 0,
+    answers: [] },
+  { _id: '56364786092d316c11a4b360',
+    key: 'a',
+    text: 'A setting, in particular for a work of art or literature.',
+    question: '56364786092d316c11a4b35d',
+    __v: 0,
+    answers: [] } ]
+Completed in 2ms
+
+[1mSTEP 9: read choices[22m
+Completed in 24ms
+
+[1mSTEP 10: log read choices[22m
+3 choices read:
+200
+{ _id: '56364786092d316c11a4b360',
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '56364786092d316c11a4b35d',
+  __v: 0,
+  answers: [] }
+200
+{ _id: '56364786092d316c11a4b35f',
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '56364786092d316c11a4b35d',
+  __v: 0,
+  answers: [] }
+200
+{ _id: '56364786092d316c11a4b35e',
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '56364786092d316c11a4b35d',
+  __v: 0,
+  answers: [] }
+Completed in 2ms
+
+[32mDONE in 0.50s![39m
+```
+
+***
+
+Scenario: Choice CR UPDATE D
+
+File: ***choice.update.scenario.js***
+
+Output
+```
+[1mChoice CR UPDATE D[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 408ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '5636480a092d316c11a4b366',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:12:42.325Z' }
+Completed in 5ms
+
+[1mSTEP 3: create a question[22m
+Completed in 21ms
+
+[1mSTEP 4: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '5636480a092d316c11a4b366',
+  _id: '5636480a092d316c11a4b367',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[1mSTEP 5: create choices[22m
+Completed in 27ms
+
+[1mSTEP 6: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '5636480a092d316c11a4b367',
+  _id: '5636480a092d316c11a4b368',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '5636480a092d316c11a4b367',
+  _id: '5636480a092d316c11a4b369',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '5636480a092d316c11a4b367',
+  _id: '5636480a092d316c11a4b36a',
+  answers: [] }
+Completed in 2ms
+
+[1mSTEP 7: update choices[22m
+Completed in 27ms
+
+[1mSTEP 8: log updated choices[22m
+200
+200
+200
+3 choices updated:
+{ _id: '5636480a092d316c11a4b36a',
+  key: '3',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '5636480a092d316c11a4b367',
+  __v: 0,
+  answers: [] }
+{ _id: '5636480a092d316c11a4b369',
+  key: '2',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '5636480a092d316c11a4b367',
+  __v: 0,
+  answers: [] }
+{ _id: '5636480a092d316c11a4b368',
+  key: '1',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '5636480a092d316c11a4b367',
+  __v: 0,
+  answers: [] }
+Completed in 2ms
+
+[32mDONE in 0.49s![39m
+```
+
+Scenario: Choice CRU DELETE
+
+File: ***choice.delete.scenario.js***
+
+Output
+```
+[1mChoice CRU DELETE[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 449ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56364882092d316c11a4b370',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:14:42.434Z' }
+Completed in 3ms
+
+[1mSTEP 3: create a question[22m
+Completed in 17ms
+
+[1mSTEP 4: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '56364882092d316c11a4b370',
+  _id: '56364882092d316c11a4b371',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[1mSTEP 5: create choices[22m
+Completed in 28ms
+
+[1mSTEP 6: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '56364882092d316c11a4b371',
+  _id: '56364882092d316c11a4b372',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '56364882092d316c11a4b371',
+  _id: '56364882092d316c11a4b373',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '56364882092d316c11a4b371',
+  _id: '56364882092d316c11a4b374',
+  answers: [] }
+Completed in 2ms
+
+[1mSTEP 7: delete choices[22m
+Completed in 37ms
+
+[1mSTEP 8: log deleted polls responses[22m
+3 choices deleted:
+204
+No Content
+204
+No Content
+204
+No Content
+Completed in 0ms
+
+[32mDONE in 0.54s![39m
+```
+
+##### Answers
+
+Scenario: Answer CREATE RUD
+
+File: ***answer.create.scenario.js***
+
+Output
+```
+[1mChoice CRU DELETE[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 441ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '563649a2092d316c11a4b37c',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:19:30.267Z' }
+Completed in 6ms
+
+[1mSTEP 3: create a question[22m
+Completed in 25ms
+
+[1mSTEP 4: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '563649a2092d316c11a4b37c',
+  _id: '563649a2092d316c11a4b37d',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[1mSTEP 5: create choices[22m
+Completed in 27ms
+
+[1mSTEP 6: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '563649a2092d316c11a4b37d',
+  _id: '563649a2092d316c11a4b37e',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '563649a2092d316c11a4b37d',
+  _id: '563649a2092d316c11a4b37f',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '563649a2092d316c11a4b37d',
+  _id: '563649a2092d316c11a4b380',
+  answers: [] }
+Completed in 3ms
+
+[1mSTEP 7: delete choices[22m
+Completed in 29ms
+
+[1mSTEP 8: log deleted polls responses[22m
+3 choices deleted:
+204
+No Content
+204
+No Content
+204
+No Content
+Completed in 1ms
+
+[32mDONE in 0.54s![39m
+```
+
+***
+
+Scenario: Answer C READ UD
+
+File: ***answer.read.scenario.js***
+
+Output
+```
+[1mAnswer C READ UD[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 432ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56364a2f092d316c11a4b38d',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:21:51.484Z' }
+Completed in 4ms
+
+[1mSTEP 3: create a participation[22m
+Completed in 16ms
+
+[1mSTEP 4: log created participation[22m
+201
+{ __v: 0,
+  participant: 'yibnl',
+  poll: '56364a2f092d316c11a4b38d',
+  _id: '56364a2f092d316c11a4b38e',
+  answers: [],
+  submissionDate: '2015-11-01T17:21:51.904Z' }
+Completed in 1ms
+
+[1mSTEP 5: create questions[22m
+Completed in 27ms
+
+[1mSTEP 6: log created questions[22m
+201
+201
+2 questions created:
+{ __v: 0,
+  title: 'How do you run a scenario ?',
+  poll: '56364a2f092d316c11a4b38d',
+  _id: '56364a2f092d316c11a4b38f',
+  choices: [],
+  type: 'reminder' }
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '56364a2f092d316c11a4b38d',
+  _id: '56364a2f092d316c11a4b390',
+  choices: [],
+  type: 'reminder' }
+Completed in 2ms
+
+[1mSTEP 7: create choices[22m
+Completed in 53ms
+
+[1mSTEP 8: log created choices[22m
+201
+201
+201
+201
+201
+201
+6 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'None of these',
+  question: '56364a2f092d316c11a4b390',
+  _id: '56364a2f092d316c11a4b391',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'api-copilot [scenario]',
+  question: '56364a2f092d316c11a4b390',
+  _id: '56364a2f092d316c11a4b392',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'api-copilot run [scenario]',
+  question: '56364a2f092d316c11a4b390',
+  _id: '56364a2f092d316c11a4b393',
+  answers: [] }
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '56364a2f092d316c11a4b38f',
+  _id: '56364a2f092d316c11a4b394',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '56364a2f092d316c11a4b38f',
+  _id: '56364a2f092d316c11a4b395',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '56364a2f092d316c11a4b38f',
+  _id: '56364a2f092d316c11a4b396',
+  answers: [] }
+Completed in 2ms
+
+[1mSTEP 9: create answers[22m
+Completed in 24ms
+
+[1mSTEP 10: log created answers[22m
+201
+201
+2 answers created:
+{ __v: 0,
+  participation: '56364a2f092d316c11a4b38e',
+  choice: '56364a2f092d316c11a4b395',
+  _id: '56364a30092d316c11a4b397' }
+{ __v: 0,
+  participation: '56364a2f092d316c11a4b38e',
+  choice: '56364a2f092d316c11a4b392',
+  _id: '56364a30092d316c11a4b398' }
+Completed in 2ms
+
+[1mSTEP 11: read all answers[22m
+Completed in 11ms
+
+[1mSTEP 12: log all read answers[22m
+200
+2 answer read:
+[ { _id: '56364a30092d316c11a4b397',
+    participation: '56364a2f092d316c11a4b38e',
+    choice: '56364a2f092d316c11a4b395',
+    __v: 0 },
+  { _id: '56364a30092d316c11a4b398',
+    participation: '56364a2f092d316c11a4b38e',
+    choice: '56364a2f092d316c11a4b392',
+    __v: 0 } ]
+Completed in 2ms
+
+[1mSTEP 13: read answer[22m
+Completed in 9ms
+
+[1mSTEP 14: log read answer[22m
+200
+{ _id: '56364a30092d316c11a4b397',
+  participation: '56364a2f092d316c11a4b38e',
+  choice: '56364a2f092d316c11a4b395',
+  __v: 0 }
+Completed in 1ms
+
+[32mDONE in 0.59s![39m
+```
+
+***
+
+Scenario: Answer CR UPDATE D
+
+File: ***answer.update.scenario.js***
+
+Output
+```
+[1mAnswer CR UPDATE D[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 394ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56364a97092d316c11a4b399',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:23:35.157Z' }
+Completed in 3ms
+
+[1mSTEP 3: create a participation[22m
+Completed in 15ms
+
+[1mSTEP 4: log created participation[22m
+201
+{ __v: 0,
+  participant: 'yibnl',
+  poll: '56364a97092d316c11a4b399',
+  _id: '56364a97092d316c11a4b39a',
+  answers: [],
+  submissionDate: '2015-11-01T17:23:35.538Z' }
+Completed in 1ms
+
+[1mSTEP 5: create a question[22m
+Completed in 10ms
+
+[1mSTEP 6: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '56364a97092d316c11a4b399',
+  _id: '56364a97092d316c11a4b39b',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[1mSTEP 7: create choices[22m
+Completed in 28ms
+
+[1mSTEP 8: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '56364a97092d316c11a4b39b',
+  _id: '56364a97092d316c11a4b39c',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '56364a97092d316c11a4b39b',
+  _id: '56364a97092d316c11a4b39d',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '56364a97092d316c11a4b39b',
+  _id: '56364a97092d316c11a4b39e',
+  answers: [] }
+Completed in 4ms
+
+[1mSTEP 9: create an answer[22m
+Completed in 13ms
+
+[1mSTEP 10: log created answer[22m
+201
+{ __v: 0,
+  participation: '56364a97092d316c11a4b39a',
+  choice: '56364a97092d316c11a4b39c',
+  _id: '56364a97092d316c11a4b39f' }
+Completed in 1ms
+
+[1mSTEP 11: update an answer[22m
+Completed in 15ms
+
+[1mSTEP 12: log update answer[22m
+200
+{ _id: '56364a97092d316c11a4b39f',
+  participation: '56364a97092d316c11a4b39a',
+  choice: '56364a97092d316c11a4b39d',
+  __v: 0 }
+Completed in 1ms
+
+[32mDONE in 0.49s![39m
+```
+
+Scenario: Answer CRU DELETE
+
+File: ***answer.delete.scenario.js***
+
+Output
+```
+[1mAnswer CRU DELETE[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 370ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56364b83092d316c11a4b3a7',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T17:27:31.606Z' }
+Completed in 4ms
+
+[1mSTEP 3: create a participation[22m
+Completed in 23ms
+
+[1mSTEP 4: log created participation[22m
+201
+{ __v: 0,
+  participant: 'yibnl',
+  poll: '56364b83092d316c11a4b3a7',
+  _id: '56364b83092d316c11a4b3a8',
+  answers: [],
+  submissionDate: '2015-11-01T17:27:31.962Z' }
+Completed in 1ms
+
+[1mSTEP 5: create a question[22m
+Completed in 14ms
+
+[1mSTEP 6: log created question[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '56364b83092d316c11a4b3a7',
+  _id: '56364b83092d316c11a4b3a9',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[1mSTEP 7: create choices[22m
+Completed in 31ms
+
+[1mSTEP 8: log created choices[22m
+201
+201
+201
+3 choices created:
+{ __v: 0,
+  key: 'c',
+  text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+  question: '56364b83092d316c11a4b3a9',
+  _id: '56364b84092d316c11a4b3aa',
+  answers: [] }
+{ __v: 0,
+  key: 'b',
+  text: 'A series of steps that are executed in order using the "step" method.',
+  question: '56364b83092d316c11a4b3a9',
+  _id: '56364b84092d316c11a4b3ab',
+  answers: [] }
+{ __v: 0,
+  key: 'a',
+  text: 'A setting, in particular for a work of art or literature.',
+  question: '56364b83092d316c11a4b3a9',
+  _id: '56364b84092d316c11a4b3ac',
+  answers: [] }
+Completed in 3ms
+
+[1mSTEP 9: create an answer[22m
+Completed in 13ms
+
+[1mSTEP 10: log created answer[22m
+201
+{ __v: 0,
+  participation: '56364b83092d316c11a4b3a8',
+  choice: '56364b84092d316c11a4b3aa',
+  _id: '56364b84092d316c11a4b3ad' }
+Completed in 1ms
+
+[1mSTEP 11: delete answer[22m
+Completed in 11ms
+
+[1mSTEP 12: log deleted answer[22m
+204
+No Content
+Completed in 1ms
+
+[32mDONE in 0.47s![39m
+```
+
+#### Story Testing
 
 ## <a name="Issues"></a> Known Issues
 
 ## <a name="Conclusion"></a> Conclusion
 
 ## <a name="AppendixA"></a> Appendix A: Auto Evaluation
+
+[Auto evaluation](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/evaluation)
