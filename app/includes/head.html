@@ -1,4 +1,8 @@
 <head>
+
+    <!-- build:[src]:dist <%= baseurl %>/scripts/vendor/webcomponents-lite.min.js -->
+    <script src="/scripts/vendor/webcomponents-lite.min.js"></script>
+    <!-- /build -->
     <style>
 
         body.loading #splash {
@@ -24,15 +28,16 @@
        to town pre-fetching resources, etc. -->
 
     <!-- build:[href]:dist <%= baseurl %>/elements/elements.vulcanized.html -->
-    <link rel="import" id="bundle" href="/elements/elements.vulcanized.html" async>
+    <link rel="import" id="bundle" href="/elements/elements.vulcanized.html">
     <!-- /build -->
+
+
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- build:[href]:dist <%= baseurl %>/css/ -->
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="../bower_components/simple-line-icons/css/simple-line-icons.css">
     <!-- /build -->
 
     <title>Landing page</title>

@@ -36,6 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 font-size: 50px;
                 margin-bottom: 13px;
                 font-weight: 100;
+                height: 50px;
+                width: 50px;
             }
             paper-material{
                 padding: 15px;
@@ -44,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         </style>
         <div class="layout vertical center">
-            <i class$="{{classIcon(icon)}}"></i>
+            <iron-icon class="icons" icon="{{icon}}"></iron-icon>
             <div class="title">{{title}}</div>
             <div class="content">{{content}}</div>
         </div>

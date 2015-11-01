@@ -5,12 +5,7 @@
 
   <!-- hides the page with a splash screen until
   imports and Polymer are loaded. -->
-  <body class="loading fullbleed layout vertical">
-
-
-  <!-- 3. Light weight splash screen is outside of
-  Polymer/imports and styled by the main page. -->
-  <div id="splash"></div>
+  <body class="fullbleed layout vertical">
 
   <template is="dom-bind" >
   <paper-header-panel class="layout vertical" mode="waterfall">
@@ -19,16 +14,6 @@
   </paper-header-panel>
   </template>
 
-  <!-- build:template:dist
-  <script>
-    var baseurl = "<%=baseurl%>";
-  </script>
-  /build -->
-  <!-- build:template:dev
-  <script>
-    var baseurl = "";
-  </script>
-  /build -->
 
   <script>
 
@@ -77,7 +62,7 @@
 
   </script>
   <!-- build:[src]:dist <%= baseurl %>/scripts/ -->
-  <script src="/scripts/app.js" async></script>
+  <!--<script src="/scripts/app.js" async></script>-->
   <!-- /build -->
   </body>
 </html>
