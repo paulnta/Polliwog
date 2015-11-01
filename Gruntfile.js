@@ -92,7 +92,7 @@ module.exports = function (grunt) {
                     baseurl : grunt.file.readYAML('_config.yml').baseurl
                 }
             },
-           html:{
+           dist:{
                files:[
                    {src: '_includes/head.html', dest: '_includes/head.html'},
                    {src: '_layouts/default.html', dest: '_layouts/default.html'}
@@ -130,16 +130,16 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'copy',
         'template',
-        'processhtml:dev',
         'vulcanize:dist',
+        'processhtml:dev',
         'exec:jekyll'
     ]);
 
     grunt.registerTask('build-dist', [
         'copy',
-        'template',
-        'processhtml:dist',
+        'template:dist',
         'vulcanize:dist',
+        'processhtml:dist',
         'exec:jekyll'
     ]);
 
