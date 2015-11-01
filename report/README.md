@@ -4,7 +4,7 @@
 
 ### Team
 
-Last name, first name | Github id   | Role
+Last name, first name | Github ID   | Role
 ----------------------|-------------|-------------------------
 D'Agostino, Eléonore  | [paranoodle](https://github.com/paranoodle) | 
 Ghozlani, Karim       | [gweezer7](https://github.com/gweezer7)     | 
@@ -74,7 +74,7 @@ The data model takes a relational database's traditionnal approach in which refe
 
 * It improves referential integrity. No questions can ever exist without being associated to any poll. The same goes for relations binding the other entities in the data model. This is a guarantee of consistency of the contents of the database .
 
-* It can benefits from Mongoose population mechanism. One can retrieve one document id or document content by using the **Document#populate** function. Moreover, it would still be possible to propose the alternative URLs to reference a document collection.
+* It can benefits from Mongoose population mechanism. One can retrieve one document ID or document content by using the **Document#populate** function. Moreover, it would still be possible to propose the alternative URLs to reference a document collection.
 
 On the one hand, the data model takes advantage of the flexibility of document-oriented databases. On the other hand, it enjoys the security provided by referential constraints of relational databases.
 
@@ -253,9 +253,9 @@ On the one hand, the data model takes advantage of the flexibility of document-o
 
 Data model and documents structure both show bidirectional associations between entities. This design choice is justified by the fact that it simplifies referential integrity implementation. 
 
-Let's assume that we want to remove a question document. We have to update parent poll's questions list in order to ensure database consistency. Mechanisms of delete on cascade, update on cascade and so on must be set up. This parent poll would have to be found at a given point in time. Storing parent poll's id avoid querying all polls to find the good one to update.
+Let's assume that we want to remove a question document. We have to update parent poll's questions list in order to ensure database consistency. Mechanisms of delete on cascade, update on cascade and so on must be set up. This parent poll would have to be found at a given point in time. Storing parent poll's ID avoids querying all polls to find the good one to be updated.
 
-It results from the above that storing parent id can improve computing perfomance. Of course it is necessary to maintain consistency on both sides in return.
+It results from the above that storing parent ID can improve computing perfomance. Of course it is necessary to maintain consistency on both sides in return.
 
 ### <a name="RestAPI"></a> REST API
 
@@ -380,7 +380,6 @@ The web application is built on the Model–view–controller pattern. Models ar
 ## <a name="Implementation"></a> Implementation
 
 ### <a name="Structure"></a> Structure
-    
 ### <a name="Datagen"></a> Test data generation
 
 ### <a name="Aspects"></a> Selected aspects
@@ -388,8 +387,65 @@ The web application is built on the Model–view–controller pattern. Models ar
 ## <a name="Testing"></a> Testing and validation
 
 ### <a name="Strategy"></a> Test strategy
+
+The test strategy is summarized by the following order logic steps:
+
+1. Constraints Testing
+2. CRUD Testing
+3. Story Testing
+
+Each entities i.e. poll, question, choice, participation and choice is submitted to these three types of test starting by the poll entity and ending by the answer entity.
+
+#### Constraints Testing
+
+Constraints testing is applied on each entity. The purpose of constraints testing is to validate Mongoose Schemas. It is basically to verify each property validation rules. It is performed by document creation's attempts using POST HTTP requests.
+
+The state of a poll should be one of the value of the enum {drafti, active, closed} for example.
+
+Properties validation's rules testing follows a well-defined approach:
+
+1. Creating an empty document.
+2. Creating a document with missing properties values.
+3. Creating a document with invalid properties values.
+4. Creating a valid document.
+
+Any entity constraints testing is considered to be successful whenever a valid document has been created.
+
+#### CRUD Testing
+
+CRUD testing is applied on each entity. The purpose of CRUD testing is to validate all HTTP methods supported by the REST API on all resources by submitting very simple requests. It is initiated by base documents creation. 
+
+CRUD testing on questions resource requires to create first one poll at least for example.
+
+After that, the following approach is used to test the current CRUD method being tested:
+
+1. *Creating base documents*.
+2. Creating resource tested's documents.
+3. Performing HTTP requests according to CRUD method being tested.
+4. Logging results.
+
+Note that the HTTP methods are tested individually, meaning they all have their own test file.
+
+#### Story Testing
+
+Both constraints and CRUD testing are lightweight test data. It is more than enough for basic and precise validation testing. It is however too little for massive data testing. 
+
+Story testing is massive data testing. The purpose of this kind of test is to simulate important data traffic between the client and the database. It is mainly to produce an important quantity of each HTTP methods on each REST API resource.
+
+A story should be defined. It must describe a situation of intensive REST API interaction similar to an hour of application use. Of course it is difficult to veriy whether results of computation correspond to expected results. The main interest of such a plan is actually to observe the web application reaction to heavy loading, intensive interaction and behavior over the time.
+
+Story testing requires random data generation, random HTTP requests and random HTTP methods. The goal is to set up undefined workflows.
+
 ### <a name="Tools"></a> Tools
+
+#### API Copilot
+
+API Copilot is a Node.js based Javascript library which provides data population scenarios features for testing and validating APIs implementation. It defines the concept of scenario which is a series of steps that are executed in order.
+
+Documentation : https://github.com/AlphaHydrae/api-copilot
+
 ### <a name="Procedures"></a> Procedures
+
 ### <a name="Results"></a> Results
 
 ## <a name="Issues"></a> Known Issues
