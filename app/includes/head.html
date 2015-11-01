@@ -22,6 +22,7 @@
     <!-- 1. Async HTML Imports do not block rending. Benefit of keeping it declarative
        (instead of dynamically loading it later in JS) is that the parser can go
        to town pre-fetching resources, etc. -->
+
     <!-- build:[href]:dist <%= baseurl %>/elements/elements.vulcanized.html -->
     <link rel="import" id="bundle" href="/elements/elements.vulcanized.html" async>
     <!-- /build -->
@@ -32,7 +33,6 @@
     <!-- build:[href]:dist <%= baseurl %>/css/ -->
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="../bower_components/simple-line-icons/css/simple-line-icons.css">
-
     <!-- /build -->
 
     <title>Landing page</title>

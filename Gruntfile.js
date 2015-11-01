@@ -3,8 +3,6 @@
  */
 
 
-
-
 module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-bower-task');
@@ -38,7 +36,7 @@ module.exports = function (grunt) {
                     { expand:true, cwd: 'app/css', src: '**/*', dest: 'css/'},
                     { expand:true, cwd: 'app/assets', src: '**/*', dest: 'assets/'},
                     { expand:true, cwd: 'app/', src: '*.html', dest: './'},
-                    { expand:true, cwd: 'app/', src: '*.md', dest: './'},
+                    { expand:true, cwd: 'app/', src: '*.md', dest: './'}
                 ]
             }
         },
@@ -46,12 +44,12 @@ module.exports = function (grunt) {
         imagemin: {
             static: {
                 options: {
-                    optimizationLevel: 3,
+                    optimizationLevel: 3
                 },
                 files: {
                     'assets/img.png': 'app/assets/img.png'
                 }
-            },
+            }
         },
 
         vulcanize: {
@@ -129,24 +127,20 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.registerTask('copilot', function () {
-        console.log("scenario");
-    });
-
     grunt.registerTask('build', [
         'copy',
         'template',
         'processhtml:dev',
         'vulcanize:dist',
-        'exec:jekyll',
+        'exec:jekyll'
     ]);
 
-    grunt.registerTask('build:dist', [
+    grunt.registerTask('build-dist', [
         'copy',
         'template',
         'processhtml:dist',
         'vulcanize:dist',
-        'exec:jekyll',
+        'exec:jekyll'
     ]);
 
     grunt.registerTask('serve', [
