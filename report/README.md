@@ -456,7 +456,145 @@ Documentation : https://github.com/AlphaHydrae/api-copilot
 
 ### <a name="Procedures"></a> Procedures
 
+#### Constraints Testing
+
+##### Polls
+
+Scenario: Poll Constraints
+File: ***poll.constraints.scenario.js***
+```
+The purpose of this scenario is to test poll constraints validating rules. 
+The scenario is divided into a series of steps in which the script will attempts to create poll documents. The steps follow this logic:
+
+1. We will try to create an empty poll document.
+    -> It should fail and return the 500 status code.
+2. We will try to create a poll document with an empty title.
+    -> It should fail and return the 500 status code.
+3. We will try to create a poll document with an invalid state.
+    -> It should fail and return the 500 status code.
+4. We will try to create a poll document with a default state.
+    -> It should succeed, return the 201 status code and the payload of the created document with a default state.
+5. We will try to create a poll document with an active state.
+    -> It should succeed, return the 201 status code and the payload of the created document with an active state.
+6. We will try to create a poll document with a closed state.
+    -> It should succeed, return the 201 status code and the payload of the created document with a closed state.
+```
+
+##### Questions
+
+Scenario: Question Constraints
+File: ***question.constraints.scenario.js***
+```
+
+```
+
+##### Choice
+
+Scenario: Choice Constraints
+File: ***choice.constraints.scenario.js***
+```
+
+```
+
+##### Participations
+
+Scenario: Participation Constraints
+File: ***participation.constraints.scenario.js***
+```
+
+```
+
+##### Answers
+
+Scenario: Answer Constraints
+File: ***answer.constraints.scenario.js***
+```
+
+```
+
 ### <a name="Results"></a> Results
+
+##### Polls
+
+Scenario: Poll Constraints
+File: ***poll.constraints.scenario.js***
+Output
+```
+
+[1mPoll Constraints[22m
+
+[1mSTEP 1: create an empty poll[22m
+Completed in 39ms
+
+[1mSTEP 2: log response status code from creating empty poll[22m
+500
+Completed in 1ms
+
+[1mSTEP 3: create a poll with an empty title[22m
+Completed in 18ms
+
+[1mSTEP 4: log response status code from creating poll with empty title[22m
+500
+Completed in 0ms
+
+[1mSTEP 5: create a poll with an invalid state[22m
+Completed in 8ms
+
+[1mSTEP 6: log response status code[22m
+500
+Completed in 0ms
+
+[1mSTEP 7: create a poll with a default state[22m
+Completed in 8ms
+
+[1mSTEP 8: log created poll with a default state[22m
+201
+{ __v: 0,
+  title: 'my drafti poll',
+  _id: '563627c37bc8e0000748fb73',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T14:54:59.665Z' }
+Completed in 3ms
+
+[1mSTEP 9: create a poll with an active state[22m
+Completed in 10ms
+
+[1mSTEP 10: log created poll with an active state[22m
+201
+{ __v: 0,
+  title: 'my active poll',
+  _id: '563627c37bc8e0000748fb74',
+  participations: [],
+  questions: [],
+  state: 'active',
+  creationDate: '2015-11-01T14:54:59.677Z' }
+Completed in 1ms
+
+[1mSTEP 11: create a poll with a closed state[22m
+Completed in 9ms
+
+[1mSTEP 12: log created poll with a closed state[22m
+201
+{ __v: 0,
+  title: 'my closed poll',
+  _id: '563627c37bc8e0000748fb75',
+  participations: [],
+  questions: [],
+  state: 'closed',
+  creationDate: '2015-11-01T14:54:59.688Z' }
+Completed in 1ms
+
+[32mDONE in 0.10s![39m
+
+```
+
+#### CRUD Testing
+
+#### Story Testing
+
+Not implemented yet.
 
 ## <a name="Issues"></a> Known Issues
 
