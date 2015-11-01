@@ -16,4 +16,70 @@ var scenario = new copilot.Scenario({
   }
 });
 
+var _ = require('underscore');
+
+var participationsData = [
+	{participant: 'yibnl'},
+	{participant: 'gweezer7'},
+	{participant: 'paranoodle'},
+	{participant: 'nta' }
+];
+
+scenario.step('create a poll', function() {
+  return this.post({
+    body: {
+    	title: 'api-copilot'
+    },
+    expect: {
+      statusCode: 201
+    }
+  });
+});
+
+scenario.step('log created poll', function(response) {
+	poll = response.body;
+	console.log(poll);	
+});
+
+scenario.step('create participations',  function()  { 
+  var requests = []; 
+
+	for (var i = participationsData.length - 1; i >= 0; i--) {
+		requests.push(this.post({ 
+				url: '/'+ poll._id +'/participations/',
+		        body: participationsData[i],
+				expect: { statusCode: 201 }
+        }));
+	}
+
+  return this.all(requests); 
+});
+
+scenario.step('show created data', function(responses) {
+
+  var participations = _.pluck(responses, 'body');
+  
+
+  console.log(participations.length + ' participations created:');
+  _.each(participations, function(participation) { console.log(participation); });
+  return participations;
+});
+
+
+scenario.step('delete participations', function(participations) {
+
+	var requests = [];
+
+  	for (var i = participationsData.length - 1; i >= 0; i--) {
+		requests.push(this.delete({ 
+				url: '/'+ poll._id +'/participations/'+participations[i]._id,		  
+				expect: { statusCode: 204 }
+        }));
+	}
+	return this.all(requests);
+});
+
+scenario.step('log deleted participations responses', function(responses){
+	_.each(responses, function(response) { console.log(response.statusMessage); });
+});
 module.exports = scenario;

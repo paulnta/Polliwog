@@ -40,6 +40,7 @@ scenario.step('create polls',  function()  {
 scenario.step('log created polls', function(responses) {
 
   var polls = _.pluck(responses, 'body');
+  
 
   console.log(polls.length + ' polls created:');
   _.each(polls, function(poll) { console.log(poll); });
