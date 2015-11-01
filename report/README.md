@@ -41,8 +41,8 @@ The purposes of this project is to develop an **interactive presentations** web 
 
 ### How to execute and access the application
 
-* [poll.iwog web application](http://polliwog.herokuapp.com). 
-* [poll.iwog REST API](http://polliwog.herokuapp.com/api).
+* [poll.iwog web application](http://polliwog-app.herokuapp.com). 
+* [poll.iwog REST API](http://polliwog-app.herokuapp.com/api).
 * [poll.iwog REST API Documentation](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api).
 * [poll.iwog product page](http://###). 
 * [poll.iwog product specification](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/specifications/specifications.md).
