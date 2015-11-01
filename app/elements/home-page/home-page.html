@@ -97,11 +97,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </div>
                   <div class="flex"></div>
               </div>
-              <div class="layout horizontal flex center-justified">
-                  <icon-box icon="editor:attach-file" title="Partage de fichiers" content="Partagez vos présentations, liens urls, images, etc.. avec votre votre auditoire."></icon-box>
-                  <icon-box icon="icons:lock" title="Session privées" content="En créant des sessions privées vous pourrez séléctionner les personnes autorisée à se connecter à la session."></icon-box>
-                  <icon-box icon="social:poll" title="Statistiques" content="Les résultats de vos questionnaires ou sondage sont illustré par des graphiques."></icon-box>
-              </div>
+
+              <iron-media-query query="(max-width: 650px)" query-matches="{{tablette}}"></iron-media-query>
+
+              <template is="dom-if" if="{{!tablette}}">
+                  <div class="layout horizontal flex center-justified">
+                      <icon-box icon="editor:attach-file" title="Partage de fichiers" content="Partagez vos présentations, liens urls, images, etc.. avec votre votre auditoire."></icon-box>
+                      <icon-box icon="icons:lock" title="Session privées" content="En créant des sessions privées vous pourrez séléctionner les personnes autorisée à se connecter à la session."></icon-box>
+                      <icon-box icon="social:poll" title="Statistiques" content="Les résultats de vos questionnaires ou sondage sont illustré par des graphiques."></icon-box>
+                  </div>
+              </template>
+
+              <template is="dom-if" if="{{tablette}}">
+                  <div class="layout vertical flex center-justified">
+                      <icon-box icon="editor:attach-file" title="Partage de fichiers" content="Partagez vos présentations, liens urls, images, etc.. avec votre votre auditoire."></icon-box>
+                      <icon-box icon="icons:lock" title="Session privées" content="En créant des sessions privées vous pourrez séléctionner les personnes autorisée à se connecter à la session."></icon-box>
+                      <icon-box icon="social:poll" title="Statistiques" content="Les résultats de vos questionnaires ou sondage sont illustré par des graphiques."></icon-box>
+                  </div>
+              </template>
+
           </section>
 
           <section id="tour" class="full layout vertical center-justified">

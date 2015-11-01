@@ -51,7 +51,7 @@ Page header with an image
             }
 
             .title{
-
+                text-align: center;
                 font-weight: 300;
                 font-size: 58px;
             }
@@ -82,12 +82,10 @@ Page header with an image
             }
 
             .left .icon{
-                margin-top: 16px;
                 margin-left: 10px;
             }
 
             .right .icon{
-                margin-top: 16px;
                 margin-right: 10px;
             }
 
@@ -100,8 +98,23 @@ Page header with an image
                 color: white;
             }
 
+            .box{
+                width: 80%;
+                color: white;
+                text-align: center;
+                @apply(--layout-self-center);
+                margin-bottom: 10px;
+            }
+
+            .box.icon{
+                display: none;
+            }
+
+            
+
         </style>
 
+        <iron-media-query query="(max-width: 1140px)" query-matches="{{headerSmall}}"></iron-media-query>
         <div class="wrapper layout vertical flex">
 
             <!--Title and subtitle-->
@@ -114,11 +127,12 @@ Page header with an image
             </div>
 
             <!--image and descriptions-->
+            <template is="dom-if" if="{{!headerSmall}}">
             <div class="bottom layout horizontal flex">
 
                 <div class="flex-1"></div>
 
-                <div class="left flex-3 layout vertical center-justified">
+                <div class="left flex-4 layout vertical center-justified">
 
                     <div class="layout horizontal">
                         <div class="flex">
@@ -137,17 +151,16 @@ Page header with an image
                     </div>
                 </div>
 
-                <div class="flex-1"></div>
+                <!--<div class="flex-1"></div>-->
 
                 <!--image app-->
                 <div class="container layout flex-4">
                     <img class="flex phone" src="../../../assets/half-phone.png">
-                    <!--<iron-image class="phone" preload fade src="../../../assets/half-phone.png" sizing="contain"></iron-image>-->
                 </div>
 
-                <div class="flex-1"></div>
+                <!--<div class="flex-1"></div>-->
 
-                <div class="right flex-3 layout vertical center-justified">
+                <div class="right flex-4 layout vertical center-justified">
 
                     <div class="layout horizontal">
                         <div class="icon"><iron-icon icon="face"></iron-icon></div>
@@ -169,6 +182,18 @@ Page header with an image
 
                 <div class="flex-1"></div>
             </div>
+            </template>
+
+            <template is="dom-if" if="{{headerSmall}}">
+
+                <div class="bottom layout vertical">
+                        <!--image app-->
+                        <div class="container layout">
+                            <img class="flex phone" src="../../../assets/half-phone.png">
+                        </div>
+                </div>
+
+            </template>
 
         </div>
 
@@ -185,6 +210,12 @@ Page header with an image
                         type: String,
                         value: 'app-header',
                         notify: true
+                    },
+
+                    headerSmall:{
+                        type: Boolean,
+                        notify: true,
+                        value: false
                     }
                 }
 

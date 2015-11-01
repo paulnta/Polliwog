@@ -18421,7 +18421,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             .title{
-
+                text-align: center;
                 font-weight: 300;
                 font-size: 58px;
             }
@@ -18452,12 +18452,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             .left .icon{
-                margin-top: 16px;
                 margin-left: 10px;
             }
 
             .right .icon{
-                margin-top: 16px;
                 margin-right: 10px;
             }
 
@@ -18470,8 +18468,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 color: white;
             }
 
+            .box{
+                width: 80%;
+                color: white;
+                text-align: center;
+                @apply(--layout-self-center);
+                margin-bottom: 10px;
+            }
+
+            .box.icon{
+                display: none;
+            }
+
+            
+
         </style>
 
+        <iron-media-query query="(max-width: 1140px)" query-matches="{{headerSmall}}"></iron-media-query>
         <div class="wrapper layout vertical flex">
 
             
@@ -18484,11 +18497,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
 
             
+            <template is="dom-if" if="{{!headerSmall}}">
             <div class="bottom layout horizontal flex">
 
                 <div class="flex-1"></div>
 
-                <div class="left flex-3 layout vertical center-justified">
+                <div class="left flex-4 layout vertical center-justified">
 
                     <div class="layout horizontal">
                         <div class="flex">
@@ -18507,17 +18521,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     </div>
                 </div>
 
-                <div class="flex-1"></div>
+                
 
                 
                 <div class="container layout flex-4">
                     <img class="flex phone" src="../assets/half-phone.png">
-                    
                 </div>
 
-                <div class="flex-1"></div>
+                
 
-                <div class="right flex-3 layout vertical center-justified">
+                <div class="right flex-4 layout vertical center-justified">
 
                     <div class="layout horizontal">
                         <div class="icon"><iron-icon icon="face"></iron-icon></div>
@@ -18539,6 +18552,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 <div class="flex-1"></div>
             </div>
+            </template>
+
+            <template is="dom-if" if="{{headerSmall}}">
+
+                <div class="bottom layout vertical">
+                        
+                        <div class="container layout">
+                            <img class="flex phone" src="../assets/half-phone.png">
+                        </div>
+                </div>
+
+            </template>
 
         </div>
 
@@ -18555,6 +18580,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         type: String,
                         value: 'app-header',
                         notify: true
+                    },
+
+                    headerSmall:{
+                        type: Boolean,
+                        notify: true,
+                        value: false
                     }
                 }
 
@@ -19056,11 +19087,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </div>
                   <div class="flex"></div>
               </div>
-              <div class="layout horizontal flex center-justified">
-                  <icon-box icon="editor:attach-file" title="Partage de fichiers" content="Partagez vos présentations, liens urls, images, etc.. avec votre votre auditoire."></icon-box>
-                  <icon-box icon="icons:lock" title="Session privées" content="En créant des sessions privées vous pourrez séléctionner les personnes autorisée à se connecter à la session."></icon-box>
-                  <icon-box icon="social:poll" title="Statistiques" content="Les résultats de vos questionnaires ou sondage sont illustré par des graphiques."></icon-box>
-              </div>
+
+              <iron-media-query query="(max-width: 650px)" query-matches="{{tablette}}"></iron-media-query>
+
+              <template is="dom-if" if="{{!tablette}}">
+                  <div class="layout horizontal flex center-justified">
+                      <icon-box icon="editor:attach-file" title="Partage de fichiers" content="Partagez vos présentations, liens urls, images, etc.. avec votre votre auditoire."></icon-box>
+                      <icon-box icon="icons:lock" title="Session privées" content="En créant des sessions privées vous pourrez séléctionner les personnes autorisée à se connecter à la session."></icon-box>
+                      <icon-box icon="social:poll" title="Statistiques" content="Les résultats de vos questionnaires ou sondage sont illustré par des graphiques."></icon-box>
+                  </div>
+              </template>
+
+              <template is="dom-if" if="{{tablette}}">
+                  <div class="layout vertical flex center-justified">
+                      <icon-box icon="editor:attach-file" title="Partage de fichiers" content="Partagez vos présentations, liens urls, images, etc.. avec votre votre auditoire."></icon-box>
+                      <icon-box icon="icons:lock" title="Session privées" content="En créant des sessions privées vous pourrez séléctionner les personnes autorisée à se connecter à la session."></icon-box>
+                      <icon-box icon="social:poll" title="Statistiques" content="Les résultats de vos questionnaires ou sondage sont illustré par des graphiques."></icon-box>
+                  </div>
+              </template>
+
           </section>
 
           <section id="tour" class="full layout vertical center-justified">
