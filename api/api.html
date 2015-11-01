@@ -1,0 +1,964 @@
+<!DOCTYPE HTML><html><head><title>poll.iwog API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.1.0"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          if(history && history.replaceState) {
+            history.replaceState({}, '', '#');
+          }
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>poll.iwog API documentation <small>version v1</small></h1><p>http://server/api/</p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="polls" class="panel-title">/polls</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls"><span class="parent"></span>/polls</a> <span class="methods"><a href="#polls_get"><span class="badge badge_get">get</span></a> <a href="#polls_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_polls" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get list of polls.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new poll.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/polls</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get list of polls.</p></div><ul class="nav nav-tabs"><li><a href="#polls_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane" id="polls_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "creationDate": {
+      "type": "date"
+    },
+    "state": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "array",
+      "items": {"$ref": "question"}
+    },
+    "participations": {
+      "type": "array",
+      "items": {"$ref": "participation"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    &#39;_id&#39;: &#39;p1&#39;,
+    &#39;title&#39;: &#39;TWEB-2015&#39;,
+    &#39;creationDate&#39;: &#39;2015-05-02 10:41&#39; 
+    &#39;state&#39;: &#39;drafti&#39;
+    &#39;questions&#39;: 
+      [
+        &#39;/polls/p1/questions/q1&#39;,
+        &#39;/polls/p1/questions/q2&#39;,
+        &#39;/polls/p1/questions/q3&#39;
+      ],
+    &#39;participations&#39;: [&#39;/polls/p1/participations/pp1&#39;]
+  },
+  {
+    &#39;_id&#39;: &#39;p2&#39;,
+    &#39;title&#39;: &#39;AMT-2015&#39;,
+    &#39;creationDate&#39;: &#39;2015-11-25 14:03&#39;
+    &#39;state&#39;: &#39;active&#39;
+    &#39;questions&#39;: 
+      [
+        &#39;/polls/p2/questions/q11&#39;,
+        &#39;/polls/p2/questions/q22&#39;,
+        &#39;/polls/p2/questions/q32&#39;
+      ],
+    &#39;participations&#39;: []
+  },
+  {
+    &#39;_id&#39;: &#39;p3&#39;,
+    &#39;title&#39;: &#39;RES-2015&#39;,
+    &#39;creationDate&#39;: &#39;2015-12-12 12:00&#39;, 
+    &#39;state&#39;: &#39;closed&#39;
+    &#39;questions&#39;: 
+      [
+        &#39;/polls/p3/questions/q13&#39;,
+        &#39;/polls/p3/questions/q23&#39;,
+        &#39;/polls/p3/questions/q33&#39;
+      ],
+    &#39;participations&#39;: []
+  }
+]
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Query parameters missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>An internal error occured.</p></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/polls</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new poll.</p></div><ul class="nav nav-tabs"><li><a href="#polls_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane" id="polls_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "creationDate": {
+      "type": "date"
+    },
+    "state": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "array",
+      "items": {"$ref": "question"}
+    },
+    "participations": {
+      "type": "array",
+      "items": {"$ref": "participation"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;title&#39;: &#39;TWEB-2015&#39;, 
+  &#39;state&#39;: &#39;drafti&#39;
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>It is returned when a POST request is submitted and an equivalent resource already exists.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Conflict</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId_"><span class="parent">/polls</span>/{pollId}</a> <span class="methods"><a href="#polls__pollId__get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__put"><span class="badge badge_put">put</span></a> <a href="#polls__pollId__patch"><span class="badge badge_patch">patch</span></a> <a href="#polls__pollId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_polls__pollId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the poll with pollId = {pollId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update the poll with pollId = {pollId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__patch'" class="list-group-item"><span class="badge badge_patch">patch</span><div class="method_description"><p>Update partially the poll with pollId = {pollId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete the poll with pollId = {pollId}.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls</span>/{pollId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the poll with pollId = {pollId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "creationDate": {
+      "type": "date"
+    },
+    "state": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "array",
+      "items": {"$ref": "question"}
+    },
+    "participations": {
+      "type": "array",
+      "items": {"$ref": "participation"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;p1&#39;,
+  &#39;title&#39;: &#39;TWEB-2015&#39;, 
+  &#39;creationDate&#39;: &#39;2015-11-02 09:41&#39;
+  &#39;state&#39;: &#39;drafti&#39;,
+  &#39;questions&#39;: 
+      [
+        &#39;/polls/p1/questions/q1&#39;,
+        &#39;/polls/p1/questions/q2&#39;,
+        &#39;/polls/p1/questions/q3&#39;
+      ],
+  &#39;participations&#39;: [&#39;/polls/p1/participations/pp1&#39;]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/polls</span>/{pollId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the poll with pollId = {pollId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__put_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__put_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "creationDate": {
+      "type": "date"
+    },
+    "state": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "array",
+      "items": {"$ref": "question"}
+    },
+    "participations": {
+      "type": "array",
+      "items": {"$ref": "participation"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;p1&#39;,
+  &#39;title&#39;: &#39;TWEB-2015&#39;, 
+  &#39;creationDate&#39;: &#39;2015-11-02 09:41&#39;
+  &#39;state&#39;: &#39;drafti&#39;,
+  &#39;questions&#39;: 
+      [
+        &#39;/polls/p1/questions/q1&#39;,
+        &#39;/polls/p1/questions/q2&#39;,
+        &#39;/polls/p1/questions/q3&#39;
+      ],
+  &#39;participations&#39;: [&#39;/polls/p1/participations/pp1&#39;]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch</span> <span class="parent">/polls</span>/{pollId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update partially the poll with pollId = {pollId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__patch_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__patch_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "creationDate": {
+      "type": "date"
+    },
+    "state": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "array",
+      "items": {"$ref": "question"}
+    },
+    "participations": {
+      "type": "array",
+      "items": {"$ref": "participation"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;p1&#39;,
+  &#39;title&#39;: &#39;TWEB-2015&#39;, 
+  &#39;creationDate&#39;: &#39;2015-11-02 09:41&#39;
+  &#39;state&#39;: &#39;drafti&#39;,
+  &#39;questions&#39;: 
+      [
+        &#39;/polls/p1/questions/q1&#39;,
+        &#39;/polls/p1/questions/q2&#39;,
+        &#39;/polls/p1/questions/q3&#39;
+      ],
+  &#39;participations&#39;: [&#39;/polls/p1/participations/pp1&#39;]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/polls</span>/{pollId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete the poll with pollId = {pollId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__delete_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__delete_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>It is returned when a DELETE request is submitted and succeed.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Content</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__participations"><span class="parent">/polls/{pollId}</span>/participations</a> <span class="methods"><a href="#polls__pollId__participations_get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__participations_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_polls__pollId__participations" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__participations_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get list of participations.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new participation.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}</span>/participations</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get list of participations.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations_get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations_get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "participant": {
+      "type": "string",
+      "required": "true"
+    },
+    "submissionDate": {
+      "type": "date"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    } 
+  } 
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    &#39;_id&#39;: &#39;pp1&#39;,
+    &#39;participant&#39;: &#39;yibnl&#39;,
+    &#39;submissionDate&#39;: &#39;2015-12-29 23:15&#39;,
+    &#39;answers&#39;: 
+      [
+        &#39;/polls/p1/participations/pp1/answers/a1&#39;,
+        &#39;/polls/p1/participations/pp1/answers/a2&#39;,
+        &#39;/polls/p1/participations/pp1/answers/a3&#39;
+      ]
+  },
+  {
+    &#39;_id&#39;: &#39;pp2&#39;,
+    &#39;participant&#39;: &#39;paranoodle&#39;,
+    &#39;submissionDate&#39;: &#39;2015-12-29 10:15&#39;,
+    &#39;answers&#39;: 
+      [
+        &#39;/polls/p2/participations/pp2/answers/a11&#39;,
+        &#39;/polls/p2/participations/pp2/answers/a22&#39;
+      ]
+  },
+  {
+    &#39;_id&#39;: &#39;pp3&#39;,
+    &#39;participant&#39;: &#39;gweezer7&#39;,
+    &#39;submissionDate&#39;: &#39;2015-12-30 17:42&#39;,
+    &#39;answers&#39;: 
+      [
+        &#39;/polls/p2/participations/pp2/answers/a13&#39;
+      ]
+  }
+]
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Query parameters missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>An internal error occured.</p></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/polls/{pollId}</span>/participations</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new participation.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations_post_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations_post_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "participant": {
+      "type": "string",
+      "required": "true"
+    },
+    "submissionDate": {
+      "type": "date"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    } 
+  } 
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;participant&#39;: &#39;gweezer7&#39;
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>It is returned when a POST request is submitted and an equivalent resource already exists.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Conflict</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__participations__participationId_"><span class="parent">/polls/{pollId}/participations</span>/{participationId}</a> <span class="methods"><a href="#polls__pollId__participations__participationId__get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__participations__participationId__put"><span class="badge badge_put">put</span></a> <a href="#polls__pollId__participations__participationId__patch"><span class="badge badge_patch">patch</span></a> <a href="#polls__pollId__participations__participationId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_polls__pollId__participations__participationId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__participations__participationId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the participation with participationId = {participationId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update the participation with participationId = {participationId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__patch'" class="list-group-item"><span class="badge badge_patch">patch</span><div class="method_description"><p>Update partially the participation with participationId = {participationId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete the participation with participationId = {participationId}.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}/participations</span>/{participationId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the participation with participationId = {participationId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "participant": {
+      "type": "string",
+      "required": "true"
+    },
+    "submissionDate": {
+      "type": "date"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    } 
+  } 
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;pp3&#39;,
+  &#39;participant&#39;: &#39;gweezer7&#39;,
+  &#39;submissionDate&#39;: &#39;2015-12-30 17:42&#39;,
+  &#39;answers&#39;: 
+    [
+      &#39;/polls/p2/participations/pp2/answers/a13&#39;
+    ]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/polls/{pollId}/participations</span>/{participationId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the participation with participationId = {participationId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__put_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__put_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "participant": {
+      "type": "string",
+      "required": "true"
+    },
+    "submissionDate": {
+      "type": "date"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    } 
+  } 
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;pp3&#39;,
+  &#39;participant&#39;: &#39;gweezer7&#39;,
+  &#39;submissionDate&#39;: &#39;2015-12-30 17:42&#39;,
+  &#39;answers&#39;: 
+    [
+      &#39;/polls/p2/participations/pp2/answers/a13&#39;
+    ]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch</span> <span class="parent">/polls/{pollId}/participations</span>/{participationId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update partially the participation with participationId = {participationId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__patch_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__patch_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "participant": {
+      "type": "string",
+      "required": "true"
+    },
+    "submissionDate": {
+      "type": "date"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    } 
+  } 
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;pp3&#39;,
+  &#39;participant&#39;: &#39;gweezer7&#39;,
+  &#39;submissionDate&#39;: &#39;2015-12-30 17:42&#39;,
+  &#39;answers&#39;: 
+    [
+      &#39;/polls/p2/participations/pp2/answers/a13&#39;
+    ]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/polls/{pollId}/participations</span>/{participationId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete the participation with participationId = {participationId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__delete_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__delete_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>It is returned when a DELETE request is submitted and succeed.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Content</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__participations__participationId__answers"><span class="parent">/polls/{pollId}/participations/{participationId}</span>/answers</a> <span class="methods"><a href="#polls__pollId__participations__participationId__answers_get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__participations__participationId__answers_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_polls__pollId__participations__participationId__answers" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__participations__participationId__answers_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get list of answers.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__answers_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new answer.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__answers_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}/participations/{participationId}</span>/answers</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get list of answers.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__answers_get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__answers_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__answers_get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__answers_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "participation": {"$ref": "participation"},
+    "choice": {"$ref": "choice"}
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    &#39;_id&#39;: &#39;a1&#39;,
+    &#39;participation&#39;: &#39;pp1&#39;,
+    &#39;choice&#39;: &#39;c1&#39;
+  }
+  {
+    &#39;_id&#39;: &#39;a22&#39;,
+    &#39;participation&#39;: &#39;pp1&#39;,
+    &#39;choice&#39;: &#39;c11&#39;
+  }
+  {
+    &#39;_id&#39;: &#39;a21&#39;,
+    &#39;participation&#39;: &#39;pp1&#39;,
+    &#39;choice&#39;: &#39;c13&#39;
+  }
+]
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Query parameters missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>An internal error occured.</p></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__answers_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/polls/{pollId}/participations/{participationId}</span>/answers</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new answer.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__answers_post_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__answers_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__answers_post_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__answers_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "participation": {"$ref": "participation"},
+    "choice": {"$ref": "choice"}
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>There is no body. However, two query parameters are required:
+  ?question###&amp;choice=### where ### corresponds respectively to the identifiers of the question and the choice .
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>It is returned when a POST request is submitted and an equivalent resource already exists.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Conflict</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__participations__participationId__answers__answerId_"><span class="parent">/polls/{pollId}/participations/{participationId}/answers</span>/{answerId}</a> <span class="methods"><a href="#polls__pollId__participations__participationId__answers__answerId__get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__participations__participationId__answers__answerId__put"><span class="badge badge_put">put</span></a> <a href="#polls__pollId__participations__participationId__answers__answerId__patch"><span class="badge badge_patch">patch</span></a> <a href="#polls__pollId__participations__participationId__answers__answerId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_polls__pollId__participations__participationId__answers__answerId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__participations__participationId__answers__answerId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the answer with answerId = {answerId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__answers__answerId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update the answer with answerId = {answerId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__answers__answerId__patch'" class="list-group-item"><span class="badge badge_patch">patch</span><div class="method_description"><p>Update partially the answer with answerId = {answerId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__participations__participationId__answers__answerId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete the answer with answerId = {answerId}.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__answers__answerId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}/participations/{participationId}/answers</span>/{answerId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the answer with answerId = {answerId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__answers__answerId__get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__answers__answerId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__answers__answerId__get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li><li><strong>answerId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__answers__answerId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "participation": {"$ref": "participation"},
+    "choice": {"$ref": "choice"}
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>Question query parameter is required for update action.
+{
+  &#39;_id&#39;: &#39;a22&#39;,
+  &#39;participation&#39;: &#39;pp1&#39;,
+  &#39;choice&#39;: &#39;c11&#39;
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__answers__answerId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/polls/{pollId}/participations/{participationId}/answers</span>/{answerId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the answer with answerId = {answerId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__answers__answerId__put_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__answers__answerId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__answers__answerId__put_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li><li><strong>answerId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__answers__answerId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "participation": {"$ref": "participation"},
+    "choice": {"$ref": "choice"}
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>Question query parameter is required for update action.
+{
+  &#39;_id&#39;: &#39;a22&#39;,
+  &#39;participation&#39;: &#39;pp1&#39;,
+  &#39;choice&#39;: &#39;c11&#39;
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__answers__answerId__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch</span> <span class="parent">/polls/{pollId}/participations/{participationId}/answers</span>/{answerId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update partially the answer with answerId = {answerId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__answers__answerId__patch_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__answers__answerId__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__answers__answerId__patch_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li><li><strong>answerId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__answers__answerId__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "participation": {"$ref": "participation"},
+    "choice": {"$ref": "choice"}
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>Question query parameter is required for update action.
+{
+  &#39;_id&#39;: &#39;a22&#39;,
+  &#39;participation&#39;: &#39;pp1&#39;,
+  &#39;choice&#39;: &#39;c11&#39;
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__participations__participationId__answers__answerId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/polls/{pollId}/participations/{participationId}/answers</span>/{answerId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete the answer with answerId = {answerId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__participations__participationId__answers__answerId__delete_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__participations__participationId__answers__answerId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__participations__participationId__answers__answerId__delete_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>participationId</strong>: <em>required (string)</em></li><li><strong>answerId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__participations__participationId__answers__answerId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>It is returned when a DELETE request is submitted and succeed.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Content</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__questions"><span class="parent">/polls/{pollId}</span>/questions</a> <span class="methods"><a href="#polls__pollId__questions_get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__questions_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_polls__pollId__questions" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__questions_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get list of questions.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new question.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}</span>/questions</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get list of questions.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions_get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions_get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "title": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "array",
+      "items": {"$ref": "choice"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    &#39;_id&#39;: &#39;q1&#39;,
+    &#39;poll&#39;: &#39;p1&#39;,
+    &#39;title&#39;: &#39;What is a scenario ?&#39;,
+    &#39;type&#39;: &#39;reminder&#39; 
+    &#39;choices&#39;:
+      [
+        &#39;/polls/p1/questions/q1/choice/c1&#39;,
+        &#39;/polls/p1/questions/q1/choice/c2&#39;,
+        &#39;/polls/p1/questions/q1/choice/c3&#39;
+      ]
+  },
+  {
+    &#39;_id&#39;: &#39;q2&#39;,
+    &#39;poll&#39;: &#39;p1&#39;,
+    &#39;title&#39;: &#39;&#39;How do you run a scenario ?&#39;,
+    &#39;type&#39;: &#39;reminder&#39; 
+    &#39;choices&#39;:
+      [
+        &#39;/polls/p1/questions/q2/choice/c4&#39;,
+        &#39;/polls/p1/questions/q2/choice/c5&#39;,
+        &#39;/polls/p1/questions/q2/choice/c6&#39;
+      ]
+  },
+  {
+    &#39;_id&#39;: &#39;q3&#39;,
+    &#39;poll&#39;: &#39;p1&#39;,
+    &#39;title&#39;: &#39;Who is the author of the API Copilot&#39;,
+    &#39;type&#39;: &#39;reminder&#39; 
+    &#39;choices&#39;:
+      [
+        &#39;/polls/p1/questions/q3/choice/c7&#39;,
+        &#39;/polls/p1/questions/q3/choice/c8&#39;,
+        &#39;/polls/p1/questions/q3/choice/c9&#39;
+      ]
+  }
+]
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Query parameters missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>An internal error occured.</p></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/polls/{pollId}</span>/questions</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new question.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions_post_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions_post_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "title": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "array",
+      "items": {"$ref": "choice"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;title&#39;: &#39;What is a scenario ?&#39;,
+  &#39;type&#39;: &#39;reminder&#39; 
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>It is returned when a POST request is submitted and an equivalent resource already exists.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Conflict</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__questions__questionId_"><span class="parent">/polls/{pollId}/questions</span>/{questionId}</a> <span class="methods"><a href="#polls__pollId__questions__questionId__get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__questions__questionId__put"><span class="badge badge_put">put</span></a> <a href="#polls__pollId__questions__questionId__patch"><span class="badge badge_patch">patch</span></a> <a href="#polls__pollId__questions__questionId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_polls__pollId__questions__questionId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__questions__questionId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the question with questionId = {questionId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update the question with questionId = {questionId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__patch'" class="list-group-item"><span class="badge badge_patch">patch</span><div class="method_description"><p>Update partially the question with questionId = {questionId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete the question with questionId = {questionId}.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}/questions</span>/{questionId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the question with questionId = {questionId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "title": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "array",
+      "items": {"$ref": "choice"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;q1&#39;,
+  &#39;poll&#39;: &#39;p1&#39;,
+  &#39;title&#39;: &#39;What is a scenario ?&#39;,
+  &#39;type&#39;: &#39;reminder&#39; 
+  &#39;choices&#39;:
+    [
+      &#39;/polls/p1/questions/q1/choice/c1&#39;,
+      &#39;/polls/p1/questions/q1/choice/c2&#39;,
+      &#39;/polls/p1/questions/q1/choice/c3&#39;
+    ]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/polls/{pollId}/questions</span>/{questionId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the question with questionId = {questionId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__put_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__put_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "title": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "array",
+      "items": {"$ref": "choice"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;q1&#39;,
+  &#39;poll&#39;: &#39;p1&#39;,
+  &#39;title&#39;: &#39;What is a scenario ?&#39;,
+  &#39;type&#39;: &#39;reminder&#39; 
+  &#39;choices&#39;:
+    [
+      &#39;/polls/p1/questions/q1/choice/c1&#39;,
+      &#39;/polls/p1/questions/q1/choice/c2&#39;,
+      &#39;/polls/p1/questions/q1/choice/c3&#39;
+    ]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch</span> <span class="parent">/polls/{pollId}/questions</span>/{questionId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update partially the question with questionId = {questionId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__patch_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__patch_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "poll": {"$ref": "poll"},
+    "title": {
+      "type": "string",
+      "required": "true"
+    },
+    "title": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "array",
+      "items": {"$ref": "choice"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;q1&#39;,
+  &#39;poll&#39;: &#39;p1&#39;,
+  &#39;title&#39;: &#39;What is a scenario ?&#39;,
+  &#39;type&#39;: &#39;reminder&#39; 
+  &#39;choices&#39;:
+    [
+      &#39;/polls/p1/questions/q1/choice/c1&#39;,
+      &#39;/polls/p1/questions/q1/choice/c2&#39;,
+      &#39;/polls/p1/questions/q1/choice/c3&#39;
+    ]
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/polls/{pollId}/questions</span>/{questionId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete the question with questionId = {questionId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__delete_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__delete_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>It is returned when a DELETE request is submitted and succeed.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Content</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__questions__questionId__choices"><span class="parent">/polls/{pollId}/questions/{questionId}</span>/choices</a> <span class="methods"><a href="#polls__pollId__questions__questionId__choices_get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__questions__questionId__choices_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_polls__pollId__questions__questionId__choices" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__questions__questionId__choices_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get list of choices.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__choices_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new choice.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__choices_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}/questions/{questionId}</span>/choices</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get list of choices.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__choices_get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__choices_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__choices_get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__choices_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "question": {"$ref": "question"},
+    "key": {
+      "type": "string",
+      "required": "true"
+    },
+    "text": {
+      "type": "string",
+      "required": "true"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    }
+  }  
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    &#39;_id&#39;: &#39;c1&#39;,
+    &#39;question&#39;: &#39;q1&#39;,
+    &#39;key&#39;: &#39;a&#39;, 
+    &#39;text&#39;: &#39;A setting, in particular for a work of art or literature.&#39;,
+    &#39;answers&#39;: []
+  },
+  {
+    &#39;_id&#39;: &#39;c2&#39;,
+    &#39;question&#39;: &#39;q1&#39;,
+    &#39;key&#39;: &#39;b&#39;, 
+    &#39;text&#39;: &#39;A series of steps that are executed in order using the "step" method.&#39;,
+    &#39;answers&#39;: 
+      [
+        &#39;/polls/p1/participations/pp2/answers/a1&#39;,
+        &#39;/polls/p1/participations/pp2/answers/a2&#39;,
+        &#39;/polls/p1/participations/pp2/answers/a3&#39;
+      ]
+  }
+  ,{
+    &#39;_id&#39;: &#39;c3&#39;,
+    &#39;question&#39;: &#39;q1&#39;,
+    &#39;key&#39;: &#39;c&#39;, 
+    &#39;text&#39;: &#39;A written outline of a film, novel, or stage work giving details of the plot and individual scenes.&#39;,
+    &#39;answers&#39;: []
+  }
+]
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Query parameters missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>An internal error occured.</p></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__choices_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/polls/{pollId}/questions/{questionId}</span>/choices</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new choice.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__choices_post_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__choices_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__choices_post_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__choices_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "question": {"$ref": "question"},
+    "key": {
+      "type": "string",
+      "required": "true"
+    },
+    "text": {
+      "type": "string",
+      "required": "true"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    }
+  }  
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;key&#39;: &#39;b&#39;, 
+  &#39;text&#39;: &#39;A series of steps that are executed in order using the "step" method.&#39;
+}
+
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>It is returned when a POST request is submitted and an equivalent resource already exists.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Conflict</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_polls__pollId__questions__questionId__choices__choiceId_"><span class="parent">/polls/{pollId}/questions/{questionId}/choices</span>/{choiceId}</a> <span class="methods"><a href="#polls__pollId__questions__questionId__choices__choiceId__get"><span class="badge badge_get">get</span></a> <a href="#polls__pollId__questions__questionId__choices__choiceId__put"><span class="badge badge_put">put</span></a> <a href="#polls__pollId__questions__questionId__choices__choiceId__patch"><span class="badge badge_patch">patch</span></a> <a href="#polls__pollId__questions__questionId__choices__choiceId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_polls__pollId__questions__questionId__choices__choiceId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#polls__pollId__questions__questionId__choices__choiceId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the choice with choiceId = {choiceId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__choices__choiceId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update the choice with choiceId = {choiceId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__choices__choiceId__patch'" class="list-group-item"><span class="badge badge_patch">patch</span><div class="method_description"><p>Update partially the choice with choiceId = {choiceId}.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#polls__pollId__questions__questionId__choices__choiceId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete the choice with choiceId = {choiceId}.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__choices__choiceId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/polls/{pollId}/questions/{questionId}/choices</span>/{choiceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the choice with choiceId = {choiceId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__choices__choiceId__get_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__choices__choiceId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__choices__choiceId__get_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li><li><strong>choiceId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__choices__choiceId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "question": {"$ref": "question"},
+    "key": {
+      "type": "string",
+      "required": "true"
+    },
+    "text": {
+      "type": "string",
+      "required": "true"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    }
+  }  
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;c1&#39;,
+  &#39;question&#39;: &#39;q1&#39;,
+  &#39;key&#39;: &#39;b&#39;, 
+  &#39;text&#39;: &#39;A series of steps that are executed in order using the "step" method.&#39;,
+  &#39;answers&#39;: []
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__choices__choiceId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/polls/{pollId}/questions/{questionId}/choices</span>/{choiceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the choice with choiceId = {choiceId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__choices__choiceId__put_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__choices__choiceId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__choices__choiceId__put_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li><li><strong>choiceId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__choices__choiceId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "question": {"$ref": "question"},
+    "key": {
+      "type": "string",
+      "required": "true"
+    },
+    "text": {
+      "type": "string",
+      "required": "true"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    }
+  }  
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;c1&#39;,
+  &#39;question&#39;: &#39;q1&#39;,
+  &#39;key&#39;: &#39;b&#39;, 
+  &#39;text&#39;: &#39;A series of steps that are executed in order using the "step" method.&#39;,
+  &#39;answers&#39;: []
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__choices__choiceId__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch</span> <span class="parent">/polls/{pollId}/questions/{questionId}/choices</span>/{choiceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update partially the choice with choiceId = {choiceId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__choices__choiceId__patch_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__choices__choiceId__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__choices__choiceId__patch_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li><li><strong>choiceId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__choices__choiceId__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "question": {"$ref": "question"},
+    "key": {
+      "type": "string",
+      "required": "true"
+    },
+    "text": {
+      "type": "string",
+      "required": "true"
+    },
+    "answers": {
+      "type": "array",
+      "items": {"$ref": "answer"}
+    }
+  }  
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  &#39;_id&#39;: &#39;c1&#39;,
+  &#39;question&#39;: &#39;q1&#39;,
+  &#39;key&#39;: &#39;b&#39;, 
+  &#39;text&#39;: &#39;A series of steps that are executed in order using the "step" method.&#39;,
+  &#39;answers&#39;: []
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>It is returned when required query parameters are missing.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Bad Request</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="polls__pollId__questions__questionId__choices__choiceId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/polls/{pollId}/questions/{questionId}/choices</span>/{choiceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete the choice with choiceId = {choiceId}.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#polls__pollId__questions__questionId__choices__choiceId__delete_request" data-toggle="tab">Request</a></li><li><a href="#polls__pollId__questions__questionId__choices__choiceId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="polls__pollId__questions__questionId__choices__choiceId__delete_request"><h3>URI Parameters</h3><ul><li><strong>pollId</strong>: <em>required (string)</em></li><li><strong>questionId</strong>: <em>required (string)</em></li><li><strong>choiceId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="polls__pollId__questions__questionId__choices__choiceId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>It is returned when a DELETE request is submitted and succeed.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Content</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The resource has not been found.</p><h3>Body</h3><p><strong>Type: application/x-www-form-urlencoded</strong></p><p><strong>Example</strong>:</p><pre><code>Not Found</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#polls">/polls</a></li></ul></div></div></div></div></body></html>
