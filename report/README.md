@@ -72,7 +72,7 @@ TODO : Screenshot of the landing page (Eléonore).
 
 ![Data model](images/data_model.png)
 
-*Note that the purpose of the different types of stroke is to make the figure more readable.*
+*Note that the purpose of the different types of stroke is just to make the figure more readable.*
 
 The data model takes a relational database's traditionnal approach in which references are used to establish relations between entities. This has several advantages:
 
@@ -150,7 +150,7 @@ On the one hand, the data model takes advantage of the flexibility of document-o
     _id: 12347,
     question: 422334578,
     key: 'a',
-    text: 'A sequence of steps that you define using the  step  method.',
+    text: 'A sequence of steps that you define using the step method.',
     answers: [86655787, 411111, 2350558]
 }
 ```
@@ -261,7 +261,7 @@ Data model and documents structure both show bidirectional associations between 
 
 Let's assume that we want to remove a question document. We have to update parent poll's questions list in order to ensure database consistency. Mechanisms of delete on cascade, update on cascade and so on must be set up. This parent poll would have to be found at a given point in time. Storing parent poll's ID avoids querying all polls to find the good one to be updated.
 
-It results from the above that storing parent ID can improve computing perfomance. Of course it is necessary to maintain consistency on both sides in return.
+It results from the above that storing parent ID can improve computing perfomance. Of course it is necessary to maintain consistency on both sides in return. That is the price to pay for having a design as easy to implement.
 
 ### <a name="RestAPI"></a> REST API
 
@@ -302,7 +302,7 @@ GET /.../api/polls/1 HTTP/1.1
 ...
 ```
 
-According to what has been said, the response returned should contain URLs to any question related to the given poll. The payload response therefore would look like this:
+According to what has been said earlier, the response returned should contain URLs to any question related to the given poll. The payload response therefore would look like this:
 
 ```
 HTTP/1.1 200 OK
@@ -355,6 +355,8 @@ One can also notice the PATCH HTTP method which is supposed to allow partial upd
 It could be found strange to use the PATH HTTP method on some resources. However, this method happens to be very useful when a typo mistake has been made. This is why the REST API makes it available on any document resource.
 
 One of the basic feature the REST API should provide according to the part 1 specification is poll's state change. Neither particular resource nor particular verb is defined to process a such operation. Changing the state of a poll is basically an update. Invoking both PUT and PATCH HTTP methods allows anyone to do so.
+
+Both PUT and PATH HTTP methods can be used to update polls. This means therefore that a simple request can modify the state of the pool, and thus close it. The REST API fully supports this feature. However, closing a poll will have no effect than changing the value of the state property. One client  would still be able to add more questions, another one would be able to answer questions of a closed poll. The current version of the API does not define any rules specifying what operations can be performed when a poll is in a specific state. Furthermore, the specification of the project does not mention anything about this. It would be a task for the next step of the project.
 
 The illustration does not provide any information on the precise way to answer questions. One could submit a POST request to /polls/{poll}/participations/{participation}/answers. This is correct but unsufficient. Query parameters are required in order to specify which **question** a user wants to answer and which **choice** the same user has chosen.
 
