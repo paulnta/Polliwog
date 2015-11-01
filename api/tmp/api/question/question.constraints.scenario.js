@@ -30,7 +30,8 @@ scenario.step('create a poll', function() {
 
 scenario.step('log created poll', function(response) {
 	poll = response.body;
-	console.log(poll);  
+	console.log(response.statusCode);
+  console.log(poll);  
 });
 
 scenario.step('create an empty question', function() {
@@ -43,6 +44,10 @@ scenario.step('create an empty question', function() {
 	});
 });
 
+scenario.step('log response when creating an empty question', function(response) {
+  console.log(response.statusCode);
+});
+
 scenario.step('create a question with an empty title', function() {
 	return this.post({
     url: '/' + poll._id + '/questions',
@@ -53,6 +58,10 @@ scenario.step('create a question with an empty title', function() {
       statusCode: 500
     }
   });
+});
+
+scenario.step('log response when creating an question with an empty title', function(response) {
+  console.log(response.statusCode);
 });
 
 scenario.step('create a valid question with default type', function() {
@@ -68,7 +77,8 @@ scenario.step('create a valid question with default type', function() {
 });
 
 scenario.step('log created question with default type', function(response) {
-	console.log(response.body);
+	console.log(response.statusCode);
+  console.log(response.body);
 });
 
 scenario.step('create a valid question with custom type', function() {
@@ -85,7 +95,8 @@ scenario.step('create a valid question with custom type', function() {
 });
 
 scenario.step('log created question with custom type', function(response) {
-	console.log(response.body);
+	console.log(response.statusCode);
+  console.log(response.body);
 });
 
 module.exports = scenario;

@@ -34,7 +34,8 @@ scenario.step('create a poll', function() {
 
 scenario.step('log created poll', function(response) {
 	poll = response.body;
-	console.log(poll);  
+	console.log(response.statusCode); 
+  console.log(poll);  
 });
 
 scenario.step('create a valid participation', function() {
@@ -51,6 +52,7 @@ scenario.step('create a valid participation', function() {
 
 scenario.step('log created participation', function(response) {
 	participation = response.body;
+  console.log(response.statusCode);
 	console.log(participation);
 });
 
@@ -69,6 +71,7 @@ scenario.step('create a question', function() {
 
 scenario.step('log created question', function(response) {
 	question = response.body;
+  console.log(response.statusCode);
 	console.log(question);
 });
 
@@ -87,6 +90,7 @@ scenario.step('create a choice', function() {
 
 scenario.step('log created choice', function(response) {
   choice = response.body;
+  console.log(response.statusCode);
   console.log(choice);
 });
 
@@ -99,8 +103,8 @@ scenario.step('create an answer without associated question', function() {
   });
 });
 
-scenario.step('log error response returned since question is missing', function(response) {
-	console.log(response.body);
+scenario.step('log response status code returned since question is missing', function(response) {
+	console.log(response.statusCode);
 });
 
 scenario.step('create an answer without associated choice', function() { 
@@ -112,8 +116,8 @@ scenario.step('create an answer without associated choice', function() {
   });
 });
 
-scenario.step('log error response returned since choice is missing', function(response) {
-  console.log(response.body);
+scenario.step('log response status code returned since choice is missing', function(response) {
+  console.log(response.statusCode);
 });
 
 scenario.step('create an answer', function() { 
@@ -126,6 +130,7 @@ scenario.step('create an answer', function() {
 });
 
 scenario.step('log created answer', function(response) {
+  console.log(response.statusCode);
   console.log(response.body);
 });
 

@@ -49,6 +49,7 @@ scenario.step('log created poll', function(response) {
   if (poll.title !== 'api-copilot' || poll.state !== 'drafti') {
     return this.fail('created poll does not match');
   }
+  console.log(response.statusCode);
   console.log(poll);
 });
 
@@ -67,6 +68,7 @@ scenario.step('log created question', function(response) {
   if (question.title !== 'What is a scenario ?' || question.type !== 'reminder') {
     return this.fail('created question does not match');
   }
+  console.log(response.statusCode);
   console.log(question);
 });
 
@@ -87,7 +89,7 @@ scenario.step('create choices',  function()  {
 scenario.step('log created choices', function(responses) {
 
   var choices = _.pluck(responses, 'body');
-
+  _.each(responses, function(response) { console.log(response.statusCode); });
   console.log(choices.length + ' choices created:');
   _.each(choices, function(choice) { console.log(choice); });
 
@@ -107,6 +109,7 @@ scenario.step('log all read choices', function(response) {
  
   var choices = response.body;
 
+  console.log(response.statusCode);
   console.log(choices.length + ' choices read:');
   console.log(choices);
 
@@ -128,7 +131,7 @@ scenario.step('read choices', function(choices)  {
 
 scenario.step('log read choices', function(responses) {
   console.log(responses.length + ' choices read:');
-  _.each(responses, function(response) { console.log(response.body); });
+  _.each(responses, function(response) { console.log(response.statusCode); console.log(response.body); });
 });
 
 module.exports = scenario;

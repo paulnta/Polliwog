@@ -30,7 +30,8 @@ scenario.step('create a poll', function() {
 
 scenario.step('log created poll', function(response) {
 	poll = response.body;
-	console.log(poll);  
+	console.log(response.statusCode);
+  console.log(poll);  
 });
 
 scenario.step('create an empty participation', function() {
@@ -43,6 +44,10 @@ scenario.step('create an empty participation', function() {
 	});
 });
 
+scenario.step('log response when creating an empty participation', function(response) {
+  console.log(response.statusCode);
+});
+
 scenario.step('create a participation with an empty participant', function() {
 	return this.post({
     url: '/' + poll._id + '/participations',
@@ -53,6 +58,10 @@ scenario.step('create a participation with an empty participant', function() {
       statusCode: 500
     }
   });
+});
+
+scenario.step('log response when creating a participation with an empty participant', function(response) {
+  console.log(response.statusCode);
 });
 
 scenario.step('create a valid participation', function() {
@@ -68,7 +77,8 @@ scenario.step('create a valid participation', function() {
 });
 
 scenario.step('log created participation', function(response) {
-	console.log(response.body);
+	console.log(response.statusCode);
+  console.log(response.body);
 });
 
 module.exports = scenario;

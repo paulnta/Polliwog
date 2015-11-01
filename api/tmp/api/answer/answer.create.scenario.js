@@ -55,6 +55,7 @@ scenario.step('log created poll', function(response) {
   if (poll.title !== 'api-copilot' || poll.state !== 'drafti') {
     return this.fail('created poll does not match');
   }
+  console.log(response.statusCode);
   console.log(poll);
 });
 
@@ -73,6 +74,7 @@ scenario.step('log created participation', function(response) {
   if (participation.participant !== 'yibnl') {
     return this.fail('created participation does not match');
   }
+  console.log(response.statusCode);
   console.log(participation);
 });
 
@@ -91,6 +93,7 @@ scenario.step('log created question', function(response) {
   if (question.title !== 'What is a scenario ?' || question.type !== 'reminder') {
     return this.fail('created question does not match');
   }
+  console.log(response.statusCode);
   console.log(question);
 });
 
@@ -112,6 +115,7 @@ scenario.step('log created choices', function(responses) {
 
   choices = _.pluck(responses, 'body');
 
+  _.each(responses, function(response) { console.log(response.statusCode); });
   console.log(choices.length + ' choices created:');
   _.each(choices, function(choice) { console.log(choice); });
 
@@ -131,6 +135,7 @@ scenario.step('log created answer', function(response) {
   if (answer.choice !== choices[0]._id || answer.participation !== participation._id) {
     return this.fail('created answer does not match');
   }
+  console.log(response.statusCode);
   console.log(answer);
 });
 

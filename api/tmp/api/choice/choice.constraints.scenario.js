@@ -31,7 +31,8 @@ scenario.step('create a poll', function() {
 
 scenario.step('log created poll', function(response) {
 	poll = response.body;
-	console.log(poll);  
+	console.log(response.statusCode);
+  console.log(poll);  
 });
 
 scenario.step('create a question', function() {
@@ -49,7 +50,8 @@ scenario.step('create a question', function() {
 
 scenario.step('log created question', function(response) {
 	question = response.body;
-	console.log(question);
+	console.log(response.statusCode);
+  console.log(question);
 });
 
 scenario.step('create an empty choice', function() {
@@ -60,6 +62,10 @@ scenario.step('create an empty choice', function() {
 			statusCode: 500
 		}
 	});
+});
+
+scenario.step('log response when creating an empty choice', function(response) {
+  console.log(response.statusCode);
 });
 
 scenario.step('create a choice with an empty key', function() {
@@ -75,6 +81,10 @@ scenario.step('create a choice with an empty key', function() {
   });
 });
 
+scenario.step('log response when creating a choice with an empty key', function(response) {
+  console.log(response.statusCode);
+});
+
 scenario.step('create a choice with an empty text', function() {
 	return this.post({
     url: '/' + poll._id + '/questions/' + question._id + '/choices',
@@ -86,6 +96,10 @@ scenario.step('create a choice with an empty text', function() {
       statusCode: 500
     }
   });
+});
+
+scenario.step('log response when creating a choice with an empty text', function(response) {
+  console.log(response.statusCode);
 });
 
 scenario.step('create a valid choice', function() {
@@ -102,7 +116,8 @@ scenario.step('create a valid choice', function() {
 });
 
 scenario.step('log created choice', function(response) {
-	console.log(response.body);
+	console.log(response.statusCode);
+  console.log(response.body);
 });
 
 module.exports = scenario;

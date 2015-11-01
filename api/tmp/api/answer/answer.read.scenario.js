@@ -61,6 +61,7 @@ scenario.step('log created poll', function(response) {
   if (poll.title !== 'api-copilot' || poll.state !== 'drafti') {
     return this.fail('created poll does not match');
   }
+  console.log(response.statusCode);
   console.log(poll);
 });
 
@@ -79,6 +80,7 @@ scenario.step('log created participation', function(response) {
   if (participation.participant !== 'yibnl') {
     return this.fail('created participation does not match');
   }
+  console.log(response.statusCode);
   console.log(participation);
 });
 
@@ -98,7 +100,7 @@ scenario.step('create questions', function() {
 
 scenario.step('log created questions', function(responses) {
   questions = _.pluck(responses, 'body');
-
+  _.each(responses, function(response) { console.log(response.statusCode); });
   console.log(questions.length + ' questions created:');
   _.each(questions, function(question) { console.log(question); });
 });
@@ -122,7 +124,7 @@ scenario.step('create choices',  function()  {
 scenario.step('log created choices', function(responses) {
 
   choices = _.pluck(responses, 'body');
-  
+  _.each(responses, function(response) { console.log(response.statusCode); });
   console.log(choices.length + ' choices created:');
   _.each(choices, function(choice) { console.log(choice); });
 });
@@ -142,7 +144,7 @@ scenario.step('create answers', function() {
 
 scenario.step('log created answers', function(responses) {
 	var answers = _.pluck(responses, 'body');
-
+  _.each(responses, function(response) { console.log(response.statusCode); });
   console.log(answers.length + ' answers created:');
   _.each(answers, function(answer) { console.log(answer); });
 });
@@ -159,7 +161,7 @@ scenario.step('read all answers', function() {
 scenario.step('log all read answers', function(response) {
  
   var answers = response.body;
-
+  console.log(response.statusCode);
   console.log(answers.length + ' answer read:');
   console.log(answers);
 
@@ -174,6 +176,7 @@ scenario.step('read answer', function(answer) {
 });
 
 scenario.step('log read answer', function(response) {
+  console.log(response.statusCode);
   console.log(response.body);
 });
 

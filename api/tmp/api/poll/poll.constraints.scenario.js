@@ -25,6 +25,10 @@ scenario.step('create an empty poll', function() {
   });
 });
 
+scenario.step('log response status code from creating empty poll', function(response) {
+  console.log(response.statusCode);
+});
+
 scenario.step('create a poll with an empty title', function() {
   return this.post({
     body: {
@@ -34,6 +38,10 @@ scenario.step('create a poll with an empty title', function() {
       statusCode: 500
     }
   });
+});
+
+scenario.step('log response status code from creating poll with empty title', function(response) {
+  console.log(response.statusCode);
 });
 
 scenario.step('create a poll with an invalid state', function() {
@@ -48,6 +56,9 @@ scenario.step('create a poll with an invalid state', function() {
   });
 });
 
+scenario.step('log response status code', function(response) {
+  console.log(response.statusCode);
+});
 
 scenario.step('create a poll with a default state', function() {
   return this.post({
@@ -65,6 +76,7 @@ scenario.step('log created poll with a default state', function(response) {
   if (poll.state !== 'drafti') {
     return this.fail('created poll has not a default state');
   }
+  console.log(response.statusCode);
   console.log(poll);
 })
 
@@ -85,6 +97,7 @@ scenario.step('log created poll with an active state', function(response) {
   if (poll.state !== 'active') {
     return this.fail('created poll has not an active state');
   }
+  console.log(response.statusCode);
   console.log(poll);
 })
 
@@ -105,6 +118,7 @@ scenario.step('log created poll with a closed state', function(response) {
   if (poll.state !== 'closed') {
     return this.fail('created poll has not a closed state');
   }
+  console.log(response.statusCode);
   console.log(poll);
 })
 
