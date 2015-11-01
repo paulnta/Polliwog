@@ -11,84 +11,78 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <dom-module id="icon-box">
-  <template>
-    <style>
-      :host {
-        display: block;
-        margin: 20px;
-      }
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin: 20px;
+            }
 
-      .title{
-      @apply(--paper-font-display1);
-      }
+            .title{
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                font-size: 1.2em;
+            }
 
-      .sub-title{
-      @apply(--paper-font-subhead);
-      }
+            .content {
+                max-width: 300px;
+                text-align: center;
+                line-height: 25px;
+                color: var(--secondary-text-color);
+            }
 
-      .content{
-          max-width: 300px;
-      }
+            .icons {
+                color: var(--default-primary-color);
+                font-size: 50px;
+                margin-bottom: 13px;
+                font-weight: 100;
+            }
+            paper-material{
+                padding: 15px;
+                border-radius: 2px;
+            }
 
-        paper-material{
-            padding: 15px;
-            border-radius: 2px;
-        }
-
-    </style>
-    <!--<paper-material elevation="1">-->
+        </style>
+        <!--<paper-material elevation="1">-->
         <!--<div class="wrapper layout vertical">-->
-            <!--<div class="header"><h4 class="title">{{title}}</h4></div>-->
-            <!--<div class="content">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</div>-->
+        <!--<div class="header"><h4 class="title">{{title}}</h4></div>-->
+        <!--<div class="content">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</div>-->
         <!--</div>-->
-    <!--</paper-material>-->
+        <!--</paper-material>-->
 
-      <paper-dialog id="dial"
-                    entry-animation="scale-up-animation"
-                    exit-animation="scale-down-animation">
-          <h2>Header</h2>
-          <paper-dialog-scrollable >
-              Donec ullamcorper nulla non metus auctor fringilla. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam quis risus eget urna mollis ornare vel eu leo.
+        <div class="layout vertical center">
+            <!--<iron-icon icon="{{icon}}"></iron-icon>-->
+            <i class$="{{classIcon(icon)}}"></i>
+            <div class="title">{{title}}</div>
+            <div class="content">{{content}}</div>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
 
-              Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod.
+            Polymer({
+                is: 'icon-box',
+                properties: {
+                    icon: {
+                        type: String,
+                        notify: true
+                    },
 
-              Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-          </paper-dialog-scrollable>
-          <div class="buttons">
-              <paper-button dialog-dismiss>Cancel</paper-button>
-              <paper-button dialog-confirm>Accept</paper-button>
-          </div>
-      </paper-dialog>
+                    title: {
+                        type: String,
+                        notify:true
+                    },
 
-      <paper-card heading="Card Title">
-          <div class="card-content"><iron-icon icon="favorite"></iron-icon>{{tittle}}</div>
-          <div class="card-actions">
-              <paper-button on-tap="test">Some action</paper-button>
-          </div>
-      </paper-card>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'icon-box',
-        test: function (e) {
-            this.$.dial.open();
-        },
-      properties: {
-        foo: {
-          type: String,
-          value: 'icon-box',
-          notify: true
-        },
-
-          title: {
-              type: String,
-              value: "this is the title"
-          }
-      }
-    });
-  })();
-  </script>
+                    content: {
+                        type: String,
+                        notity:true
+                    }
+                },
+                classIcon: function (icon) {
+                    return 'icons icon-'+icon;
+                }
+            });
+        })();
+    </script>
 </dom-module>

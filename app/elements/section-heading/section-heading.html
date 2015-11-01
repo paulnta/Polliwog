@@ -22,7 +22,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
       .title{
-      @apply(--paper-font-display1);
+          font-size: 2em;
+          font-weight: 300;
           margin-bottom: 5px;
           color: var(--primary-text-color);
           /*
@@ -40,7 +41,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <div class="headings layout vertical self-center">
           <h2 class="title">{{title}}</h2>
-          <h3 class="sub-title">{{subTitle}}</h3>
+          <template is="dom-if" if="{{subtitle != ''}}">
+            <h3 class="sub-title">{{subTitle}}</h3>
+          </template>
       </div>
 
   </template>

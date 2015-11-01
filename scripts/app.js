@@ -19,11 +19,10 @@ function cssLoaded(){
 }
 
 function finishLazyLoading() {
-
-    // Use native Shadow DOM if it's available in the browser.
+    // (Optional) Use native Shadow DOM if it's available in the browser.
     window.Polymer = window.Polymer || {dom: 'shadow'};
 
-    // Fades the splash screen, then remove it.
+    // 6. Fade splash screen, then remove.
     var onImportLoaded = function() {
         var loadEl = document.getElementById('splash');
         loadEl.addEventListener('transitionend', loadEl.remove);
@@ -36,6 +35,8 @@ function finishLazyLoading() {
     var link = document.querySelector('#bundle');
 
     // 5. Go if the async Import loaded quickly. Otherwise wait for it.
+    // crbug.com/504944 - readyState never goes to complete until Chrome 46.
+    // crbug.com/505279 - Resource Timing API is not available until Chrome 46.
     if (link.import && link.import.readyState === 'complete') {
         onImportLoaded();
     } else {

@@ -1,0 +1,200 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-slider">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .wrapper{
+                position: relative;
+                width: 290px;
+                height: 513px;
+                white-space: nowrap;
+                background: url("../../../assets/nexus.png");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position-x: 50%;
+                background-position-y: center ;
+            }
+
+            iron-image{
+                position: absolute;
+                width:100%;
+                height:100%;
+            }
+
+            .item{
+                transition: all .3s ease-in-out;
+            }
+
+            .step-title{
+                @apply(--paper-font-title);
+                text-align: center;
+                width: 300px;
+                margin: 0 10px;
+            }
+            .slider-controls{
+                margin-bottom: 10px;
+            }
+
+        </style>
+
+        <div class="layout vertical flex">
+
+            <div class="slider-controls layout horizontal flex center-justified center">
+                <paper-icon-button on-tap="slideRight" icon="arrow-back"></paper-icon-button>
+                <div class="step-title">{{currentTitle}}</div>
+                <paper-icon-button on-tap="slideLeft" icon="arrow-forward"></paper-icon-button>
+            </div>
+
+            <!--image and descriptions-->
+            <div class="slider layout horizontal flex">
+                <div class="flex"></div>
+                <div class="wrapper">
+                    <template is="dom-repeat" items="{{items}}">
+                        <iron-image class="item" sizing="contain" preload fade src="{{item.src}}"></iron-image>
+                    </template>
+                </div>
+                <div class="flex"></div>
+            </div>
+        </div>
+
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'app-slider',
+                properties: {
+
+                    items: {
+                        type: Array,
+                        value: [
+                            {src: '../../../assets/mobile_1.png', title: 'Liste des questionnaires'},
+                            {src: '../../../assets/mobile_2.png', title: 'Questions'},
+                            {src: '../../../assets/mobile_3.png', title: 'Détail'},
+                            {src: '../../../assets/mobile_4.png', title: 'Questionnaires finis'},
+                            {src: '../../../assets/mobile_5.png', title: 'Information questionnaire'}
+                        ]
+                    },
+
+                    nodeList:{
+                        type: Array
+                    },
+
+                    nodePositions:{
+                        type: Array,
+                        value: function () {
+                            return [];
+                        }
+                    },
+                    currentPos:{
+                        type: Number,
+                        value: 0,
+                        notify: true
+                    },
+
+                    currentTitle:{
+                        type: String,
+                        notify: true
+                    }
+                },
+
+                attached: function () {
+
+                    this.async(function() {
+                        this.currentTitle = this.items[0].title;
+                        this.nodeList = Polymer.dom(this.root).querySelectorAll('.item');
+
+                        // set translate value 0
+                        var x = 100;
+                        this.push('nodePositions', 0);
+                        for(var i=1; i< this.nodeList.length; i++) {
+                            this.nodeList[i].style.transform = 'translateX('+x+'%) scale(0.9,0.9)';
+                            this.nodeList[i].style.opacity = '.2';
+                            this.push('nodePositions', x);
+                            x += 100;
+                        }
+                    });
+                },
+
+                slideLeft: function () {
+
+                    if(this.currentPos >= this.nodeList.length -1 ){
+                        this.resetPositions();
+                        return;
+                    }
+                    for(var i = 0; i < this.nodeList.length; i++) {
+                        this.nodePositions[i] -= 100;
+                        if(i == this.currentPos + 1){
+                            // active
+                            this.nodeList[i].style.transform = 'translateX(' + (this.nodePositions[i]) + '%) scale(1,1)';
+                            this.nodeList[i].style.opacity = '1';
+                        } else {
+                            // inactive
+                            this.nodeList[i].style.transform = 'translateX(' + (this.nodePositions[i]) + '%) scale(0.9,0.9)';
+                            this.nodeList[i].style.opacity = '.2';
+                        }
+                    }
+
+                    this.currentPos++;
+                    this.currentTitle = this.items[this.currentPos].title;
+                },
+
+                slideRight: function () {
+
+                    if(this.currentPos <= 0 ){
+                        return;
+                    }
+                    for(var i = 0; i < this.nodeList.length; i++) {
+                        this.nodePositions[i] += 100;
+
+                        if(i == this.currentPos - 1){
+                            // active
+                            this.nodeList[i].style.transform = 'translateX(' + (this.nodePositions[i]) + '%) scale(1,1)';
+                            this.nodeList[i].style.opacity = '1';
+
+                        } else {
+                            // inactive
+                            this.nodeList[i].style.transform = 'translateX(' + (this.nodePositions[i]) + '%) scale(0.9,0.9)';
+                            this.nodeList[i].style.opacity = '.2';
+                        }
+                    }
+
+                    this.currentPos--;
+                    this.currentTitle = this.items[this.currentPos].title;
+                },
+                resetPositions: function () {
+
+                    var x = 100;
+                    this.nodeList[0].style.transform = 'translateX('+0+'%) scale(1,1)';
+                    this.nodeList[0].style.opacity = '1';
+                    this.nodePositions[0] = 0;
+                    this.currentTitle = this.items[0].title;
+                    for(var i=1; i< this.nodeList.length; i++) {
+                        this.nodeList[i].style.transform = 'translateX('+x+'%) scale(0.9,0.9)';
+                        this.nodeList[i].style.opacity = '.2';
+                        this.nodePositions[i] = x;
+                        x += 100;
+                    }
+                    this.currentPos = 0;
+                }
+            });
+
+
+        })();
+    </script>
+</dom-module>

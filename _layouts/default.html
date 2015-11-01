@@ -7,15 +7,15 @@
   imports and Polymer are loaded. -->
   <body class="loading fullbleed layout vertical">
 
+
   <!-- 3. Light weight splash screen is outside of
   Polymer/imports and styled by the main page. -->
   <div id="splash"></div>
 
-  <!--<template is="dom-bind" id="app">-->
-  <paper-header-panel class="flex layout vertical" mode="waterfall" >
+  <template is="dom-bind" >
+  <paper-header-panel class="layout vertical" mode="waterfall">
       {% include header.html %}
       {{ content }}
-      {% include footer.html %}
   </paper-header-panel>
   </template>
 
@@ -28,7 +28,53 @@
   var baseurl = "";
   </script>
   <!-- build:[src]:dist /Teaching-HEIGVD-TWEB-2015-Project/scripts/ -->
+  </template>
+  <script>
 
+      var scope = document.querySelector('template[is="dom-bind"]');
+
+      scope.goToHome = function () {
+          console.log("homeClicked");
+          this.$.pages.selected = 0;
+      };
+
+      scope.goToSpec = function () {
+          console.log("goToSpec");
+          this.$.pages.selected = 1;
+      };
+
+      scope.goToApi = function () {
+          console.log("goToApi");
+          this.$.pages.selected = 2;
+      };
+
+      scope._onPolymerClick = function(event) {
+          console.log("_onPolymerClick");
+          console.log(event.target);
+
+          this.$.list.sharedElements = {
+              'ripple': event.target,
+              'reverse-ripple': event.target
+          };
+          this.$.pages.selected = 1;
+      };
+      scope._onAngularClick = function(event) {
+          console.log("_onAngularClick");
+          console.log(event.target);
+
+          this.$.list.sharedElements = {
+              'ripple': event.target,
+              'reverse-ripple': event.target
+          };
+          this.$.pages.selected = 2;
+      };
+
+      scope._onBackClick = function(event) {
+          console.log("_onBackClick");
+          this.$.pages.selected = 0;
+      };
+
+  </script>
   <script src="/scripts/app.js" async></script>
   </body>
 </html>
