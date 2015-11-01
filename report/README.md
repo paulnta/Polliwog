@@ -41,10 +41,10 @@ The purposes of this project is to develop an **interactive presentations** web 
 
 ### How to execute and access the application
 
-* [POLLiwag web application](http://polliwag.herokuapp.com). 
-* [POLLiwag REST API](http://polliwag.herokuapp.com/api).
-* [POLLiwag REST API Documentation](http://polliwag.herokuapp.com/api).
-* [POLLiwag product page](http://###). 
+* [poll.iwog web application](http://polliwog.herokuapp.com). 
+* [poll.iwog REST API](http://polliwog.herokuapp.com/api).
+* [poll.iwog REST API Documentation](http://polliwog.herokuapp.com/api).
+* [poll.iwog product page](http://###). 
 
 ### How to use the application
 
@@ -60,11 +60,9 @@ Our application is currently able to respond to HTTP requests. It provides a RES
 
 ### <a name="Interface"></a> User interface
 
-***
+![](images/landing_page.png)
 
-TODO : Screenshot of the landing page (Eléonore).
-
-***
+The user interface currently consists of a simple landing page with no options for interactions. Listed on it are some simple statistics about the application usage to date.
 
 ### <a name="Database"></a> Database
 
