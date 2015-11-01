@@ -81,7 +81,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 #### Documents structure
 
 **Polls**
-```json
+```javascript
 {
     _id: <ObjectId>,
     title: String,
@@ -94,7 +94,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 *Example*
 
 ***
-```json
+```javascript
 {
     _id: 345ae2224df,
     title: 'api-copilot-2015',
@@ -105,7 +105,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 }
 ```
 **Questions**
-```json
+```javascript
 {
     _id: <ObjectId>,
     poll: <ObjectId>,
@@ -116,7 +116,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ```
 
 *Example*
-```json
+```javascript
 {
     _id: 422334578,
     poll: 345ae2224df,
@@ -128,7 +128,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ***
 
 **Choices**
-```json
+```javascript
 {
     _id: <ObjectId>,
     question: <ObjectId>,
@@ -139,7 +139,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ```
 
 *Example*
-```json
+```javascript
 {
     _id: 12347,
     question: 422334578,
@@ -152,7 +152,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ***
 
 **Participations**
-```json
+```javascript
 {
     _id: <ObjectId>,
     poll: <ObjectId>,
@@ -163,7 +163,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ```
 
 *Example*
-```json
+```javascript
 {
     _id: 1225578,
     poll: 422334578,
@@ -175,7 +175,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ***
 
 **Answers**
-```json
+```javascript
 {
     _id: <ObjectId>,
     participation: <ObjectId>,
@@ -184,7 +184,7 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ```
 
 *Example*
-```json
+```javascript
 {
     _id: 325252,
     participation: 1225578,
@@ -195,8 +195,9 @@ On the one hand , the data model takes advantage of the flexibility of document-
 #### Data integrity
 
 **Polls**
+
 | Property      | Auto  | Required  | Null  | Default   |
-|---------------|-------|-----------|-------|-----------|
+|---------------|:-----:|:---------:|:-----:|:---------:|
 | _id           | x     |           |       |           |
 | title         |       | x         |       |           |
 | creationDate  |       |           |       | now       |
@@ -209,8 +210,9 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ***
 
 **Questions**
+
 | Property  | Auto  | Required  | Null  | Default   |
-|-----------|-------|-----------|-------|-----------|
+|-----------|:-----:|:---------:|:-----:|:---------:|
 | _id       | x     |           |       |           |
 | poll      |       |           |       |           |
 | title     |       | x         |       |           |
@@ -220,8 +222,9 @@ On the one hand , the data model takes advantage of the flexibility of document-
 **
 
 **Choices**
+
 | Property  | Auto  | Required  | Null  | Default   |
-|-----------|-------|-----------|-------|-----------|
+|-----------|:-----:|:---------:|:-----:|:---------:|
 | _id       | x     |           |       |           |
 | question  |       |           |       |           |
 | key |     | x     |           |       |           |
@@ -231,8 +234,9 @@ On the one hand , the data model takes advantage of the flexibility of document-
 **
 
 **Participations**
+
 | Property      | Auto  | Required  | Null  | Default   |
-|---------------|-------|-----------|-------|-----------|
+|---------------|:-----:|:---------:|:-----:|:---------:|
 | _id           | x     |           |       |           |
 | poll          |       |           |       |           |
 | participant   |       | x         |       |           |
@@ -241,8 +245,9 @@ On the one hand , the data model takes advantage of the flexibility of document-
 ***
 
 **Answers**
+
 | Property      | Auto  | Required  | Null  | Default   |
-|---------------|-------|-----------|-------|-----------|
+|---------------|:-----:|:---------:|:-----:|:---------:|
 | _id           | x     |           |       |           |
 | participation |       |           |       |           |
 | choice        |       |           |       |           |
