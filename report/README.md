@@ -45,7 +45,7 @@ The purposes of this project is to develop an **interactive presentations** web 
 * [poll.iwog REST API](http://polliwog.herokuapp.com/api).
 * [poll.iwog REST API Documentation](http://polliwog.herokuapp.com/api).
 * [poll.iwog product page](http://###). 
-* [POLLiwog product specification](http://###).
+* [poll.iwog product specification](http://###).
 
 ### How to use the application
 
