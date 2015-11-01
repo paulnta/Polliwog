@@ -13997,57 +13997,6 @@ The `aria-labelledby` attribute will be set to the header element, if one exists
     }
         /* Components */
 </style>
-
-
-<script>
-
-    Polymer({
-
-        is: 'app-slide-left-animation',
-
-        behaviors: [
-            Polymer.NeonAnimationBehavior
-        ],
-
-        configure: function(config) {
-            var node = config.node;
-
-            if (config.transformOrigin) {
-                this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
-            } else {
-                this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
-            }
-
-            var start = 0;
-            var end = 0;
-            var currentTransform = node.style.transform;
-            if(currentTransform == '') {
-                console.log("nothing");
-                start = 0;
-            } else {
-                var indexS = currentTransform.indexOf('(');
-                var indexE = currentTransform.indexOf('%');
-                start = parseInt(currentTransform.substring(indexS+1, indexE));
-            }
-
-            if(config.direction === 'left') {
-                end = start - 100;
-            } else if(config.direction === 'right') {
-                end = start + 100;
-            }
-
-            alert(start + "/ " + end);
-            this._effect = new KeyframeEffect(node, [
-                {'transform': 'none'},
-                {'transform': 'translateX('+-100+'%)'}
-            ], this.timingFromConfig(config));
-
-            return this._effect;
-        }
-
-    });
-
-</script>
 </head><body><div hidden="" by-vulcanize=""><dom-module id="iron-image" assetpath="../bower_components/iron-image/">
 
   <style>
@@ -18469,10 +18418,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             
             <div class="top layout vertical flex center-justified">
                 <div class="self-center title">Créez tous vos <span class="highlight">sondage</span></div>
-                <div class="self-center sub-title">Revote sera bientôt votre outils favoris</div>
+                <div class="self-center sub-title">Polliwog sera bientôt votre outils favoris</div>
                 <div class="buttons layout horizontal center-justified">
-                    <paper-button raised="" class="primary">Commencer</paper-button>
-                    <paper-button raised="">Tour</paper-button>
+                    <paper-button raised="" class="primary"><a style="text-decoration: none; color: white;" href="http://polliwog-app.herokuapp.com">Commencer</a></paper-button>
                 </div>
             </div>
 
@@ -18555,114 +18503,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         })();
     </script>
 </dom-module>
-<dom-module id="app-overview" assetpath="elements/app-overview/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-      .title{
-      @apply(--paper-font-display1);
-          margin-bottom: 0;
-
-      }
-
-      .sub-title{
-      @apply(--paper-font-subhead);
-          margin-top: 0;
-      }
-
-        .headings{
-            text-align: center;
-        }
-    </style>
-
-    <div class="wrapper flex layout vertical">
-
-        <neon-animated-pages class="flex" id="pages" selected="0">
-
-            <app-card id="list">
-
-                <div class="fit layout vertical center-center">
-
-                    <h2>Choose a subject</h2>
-                    <div class="flex layout horizontal around-justified large">
-
-                        <div class="blue raised button" on-click="_onPolymerClick">
-                            POLYMER
-                        </div>
-                        <div class="blue raised button" on-click="_onAngularClick">
-                            ANGULAR
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </app-card>
-            
-
-                
-
-                    
-                        
-                    
-                    
-                    
-                        
-                        
-                        
-                        
-                        
-                        
-                    
-
-                
-
-            
-            
-
-                
-
-                    
-                        
-                    
-                    
-                    
-                        
-                        
-                        
-                        
-                        
-                        
-                    
-
-                
-
-            
-
-        </neon-animated-pages>
-    </div>
-
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'app-overview',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'app-overview',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
 <dom-module id="icon-box" assetpath="elements/icon-box/">
     <template>
         <style>
@@ -18696,15 +18536,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
         </style>
-        
-        
-        
-        
-        
-        
-
         <div class="layout vertical center">
-            
             <i class$="{{classIcon(icon)}}"></i>
             <div class="title">{{title}}</div>
             <div class="content">{{content}}</div>
@@ -18738,58 +18570,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             });
         })();
     </script>
-</dom-module>
-<dom-module id="section-heading" assetpath="elements/section-heading/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-
-      .headings{
-          text-align: center;
-
-      }
-      .title{
-          font-size: 2em;
-          font-weight: 300;
-          margin-bottom: 5px;
-          color: var(--primary-text-color);
-          /*
-          --primary-text-color:       #212121;
-        --secondary-text-color:     #727272;
-          */
-      }
-
-      .sub-title{
-      @apply(--paper-font-subhead);
-          margin-top: 0;
-          color: var(--secondary-text-color);
-      }
-    </style>
-
-      <div class="headings layout vertical self-center">
-          <h2 class="title">{{title}}</h2>
-          <template is="dom-if" if="{{subtitle != ''}}">
-            <h3 class="sub-title">{{subTitle}}</h3>
-          </template>
-      </div>
-
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'section-heading',
-      properties: {
-          'title': {type:String},
-          'sub-title': {type:String}
-      }
-
-    });
-  })();
-  </script>
 </dom-module>
 <dom-module id="app-card" assetpath="elements/app-card/">
     <style>
@@ -18936,58 +18716,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         });
     })();
-</script><dom-module id="app-slide-item" assetpath="elements/app-slide-item/">
-    <style>
-        :host {
-            display: inline-block;
-        }
-
-    </style>
-
-    <template>
-            <iron-image sizing="contain" src="../assets/half-phone.png"></iron-image>
-    </template>
-
-    <script>
-        (function() {
-            'use strict';
-
-            Polymer({
-                is: 'app-slide-item',
-
-                behaviors: [
-                    Polymer.NeonAnimationRunnerBehavior
-                ],
-
-                properties: {
-
-                    animationConfig: {
-                        type: Object,
-                        value: function() {
-                            return {
-                                name: 'scale-down-animation',
-                                node: this
-                            }
-                        }
-                    }
-
-                },
-                listeners: {
-                    'neon-animation-finish': '_onNeonAnimationFinish'
-                },
-
-                animate: function() {
-                    this.playAnimation();
-                },
-
-                _onNeonAnimationFinish: function() {
-                    console.log('animation finish!');
-                }
-            });
-        })();
-    </script>
-</dom-module>
-<dom-module id="app-slider" assetpath="elements/app-slider/">
+</script><dom-module id="app-slider" assetpath="elements/app-slider/">
     <template>
         <style>
             :host {
@@ -19195,7 +18924,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <h2>L'outil <span class="highlight">parfait</span> <br>
                           du conférencier</h2>
 
-                      <p class="desc">ReVote est une application web permettant de créer des questionnaires, sondages
+                      <p class="desc">Polliwog est une application web permettant de créer des questionnaires, sondages
                           et ou quizz. Les resultats sont visible en temps réel et les utilisateurs peuvent participer
                           depuis leur ordinateurs, tablettes ou smartphones.</p>
 
@@ -19226,7 +18955,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <section class="full layout horizontal flex">
               <div class="flex-6 no-padding">
                   <div class="image-container left">
-                      <img src="../assets/mockup_1.png">
+                      <img src="../assets/mockup_2.png">
                   </div>
               </div>
               <div class="flex-6 padding">
