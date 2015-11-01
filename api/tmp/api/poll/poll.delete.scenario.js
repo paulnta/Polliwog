@@ -1,3 +1,10 @@
+/**
+ * poll.delete.scenario.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
 var copilot = require('api-copilot');
 var _ 			= require('underscore');
 
@@ -54,6 +61,7 @@ scenario.step('delete polls', function(polls) {
 });
 
 scenario.step('log deleted polls responses', function(responses) {
+	console.log(responses.length + ' polls deleted:');
 	_.each(responses, function(response) { console.log(response.statusMessage); });
 });
 

@@ -1,4 +1,12 @@
+/**
+ * choice.create.scenario.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
 var copilot = require('api-copilot');
+var _       = require('underscore');
 
 var scenario = new copilot.Scenario({ 
   name: 'Choice CREATE RUD',
@@ -7,6 +15,80 @@ var scenario = new copilot.Scenario({
   defaultRequestOptions: {
     json: true
   }
+});
+
+var pollData = { 
+	title: 'api-copilot' 
+};
+
+var questionData = { 
+	title: 'What is a scenario ?',
+	type: 'reminder' 
+};
+
+var choicesData = [
+	{ key: 'a', text: 'A setting, in particular for a work of art or literature.' },
+	{ key: 'b', text: 'A series of steps that are executed in order using the "step" method.' },
+	{ key: 'c', text: 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.' }
+];
+
+scenario.step('create a poll', function() {
+  return this.post({
+    body: pollData,
+    expect: {
+      statusCode: 201,
+    }
+  });
+});
+
+scenario.step('log created poll', function(response) {
+  var poll = response.body;
+  if (poll.title !== 'api-copilot' || poll.state !== 'drafti') {
+    return this.fail('created poll does not match');
+  }
+  console.log(poll);
+  return poll;
+});
+
+scenario.step('create a question', function(poll) {
+	return this.post({
+    url: '/' + poll._id + '/questions',
+    body: questionData,
+    expect: {
+      statusCode: 201
+    }
+  });
+});
+
+scenario.step('log created question', function(response) {
+  var question = response.body;
+  if (question.title !== 'What is a scenario ?' || question.type !== 'reminder') {
+    return this.fail('created question does not match');
+  }
+  console.log(question);
+  return question;
+});
+
+scenario.step('create choices',  function(question)  { 
+  var requests = []; 
+
+	for (var i = choicesData.length - 1; i >= 0; i--) {
+		requests.push(this.post({ 
+      url: '/' + question.poll + '/questions/' + question._id + '/choices',
+			body: choicesData[i],
+			expect: { statusCode: 201 }
+    }));
+	}
+
+  return this.all(requests); 
+});
+
+scenario.step('log created choices', function(responses) {
+
+  var choices = _.pluck(responses, 'body');
+
+  console.log(choices.length + ' choices created:');
+  _.each(choices, function(choice) { console.log(choice); });
 });
 
 module.exports = scenario;

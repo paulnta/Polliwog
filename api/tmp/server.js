@@ -120,15 +120,14 @@ AnswerSchema.pre('remove', function (next) {
 });
 
 AnswerSchema.pre('save', function (next) {
+  if (this.wasNew) { Choice.findByIdAndUpdate(this.choice, { $pull: { answers: this._id } }).exec(); }
   this.wasNew = this.isNew;
   next();
 });
 
 AnswerSchema.post('save', function (answer) {
-  if (this.wasNew) {
-    Choice.findByIdAndUpdate(this.choice, { $push: { answers: answer._id } }).exec();
-    Participation.findByIdAndUpdate(this.participation, { $push: { answers: answer._id } }).exec();
-  }
+  Choice.findByIdAndUpdate(this.choice, { $push: { answers: answer._id } }).exec();
+  if (this.wasNew) { Participation.findByIdAndUpdate(this.participation, { $push: { answers: answer._id } }).exec(); }
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MODELS
@@ -150,6 +149,14 @@ var answctrl = {};
 pollctrl.index = function (req, res) {
   Poll.find(function (err, polls) {
     if(err) { return handleError(res, err); }
+    for (var j = polls.length - 1; j >= 0; j--) {
+      for (var i = polls[j].questions.length - 1; i >= 0; i--) {
+        polls[j].questions[i] = req.url + '/' + polls[j]._id + '/questions/' + polls[j].questions[i];
+      }
+      for (var i = polls[j].participations.length - 1; i >= 0; i--) {
+        polls[j].participations[i] = req.url + '/' + polls[j]._id + '/participations/' + polls[j].participations[i];
+      }
+    }
     return res.status(200).json(polls);
   });
 };
@@ -158,7 +165,13 @@ pollctrl.index = function (req, res) {
 pollctrl.show = function (req, res) {
   Poll.findById(req.params.id, function (err, poll) {
     if(err) { return handleError(res, err); }
-    if(!poll) { return res.status(404).send('Not Found'); }
+    if(!poll) { return res.status(404).send('Not Found'); } 
+    for (var i = poll.questions.length - 1; i >= 0; i--) {
+      poll.questions[i] = req.url + '/questions/' + poll.questions[i];
+    }
+    for (var i = poll.participations.length - 1; i >= 0; i--) {
+      poll.participations[i] = req.url + '/participations/' + poll.participations[i];
+    }
     return res.json(poll);
   });
 };
@@ -184,6 +197,12 @@ pollctrl.update = function (req, res) {
     var updated = _.merge(poll, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
+      for (var i = poll.questions.length - 1; i >= 0; i--) {
+        poll.questions[i] = req.url + '/questions/' + poll.questions[i];
+      }
+      for (var i = poll.participations.length - 1; i >= 0; i--) {
+        poll.participations[i] = req.url + '/participations/' + poll.participations[i];
+      }
       return res.status(200).json(poll);
     });
   });
@@ -206,6 +225,11 @@ pollctrl.destroy = function (req, res) {
 quesctrl.index = function (req, res) {
   Question.find({ poll: req.params.poll_id }, function (err, questions) {
     if(err) { return handleError(res, err); }
+    for (var j = questions.length - 1; j >= 0; j--) {
+      for (var i = questions[j].choices.length - 1; i >= 0; i--) {
+        questions[j].choices[i] = req.url + '/' + questions[j]._id + '/choices/' + questions[j].choices[i];
+      }
+    }
     return res.status(200).json(questions);
   });
 };
@@ -215,6 +239,9 @@ quesctrl.show = function (req, res) {
   Question.findOne({ _id: req.params.id, poll: req.params.poll_id }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
+    for (var i = question.choices.length - 1; i >= 0; i--) {
+      question.choices[i] = req.url + '/choices/' + question.choices[i];
+    }
     return res.json(question);
   });
 };
@@ -240,6 +267,9 @@ quesctrl.update = function (req, res) {
     var updated = _.merge(question, req.body);
     updated.save(function (err) {
       if(err) { return handleError(res, err); }
+      for (var i = question.choices.length - 1; i >= 0; i--) {
+        question.choices[i] = req.url + '/choices/' + question.choices[i];
+      }
       return res.status(200).json(question);
     });
   });
@@ -260,12 +290,19 @@ quesctrl.destroy = function (req, res) {
 //*****************************Choice
 // Get list of choices
 choictrl.index = function (req, res) {
-  Question.findById(req.params.question_id, function (err, question) {
+  Question.findOne({ _id: req.params.question_id, poll: req.params.poll_id }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
-    if(question.poll != req.params.poll_id) { return res.status(404).send('Not Found'); }
     Choice.find({ question: req.params.question_id }, function (err, choices) {
       if(err) { return handleError(res, err); }
+      for (var j = choices.length - 1; j >= 0; j--) {
+        choices[j].populate('answers', function(err, choice) {
+          if(err) { return handleError(res, err); }
+          for (var i = choice.answers.length - 1; i >= 0; i--) {
+            choice.answers[i] = req.url.substring(0, req.url.indexOf('/questions')) + '/participations/' + choice.answers[i].participation + '/answers/' + choice.answers[i]._id;
+          }
+        });
+      }
       return res.status(200).json(choices);
     });
   });
@@ -273,26 +310,30 @@ choictrl.index = function (req, res) {
 
 // Get a single choice
 choictrl.show = function (req, res) {
-  Question.findById(req.params.question_id, function (err, question) {
+  Question.findOne({ _id: req.params.question_id, poll: req.params.poll_id, choices: req.params.id }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
-    if(question.poll != req.params.poll_id) { return res.status(404).send('Not Found'); }
-    Choice.findOne({ _id: req.params.id, question: req.params.question_id }, function (err, choice) {
+    Choice.findById(req.params.id, function (err, choice) {
       if(err) { return handleError(res, err); }
       if(!choice) { return res.status(404).send('Not Found'); }
-      return res.json(choice);
+      choice.populate('answers', function(err, choice) {
+        if(err) { return handleError(res, err); }
+        for (var i = choice.answers.length - 1; i >= 0; i--) {
+          choice.answers[i] = req.url.substring(0, req.url.indexOf('/questions')) + '/participations/' + choice.answers[i].participation + '/answers/' + choice.answers[i]._id;
+        }
+        return res.json(choice);
+      });
     });
   });
 };
 
 // Creates a new choice in the DB.
 choictrl.create = function (req, res) {
-  Question.findById(req.params.question_id, function (err, question) {
+  Question.findOne({ _id: req.params.question_id, poll: req.params.poll_id }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
-    if(question.poll != req.params.poll_id) { return res.status(404).send('Not Found'); }
-    req.body.question = req.params.question_id;
     if(req.body.answers) { delete req.body.answers; }
+    req.body.question = req.params.question_id;
     Choice.create(req.body, function (err, choice) {
       if(err) { return handleError(res, err); }
       return res.status(201).json(choice);
@@ -302,19 +343,25 @@ choictrl.create = function (req, res) {
 
 // Updates an existing choice in the DB.
 choictrl.update = function (req, res) {
-  Question.findById(req.params.question_id, function (err, question) {
+  Question.findOne({ _id: req.params.question_id, poll: req.params.poll_id, choices: req.params.id }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
-    if(question.poll != req.params.poll_id) { return res.status(404).send('Not Found'); }
     if(req.body._id) { delete req.body._id; }
+    if(req.body.question) { delete req.body.question; }
     if(req.body.answers) { delete req.body.answers; }
-    Choice.findOne({ _id: req.params.id, question: req.params.question_id }, function (err, choice) {
+    Choice.findById(req.params.id, function (err, choice) {
       if (err) { return handleError(res, err); }
       if(!choice) { return res.status(404).send('Not Found'); }
       var updated = _.merge(choice, req.body);
       updated.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(choice);
+        choice.populate('answers', function(err, choice) {
+          if(err) { return handleError(res, err); }
+          for (var i = choice.answers.length - 1; i >= 0; i--) {
+            choice.answers[i] = req.url.substring(0, req.url.indexOf('/questions')) + '/participations/' + choice.answers[i].participation + '/answers/' + choice.answers[i]._id;
+          }
+          return res.status(200).json(choice);
+        });
       });
     });
   });
@@ -322,11 +369,10 @@ choictrl.update = function (req, res) {
 
 // Deletes a choice from the DB.
 choictrl.destroy = function (req, res) {
-  Question.findById(req.params.question_id, function (err, question) {
+  Question.findOne({ _id: req.params.question_id, poll: req.params.poll_id, choices: req.params.id }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
-    if(question.poll != req.params.poll_id) { return res.status(404).send('Not Found'); }
-    Choice.findOne({ _id: req.params.id, question: req.params.question_id }, function (err, choice) {
+    Choice.findById(req.params.id, function (err, choice) {
       if(err) { return handleError(res, err); }
       if(!choice) { return res.status(404).send('Not Found'); }
       choice.remove(function (err) {
@@ -342,6 +388,11 @@ choictrl.destroy = function (req, res) {
 partctrl.index = function (req, res) {
   Participation.find({ poll: req.params.poll_id }, function (err, participations) {
     if(err) { return handleError(res, err); }
+    for (var j = participations.length - 1; j >= 0; j--) {
+      for (var i = participations[j].answers.length - 1; i >= 0; i--) {
+        participations[j].answers[i] = req.url + '/' + participations[j]._id + '/answers/' + participations[j].answers[i];
+      }
+    }
     return res.status(200).json(participations);
   });
 };
@@ -351,6 +402,9 @@ partctrl.show = function (req, res) {
   Participation.findOne({ _id: req.params.id, poll: req.params.poll_id }, function (err, participation) {
     if(err) { return handleError(res, err); }
     if(!participation) { return res.status(404).send('Not Found'); }
+    for (var i = participation.answers.length - 1; i >= 0; i--) {
+      participation.answers[i] = req.url + '/answers/' + participation.answers[i];
+    }
     return res.json(participation);
   });
 };
@@ -376,6 +430,9 @@ partctrl.update = function (req, res) {
     var updated = _.merge(participation, req.body);
     updated.save(function (err) {
       if(err) { return handleError(res, err); }
+      for (var i = participation.answers.length - 1; i >= 0; i--) {
+        participation.answers[i] = req.url + '/answers/' + participation.answers[i];
+      }
       return res.status(200).json(participation);
     });
   });
@@ -396,55 +453,89 @@ partctrl.destroy = function (req, res) {
 //*****************************Answer
 // Get list of answers
 answctrl.index = function(req, res) {
-  Answer.find(function (err, answers) {
+  Participation.findOne({ _id: req.params.participation_id, poll: req.params.poll_id }, function (err, participation) {
     if(err) { return handleError(res, err); }
-    return res.status(200).json(answers);
+    if(!participation) { return res.status(404).send('Not Found'); }
+    Answer.find({ participation: req.params.participation_id }, function (err, answers) {
+      if(err) { return handleError(res, err); }
+      return res.status(200).json(answers);
+    });
   });
 };
 
 // Get a single answer
 answctrl.show = function(req, res) {
-  Answer.findById(req.params.id, function (err, answer) {
+  Participation.findOne({ _id: req.params.participation_id, poll: req.params.poll_id, answers: req.params.id }, function (err, participation) {
     if(err) { return handleError(res, err); }
-    if(!answer) { return res.status(404).send('Not Found'); }
-    return res.json(answer);
+    if(!participation) { return res.status(404).send('Not Found'); }
+    Answer.findById(req.params.id, function (err, answer) {
+      if(err) { return handleError(res, err); }
+      if(!answer) { return res.status(404).send('Not Found'); }
+      return res.json(answer);
+    });
   });
 };
 
 // Creates a new answer in the DB.
 answctrl.create = function(req, res) {
-  Answer.create(req.body, function(err, answer) {
+  if(!req.query.question) { return res.status(400).send('Bad Request'); }
+  if(!req.query.choice) { return res.status(400).send('Bad Request'); }
+  Participation.findOne({ _id: req.params.participation_id, poll: req.params.poll_id }, function(err, participation) {
     if(err) { return handleError(res, err); }
-    return res.status(201).json(answer);
+    if(!participation) { return res.status(404).send('Not Found'); }
+    Question.findOne({ _id : req.query.question, poll: req.params.poll_id, choices: req.query.choice }, function (err, question) {
+      if(err) { return handleError(res, err); }
+      if(!question) { return res.status(404).send('Not Found'); }
+      Answer.findOne({ participation: req.params.participation_id, choice: req.query.choice }, function(err, answer) {
+        if(err) { return handleError(res, err); }
+        if(answer) { return res.status(409).send('Conflict'); } // already answered with this choice
+        Answer.create({ participation: req.params.participation_id, choice: req.query.choice }, function (err, answer) {
+          if(err) { return handleError(res, err); }
+          return res.status(201).json(answer);
+        });
+      });
+    });
   });
 };
 
 // Updates an existing answer in the DB.
 answctrl.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Answer.findById(req.params.id, function (err, answer) {
-    if (err) { return handleError(res, err); }
-    if(!answer) { return res.status(404).send('Not Found'); }
-    var updated = _.merge(answer, req.body);
-    updated.save(function (err) {
+  if(!req.query.question) { return res.status(400).send('Bad Request'); }
+  if(!req.query.choice) { return res.status(400).send('Bad Request'); }
+  Participation.findOne({ _id: req.params.participation_id, poll: req.params.poll_id, answers: req.params.id }, function (err, participation) {
+    if(err) { return handleError(res, err); }
+    if(!participation) { return res.status(404).send('Not Found'); }
+    Answer.findById(req.params.id, function (err, answer) {
       if (err) { return handleError(res, err); }
-      return res.status(200).json(answer);
+      if(!answer) { return res.status(404).send('Not Found'); }
+      Question.findOne({ _id: req.query.question, choices: { $in: [req.query.choice, answer.choice] } }, function (err, question) {
+        if (err) { return handleError(res, err); }
+        if(!question) { return  res.status(400).send('Bad Request'); }
+        answer.choice = req.query.choice;
+        answer.save(function (err) {
+          if (err) { return handleError(res, err); }
+          return res.status(200).json(answer);
+        });
+      });
     });
   });
 };
 
 // Deletes a answer from the DB.
 answctrl.destroy = function(req, res) {
-  Answer.findById(req.params.id, function (err, answer) {
+  Participation.findOne({ _id: req.params.participation_id, poll: req.params.poll_id, answers: req.params.id }, function (err, participation) {
     if(err) { return handleError(res, err); }
-    if(!answer) { return res.status(404).send('Not Found'); }
-    answer.remove(function(err) {
+    if(!participation) { return res.status(404).send('Not Found'); }
+    Answer.findById(req.params.id, function (err, answer) {
       if(err) { return handleError(res, err); }
-      return res.status(204).send('No Content');
+      if(!answer) { return res.status(404).send('Not Found'); }
+      answer.remove(function(err) {
+        if(err) { return handleError(res, err); }
+        return res.status(204).send('No Content');
+      });
     });
   });
 };
-
 
 function handleError(res, err) {
   return res.status(500).send(err);

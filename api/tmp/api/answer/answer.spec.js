@@ -1,3 +1,10 @@
+/**
+ * answer.spec.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
 'use strict';
 
 var should = require('should');

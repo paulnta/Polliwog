@@ -1,3 +1,10 @@
+/**
+ * poll.constraints.scenario.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
 var copilot = require('api-copilot');
 
 var scenario = new copilot.Scenario({ 
@@ -54,7 +61,6 @@ scenario.step('create a poll with a default state', function() {
 });
 
 scenario.step('log created poll with a default state', function(response) {
-  console.log(response);
   var poll = response.body;
   if (poll.state !== 'drafti') {
     return this.fail('created poll has not a default state');

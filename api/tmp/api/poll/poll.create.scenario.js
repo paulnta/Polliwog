@@ -1,3 +1,10 @@
+/**
+ * poll.create.scenario.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
 var copilot = require('api-copilot');
 var _ 			= require('underscore');
 
@@ -30,7 +37,7 @@ scenario.step('create polls',  function()  {
   return this.all(requests); 
 });
 
-scenario.step('show created data', function(responses) {
+scenario.step('log created polls', function(responses) {
 
   var polls = _.pluck(responses, 'body');
 

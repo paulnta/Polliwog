@@ -1,3 +1,11 @@
+/**
+ * answer.constraints.scenario.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ *
+ */
+
 var copilot 			= require('api-copilot');
 var poll					= {};
 var participation	= {};
@@ -77,21 +85,48 @@ scenario.step('create a choice', function() {
   });
 });
 
-scenario.step('create an answer without an associated choice', function() {
-	return this.post({
-    url: '/' + poll._id + '/questions/' + question._id + '/choices',
-    body: {
-      key: '',
-      text: 'A scenario is a series of steps that are executed in order.'
-    },
+scenario.step('log created choice', function(response) {
+  choice = response.body;
+  console.log(choice);
+});
+
+scenario.step('create an answer without associated question', function() { 
+  return this.post({
+    url: '/' + poll._id + '/participations/' + participation._id + '/answers?choice=' + choice._id,
     expect: {
-      statusCode: 500
+      statusCode: 400
     }
   });
 });
 
-scenario.step('log created choice', function(response) {
+scenario.step('log error response returned since question is missing', function(response) {
 	console.log(response.body);
+});
+
+scenario.step('create an answer without associated choice', function() { 
+  return this.post({
+    url: '/' + poll._id + '/participations/' + participation._id + '/answers?question=' + question._id,
+    expect: {
+      statusCode: 400
+    }
+  });
+});
+
+scenario.step('log error response returned since choice is missing', function(response) {
+  console.log(response.body);
+});
+
+scenario.step('create an answer', function() { 
+  return this.post({
+    url: '/' + poll._id + '/participations/' + participation._id + '/answers?question=' + question._id + '&choice=' + choice._id,
+    expect: {
+      statusCode: 201
+    }
+  });
+});
+
+scenario.step('log created answer', function(response) {
+  console.log(response.body);
 });
 
 module.exports = scenario;

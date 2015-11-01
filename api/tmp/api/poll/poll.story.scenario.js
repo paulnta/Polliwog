@@ -1,8 +1,15 @@
+/**
+ * poll.story.scenario.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
 var copilot = require('api-copilot');
 
 var scenario = new copilot.Scenario({ 
-  name: 'Choice CRUD',
-  summary: 'Test choice CRUD.',
+  name: 'Poll Story',
+  summary: 'Test poll story.',
   baseUrl: 'http://localhost:3000/api/polls',
   defaultRequestOptions: {
     json: true

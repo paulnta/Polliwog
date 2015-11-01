@@ -1,4 +1,11 @@
 /**
+ * poll.socket.js
+ *
+ * Created on: 2015-11-01
+ *     Author: Yassin Kammoun (yassin.kammoun@heig-vd.ch)
+ */
+
+/**
  * Broadcast updates to client when the model changes
  */
 
