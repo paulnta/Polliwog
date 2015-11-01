@@ -4,8 +4,8 @@
 
 ### Team
 
-Last name, first name | Github ID   | Role
-----------------------|-------------|-------------------------
+Last name, first name | Github ID   | Role                          |
+----------------------|-------------|-------------------------------|
 D'Agostino, Eléonore  | [paranoodle](https://github.com/paranoodle) | 
 Ghozlani, Karim       | [gweezer7](https://github.com/gweezer7)     | 
 Kammoun, Yassin       | [yibnl](https://github.com/yibnl)           | 
@@ -45,6 +45,7 @@ The purposes of this project is to develop an **interactive presentations** web 
 * [poll.iwog REST API](http://polliwog.herokuapp.com/api).
 * [poll.iwog REST API Documentation](http://polliwog.herokuapp.com/api).
 * [poll.iwog product page](http://###). 
+* [POLLiwog product specification](http://###).
 
 ### How to use the application
 
@@ -124,7 +125,7 @@ On the one hand, the data model takes advantage of the flexibility of document-o
 {
     _id: 422334578,
     poll: 345ae2224df,
-    title: 'What is a scenario',
+    title: 'What is a scenario?',
     type: 'reminder',
     choices: [899982, 42257, 12347]
 }
@@ -459,10 +460,12 @@ Documentation : https://github.com/AlphaHydrae/api-copilot
 ##### Polls
 
 Scenario: Poll Constraints
+
 File: ***poll.constraints.scenario.js***
+
 ```
 The purpose of this scenario is to test poll constraints validating rules. 
-The scenario is divided into a series of steps in which the script will attempts to create poll documents. The steps follow this logic:
+The scenario is divided into a series of steps in which the script attempts to create poll documents. The steps follow this logic:
 
 1. We will try to create an empty poll document.
     -> It should fail and return the 500 status code.
@@ -481,44 +484,91 @@ The scenario is divided into a series of steps in which the script will attempts
 ##### Questions
 
 Scenario: Question Constraints
-File: ***question.constraints.scenario.js***
-```
 
+File: ***question.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test question constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an empty question document.
+    -> It should fail and return the 500 status code.
+3. We will try to create a question document with an empty title.
+    -> It should fail and return the 500 status code.
+4. We will try to create a question document with a default type (empty).
+    -> It should succeed, return the 201 status code and the payload of the created document with a default type (empty).
+5. We will try to create a question document with a custom type (reminder).
+    -> It should succeed, return the 201 status code and the payload of the created document with a custom type (reminder).
 ```
 
 ##### Choice
 
 Scenario: Choice Constraints
-File: ***choice.constraints.scenario.js***
-```
 
+File: ***choice.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test choice constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an base question document.
+    -> It should succeed and return the 201 status code.
+3. We will try to create a empty choice document.
+    -> It should fail and return the 500 status code.
+4. We will try to create a choice document with an empty key.
+    -> It should fail and return the 500 status code.
+5. We will try to create a choice document with an empty text.
+    -> It should fail and return the 500 status code.
+6. We will try to create a valid choice document.
+    -> It should succeed, return the 201 status code and the payload of the created document.
 ```
 
 ##### Participations
 
 Scenario: Participation Constraints
-File: ***participation.constraints.scenario.js***
-```
 
+File: ***participation.constraints.scenario.js***
+
+```
+The purpose of this scenario is to test participation constraints validating rules. 
+The scenario is divided into a series of steps in which the script attempts to create question documents. The steps follow this logic:
+
+1. We will try to create a base poll document.
+    -> It should succeed and return the 201 status code.
+2. We will try to create an empty participation document.
+    -> It should fail and return the 500 status code.
+3. We will try to create a participation document with an empty participant.
+    -> It should fail and return the 500 status code.
+4. We will try to create a valid participation document.
+    -> It should succeed, return the 201 status code and the payload of the created document.
 ```
 
 ##### Answers
 
 Scenario: Answer Constraints
+
 File: ***answer.constraints.scenario.js***
+
 ```
 
 ```
 
 ### <a name="Results"></a> Results
 
+#### CRUD Testing
+
 ##### Polls
 
 Scenario: Poll Constraints
+
 File: ***poll.constraints.scenario.js***
+
 Output
 ```
-
 [1mPoll Constraints[22m
 
 [1mSTEP 1: create an empty poll[22m
@@ -585,10 +635,195 @@ Completed in 9ms
 Completed in 1ms
 
 [32mDONE in 0.10s![39m
-
 ```
 
-#### CRUD Testing
+##### Questions
+
+Scenario: Question Constraints
+
+File: ***question.constraints.scenario.js***
+
+Output
+```
+[1mQuestion Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 722ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '5636373d092d316c11a4b32b',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:01:01.682Z' }
+Completed in 4ms
+
+[1mSTEP 3: create an empty question[22m
+Completed in 15ms
+
+[1mSTEP 4: log response when creating an empty question[22m
+500
+Completed in 1ms
+
+[1mSTEP 5: create a question with an empty title[22m
+Completed in 8ms
+
+[1mSTEP 6: log response when creating an question with an empty title[22m
+500
+Completed in 0ms
+
+[1mSTEP 7: create a valid question with default type[22m
+Completed in 12ms
+
+[1mSTEP 8: log created question with default type[22m
+201
+{ __v: 0,
+  title: 'What is api-copilot ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32e',
+  choices: [],
+  type: '' }
+Completed in 1ms
+
+[1mSTEP 9: create a valid question with custom type[22m
+Completed in 16ms
+
+[1mSTEP 10: log created question with custom type[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32f',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[32mDONE in 0.78s![39m
+```
+
+##### Choice
+
+Scenario: Choice Constraints
+
+File: ***choice.constraints.scenario.js***
+
+Output
+```
+[1mQuestion Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 722ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '5636373d092d316c11a4b32b',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:01:01.682Z' }
+Completed in 4ms
+
+[1mSTEP 3: create an empty question[22m
+Completed in 15ms
+
+[1mSTEP 4: log response when creating an empty question[22m
+500
+Completed in 1ms
+
+[1mSTEP 5: create a question with an empty title[22m
+Completed in 8ms
+
+[1mSTEP 6: log response when creating an question with an empty title[22m
+500
+Completed in 0ms
+
+[1mSTEP 7: create a valid question with default type[22m
+Completed in 12ms
+
+[1mSTEP 8: log created question with default type[22m
+201
+{ __v: 0,
+  title: 'What is api-copilot ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32e',
+  choices: [],
+  type: '' }
+Completed in 1ms
+
+[1mSTEP 9: create a valid question with custom type[22m
+Completed in 16ms
+
+[1mSTEP 10: log created question with custom type[22m
+201
+{ __v: 0,
+  title: 'What is a scenario ?',
+  poll: '5636373d092d316c11a4b32b',
+  _id: '5636373e092d316c11a4b32f',
+  choices: [],
+  type: 'reminder' }
+Completed in 1ms
+
+[32mDONE in 0.78s![39m
+```
+
+##### Participations
+
+Scenario: Participation Constraints
+
+File: ***participation.constraints.scenario.js***
+
+Output
+```
+[1mParticipation Constraints[22m
+
+[1mSTEP 1: create a poll[22m
+Completed in 399ms
+
+[1mSTEP 2: log created poll[22m
+201
+{ __v: 0,
+  title: 'api-copilot',
+  _id: '56363e64092d316c11a4b33a',
+  participations: [],
+  questions: [],
+  state: 'drafti',
+  creationDate: '2015-11-01T16:31:32.820Z' }
+Completed in 5ms
+
+[1mSTEP 3: create an empty participation[22m
+Completed in 20ms
+
+[1mSTEP 4: log response when creating an empty participation[22m
+500
+Completed in 1ms
+
+[1mSTEP 5: create a participation with an empty participant[22m
+Completed in 12ms
+
+[1mSTEP 6: log response when creating a participation with an empty participant[22m
+500
+Completed in 1ms
+
+[1mSTEP 7: create a valid participation[22m
+Completed in 9ms
+
+[1mSTEP 8: log created participation[22m
+201
+{ __v: 0,
+  participant: 'yibnl',
+  poll: '56363e64092d316c11a4b33a',
+  _id: '56363e65092d316c11a4b33d',
+  answers: [],
+  submissionDate: '2015-11-01T16:31:33.237Z' }
+Completed in 1ms
+
+[32mDONE in 0.45s![39m
+```
 
 #### Story Testing
 
