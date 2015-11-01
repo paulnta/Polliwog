@@ -4,12 +4,12 @@
 
 ### Team
 
-* D'Agostino, Eléonore [(paranoodle)](https://github.com/paranoodle).
-* Ghozlani, Karim [(gweezer7)](https://github.com/gweezer7).
-* Kammoun, Yassin [(yibnl)](https://github.com/yibnl).
-* Ntawuruhunga, Paul [(paulnta)](https://github.com/paulnta).
-
-### Tasks realized by the different team members
+Last name, first name | Github id   | Role
+----------------------|-------------|-------------------------
+D'Agostino, Eléonore  | [paranoodle](https://github.com/paranoodle) | 
+Ghozlani, Karim       | [gweezer7](https://github.com/gweezer7)     | 
+Kammoun, Yassin       | [yibnl](https://github.com/yibnl)           | 
+Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       | 
 
 ## Table of Contents
 1. [Introduction](#Intro)
@@ -21,7 +21,7 @@
     1. [REST API](#RestAPI)
     1. [Design patterns](#Patterns)
 1. [Implementation](#Implementation)
-    1. [Package structure](#Structure)
+    1. [Structure](#Structure)
     1. [Test data generation](#Datagen)
     1. [Selected aspects](#Aspects)
 1. [Testing and validation](#Testing)
@@ -37,15 +37,14 @@
 
 The purposes of this project is to develop an **interactive presentations** web application. This report currently covers up to part 1, designing and implementing a REST API using Express.js and MongoDB (with the Mongoose library).
 
-
 ## <a name="Guide"></a> User Guide
 
 ### How to execute and access the application
 
-* The web application is accessible here: [POLLiwag web application](http://polliwag.herokuapp.com). 
-* The REST API is accessible here: [POLLiwag REST API](http://polliwag.herokuapp.com/api).
-* The REST API Documentation is accessible here: [POLLiwag REST API Documentation](http://polliwag.herokuapp.com/api).
-* The product page is accessible here: [POLLiwag product page](http://###). 
+* [POLLiwag web application](http://polliwag.herokuapp.com). 
+* [POLLiwag REST API](http://polliwag.herokuapp.com/api).
+* [POLLiwag REST API Documentation](http://polliwag.herokuapp.com/api).
+* [POLLiwag product page](http://###). 
 
 ### How to use the application
 
@@ -53,18 +52,251 @@ The web application is a very simple landing page with a tiny bit of dynamic con
 
 ### How to run the automated test procedure
 
-
 ## <a name="Design"></a> Design
 
 ### <a name="Overview"></a> System overview
 
-Our application is currently able to respond to HTTP requests. It provides a REST API and its documentation.
+Our application is currently able to respond to HTTP requests. It provides a REST API which supports usual CRUD operations through HTTP methods. Complete description of supported actions of the REST API are documented. The documentation can be accessed from the web application's landing page.
 
 ### <a name="Interface"></a> User interface
 
 ### <a name="Database"></a> Database
 
+#### Data model
+
+![Data model](images/data_model.png)
+
+*Note that the purpose of the different types of stroke is to make the figure more readable.*
+
+The data model takes a relational database's traditionnal approach in which references are used to establish relations between entities. This has several advantages:
+
+* It simplifies the database design. All document structure issues disappear. One should only wonder about how are associations between entities captured in the payloads. 
+
+* It improves referential integrity. No questions can ever exist without being associated to any poll. The same goes for relations binding the other entities in the data model. This is a guarantee of consistency of the contents of the database .
+
+* It can benefits from Mongoose population mechanism. One can retrieve one document id or document content by using the **Document#populate** function. Moreover, it would still be possible to propose the alternative URLs to reference a document collection.
+
+On the one hand , the data model takes advantage of the flexibility of document-oriented databases. On the other hand, it enjoys the security provided by referential constraints of relational databases.
+
+#### Documents structure
+
+**Polls**
+```json
+{
+    _id: <ObjectId>,
+    title: String,
+    creationDate: Date,
+    state: String,
+    questions: [<ObjectId>],
+    participations: [<ObjectId>]
+}
+```
+*Example*
+
+***
+```json
+{
+    _id: 345ae2224df,
+    title: 'api-copilot-2015',
+    creationDate: 2015-11-02 17:00,
+    state: 'active',
+    questions: [422334578, 2233454, 22357],
+    participations: [1225578, 1233548, 58666, 45258]
+}
+```
+**Questions**
+```json
+{
+    _id: <ObjectId>,
+    poll: <ObjectId>,
+    title: String,
+    type: String,
+    choices: [<ObjectId>]
+}
+```
+
+*Example*
+```json
+{
+    _id: 422334578,
+    poll: 345ae2224df,
+    title: 'What is a scenario',
+    type: 'reminder',
+    choices: [899982, 42257, 12347]
+}
+```
+***
+
+**Choices**
+```json
+{
+    _id: <ObjectId>,
+    question: <ObjectId>,
+    key: String,
+    text: String,
+    answers: [<ObjectId>]
+}
+```
+
+*Example*
+```json
+{
+    _id: 12347,
+    question: 422334578,
+    key: 'a',
+    text: 'A sequence of steps that you define using the  step  method.',
+    answers: [86655787, 411111, 2350558]
+}
+```
+
+***
+
+**Participations**
+```json
+{
+    _id: <ObjectId>,
+    poll: <ObjectId>,
+    participant: String,
+    submissionDate: Date,
+    answers: [<ObjectId>]
+}
+```
+
+*Example*
+```json
+{
+    _id: 1225578,
+    poll: 422334578,
+    participant: 'yibnl',
+    submissionDate: 2015-11-04,
+    answers: [1111111, 222222, 325252]
+}
+```
+***
+
+**Answers**
+```json
+{
+    _id: <ObjectId>,
+    participation: <ObjectId>,
+    choice: <ObjectId>
+}
+```
+
+*Example*
+```json
+{
+    _id: 325252,
+    participation: 1225578,
+    choice: 12347
+}
+```
+
+#### Data integrity
+
+**Polls**
+| Property      | Auto  | Required  | Null  | Default   |
+|---------------|-------|-----------|-------|-----------|
+| _id           | x     |           |       |           |
+| title         |       | x         |       |           |
+| creationDate  |       |           |       | now       |
+| state*        |       |           |       | drafti    |
+| questions     |       |           | x     |           |
+| participations|       |           | x     |           |
+
+**state's possible values can be drafti, active and closed.*
+
+***
+
+**Questions**
+| Property  | Auto  | Required  | Null  | Default   |
+|-----------|-------|-----------|-------|-----------|
+| _id       | x     |           |       |           |
+| poll      |       |           |       |           |
+| title     |       | x         |       |           |
+| type      |       |           | x     | empty     |
+| choices   |       |           | x     |           |
+
+**
+
+**Choices**
+| Property  | Auto  | Required  | Null  | Default   |
+|-----------|-------|-----------|-------|-----------|
+| _id       | x     |           |       |           |
+| question  |       |           |       |           |
+| key |     | x     |           |       |           |
+| text      |       | x         |       |           |
+| answers   |       |           | x     |           |
+
+**
+
+**Participations**
+| Property      | Auto  | Required  | Null  | Default   |
+|---------------|-------|-----------|-------|-----------|
+| _id           | x     |           |       |           |
+| poll          |       |           |       |           |
+| participant   |       | x         |       |           |
+| submissionDate|       |           |       | now       |
+| answers       |       |           | x     |           |
+***
+
+**Answers**
+| Property      | Auto  | Required  | Null  | Default   |
+|---------------|-------|-----------|-------|-----------|
+| _id           | x     |           |       |           |
+| participation |       |           |       |           |
+| choice        |       |           |       |           |
+
+#### Referential integrity
+
+Data model and documents structure both show bidirectional associations between entities. This design choice is justified by the fact that it simplifies referential integrity implementation. 
+
+Let's assume that we want to remove a question document. We have to update parent poll's questions list in order to ensure database consistency. Mechanisms of delete on cascade, update on cascade and so on must be set up. This parent poll would have to be found at a given point in time. Storing parent poll's id avoid querying all polls to find the good one to update.
+
+It results from the above that storing parent id can improve computing perfomance. Of course it is necessary to maintain consistency on both sides in return.
+
 ### <a name="RestAPI"></a> REST API
+
+#### Resources
+
+The REST API resources are taken from the data model. Note the following elements:
+
+* A **Poll** can contain several multiple-choice **Questions**. A poll can be in different states: *drafti*, *active* and *closed*.
+
+* For every question, there can be several **Choices**.
+
+* A user can answer questions in a poll. This creates a **Participation** entity.
+
+* A **Participation** contains several **Answers**.
+
+* Every **Answer** is related to one **Question** and one **Choice**.
+
+#### URL Structure
+
+#### Linked resources
+
+#### Resources & actions
+
+![Resources & actions](images/resources_actions.png)
+
+#### HTTP status code
+Errors can occur while processing HTTP requests or while computing HTTP responses. The web application server is likely to return HTTP status code:
+
+* 200 - *It is returned when a GET request or a PUT/PATCH request is submitted and succeed. The requested/updated data is returned as the response payload.* 
+
+* 201 - *It is returned when a POST request is submit and succeed. The created data is returned as the response payload.* 
+
+* 204 - No Content. *It is returned when a DELETE request is submitted and succeed.*
+
+* 400 - Bad request. *It is returned when required query parameters are missing.*
+
+* 404 - Not found. *It is returned when a GET request is submitted and fails. It is also returned when a POST/PUT/PATCH/DELETE request requires a research and does not find anything.*
+
+* 409 - Conflict. *It is returned when a POST request is submitted and an equivalent resource already exists.*
+
+* 500 - *It is returned when an internal error occured. The raw error description is returned as the payload.*
+
+The web application returns no more information about any occured error than these HTTP status codes.
 
 ### <a name="Patterns"></a> Design patterns
 
@@ -88,4 +320,3 @@ Our application is currently able to respond to HTTP requests. It provides a RES
 ## <a name="Conclusion"></a> Conclusion
 
 ## <a name="AppendixA"></a> Appendix A: Auto Evaluation
-
