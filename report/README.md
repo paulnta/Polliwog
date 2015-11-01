@@ -60,6 +60,12 @@ Our application is currently able to respond to HTTP requests. It provides a RES
 
 ### <a name="Interface"></a> User interface
 
+***
+
+TODO : Screenshot of the landing page (Eléonore).
+
+***
+
 ### <a name="Database"></a> Database
 
 #### Data model
@@ -371,7 +377,7 @@ Errors can occur while processing HTTP requests or while computing HTTP response
 
 * 500 - *It is returned when an internal error occured. The raw error description is returned as the payload.*
 
-The web application returns no more information about any occured error than these HTTP status codes.
+The web application returns no more information about any occured error than these HTTP status codes. They are enough for the moment but may required improvements for the next parts of the project.
 
 ### <a name="Patterns"></a> Design patterns
 
@@ -436,11 +442,13 @@ A story should be defined. It must describe a situation of intensive REST API in
 
 Story testing requires random data generation, random HTTP requests and random HTTP methods. The goal is to set up undefined workflows.
 
+*A specific tool for this kind of test should be used instead of API Coplilot.*
+
 ### <a name="Tools"></a> Tools
 
 #### API Copilot
 
-API Copilot is a Node.js based Javascript library which provides data population scenarios features for testing and validating APIs implementation. It defines the concept of scenario which is a series of steps that are executed in order.
+API Copilot is a Node.js based Javascript module which provides data population scenarios features for testing and validating APIs implementation. It defines the concept of scenario which is a series of steps that are executed in order.
 
 Documentation : https://github.com/AlphaHydrae/api-copilot
 
