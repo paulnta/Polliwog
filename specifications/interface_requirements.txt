@@ -1,0 +1,42 @@
+Polls (open/closed):
+    - get poll
+        - name
+        - options
+            - name
+            - # answers
+        - open/closed status
+        - if open, time left
+    - get total # session users
+    - set open/closed
+    
+Polls (creation):
+    - add new poll from page data
+    - add new poll from json
+    - create json from page data
+    
+Polls (overview):
+    - get list of polls for current session
+    - get list of polls for current user
+        - for both: get poll name, get poll status
+    
+Session (cloud):
+    - get list of questions
+        - get question content
+        - get question votes
+    
+Session (files):
+    - get list of files
+    - add new file
+    - remove existing file
+    
+Session (mood):
+    - get list of moods
+    - update page content when list changes
+    
+Session (open):
+    - create new session
+    
+Session (overview):
+    - get session
+        - key
+        - mood list
