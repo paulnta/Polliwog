@@ -1,0 +1,495 @@
+#%RAML 0.8
+title: poll.iwog
+version: v1
+baseUri: http://server/api/
+schemas:
+  - poll: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "title": {
+            "type": "string",
+            "required": "true"
+          },
+          "creationDate": {
+            "type": "date"
+          },
+          "state": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "items": {"$ref": "question"}
+          },
+          "participations": {
+            "type": "array",
+            "items": {"$ref": "participation"}
+          }
+        }
+      }
+  - question: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "poll": {"$ref": "poll"},
+          "title": {
+            "type": "string",
+            "required": "true"
+          },
+          "title": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {"$ref": "choice"}
+          }
+        }
+      }
+  - choice: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "question": {"$ref": "question"},
+          "key": {
+            "type": "string",
+            "required": "true"
+          },
+          "text": {
+            "type": "string",
+            "required": "true"
+          },
+          "answers": {
+            "type": "array",
+            "items": {"$ref": "answer"}
+          }
+        }  
+      }
+  - participation: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "poll": {"$ref": "poll"},
+          "participant": {
+            "type": "string",
+            "required": "true"
+          },
+          "submissionDate": {
+            "type": "date"
+          },
+          "answers": {
+            "type": "array",
+            "items": {"$ref": "answer"}
+          } 
+        } 
+      }
+  - answer: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "participation": {"$ref": "participation"},
+          "choice": {"$ref": "choice"}
+        }
+      }
+resourceTypes:
+  - collection:
+      get:
+        description: Get list of <<resourcePathName>>.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleCollection>>
+          400:
+            description: Query parameters missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          500:
+            description: An internal error occured.
+      post:
+        description: Create a new <<resourcePathName|!singularize>>.
+        responses:
+          201:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          400:
+            description: It is returned when required query parameters are missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+          409:
+            description: It is returned when a POST request is submitted and an equivalent resource already exists.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Conflict
+  - collection-item:
+      get:
+        description: |
+          Get the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+      put:
+        description: |
+          Update the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          400:
+            description: It is returned when required query parameters are missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+      patch:
+        description: |
+          Update partially the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          400:
+            description: It is returned when required query parameters are missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+      delete:
+        description: |
+          Delete the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        responses:
+          204:
+            description: It is returned when a DELETE request is submitted and succeed.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Content
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+/polls: 
+  type:
+    collection:
+      exampleCollection: |
+        [
+          {
+            '_id': 'p1',
+            'title': 'TWEB-2015',
+            'creationDate': '2015-05-02 10:41' 
+            'state': 'drafti'
+            'questions': 
+              [
+                '/polls/p1/questions/q1',
+                '/polls/p1/questions/q2',
+                '/polls/p1/questions/q3'
+              ],
+            'participations': ['/polls/p1/participations/pp1']
+          },
+          {
+            '_id': 'p2',
+            'title': 'AMT-2015',
+            'creationDate': '2015-11-25 14:03'
+            'state': 'active'
+            'questions': 
+              [
+                '/polls/p2/questions/q11',
+                '/polls/p2/questions/q22',
+                '/polls/p2/questions/q32'
+              ],
+            'participations': []
+          },
+          {
+            '_id': 'p3',
+            'title': 'RES-2015',
+            'creationDate': '2015-12-12 12:00', 
+            'state': 'closed'
+            'questions': 
+              [
+                '/polls/p3/questions/q13',
+                '/polls/p3/questions/q23',
+                '/polls/p3/questions/q33'
+              ],
+            'participations': []
+          }
+        ]
+      exampleItem: |
+        {
+          'title': 'TWEB-2015', 
+          'state': 'drafti'
+        }
+  /{pollId}:
+    type:
+      collection-item:
+        exampleItem: |
+          {
+            '_id': 'p1',
+            'title': 'TWEB-2015', 
+            'creationDate': '2015-11-02 09:41'
+            'state': 'drafti',
+            'questions': 
+                [
+                  '/polls/p1/questions/q1',
+                  '/polls/p1/questions/q2',
+                  '/polls/p1/questions/q3'
+                ],
+            'participations': ['/polls/p1/participations/pp1']
+          }
+    /participations:
+      type:
+        collection:
+          exampleCollection: |
+            [
+              {
+                '_id': 'pp1',
+                'participant': 'yibnl',
+                'submissionDate': '2015-12-29 23:15',
+                'answers': 
+                  [
+                    '/polls/p1/participations/pp1/answers/a1',
+                    '/polls/p1/participations/pp1/answers/a2',
+                    '/polls/p1/participations/pp1/answers/a3'
+                  ]
+              },
+              {
+                '_id': 'pp2',
+                'participant': 'paranoodle',
+                'submissionDate': '2015-12-29 10:15',
+                'answers': 
+                  [
+                    '/polls/p2/participations/pp2/answers/a11',
+                    '/polls/p2/participations/pp2/answers/a22'
+                  ]
+              },
+              {
+                '_id': 'pp3',
+                'participant': 'gweezer7',
+                'submissionDate': '2015-12-30 17:42',
+                'answers': 
+                  [
+                    '/polls/p2/participations/pp2/answers/a13'
+                  ]
+              }
+            ]
+          exampleItem: |
+            {
+              'participant': 'gweezer7'
+            }
+      /{participationId}:
+        type:
+          collection-item:
+            exampleItem: |
+              {
+                '_id': 'pp3',
+                'participant': 'gweezer7',
+                'submissionDate': '2015-12-30 17:42',
+                'answers': 
+                  [
+                    '/polls/p2/participations/pp2/answers/a13'
+                  ]
+              }
+        /answers:
+          type:
+            collection:
+              exampleCollection: | 
+                [
+                  {
+                    '_id': 'a1',
+                    'participation': 'pp1',
+                    'choice': 'c1'
+                  }
+                  {
+                    '_id': 'a22',
+                    'participation': 'pp1',
+                    'choice': 'c11'
+                  }
+                  {
+                    '_id': 'a21',
+                    'participation': 'pp1',
+                    'choice': 'c13'
+                  }
+                ]
+              exampleItem: |
+                There is no body. However, two query parameters are required:
+                  ?question###&choice=### where ### corresponds respectively to the identifiers of the question and the choice .
+          /{answerId}:
+            type:
+              collection-item:
+                exampleItem: | 
+                  Question query parameter is required for update action.
+                  {
+                    '_id': 'a22',
+                    'participation': 'pp1',
+                    'choice': 'c11'
+                  }
+    /questions: 
+      type:
+        collection:
+          exampleCollection: |
+            [
+              {
+                '_id': 'q1',
+                'poll': 'p1',
+                'title': 'What is a scenario ?',
+                'type': 'reminder' 
+                'choices':
+                  [
+                    '/polls/p1/questions/q1/choice/c1',
+                    '/polls/p1/questions/q1/choice/c2',
+                    '/polls/p1/questions/q1/choice/c3'
+                  ]
+              },
+              {
+                '_id': 'q2',
+                'poll': 'p1',
+                'title': ''How do you run a scenario ?',
+                'type': 'reminder' 
+                'choices':
+                  [
+                    '/polls/p1/questions/q2/choice/c4',
+                    '/polls/p1/questions/q2/choice/c5',
+                    '/polls/p1/questions/q2/choice/c6'
+                  ]
+              },
+              {
+                '_id': 'q3',
+                'poll': 'p1',
+                'title': 'Who is the author of the API Copilot',
+                'type': 'reminder' 
+                'choices':
+                  [
+                    '/polls/p1/questions/q3/choice/c7',
+                    '/polls/p1/questions/q3/choice/c8',
+                    '/polls/p1/questions/q3/choice/c9'
+                  ]
+              }
+            ]
+          exampleItem: |
+            {
+              'title': 'What is a scenario ?',
+              'type': 'reminder' 
+            }
+      /{questionId}:
+        type:
+          collection-item:
+            exampleItem: |
+              {
+                '_id': 'q1',
+                'poll': 'p1',
+                'title': 'What is a scenario ?',
+                'type': 'reminder' 
+                'choices':
+                  [
+                    '/polls/p1/questions/q1/choice/c1',
+                    '/polls/p1/questions/q1/choice/c2',
+                    '/polls/p1/questions/q1/choice/c3'
+                  ]
+              }
+        /choices:
+          type:
+            collection:
+              exampleCollection: |
+                [
+                  {
+                    '_id': 'c1',
+                    'question': 'q1',
+                    'key': 'a', 
+                    'text': 'A setting, in particular for a work of art or literature.',
+                    'answers': []
+                  },
+                  {
+                    '_id': 'c2',
+                    'question': 'q1',
+                    'key': 'b', 
+                    'text': 'A series of steps that are executed in order using the "step" method.',
+                    'answers': 
+                      [
+                        '/polls/p1/participations/pp2/answers/a1',
+                        '/polls/p1/participations/pp2/answers/a2',
+                        '/polls/p1/participations/pp2/answers/a3'
+                      ]
+                  }
+                  ,{
+                    '_id': 'c3',
+                    'question': 'q1',
+                    'key': 'c', 
+                    'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                    'answers': []
+                  }
+                ]
+              exampleItem: |
+                {
+                  'key': 'b', 
+                  'text': 'A series of steps that are executed in order using the "step" method.'
+                }
+          /{choiceId}:
+            type:
+              collection-item:
+                exampleItem: |
+                  {
+                    '_id': 'c1',
+                    'question': 'q1',
+                    'key': 'b', 
+                    'text': 'A series of steps that are executed in order using the "step" method.',
+                    'answers': []
+                  }

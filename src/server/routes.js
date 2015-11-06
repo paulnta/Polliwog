@@ -18,7 +18,7 @@ module.exports = function(app) {
   app.use('/api/users', require('./api/user'));
 
   app.use('/auth', require('./auth'));
-  
+
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
@@ -27,7 +27,7 @@ module.exports = function(app) {
   app.get('/*', function stat_view(req, res) {
       var Poll = require('./api/poll/poll.model');
       Poll.find(function (err, polls) {
-          if(err) {return handleError(res, err); }
+          if(err) {return res.status(500).send(err); }
           var active_count = polls.filter(function (x) { return x.active; }).length;
           res.render('stats', {poll_count: polls.length, active_count: active_count});
         });
