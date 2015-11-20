@@ -11,6 +11,12 @@ module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/users', require('./api/user'));
+  app.use('/api/polls/:poll_id/participations/:participation_id/answers', require('./api/answer'));
+  app.use('/api/polls/:poll_id/participations', require('./api/participation'));
+  app.use('/api/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
+  app.use('/api/polls/:poll_id/questions', require('./api/question'));
+  app.use('/api/polls', require('./api/poll'));
+  app.use('/api/users', require('./api/user'));
 
   app.use('/auth', require('./auth'));
 
