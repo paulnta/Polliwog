@@ -5,6 +5,15 @@ angular.module('polliwogApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
+    },{
+      'title': 'Speaker home page',
+      'link': '/home'
+    },{
+      'title': 'Presentation',
+      'link': '/presentation'
+    },{
+      'title': 'Join',
+      'link': '/join'
     }];
 
     $scope.isCollapsed = true;
