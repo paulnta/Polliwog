@@ -3,10 +3,10 @@ angular.module('polliwogApp')
     $stateProvider
 
       /*
-       * full preview state
-       * - It shows the preview element but in a full view
-       * - It redefines the toolbar in an extended toolbar
-       *  which have only a back link
+       * full detail state
+       *
+       *  Here we use the dot notation to refer to parent state (polls)
+       *  we could use the parent attr but having a state called "details" has no meaning.
        */
       .state('polls.details', {
         url: '/:id',
@@ -15,6 +15,10 @@ angular.module('polliwogApp')
                 templateUrl: 'app/speaker/polls/polls-details/polls-details.html',
                 controller: 'PollsDetailsCtrl'
               },
+
+              /*
+               * Redefines the main toolbar into an extended toolbar
+               */
               "navigation@speaker": {
                 templateUrl: 'components/speaker/toolbar/toolbar-extended.html'
               }

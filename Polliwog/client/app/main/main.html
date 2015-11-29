@@ -1,2 +1,7 @@
-<div ng-include="'components/speaker/navbar/navbar.html'"></div>
-<h1>{{message}}</h1>
+
+<div layout="column" layout-align="center center" style="height: 100vh; overflow: hidden">
+  <md-whiteframe class="md-whiteframe-1dp">
+    <md-button ui-sref="session({sessionId: 1})">Speaker page</md-button>
+    <md-button ng-disabled ui-sref="audience">Audience page</md-button>
+  </md-whiteframe>
+</div>

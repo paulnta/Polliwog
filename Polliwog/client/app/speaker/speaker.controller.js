@@ -1,6 +1,8 @@
 angular.module('polliwogApp')
   .controller('SpeakerCtrl', function ($scope, $state) {
     $scope.message = "SpeakerCtrl";
+
+    // TODO: Get session through API
     $scope.sessions = [
       {
         title: "Session 1",
@@ -16,10 +18,18 @@ angular.module('polliwogApp')
       }
     ];
 
+    /**
+     * Navigates to another session
+     * @param sessionId
+     */
     $scope.goTo = function (sessionId) {
       $state.go('session', {sessionId: sessionId});
     };
 
+    /**
+     * Get the currentSession id
+     * @returns sessionId
+     */
     $scope.currentSession = function () {
       return $state.params.sessionId;
     };
