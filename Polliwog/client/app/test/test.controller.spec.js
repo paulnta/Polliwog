@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: HomeCtrl', function () {
+describe('Controller: TestCtrl', function () {
 
   // load the controller's module
   beforeEach(module('polliwogApp'));
 
-  var HomeCtrl, scope;
+  var TestCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    HomeCtrl = $controller('HomeCtrl', {
+    TestCtrl = $controller('TestCtrl', {
       $scope: scope
     });
   }));
