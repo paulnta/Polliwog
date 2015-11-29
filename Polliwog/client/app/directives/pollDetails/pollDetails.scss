@@ -1,12 +1,21 @@
+
+#autosized-wrapper{
+//  height: 481px;
+//  overflow: hidden;
+}
 .wrapper{
 
-  max-height: 100%;
-  overflow: hidden;
+  background-color: transparent;
+  padding-left: 3px;
+  padding-bottom: 4px;
+  margin-left: -3px;
+//  height: 100%;
+  z-index: 100;
 
   .header {
     min-height: 400px;
     max-height: 400px;
-    background-color: gray;
+    background-color: rgba(157,194,232,0.25);
   }
 }
 

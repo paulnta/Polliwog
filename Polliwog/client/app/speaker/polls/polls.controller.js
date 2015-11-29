@@ -13,6 +13,5 @@ angular.module('polliwogApp')
 
     $scope.select = function (poll) {
       $scope.selected = poll;
-    }
-
+    };
   });

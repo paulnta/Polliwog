@@ -48,6 +48,7 @@
     <![endif]-->
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
+      <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
       <script src="bower_components/angular-resource/angular-resource.js"></script>
       <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -101,5 +102,27 @@
           <script src="components/speaker/navbar/navbar.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
+
+
+          <script>
+//            $(window).load(function() {
+//              function previewHeight() {
+//                var windowH = $(window).height();
+//                var headerH = $('#navigation').height();
+//                if(!headerH) {
+//                  headerH = 128;
+//                }
+//                var preview = $('#autosized-wrapper');
+//                if(preview) {
+//                  var newH = (windowH - headerH - 10);
+//                  preview.css('height', newH + 'px');
+//                } else {
+//                  console.log('element no found');
+//                }
+//              }
+//              setTimeout(previewHeight, 1000);
+//              window.addEventListener("resize", previewHeight);
+//            });
+          </script>
 </body>
 </html>

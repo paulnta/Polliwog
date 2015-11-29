@@ -6,7 +6,7 @@
 }
 
 .gray {
-  background-color: lightgray;
+  background-color: rgba(157,194,232,0.25);
 }
 
 .tile-footer{
@@ -23,4 +23,9 @@
     margin-top: auto;
     margin-bottom: auto;
   }
+}
+
+
+#poll-preview .wrapper{
+//  height: 800px;
 }
