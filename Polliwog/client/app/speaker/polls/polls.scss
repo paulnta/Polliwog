@@ -1,0 +1,26 @@
+
+// remove strange border when clicked
+.md-ink-ripple{
+  outline: none;
+  border: 0;
+}
+
+.gray {
+  background-color: lightgray;
+}
+
+.tile-footer{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+
+  background-color: #eeeeee;
+  padding: 0 0 0 10px;
+
+  .body2{
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}

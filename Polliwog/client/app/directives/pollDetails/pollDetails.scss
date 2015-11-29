@@ -1,0 +1,15 @@
+.wrapper{
+
+  max-height: 100%;
+  overflow: hidden;
+
+  .header {
+    min-height: 400px;
+    max-height: 400px;
+    background-color: gray;
+  }
+}
+
+#preview-infos.secondary-toolbar{
+  background-color: rgba(0,0,0,0.1);
+}

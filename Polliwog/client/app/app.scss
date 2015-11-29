@@ -19,12 +19,18 @@ body{
   overflow: hidden;
 }
 
+a{
+  text-decoration: none;
+  color: #000000;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .container {
         max-width: 730px;
     }
 }
+
 
 // Component styles are injected through grunt
 // injector
@@ -34,4 +40,7 @@ body{
 @import 'audience/presentation/presentation.scss';
 @import 'directives/pollDetails/pollDetails.scss';
 @import 'main/main.scss';
+@import 'speaker/polls/polls-details/polls-details.scss';
+@import 'speaker/polls/polls.scss';
+@import 'speaker/typography.scss';
 // endinjector

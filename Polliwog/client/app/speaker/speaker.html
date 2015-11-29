@@ -3,7 +3,7 @@
   <section layout="row" flex>
 
     <!--LEFT SIDENAV-->
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-sidenav id="left-nav" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
 
       <md-content ng-controller="LeftCtrl">
 
@@ -34,7 +34,7 @@
     <md-content flex>
 
       <div ui-view="navigation"></div>
-      <md-content layout-padding>
+      <md-content>
 
         <!--MAIN VIEW-->
         <div ui-view=""></div>

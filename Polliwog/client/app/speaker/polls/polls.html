@@ -1,15 +1,31 @@
 
 <div layout="row">
   <div class="flex poll-list">
-    <ul>
-      <li ng-repeat="poll in polls">
-        <a ui-sref="polls.details({sessionId: currentSession(), id: poll.id})">{{poll.title}}</a>
-        <md-button ng-click="select(poll)">preview</md-button>
-      </li>
-    </ul>
+
+    <md-grid-list  md-cols-sm="1" md-cols-md="2" md-cols-gt-md="3"
+                   md-row-height-gt-md="4:5" md-row-height="1:1"
+                   md-gutter="5px" md-gutter-gt-sm="2px">
+
+      <md-grid-tile ng-repeat="poll in polls" class="gray"
+                    md-rowspan="1" md-colspan="1" md-colspan-sm="1">
+
+        <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754">
+        </div>
+
+
+          <div class="tile-footer" layout="row">
+            <span class="body2"><a ui-sref="polls.details({sessionId: currentSession(), id: poll.id})">{{poll.title}}</a></span>
+            <span class="flex"></span>
+            <md-button class="md-icon-button">
+              <md-icon md-font-library="material-icons">more_vert</md-icon>
+            </md-button>
+          </div>
+      </md-grid-tile>
+
+    </md-grid-list>
   </div>
 
-  <div class="flex poll-preview">
+  <div class="flex poll-preview" hide-sm>
     <poll-details poll="selected"></poll-details>
   </div>
 </div>
