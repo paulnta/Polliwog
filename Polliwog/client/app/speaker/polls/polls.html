@@ -1,3 +1,6 @@
-<h2>polls</h2>
-<strong>{{message}}</strong>
-<div ui-view=""></div>
+<p>this is a poll list default page</p>
+<a ui-sref="speaker.polls.preview">preview</a>
+<div layout="row">
+  <div class="flex" ui-view="list"></div>
+  <div class="flex" ui-view="preview"></div>
+</div>

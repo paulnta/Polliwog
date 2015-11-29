@@ -1,7 +1,6 @@
 
 angular.module('polliwogApp')
   .config(function ($stateProvider) {
-
     $stateProvider
       .state('speaker.session', {
         url: '/session',
@@ -12,5 +11,4 @@ angular.module('polliwogApp')
           }
         }
       })
-
   });
