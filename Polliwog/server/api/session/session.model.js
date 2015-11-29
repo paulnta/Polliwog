@@ -35,10 +35,6 @@ var Poll = require('../poll/poll.model'),
  *
  * - description. A session is describe by a mandatory description.
  *
- * - creationDate. The creation date of a session is stored. It is only for
- * informative purpose. Its value is automatically assigned by the current 
- * datetime of the database.
- *
  * - isPrivate. The web applications provides with two types of sessions 
  * which are public ones and private ones. The type of a given session is
  * defined by a boolean flag indicating whether it is public (false) or 
@@ -71,7 +67,6 @@ var SessionSchema = new Schema({
   key: { type: String, unique: true },
   name: { type: String, trim: true, required: true, maxlength: 30 },
   description: { type: String, trim: true, required: true, maxlength: 120 },
-  creationDate: { type: Date, default: Date.now },
   isPrivate: { type: Boolean, default: false },
   speaker: { type: Schema.ObjectId, ref: 'User', required: true },
   listeners: [{ type: Schema.ObjectId, ref: 'User' }],

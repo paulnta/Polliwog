@@ -24,7 +24,6 @@ exports.show = function (req, res) {
 // Creates a new session in the DB.
 exports.create = function (req, res) {
 	if (req.body._id) { delete req.body._id; }
-  if (req.body.creationDate) { req.body.creationDate }
 	if (req.body.listeners) { delete req.body.listeners; }
 	if (req.body.moods) { delete req.body.moods; }
 	if (req.body.polls) { delete req.body.polls; }
@@ -41,7 +40,6 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.key) { delete req.body.key; }
-  if (req.body.creationDate) { req.body.creationDate }
   if (req.body.speaker) { delete req.body.speaker; }
 	if (req.body.listeners) { delete req.body.listeners; }
 	if (req.body.moods) { delete req.body.moods; }
