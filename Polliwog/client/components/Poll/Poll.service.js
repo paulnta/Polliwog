@@ -10,10 +10,11 @@ angular.module('polliwogApp')
 
         var sessions = Session.list();
 
-        for(var i=0; i < sessions.length; i++)
-          if(sessions[i].id == sessionId) {
+        for(var i=0; i < sessions.length; i++) {
+          if (sessions[i].id == sessionId) {
             return sessions[i].polls;
           }
+        }
 
         return [];
       }

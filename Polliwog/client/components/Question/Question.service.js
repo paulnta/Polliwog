@@ -7,7 +7,7 @@ angular.module('polliwogApp')
     // Public API here
     return {
       someMethod: function () {
-        return "hello world";
+        return 'hello world';
       }
     };
   });

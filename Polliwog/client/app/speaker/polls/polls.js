@@ -1,5 +1,6 @@
 angular.module('polliwogApp')
   .config(function ($stateProvider) {
+    'use strict';
 
     $stateProvider
       /*

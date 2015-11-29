@@ -4,6 +4,8 @@
 
 angular.module('polliwogApp')
   .controller('PollsCtrl', function ($scope, Poll, Session) {
+    'use strict';
+
     $scope.message = "PollsCtrl";
 
     $scope.polls = Poll.list(Session.current());

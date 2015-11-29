@@ -1,5 +1,7 @@
 angular.module('polliwogApp')
   .controller('SpeakerCtrl', function ($scope, $state, Session) {
+    'use strict';
+
     $scope.message = "SpeakerCtrl";
 
     // TODO: Get session through API

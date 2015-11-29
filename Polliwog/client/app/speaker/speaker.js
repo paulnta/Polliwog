@@ -2,6 +2,8 @@
 
 angular.module('polliwogApp')
   .config(function ($stateProvider) {
+    'use strict';
+
     $stateProvider
       /*
        * Abstract state that defines the speaker page layout
@@ -14,20 +16,20 @@ angular.module('polliwogApp')
            * The unnamed view "<div ui-view>" of index.html
            * is used to show the speakers layout
            */
-          "" : {
+          '' : {
             templateUrl: 'app/speaker/speaker.html',
             controller: 'SpeakerCtrl'
           },
 
           /*
-           * The named view "<div ui-view='navigation'>" of speaker.html
+           * The named view '<div ui-view='navigation'>' of speaker.html
            * has a dynamic toolbar which can be redefined by other views.
            */
-          "navigation@speaker":{
+          'navigation@speaker':{
             templateUrl: 'components/speaker/toolbar/toolbar.html',
             controller: 'SpeakerCtrl'
           }
         }
-      })
+      });
 
   });

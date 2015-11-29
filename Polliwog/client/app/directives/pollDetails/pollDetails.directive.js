@@ -8,8 +8,7 @@ angular.module('polliwogApp')
       scope: {
         poll : '='
       },
-      link: function (scope, element, attrs) {
-
+      link: function (/*scope, element, attrs*/) {
       }
     };
   });
