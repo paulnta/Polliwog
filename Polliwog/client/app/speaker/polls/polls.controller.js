@@ -3,22 +3,10 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope) {
+  .controller('PollsCtrl', function ($scope, Poll, Session) {
     $scope.message = "PollsCtrl";
-    $scope.polls = [
-      {
-        title: "poll1",
-        id: 1
-      },
-      {
-        title: "poll2",
-        id: 2
-      },
-      {
-        title: "poll3",
-        id: 3
-      }
-    ];
+
+    $scope.polls = Poll.list(Session.current());
 
     $scope.selected = $scope.polls.length ? $scope.polls[0]: {};
 

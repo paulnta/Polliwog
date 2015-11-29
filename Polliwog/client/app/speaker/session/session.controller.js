@@ -5,5 +5,4 @@
 angular.module('polliwogApp')
   .controller('SessionCtrl', function ($scope, $stateParams) {
     $scope.message = "SessionCtrl";
-    //$scope.currentSession = $stateParams.sessionId;
   });
