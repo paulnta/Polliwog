@@ -1,6 +1,15 @@
-<p>this is a poll list default page</p>
-<strong>{{message}}</strong><br>
+
 <div layout="row">
-  <div class="flex" ui-view="list"></div>
-  <div class="flex" ui-view="preview"></div>
+  <div class="flex poll-list">
+    <ul>
+      <li ng-repeat="poll in polls">
+        <a ui-sref="polls.details({sessionId: currentSession(), id: poll.id})">{{poll.title}}</a>
+        <md-button ng-click="select(poll)">preview</md-button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex poll-preview">
+    <poll-details poll="selected"></poll-details>
+  </div>
 </div>

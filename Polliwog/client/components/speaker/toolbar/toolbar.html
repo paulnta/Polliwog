@@ -1,1 +1,8 @@
-<a ui-sref='speaker.session'>session</a> - <a ui-sref='speaker.polls'>polls</a> - <a ui-sref='speaker.questions'>question</a>
+<md-toolbar class="md-tall">
+  <span flex></span>
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <md-button ui-sref="session({sessionId:currentSession()})">Sessions</md-button>
+    <md-button ui-sref="polls({sessionId:currentSession()})">Polls</md-button>
+    <md-button ui-sref="questions({sessionId:currentSession()})">Questions</md-button>
+  </div>
+</md-toolbar>

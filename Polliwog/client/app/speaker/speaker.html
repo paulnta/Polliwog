@@ -1,5 +1,68 @@
-<h1>Speaker page</h1>
-<strong>{{message}}</strong>
+<div ng-controller="MainCtrl" layout="column" style="height:100vh;" ng-cloak>
 
-<div ui-view="navigation"></div>
-<div ui-view=""></div>
+  <section layout="row" flex>
+
+    <!--LEFT SIDENAV-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+
+      <md-content ng-controller="LeftCtrl">
+
+        <md-button ng-click="close()" class="md-primary" hide-gt-md>
+          Close Sidenav Left
+        </md-button>
+
+        <md-list>
+          <md-list-item>
+            <img alt="avatar" ng-src="https://material.angularjs.org/latest/img/100-0.jpeg" class="md-avatar"/>
+            <p>Paul Ntawuruhunga</p>
+          </md-list-item>
+          <md-divider></md-divider>
+
+          <md-subheader class="md-no-sticky">Sessions</md-subheader>
+
+          <md-list-item  ng-repeat="session in sessions" ng-click="goTo(session.id)" >
+            <md-icon md-font-library="material-icons">dvr</md-icon>
+            <p>{{session.title}}</p>
+          </md-list-item>
+
+        </md-list>
+      </md-content>
+
+    </md-sidenav>
+
+    <!--CONTENT-->
+    <md-content flex>
+
+      <div ui-view="navigation"></div>
+      <md-content layout-padding>
+
+        <!--MAIN VIEW-->
+        <div ui-view=""></div>
+
+        <div flex></div>
+      </md-content>
+    </md-content>
+
+    <!--RIGHT SIDENAV-->
+    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Sidenav Right</h1>
+      </md-toolbar>
+      <md-content ng-controller="RightCtrl" layout-padding>
+        <form>
+          <md-input-container>
+            <label for="testInput">Test input</label>
+            <input type="text" id="testInput"
+                   ng-model="data" md-autofocus>
+          </md-input-container>
+        </form>
+        <md-button ng-click="close()" class="md-primary">
+          Close Sidenav Right
+        </md-button>
+      </md-content>
+    </md-sidenav>
+
+  </section>
+</div>
+
+

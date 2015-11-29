@@ -5,10 +5,6 @@
 angular.module('polliwogApp')
   .controller('PollsCtrl', function ($scope) {
     $scope.message = "PollsCtrl";
-  })
-
-  .controller('PollsListCtrl', function ($scope) {
-    $scope.message = "PollsListCtrl";
     $scope.polls = [
       {
         title: "poll1",
@@ -22,8 +18,12 @@ angular.module('polliwogApp')
         title: "poll3",
         id: 3
       }
-    ]
-  })
-  .controller('PollsPreviewCtrl', function ($scope) {
-    $scope.message = "PollsPreviewCtrl";
+    ];
+
+    $scope.selected = $scope.polls.length ? $scope.polls[0]: {};
+
+    $scope.select = function (poll) {
+      $scope.selected = poll;
+    }
+
   });

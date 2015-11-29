@@ -11,7 +11,8 @@ angular.module('polliwogApp')
             controller: 'SpeakerCtrl'
           },
           "navigation@speaker":{
-            templateUrl: 'components/speaker/toolbar/toolbar.html'
+            templateUrl: 'components/speaker/toolbar/toolbar.html',
+            controller: 'SpeakerCtrl'
           }
         }
       })

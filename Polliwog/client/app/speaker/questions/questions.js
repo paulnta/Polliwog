@@ -2,9 +2,14 @@
 angular.module('polliwogApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('speaker.questions', {
+      .state('questions', {
+        parent: 'session',
         url: '/questions',
-        templateUrl: 'app/speaker/questions/questions.html',
-        controller: 'QuestionsCtrl'
+        views : {
+          "@speaker": {
+            templateUrl: 'app/speaker/questions/questions.html',
+            controller: 'QuestionsCtrl'
+          }
+        }
       });
   });

@@ -42,39 +42,13 @@ angular.module('polliwogApp')
       };
     }
 
-
-    $scope.message = 'Sweet home';
-
-    $scope.data = {
-      selectedIndex: 0,
-      secondLocked:  true,
-      secondLabel:   'Item Two',
-      bottom:        false
-    };
-    $scope.next = function() {
-      $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2) ;
-    };
-    $scope.previous = function() {
-      $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
-    };
-
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
+
     $scope.isOpenRight = function(){
       return $mdSidenav('right').isOpen();
     };
 
-
-    $scope.navigateTo = function(to, event) {
-      $mdDialog.show(
-        $mdDialog.alert()
-          .title('Navigating')
-          .textContent('Imagine being taken to ' + to)
-          .ariaLabel('Navigation demo')
-          .ok('Neat!')
-          .targetEvent(event)
-      );
-    };
   })
   .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.close = function () {
