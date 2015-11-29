@@ -13,8 +13,7 @@ angular.module('polliwogApp')
         views : {
           "@speaker": {
             templateUrl: 'app/speaker/polls/polls-preview/polls-preview.html',
-            controller: function ($scope) {
-            }
+            controller: 'PollsPreviewCtrl'
           },
           "navigation@speaker": {
             templateUrl: 'components/speaker/toolbar/toolbar-extended.html'

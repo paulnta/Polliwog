@@ -9,15 +9,23 @@ angular.module('polliwogApp')
       .state('speaker.polls', {
         url: '/polls',
         views: {
+
           "" : {
             templateUrl: 'app/speaker/polls/polls.html',
             controller: 'PollsCtrl'
           },
+
+          /*
+           * polls.html defines 2 named views
+           * list: a list of polls
+           * preview: a poll preview when selected
+           */
           "list@speaker.polls": {
-            template: "<p>poll list<p>"
+            templateUrl: 'app/speaker/polls/polls-list.html',
+            controller: 'PollsListCtrl'
           },
           "preview@speaker.polls":{
-            template: "<p>single poll preview<p>"
+            templateUrl: "app/speaker/polls/polls-preview.html"
           }
         }
       })

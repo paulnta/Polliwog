@@ -4,11 +4,7 @@ angular.module('polliwogApp')
     $stateProvider
       .state('speaker.session', {
         url: '/session',
-        views: {
-          "": {
-            templateUrl: 'app/speaker/session/session.html',
-            controller: 'SessionCtrl'
-          }
-        }
+        templateUrl: 'app/speaker/session/session.html',
+        controller: 'SessionCtrl'
       })
   });
