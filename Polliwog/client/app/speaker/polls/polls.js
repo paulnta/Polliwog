@@ -25,7 +25,8 @@ angular.module('polliwogApp')
             controller: 'PollsListCtrl'
           },
           "preview@speaker.polls":{
-            templateUrl: "app/speaker/polls/polls-preview.html"
+            templateUrl: "app/speaker/polls/polls-preview.html",
+            controller: 'PollsPreviewCtrl'
           }
         }
       })

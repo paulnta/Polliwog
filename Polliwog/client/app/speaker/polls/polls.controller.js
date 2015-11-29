@@ -23,4 +23,7 @@ angular.module('polliwogApp')
         id: 3
       }
     ]
+  })
+  .controller('PollsPreviewCtrl', function ($scope) {
+    $scope.message = "PollsPreviewCtrl";
   });

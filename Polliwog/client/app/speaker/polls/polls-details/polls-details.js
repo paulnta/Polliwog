@@ -8,12 +8,12 @@ angular.module('polliwogApp')
        * - It redefines the toolbar in an extended toolbar
        *  which have only a back link
        */
-      .state('speaker.polls.preview', {
+      .state('speaker.polls.details', {
         url: '/:id',
         views : {
           "@speaker": {
-            templateUrl: 'app/speaker/polls/polls-preview/polls-preview.html',
-            controller: 'PollsPreviewCtrl'
+            templateUrl: 'app/speaker/polls/polls-details/polls-details.html',
+            controller: 'PollsDetailsCtrl'
           },
           "navigation@speaker": {
             templateUrl: 'components/speaker/toolbar/toolbar-extended.html'
