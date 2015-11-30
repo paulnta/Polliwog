@@ -70,6 +70,15 @@ angular.module('polliwogApp')
 
       current: function () {
         return $state.params.sessionId;
+      },
+
+      getTitle: function (sessionId) {
+        for(var i=0; i < sessions.length; i++){
+          if(sessions[i].id == sessionId){
+            return sessions[i].title;
+          }
+        }
+        return '';
       }
     };
   });

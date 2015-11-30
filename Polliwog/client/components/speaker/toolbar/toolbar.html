@@ -1,6 +1,22 @@
 <md-toolbar class="md-tall">
-  <span flex></span>
+  <div class="md-toolbar-tools" ng-controller="MainCtrl">
+    <md-button hide-gt-md class="md-icon-button"
+               ng-click="toggleLeft()" aria-label="Settings">
+      <md-icon md-font-library="material-icons">menu</md-icon>
+    </md-button>
+    <h2>
+      <span>{{getTitle()}}</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="search">
+      <md-icon md-font-library="material-icons">search</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="more">
+      <md-icon md-font-library="material-icons">more_vert</md-icon>
+    </md-button>
+  </div>
 
+  <span flex></span>
   <div class="tabs-container" layout layout-align="center end">
     <div class="tabs-wrapper" layout="column">
       <div layout="row" class="buttons">

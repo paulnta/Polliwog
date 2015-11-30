@@ -3,10 +3,14 @@
 angular.module('polliwogApp')
   .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Session) {
 
+    $scope.getTitle = function () {
+      return Session.getTitle(Session.current());
+    };
 
     $scope.isActivated = function (sessionId) {
       return Session.current() == sessionId;
     };
+
     /**
      * Supplies a function that will continue to operate until the
      * time is up.
