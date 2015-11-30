@@ -1,9 +1,16 @@
 <md-toolbar class="md-tall">
   <span flex></span>
-  <div class="md-toolbar-tools md-toolbar-tools-bottom" layout layout-align="center end">
 
-    <md-button ui-sref="session({sessionId:currentSession()})">Sessions</md-button>
-    <md-button ui-sref="polls({sessionId:currentSession()})">Polls</md-button>
-    <md-button ui-sref="questions({sessionId:currentSession()})">Questions</md-button>
+  <div class="tabs-container" layout layout-align="center end">
+    <div class="tabs-wrapper" layout="column">
+      <div layout="row" class="buttons">
+        <md-button class="tab" ng-class="{active:currentTab() == 'active1'}" ui-sref="session({sessionId:currentSession()})">Sessions</md-button>
+        <md-button class="tab" ui-sref-active="active" ui-sref="polls({sessionId:currentSession()})">Polls</md-button>
+        <md-button class="tab" ui-sref-active="active" ui-sref="questions({sessionId:currentSession()})">Questions</md-button>
+      </div>
+      <div class="borders" ng-class="currentTab()">
+        <div class="border"></div>
+      </div>
+    </div>
   </div>
 </md-toolbar>

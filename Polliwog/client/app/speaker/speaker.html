@@ -1,6 +1,6 @@
 <div ng-controller="MainCtrl" layout="column" style="height:100vh;" ng-cloak>
 
-  <section layout="row" flex>
+  <section layout="row" flex id="side-navigation">
 
     <!--LEFT SIDENAV-->
     <md-sidenav id="left-nav" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
@@ -20,7 +20,7 @@
 
           <md-subheader class="md-no-sticky">Sessions</md-subheader>
 
-          <md-list-item  ng-repeat="session in sessions" ng-click="goTo(session.id)" >
+          <md-list-item ng-repeat="session in sessions" ng-click="goTo(session.id)" ng-class="{active: isActivated(session.id)}">
             <md-icon md-font-library="material-icons">dvr</md-icon>
             <p>{{session.title}}</p>
           </md-list-item>

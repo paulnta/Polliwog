@@ -7,6 +7,18 @@ angular.module('polliwogApp')
     // TODO: Get session through API
     $scope.sessions = Session.list();
 
+    $scope.currentTab = function () {
+      if($state.includes('questions')){
+        return 'active3';
+
+      } else if ($state.includes('polls')){
+        return 'active2';
+
+      } else if ($state.includes('session')){
+        return 'active1';
+      }
+    };
+
     /**
      * Navigates to another session
      * @param sessionId

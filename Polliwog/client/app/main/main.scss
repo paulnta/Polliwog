@@ -7,3 +7,51 @@
 #navigation a,  md-toolbar:not(.md-menu-toolbar) md-icon{
   color: white;
 }
+#side-navigation md-list md-list-item.active{
+  box-sizing: border-box;
+  border-left: 3px solid #33cfe0;
+}
+
+.borders{
+  width: 150px;
+  height: 2px;
+  background-color: #ffff8d;
+  transform: translate(0%,0);
+  transition: transform 0.3s;
+  will-change: transform;
+}
+
+.borders.active1{
+  transform: translate(0%,0);
+}
+
+.borders.active2{
+  transform: translate(100%,0);
+}
+.borders.active3{
+  transform: translate(200%,0);
+}
+
+.tabs-container{
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  left:0;
+
+  .tabs-wrapper{
+    position: relative;
+    bottom: -30;
+
+    .tab.md-button {
+      opacity: 0.7;
+      width: 150px;
+      margin: 0;
+      border-radius: 0;
+    }
+    .tab.md-button.active{
+      opacity: 1;
+    }
+  }
+}
+
+
