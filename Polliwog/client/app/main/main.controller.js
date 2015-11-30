@@ -3,6 +3,24 @@
 angular.module('polliwogApp')
   .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Session) {
 
+    $scope.leftNavLocked = true;
+
+    $scope.toggleLockLeft = function () {
+      $scope.leftNavLocked = !$scope.leftNavLocked;
+      $mdSidenav('left').close();
+    };
+
+    $scope.pinIcon = function () {
+      if($scope.leftNavLocked){
+        return 'keyboard_arrow_left';
+      }
+      return 'keyboard_arrow_right';
+    };
+
+    $scope.isOpenLeft = function () {
+      return $mdSidenav('left').isOpen();
+    };
+
     $scope.getTitle = function () {
       return Session.getTitle(Session.current());
     };

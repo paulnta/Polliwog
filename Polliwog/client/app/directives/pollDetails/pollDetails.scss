@@ -1,16 +1,10 @@
-
-#autosized-wrapper{
-//  height: 481px;
-//  overflow: hidden;
-}
 .wrapper{
 
   background-color: transparent;
   padding-left: 3px;
   padding-bottom: 4px;
   margin-left: -3px;
-//  height: 100%;
-  z-index: 100;
+  z-index: 10;
 
   .header {
     min-height: 400px;

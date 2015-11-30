@@ -3,15 +3,23 @@
   <section layout="row" flex id="side-navigation">
 
     <!--LEFT SIDENAV-->
-    <md-sidenav id="left-nav" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-sidenav id="left-nav" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md') && leftNavLocked">
 
       <md-content ng-controller="LeftCtrl">
 
         <md-list>
-          <md-list-item>
-            <img alt="avatar" ng-src="https://material.angularjs.org/latest/img/100-0.jpeg" class="md-avatar"/>
-            <p>John-doe@gmail.com</p>
-          </md-list-item>
+          <div id="user" class="user" layout="column">
+            <div layout="row">
+              <md-list-item>
+                <img alt="avatar" ng-src="https://material.angularjs.org/latest/img/100-0.jpeg" class="md-avatar"/>
+              </md-list-item>
+              <md-button ng-click="toggleLockLeft()" class="md-icon-button">
+                <md-icon md-font-library="material-icons">{{pinIcon()}}</md-icon>
+              </md-button>
+            </div>
+            <p class="body2"> John-doe@gmail.com  <md-icon md-font-library="material-icons">arrow_drop_down</md-icon></p>
+          </div>
+
           <md-divider></md-divider>
 
           <md-subheader class="md-no-sticky">Sessions</md-subheader>

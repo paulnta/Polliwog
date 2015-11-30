@@ -1,5 +1,9 @@
 <md-toolbar class="md-tall">
-  <div class="md-toolbar-tools" ng-controller="MainCtrl">
+  <div class="md-toolbar-tools">
+      <md-button hide-lt-md ng-hide="leftNavLocked" class="md-icon-button"
+                 ng-click="toggleLeft()" aria-label="Settings">
+        <md-icon md-font-library="material-icons">menu</md-icon>
+      </md-button>
     <md-button hide-gt-md class="md-icon-button"
                ng-click="toggleLeft()" aria-label="Settings">
       <md-icon md-font-library="material-icons">menu</md-icon>
