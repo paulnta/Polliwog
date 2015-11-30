@@ -1,13 +1,6 @@
 <md-toolbar class="md-tall">
   <div class="md-toolbar-tools">
-      <md-button hide-lt-md ng-hide="leftNavLocked" class="md-icon-button"
-                 ng-click="toggleLeft()" aria-label="Settings">
-        <md-icon md-font-library="material-icons">menu</md-icon>
-      </md-button>
-    <md-button hide-gt-md class="md-icon-button"
-               ng-click="toggleLeft()" aria-label="Settings">
-      <md-icon md-font-library="material-icons">menu</md-icon>
-    </md-button>
+    <div ng-include="'components/speaker/toolbar/menu-button.html'"></div>
     <h2>
       <span>{{getTitle()}}</span>
     </h2>
@@ -24,9 +17,18 @@
   <div class="tabs-container" layout layout-align="center end">
     <div class="tabs-wrapper" layout="column">
       <div layout="row" class="buttons">
-        <md-button class="tab" ng-class="{active:currentTab() == 'active1'}" ui-sref="session({sessionId:currentSession()})">Sessions</md-button>
-        <md-button class="tab" ui-sref-active="active" ui-sref="polls({sessionId:currentSession()})">Polls</md-button>
-        <md-button class="tab" ui-sref-active="active" ui-sref="questions({sessionId:currentSession()})">Questions</md-button>
+        <md-button class="tab" ng-class="{active:currentTab() == 'active1'}" ui-sref="session({sessionId:currentSession()})">
+          <span hide-md hide-sm>Sessions</span>
+          <md-icon hide-gt-md md-font-library="material-icons">dvr</md-icon>
+        </md-button>
+        <md-button class="tab" ui-sref-active="active" ui-sref="polls({sessionId:currentSession()})">
+          <span hide-md hide-sm>Polls</span>
+          <md-icon hide-gt-md md-font-library="material-icons">poll</md-icon>
+        </md-button>
+        <md-button class="tab" ui-sref-active="active" ui-sref="questions({sessionId:currentSession()})">
+          <span hide-md hide-sm>Questions</span>
+          <md-icon hide-gt-md md-font-library="material-icons">more_vert</md-icon>
+        </md-button>
       </div>
       <div class="borders" ng-class="currentTab()">
         <div class="border"></div>

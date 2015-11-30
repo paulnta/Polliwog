@@ -16,9 +16,9 @@ angular.module('polliwogApp')
           if(!headerH) {
             headerH = 128;
           }
-          var preview = $('#autosized-wrapper');
+          var preview = $('.autoheight #autosized-wrapper');
           if(preview) {
-            var newH = (windowH - headerH - 10);
+            var newH = (windowH - headerH - 5);
             preview.css('height', newH + 'px');
           } else {
             console.log('element no found');

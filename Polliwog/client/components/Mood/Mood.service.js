@@ -8,6 +8,7 @@ angular.module('polliwogApp')
     return {
       someMethod: function () {
         return 'hello world';
+
       }
     };
   });

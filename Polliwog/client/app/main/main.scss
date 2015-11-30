@@ -73,3 +73,11 @@
   }
 }
 
+@media screen and (max-width: 600px){
+  .tabs-container .tabs-wrapper .tab.md-button {
+    width: 90px;
+  }
+  .borders {
+    width: 90px;
+  }
+}

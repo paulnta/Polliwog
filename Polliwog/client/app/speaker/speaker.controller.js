@@ -1,6 +1,7 @@
 angular.module('polliwogApp')
-  .controller('SpeakerCtrl', function ($scope, $state, Session) {
+  .controller('SpeakerCtrl', function ($scope, $state, Session, Mood) {
     'use strict';
+
 
     $scope.message = "SpeakerCtrl";
 
