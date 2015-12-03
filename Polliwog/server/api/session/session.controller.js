@@ -28,6 +28,7 @@ exports.create = function (req, res) {
 	if (req.body.moods) { delete req.body.moods; }
 	if (req.body.polls) { delete req.body.polls; }
 	if (req.body.resources) { delete req.body.resources; }
+  if (req.body.ceationDate) { delete req.body.ceationDate; }
 	req.body.key = generateKey();
 	req.body.speaker = req.user._id;
   Session.create(req.body, function (err, session) {
@@ -45,6 +46,7 @@ exports.update = function (req, res) {
 	if (req.body.moods) { delete req.body.moods; }
 	if (req.body.polls) { delete req.body.polls; }
 	if (req.body.resources) { delete req.body.resources; }
+  if (req.body.ceationDate) { delete req.body.ceationDate; }
   Session.findOne({ _id: req.params.id, speaker: req.user._id }, function (err, session) {
     if (err) { return handleError(res, err); }
     if (!session) { return res.status(404).send('Not Found'); }
@@ -76,7 +78,7 @@ function generateKey() {
 	var available = false;
 	var key;
 	do {
-		key = rand.generate();
+		key = rand.generate(5);
 		Session.findOne({ key: key}, function (err, session) {
 			if (!session) { available = true; }
 		});

@@ -67,6 +67,7 @@ var SessionSchema = new Schema({
   key: { type: String, unique: true },
   name: { type: String, trim: true, required: true, maxlength: 30 },
   description: { type: String, trim: true, required: true, maxlength: 120 },
+  creationDate: { type: Date, default: Date.now },
   isPrivate: { type: Boolean, default: false },
   speaker: { type: Schema.ObjectId, ref: 'User', required: true },
   listeners: [{ type: Schema.ObjectId, ref: 'User' }],
