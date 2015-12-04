@@ -14,11 +14,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var Poll = require('../poll/poll.model'),
-		Mood = require('../mood/mood.model'),
-		User = require('../user/user.model'),
-		Resource = require('../resource/resource.model');
-
 /**
  * A session is defined by the following properties:
  *
@@ -85,10 +80,10 @@ var SessionSchema = new Schema({
  * to his sessions. 
  */ 
 SessionSchema.pre('remove', function (next) {
-
 	/**
 	 * Update parent user's array of sessions.
 	 */
+	var User = mongoose.model('User');
 	User.findByIdAndUpdate(this.speaker, { $pull: { sessions: this._id } });
 
 	/**
@@ -101,6 +96,7 @@ SessionSchema.pre('remove', function (next) {
 	 *
 	 * Further information on: http://mongoosejs.com/docs/populate.html
 	 */
+	var Poll = mongoose.model('Poll');
 	Poll.find({ session: this._id }, function (err, polls) { 
 		if (err) { console.log(err); return; } 
 		polls.forEach(function (poll) { poll.remove(); }); 
@@ -109,6 +105,7 @@ SessionSchema.pre('remove', function (next) {
 	/**
 	 * Remove all moods related to the current session.
 	 */
+	var Mood = mongoose.model('Mood');
 	Mood.remove({ session: this._id }, function (err) {
 		if (err) { console.log(err); }
 	});
@@ -116,6 +113,7 @@ SessionSchema.pre('remove', function (next) {
 	/**
 	 * Remove all resources related to the current session.
 	 */
+	var Resource = mongoose.model('Resource');
 	Resource.remove({ session: this._id }, function (err) {
 		if (err) { console.log(err); }
 	});
@@ -145,6 +143,7 @@ SessionSchema.pre('save', function (next) {
  * test on the flag wasNew defined on pre save event. 
  */ 
 SessionSchema.post('save', function () {
+	var User = mongoose.model('User');
 	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { sessions: this._id } }); }
 });
 
