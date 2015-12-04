@@ -30,6 +30,10 @@ var mongoose = require('mongoose'),
  *
  * - description. A session is describe by a mandatory description.
  *
+ * - creationDate: A session is characterized by a creation date. It may
+ * seem to be strange to store such a data given that a session is supposed 
+ * to be temporary. This date is used as a reference for moods statistics.
+ *
  * - isPrivate. The web applications provides with two types of sessions 
  * which are public ones and private ones. The type of a given session is
  * defined by a boolean flag indicating whether it is public (false) or 

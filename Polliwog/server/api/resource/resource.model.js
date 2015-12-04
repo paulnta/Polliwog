@@ -19,8 +19,8 @@ var ResourceSchema = new Schema({
   title: { type: String, trim: true, required: true },
   subhead: { type: String, trim: true, required: true },
   creationDate: { type: Date, default: Date.now },
-  file: { type: String },
-  text: { type: String }
+  text: { type: String },
+  file: { type: String }
 });
 
 /** 
