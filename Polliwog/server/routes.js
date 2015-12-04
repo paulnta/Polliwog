@@ -9,22 +9,32 @@ var path = require('path');
 
 module.exports = function(app) {
 
+  app.param('session_id', function(req, res, next, session_id) {
+    Session.findById(session_id, function(err, session) {
+        if (err) next(err);
+        if (!session) return res.status(404).send('Not Found');
+        
+        req.body.session = session._id;
+        next();
+    });
+  });
+  
   app.param('poll_id', function(req, res, next, poll_id) {
     Poll.findById(poll_id, function(err, poll) {
-        if (err) next(err); //return res.status(500).send(err);
-        if (!poll) return res.status(404).send(err);
+        if (err) next(err);
+        if (!poll) return res.status(404).send('Not Found');
         
-        req.body.poll = poll;
+        req.body.poll = poll._id;
         next();
     });
   });
   
   app.param('question_id', function(req, res, next, question_id) {
     Question.findOne({_id: question_id, poll: req.body.poll._id}, function(err, question) {
-        if (err) next(err); //return res.status(500).send(err);
-        if (!question) return res.status(404).send(err);
+        if (err) next(err);
+        if (!question) return res.status(404).send('Not Found');
         
-        req.body.question = question;
+        req.body.question = question._id;
         next();
     });
   });
