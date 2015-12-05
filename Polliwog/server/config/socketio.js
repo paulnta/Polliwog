@@ -18,6 +18,8 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/resource/resource.socket').register(socket);
+  require('../api/session/session.socket').register(socket);
 
 
 }

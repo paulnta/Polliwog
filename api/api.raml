@@ -1,8 +1,72 @@
 #%RAML 0.8
-title: poll.iwog
-version: v1
-baseUri: http://server/api/
+title: Polliwog
+baseUri: http://localhost:9000/api/
+documentation:
+  - title: Overview
+    content: |
+      # TODO IN MARKDOWN
+  - title: Getting started
+    content: |
+      # TODO IN MARKDOWN
+  - title: The Privacy Rule
+    content: |
+      # TODO IN MARKDOWN
+  - title: User Roles
+    content: |
+      # TODO IN MARKDOWN
+  - title: Contributors
+    content: |
+      * Eléonore d'Agostino ([paranoodle](https://github.com/paranoodle))
+      * Karim Ghozlani ([gweezer7](https://github.com/gweezer7))
+      * Yassin Kammoun ([yibnl](https://github.com/yibnl))
+      * Paul Ntawuruhunga ([paulnta](https://github.com/paulnta))
 schemas:
+  - session: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "key": {
+            "type": "string",
+            "unique": true
+          },
+          "name": {
+            "type": "string",
+            "required": true,
+            "maxlength": 30
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "maxlength": 120
+          },
+          "isPrivate": {
+            "type": "boolean",
+            "default": false
+          },
+          "speaker": {
+            "$ref": "user"
+          },
+          "listeners": {
+            "type": "array",
+            "items": {"$ref": "user"}
+          },
+          "moods": {
+            "type": "array",
+            "items": {"$ref": "mood"}
+          },
+          "polls": {
+            "type": "array",
+            "items": {"$ref": "poll"}
+          },
+          "resources": {
+            "type": "array",
+            "items": {"$ref": "resource"}
+          }
+        }
+      }
   - poll: |
       {
         "type": "object",
@@ -126,6 +190,9 @@ resourceTypes:
             description: An internal error occured.
       post:
         description: Create a new <<resourcePathName|!singularize>>.
+        body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
         responses:
           201:
             body:
@@ -171,6 +238,9 @@ resourceTypes:
       put:
         description: |
           Update the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
         responses:
           200:
             body:
