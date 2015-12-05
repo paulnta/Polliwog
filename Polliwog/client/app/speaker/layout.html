@@ -1,0 +1,44 @@
+<div ng-controller="MainCtrl" layout flex>
+
+    <!--
+      LEFT SIDE NAV
+    -->
+    <md-sidenav id="left-nav"
+                class="md-sidenav-left md-whiteframe-z2"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-md') && leftNavLocked">
+
+      <!--
+        The side nav left has a fixed position
+        the md-content tag makes his content scrollable when his content overflows
+      -->
+      <md-content>
+        <md-list>
+          <div ng-include="'app/speaker/user/user.html'"></div>
+          <md-divider></md-divider>
+          <md-subheader class="md-no-sticky">Sessions</md-subheader>
+          <md-list-item ng-repeat="session in sessions" ng-click="goTo(session.id)" ng-class="{active: isActivated(session.id)}">
+            <md-icon md-font-library="material-icons">dvr</md-icon>
+            <p>{{session.title}}</p>
+          </md-list-item>
+        </md-list>
+      </md-content>
+
+    </md-sidenav>
+
+    <!--
+      PAGE CONTENT
+    -->
+    <div class="page-content" ng-class="{sidenav: hasSidenavLeft()}">
+      <!-- This state includes the toolbar corresponding to the current state-->
+      <div id="navigation" ui-view="navigation"></div>
+      <div>
+        <!--MAIN VIEW-->
+        <div ui-view=""></div>
+        <div flex></div>
+      </div>
+    </div>
+
+</div>
+
+

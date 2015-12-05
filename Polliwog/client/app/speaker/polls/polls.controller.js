@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, Poll, Session) {
+  .controller('PollsCtrl', function ($scope, Poll, Session, $mdMedia) {
     'use strict';
 
     $scope.message = "PollsCtrl";
@@ -14,4 +14,10 @@ angular.module('polliwogApp')
     $scope.select = function (poll) {
       $scope.selected = poll;
     };
+
+    $scope.previewVisible = function (){
+      return $mdMedia('gt-md') || $mdMedia('md');
+    }
+
+
   });

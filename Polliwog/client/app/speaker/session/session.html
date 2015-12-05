@@ -1,5 +1,19 @@
-<md-content layout-padding>
-  <h2>Session:  <em>{{currentSession()}}</em></h2>
-  <strong>{{message}}</strong>
-</md-content>
+<section id="mood" class="top-section gray" ng-controller="QuickPollCtrl">
 
+  <md-fab-speed-dial md-open="dialOpen" md-direction="up" class="md-fling md-fab-bottom-right">
+    <md-fab-trigger>
+      <md-button aria-label="menu" class="md-fab">
+        <md-icon md-font-library="material-icons">add</md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button aria-label="Twitter" ng-click="showSelectType($event)" class="md-fab md-raised md-mini">
+        <md-icon md-font-library="material-icons">poll</md-icon>
+      </md-button>
+    </md-fab-actions>
+</section>
+
+<resource-list></resource-list>
+<script>
+
+</script>

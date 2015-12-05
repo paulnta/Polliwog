@@ -10,6 +10,8 @@
 }
 
 .tile-footer{
+
+  padding: 5px 0 5px 16px;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -17,15 +19,24 @@
   z-index: 10;
 
   background-color: #eeeeee;
-  padding: 0 0 0 10px;
 
-  .body2{
-    margin-top: auto;
-    margin-bottom: auto;
+  .body2, .body1{
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  md-menu, .md-button.md-icon-button{
+    height: 30px;
+    line-height: 30px;
   }
 }
 
+.polls-wrapper{
+  width: 100%;
+//  transition: width 0.2s linear;
 
-#poll-preview .wrapper{
-//  height: 800px;
+  &.side-preview{
+    width: 50%;
+  }
 }
+

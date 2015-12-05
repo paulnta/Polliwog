@@ -16,7 +16,7 @@ angular.module('polliwogApp')
           if(!headerH) {
             headerH = 128;
           }
-          var preview = $('.autoheight #autosized-wrapper');
+          var preview = $('.auto-height .wrapper');
           if(preview) {
             var newH = (windowH - headerH - 5);
             preview.css('height', newH + 'px');

@@ -20,8 +20,8 @@ angular.module('polliwogApp')
 
       // If you specify less than all of the keys, it will inherit from the
       // default shades
-      .accentPalette('amber', {
-        'default': '200' // use shade 200 for default, and keep all other shades the same
+      .accentPalette('yellow', {
+        'default': '300' // use shade 200 for default, and keep all other shades the same
       });
 
       //.foregroundPalette['4'] = 'rgba(255,0,0,1)';

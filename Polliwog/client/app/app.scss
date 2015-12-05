@@ -1,35 +1,10 @@
+/* --------------------------------
+   STYLE GUIDE VARIABLES
 
-$fa-font-path: "/bower_components/font-awesome/fonts";
+   Declarations of Sass variables
+   ------------------------------ */
 
-@import 'font-awesome/scss/font-awesome';
 
-/**
- * App-wide Styles
- */
-
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-body{
-  z-index: 100;
-  overflow: hidden;
-}
-
-a{
-  text-decoration: none;
-  color: #000000;
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-    .container {
-        max-width: 730px;
-    }
-}
 
 
 // Component styles are injected through grunt
@@ -39,9 +14,12 @@ a{
 @import 'audience/join/join.scss';
 @import 'audience/presentation/presentation.scss';
 @import 'directives/pollDetails/pollDetails.scss';
+@import 'directives/pw-card-image/pw-card-image.scss';
+@import 'directives/resource-list/resource-list.scss';
 @import 'main/main.scss';
 @import 'speaker/polls/polls-details/polls-details.scss';
 @import 'speaker/polls/polls.scss';
+@import 'speaker/session/session.scss';
 @import 'speaker/typography.scss';
-@import 'test/test.scss';
+@import 'speaker/user/user.scss';
 // endinjector

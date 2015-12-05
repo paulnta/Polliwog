@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Session) {
+  .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Session, $mdMedia, $window) {
 
     $scope.leftNavLocked = true;
 
@@ -10,11 +10,24 @@ angular.module('polliwogApp')
       $mdSidenav('left').close();
     };
 
+    $scope.hasSidenavLeft = function () {
+      return $scope.leftNavLocked && $mdMedia('gt-md');
+    };
+
     $scope.pinIcon = function () {
       if($scope.leftNavLocked){
         return 'keyboard_arrow_left';
       }
       return 'keyboard_arrow_right';
+    };
+
+
+    $scope.disableScrollOnBody = function () {
+      angular.element('body').addClass('overflow-hidden');
+    };
+
+    $scope.enableScrollOnBody = function () {
+      angular.element('body').removeClass('overflow-hidden');
     };
 
     $scope.isOpenLeft = function () {
@@ -28,6 +41,19 @@ angular.module('polliwogApp')
     $scope.isActivated = function (sessionId) {
       return Session.current() == sessionId;
     };
+
+    $scope.isSmall = function () {
+      return $mdMedia('sm') || $mdMedia('xs');
+    };
+
+    $scope.isMedium = function () {
+      return $mdMedia('md');
+    };
+
+    $scope.isLarge = function () {
+      return $mdMedia('gt-md');
+    };
+
 
     /**
      * Supplies a function that will continue to operate until the
@@ -75,7 +101,13 @@ angular.module('polliwogApp')
       return $mdSidenav('right').isOpen();
     };
 
+    var originatorEv;
+    $scope.openMenu = function($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
+    };
   })
+
   .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.close = function () {
       $mdSidenav('left').close()
@@ -84,6 +116,7 @@ angular.module('polliwogApp')
         });
     };
   })
+
   .controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.close = function () {
       $mdSidenav('right').close()
@@ -91,4 +124,5 @@ angular.module('polliwogApp')
           $log.debug('close RIGHT is done');
         });
     };
+
   });

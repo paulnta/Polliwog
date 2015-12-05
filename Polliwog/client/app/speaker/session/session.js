@@ -18,7 +18,7 @@ angular.module('polliwogApp')
        */
       .state('speaker.sessions', {
         url: '/sessions',
-        abstract: true
+        abstract: true,
       })
 
       /*

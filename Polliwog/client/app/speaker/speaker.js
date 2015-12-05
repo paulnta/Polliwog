@@ -9,6 +9,11 @@ angular.module('polliwogApp')
        * Abstract state that defines the speaker page layout
        */
       .state('speaker', {
+        data: {
+          authenticate: {
+            role: 'speaker'
+          }
+        },
         abstract: true,
         views: {
 
@@ -17,7 +22,7 @@ angular.module('polliwogApp')
            * is used to show the speakers layout
            */
           '' : {
-            templateUrl: 'app/speaker/speaker.html',
+            templateUrl: 'app/speaker/layout.html',
             controller: 'SpeakerCtrl'
           },
 
@@ -28,6 +33,9 @@ angular.module('polliwogApp')
           'navigation@speaker':{
             templateUrl: 'components/speaker/toolbar/toolbar.html',
             controller: 'SpeakerCtrl'
+          },
+          authenticate: {
+            role: 'speaker'
           }
         }
       });

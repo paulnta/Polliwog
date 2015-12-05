@@ -6,7 +6,8 @@ angular.module('polliwogApp', [
   'ngSanitize',
   'btford.socket-io',
   'ui.router',
-  'ngMaterial'
+  'ngMaterial',
+  'headroom'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
@@ -16,7 +17,29 @@ angular.module('polliwogApp', [
     $httpProvider.interceptors.push('authInterceptor');
   })
 
-  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+  .factory('TargetUrl', function () {
+    var targetUrl = null;
+
+    return {
+        setUrl : function (url) {
+          targetUrl = url;
+        },
+
+        isEmpty : function () {
+          return targetUrl === null;
+        },
+
+        getUrl: function () {
+          return targetUrl;
+        },
+
+        reset: function () {
+           targetUrl = null;
+        }
+      };
+  })
+
+  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location, TargetUrl) {
     return {
       // Add authorization token to headers
       request: function (config) {
@@ -30,6 +53,8 @@ angular.module('polliwogApp', [
       // Intercept 401s and redirect you to login
       responseError: function(response) {
         if(response.status === 401) {
+          TargetUrl.setUrl($location.url());
+          console.log("target: " + TargetUrl.getUrl());
           $location.path('/login');
           // remove any stale tokens
           $cookieStore.remove('token');
@@ -42,16 +67,16 @@ angular.module('polliwogApp', [
     };
   })
 
-  .run(function ($rootScope, $stateParams, $location, Auth) {
+  .run(function ($rootScope, $stateParams, Auth, $state, TargetUrl, $location) {
     // Redirect to login if route requires auth and you're not logged in
-    $rootScope.$on('$stateChangeStart', function (event, next) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
-      Auth.isLoggedInAsync(function(loggedIn) {
-        if (next.authenticate && !loggedIn) {
-          event.preventDefault();
-          $location.path('/login');
-        }
-      });
+    //if( toState.data && toState.data.authenticate            // the state need an authentication
+    //      && !Auth.hasRole(toState.data.authenticate.role)){ // has not required role
+    //    event.preventDefault();
+    //    //TargetUrl.setUrl($location.url());
+    //    $state.go('login');                                   // redirect to login
+    //  }
     });
   });
 

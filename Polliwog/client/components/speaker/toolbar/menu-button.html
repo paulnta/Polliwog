@@ -1,8 +1,8 @@
-<md-button hide-md hide-sm ng-hide="leftNavLocked" class="md-icon-button"
-           ng-click="toggleLeft()" aria-label="Settings">
-  <md-icon md-font-library="material-icons">menu</md-icon>
-</md-button>
-<md-button hide-gt-md class="md-icon-button"
+<!--
+  The menu button is always shown on small screen
+  The menu button is shown on large screen only when the side navigation is hidden
+-->
+<md-button ng-show="!leftNavLocked || !isLarge()" class="md-icon-button"
            ng-click="toggleLeft()" aria-label="Settings">
   <md-icon md-font-library="material-icons">menu</md-icon>
 </md-button>

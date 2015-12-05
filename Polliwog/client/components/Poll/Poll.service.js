@@ -17,6 +17,14 @@ angular.module('polliwogApp')
         }
 
         return [];
+      },
+
+      // TODO: Use API
+      get : function (pollId) {
+        return {
+          title: 'Poll title',
+          id: 31
+        };
       }
     };
   });

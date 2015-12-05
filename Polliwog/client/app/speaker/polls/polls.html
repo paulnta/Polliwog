@@ -1,31 +1,71 @@
 
-<div layout="row">
+<div layout="row" class="polls-wrapper" ng-class="{'side-preview': previewVisible()}">
   <div class="flex poll-list">
 
-    <md-grid-list  md-cols-sm="1" md-cols-md="2" md-cols-gt-md="3"
-                   md-row-height-gt-md="4:5" md-row-height="1:1"
-                   md-gutter="5px" md-gutter-gt-sm="2px">
+      <md-grid-list md-cols="2" md-cols-md="3" md-cols-gt-md="3"
+                    md-row-height="1:1" md-row-height-gt-md="4:5"
+                    md-gutter="5px">
 
+      <!--item-->
       <md-grid-tile ng-repeat="poll in polls" class="gray"
                     md-rowspan="1" md-colspan="1" md-colspan-sm="1">
 
-        <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754">
-        </div>
 
+        <!--clickable thumbnail with a ripple effect-->
+        <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754"></div>
 
+          <!--Footer -->
           <div class="tile-footer" layout="row">
-            <span class="body2"><a ui-sref="polls.details({sessionId: currentSession(), id: poll.id})">{{poll.title}}</a></span>
+
+            <!--title-->
+
+            <div layout="column">
+              <div class="body2">
+                <a ui-sref="polls.details({sessionId: currentSession(), id: poll.id})">{{poll.title}}</a>
+              </div>
+              <div class="body1">
+                infos
+              </div>
+            </div>
+
+
             <span class="flex"></span>
-            <md-button class="md-icon-button">
-              <md-icon md-font-library="material-icons">more_vert</md-icon>
-            </md-button>
+
+            <md-menu>
+              <!--main button-->
+              <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                <md-icon md-font-library="material-icons">more_vert</md-icon>
+              </md-button>
+
+              <!--menu-->
+              <md-menu-content width="3">
+                <md-menu-item>
+                  <md-button ng-click="">
+                    <md-icon md-font-library="material-icons">start</md-icon>
+                    Do something
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-click="">
+                    <md-icon md-font-library="material-icons">start</md-icon>
+                    Do something
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+
           </div>
       </md-grid-tile>
 
     </md-grid-list>
   </div>
 
-  <div id="poll-preview"  class="flex poll-preview autoheight" hide-sm>
-    <poll-details poll="selected"></poll-details>
-  </div>
+  <!--poll preview (invisible on mobiles)-->
+  <poll-details ng-show="previewVisible()"
+                ng-mouseenter="disableScrollOnBody()"
+                ng-mouseleave="enableScrollOnBody()"
+                class="flex fixed"
+                poll="selected">
+  </poll-details>
+
 </div>

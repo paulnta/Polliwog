@@ -3,6 +3,12 @@
  */
 
 angular.module('polliwogApp')
-  .controller('SessionCtrl', function ($scope, $stateParams) {
+  .controller('SessionCtrl', function ($scope) {
     $scope.message = "SessionCtrl";
+    $scope.dialOpen = false;
+    $scope.toggleDial = function () {
+      $scope.dialOpen = !$scope.dialOpen;
+    };
+
+
   });

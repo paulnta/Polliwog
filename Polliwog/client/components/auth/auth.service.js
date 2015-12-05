@@ -3,10 +3,12 @@
 angular.module('polliwogApp')
   .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
+
+    var userRoles = ['guest', 'user', 'speaker', 'admin'];
+
     if($cookieStore.get('token')) {
       currentUser = User.get();
     }
-
     return {
 
       /**
@@ -136,6 +138,9 @@ angular.module('polliwogApp')
         return currentUser.role === 'admin';
       },
 
+      hasRole: function (requiredRole) {
+        return userRoles.indexOf(currentUser.role) >= userRoles.indexOf(requiredRole);
+      },
       /**
        * Get auth token
        */

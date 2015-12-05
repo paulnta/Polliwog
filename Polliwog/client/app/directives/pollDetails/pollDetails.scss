@@ -1,18 +1,38 @@
-.wrapper{
+poll-details {
+  box-sizing: border-box;
+   transition: width 0.2s linear;
+  .wrapper {
+    background-color: transparent;
+    padding-left: 3px;
+    padding-bottom: 4px;
+    z-index: 10;
 
-  background-color: transparent;
-  padding-left: 3px;
-  padding-bottom: 4px;
-  margin-left: -3px;
-  z-index: 10;
+    .header {
+      min-height: 400px;
+      max-height: 400px;
+      background-color: #e6f0f9;
+    }
 
-  .header {
-    min-height: 400px;
-    max-height: 400px;
-    background-color: #e6f0f9;
+    .content {
+      background-color: #fff;
+    }
+  }
+
+  &.fixed{
+    height: 100%;
+    z-index: 10;
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
+    right: 3px;
+    width: 50%;
   }
 }
 
-#preview-infos.secondary-toolbar{
-  background-color: rgba(0,0,0,0.1);
+.sidenav poll-details.fixed{
+  width: calc((100% - 256px) / 2);
+}
+
+#preview-infos.secondary-toolbar {
+    background-color: #eeeeee;
 }

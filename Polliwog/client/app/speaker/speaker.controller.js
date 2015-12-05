@@ -1,9 +1,9 @@
 angular.module('polliwogApp')
-  .controller('SpeakerCtrl', function ($scope, $state, Session, Mood) {
+  .controller('SpeakerCtrl', function ($scope, $state, Session, Mood, $mdSidenav, User) {
     'use strict';
 
-
-    $scope.message = "SpeakerCtrl";
+    // trick: loggedUser have access to this ressource
+    //$scope.users = User.query();
 
     // TODO: Get session through API
     $scope.sessions = Session.list();
@@ -26,6 +26,9 @@ angular.module('polliwogApp')
      */
     $scope.goTo = function (sessionId) {
       $state.go('session', {sessionId: sessionId});
+      setTimeout(function () {
+        $mdSidenav('left').close();
+      }, 200);
     };
 
     /**
@@ -35,4 +38,5 @@ angular.module('polliwogApp')
     $scope.currentSession = function () {
       return Session.current();
     };
+
   });
