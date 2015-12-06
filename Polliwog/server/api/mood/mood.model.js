@@ -5,8 +5,11 @@ var mongoose = require('mongoose'),
 
 var MoodSchema = new Schema({
   lecture :	{ type: Schema.ObjectId, ref: 'Lecture', required: true },
+  // time in ms after lecture start
   date : { type: Number , required: true},
+  // value representing audience's current mood (between 0 and 100)
   value : { type: Number, required: true},
+  // optional reason to that mood
   reason: { type: String }
 });
 
