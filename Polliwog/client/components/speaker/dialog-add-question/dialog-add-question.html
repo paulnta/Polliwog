@@ -1,0 +1,23 @@
+<md-input-container>
+  <label>Question</label>
+  <input ng-model="question.title">
+</md-input-container>
+
+<div layout="row" ng-repeat="choice in question.choices" layout-align="start center">
+  <md-checkbox ng-model="choice.state" aria-label="Choice">
+  </md-checkbox>
+  <md-input-container>
+    <input ng-model="choice.title">
+  </md-input-container>
+</div>
+
+<md-button class="md-icon-button" ng-click="addChoice()">
+  <md-icon md-font-library="material-icons">add</md-icon>
+</md-button>
+
+<div>
+  <md-button ng-click="save()">
+    SAVE
+  </md-button>
+</div>
+

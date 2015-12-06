@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, Poll, Session, $mdMedia) {
+  .controller('PollsCtrl', function ($scope, $state, Poll, Session, $mdMedia) {
     'use strict';
 
     $scope.message = "PollsCtrl";
@@ -17,7 +17,10 @@ angular.module('polliwogApp')
 
     $scope.previewVisible = function (){
       return $mdMedia('gt-md') || $mdMedia('md');
-    }
+    };
 
+    $scope.addPoll = function () {
+      $state.go('polls.details', {pollId: 'create'});
+    };
 
   });

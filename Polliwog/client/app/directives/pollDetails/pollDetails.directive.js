@@ -1,6 +1,31 @@
 'use strict';
 
 angular.module('polliwogApp')
+  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
+
+    $scope.toolbarOpen = false;
+    //EditPoll.registerObserverCallback(function () {
+    //  console.log('EditPoll changed');
+    //});
+
+    /*
+     * Dialog for questions edition
+     */
+    $scope.showDialogAddQuestion = function (event) {
+      console.log('showDialogAddQuestion');
+      $mdDialog.show({
+        controller: 'AddQuestionCtrl',
+        templateUrl: 'components/speaker/dialog-add-question/dialog-add-question.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true
+      })
+      .then(function () {
+        console.log('showSelectType finished');
+      });
+    };
+
+  })
   .directive('pollDetails', function () {
     return {
       templateUrl: 'app/directives/pollDetails/pollDetails.html',
@@ -8,7 +33,8 @@ angular.module('polliwogApp')
       scope: {
         poll : '='
       },
-      link: function (/*scope, element, attrs*/) {
+      controller: 'EditPollCtrl',
+      link: function (scope, element, attrs) {
 
         function previewHeight() {
           var windowH = $(window).height();

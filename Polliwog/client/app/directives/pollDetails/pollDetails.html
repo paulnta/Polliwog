@@ -2,42 +2,64 @@
 <md-content class="wrapper">
   <md-whiteframe class="md-whiteframe-2dp whiteframe" layout="column">
 
-        <!--TODO: Show Image and statistics-->
-        <div class="header"></div>
+    <!--TODO: Show Image and statistics-->
+    <div class="header">
 
-        <div>
-            <md-toolbar layout layout-padding id="preview-infos" class="secondary-toolbar">
-              <span>{{poll.title}}</span>
-            </md-toolbar>
 
-          <div class="content" layout="column" layout-padding>
-            <p> Content </p>
 
-            <p>
-              Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Curabitur blandit
-              tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est
-              non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            </p>
+      <h3 class="poll-title">{{poll.title}}</h3>
 
-            <p>
-              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vivamus sagittis lacus vel augue laoreet
-              rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget
-              urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-              fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-            <p>
-              Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Curabitur blandit
-              tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est
-              non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            </p>
+      <div class="poll-toolbar">
+      <md-fab-toolbar md-open="toolbarOpen"
+                      md-direction="left">
+        <md-fab-trigger class="align-with-text">
+          <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-font-library="material-icons" style="color: #ffffff" aria-label="menu">menu</md-icon>
+          </md-button>
+        </md-fab-trigger>
+        <md-toolbar>
+          <md-fab-actions class="md-toolbar-tools">
 
-            <p>
-              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vivamus sagittis lacus vel augue laoreet
-              rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget
-              urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-              fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <div layout="column" layout-align="center center" class="control">
+              <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
+                <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+              </md-button>
+              <span class="label-icon">question</span>
+            </div>
+
+            <div layout="column" layout-align="center center" class="control">
+              <md-button aria-label="label" class="md-icon-button">
+                <md-icon md-font-library="material-icons" aria-label="add poll">star</md-icon>
+              </md-button>
+              <span class="label-icon">question</span>
+            </div>
+
+            <div layout="column" layout-align="center center" class="control">
+              <md-button aria-label="photo" class="md-icon-button">
+                <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+              </md-button>
+              <span class="label-icon">question</span>
+            </div>
+          </md-fab-actions>
+        </md-toolbar>
+      </md-fab-toolbar>
+      </div>
+    </div>
+
+    <div>
+
+      <div class="content" layout="column" layout-padding>
+          <div ng-show="poll.questions.length == 0" class="empty-state" layout="column" layout-align="center center">
+            <p class="infos">
+              There is nothing here. <br> Lets create some questions.
             </p>
           </div>
-        </div>
+
+          <div ng-repeat="question in poll.questions">
+            {{question.title}}
+          </div>
+      </div>
+    </div>
   </md-whiteframe>
 </md-content>
+

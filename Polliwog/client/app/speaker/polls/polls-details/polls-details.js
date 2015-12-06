@@ -9,7 +9,7 @@ angular.module('polliwogApp')
        *  we could use the parent attr but having a state called "details" has no meaning.
        */
       .state('polls.details', {
-        url: '/:id',
+        url: '/:pollId',
         views : {
               "@speaker": {
                 templateUrl: 'app/speaker/polls/polls-details/polls-details.html',
