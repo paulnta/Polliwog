@@ -2,42 +2,108 @@
 <md-content class="wrapper">
   <md-whiteframe class="md-whiteframe-2dp whiteframe" layout="column">
 
-        <!--TODO: Show Image and statistics-->
-        <div class="header"></div>
+    <!--TODO: Show Image and statistics-->
+    <div class="header" ng-mouseenter="openToolbar()" ng-mouseleave="closeToolbar()">
 
-        <div>
-            <md-toolbar layout layout-padding id="preview-infos" class="secondary-toolbar">
-              <span>{{poll.title}}</span>
-            </md-toolbar>
+      <h3 class="poll-title">{{poll.title}}</h3>
 
-          <div class="content" layout="column" layout-padding>
-            <p> Content </p>
 
-            <p>
-              Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Curabitur blandit
-              tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est
-              non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            </p>
+        <md-fab-toolbar ng-hide="mode == 'preview'" md-open="toolbarOpen"
+                        md-direction="left" class="md-fab-bottom-right poll-toolbar">
+          <md-fab-trigger class="align-with-text">
+            <md-button aria-label="menu" class="md-fab md-primary">
+              <md-icon md-font-library="material-icons"  style="color: #ffffff" aria-label="menu">edit</md-icon>
+            </md-button>
+          </md-fab-trigger>
+          <md-toolbar flex>
+            <md-fab-actions class="md-toolbar-tools">
 
-            <p>
-              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vivamus sagittis lacus vel augue laoreet
-              rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget
-              urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-              fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-            <p>
-              Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Curabitur blandit
-              tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est
-              non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            </p>
+              <div layout="column" layout-align="center center" class="control">
+                <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
+                  <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+                </md-button>
+                <span class="label-icon">add question</span>
+              </div>
 
-            <p>
-              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vivamus sagittis lacus vel augue laoreet
-              rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget
-              urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-              fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              <div layout="column" layout-align="center center" class="control">
+                <md-button aria-label="comment" class="md-icon-button" ng-click="editDescription($event)">
+                  <md-icon md-font-library="material-icons" aria-label="edit desc..">edit</md-icon>
+                </md-button>
+                <span class="label-icon">title</span>
+              </div>
+
+              <div layout="column" layout-align="center center" class="control">
+                <md-button aria-label="comment" class="md-icon-button" ng-click="editImage($event)">
+                  <md-icon md-font-library="material-icons" aria-label="edit image">image</md-icon>
+                </md-button>
+                <span class="label-icon">image</span>
+              </div>
+
+              <span flex></span>
+
+            </md-fab-actions>
+          </md-toolbar>
+        </md-fab-toolbar>
+
+    </div>
+
+    <div>
+
+      <md-content layout="column">
+        <div class="content">
+
+          <!--Empty state -->
+          <div ng-show="poll.questions.length == 0" class="empty-state" layout="column" layout-align="center center">
+            <p class="infos">
+              There is nothing here. <br> Lets create some questions.
             </p>
           </div>
+
+          <!--Questions-->
+          <md-list>
+            <div ng-repeat="question in poll.questions">
+              <div class="single-question"  ng-mouseenter="more_icon_visible = true" ng-mouseleave="more_icon_visible = false">
+              <md-subheader class="md-sticky" layout>
+
+                <div>{{$index+1}}. {{question.title}}</div>
+
+                <md-menu md-position-mode="target-right target"
+                         ng-show="more_icon_visible">
+                  <!--main button-->
+                  <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                    <md-icon md-font-library="material-icons">more_vert</md-icon>
+                  </md-button>
+
+                  <!--menu-->
+                  <md-menu-content width="3">
+                    <md-menu-item>
+                      <md-button ng-click="showDialogEditQuestion($event, question)">
+                        <md-icon md-font-library="material-icons">edit</md-icon>
+                        Edit
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button ng-click="removeQuestion(question)">
+                        <md-icon md-font-library="material-icons">delete</md-icon>
+                        delete
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </md-subheader>
+
+              <md-list-item ng-repeat="choice in question.choices">
+                <md-checkbox ng-model="choice.state"></md-checkbox>
+                <p>{{choice.text}}</p>
+              </md-list-item>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </div>
+          </md-list>
         </div>
+      </md-content>
+    </div>
   </md-whiteframe>
 </md-content>
+
+

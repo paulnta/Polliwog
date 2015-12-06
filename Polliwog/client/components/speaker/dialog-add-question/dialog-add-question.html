@@ -1,0 +1,41 @@
+<div id="dialog-edit-question">
+  <md-toolbar class="primary">
+    <div class="md-toolbar-tools"><span>Edit question</span></div>
+  </md-toolbar>
+  <md-content layout-padding>
+
+    <!--question-->
+    <form name="questionForm">
+
+      <md-input-container layout flex>
+        <label>Question</label>
+        <input aria-label="question title" md-autofocus ng-model="question.title">
+      </md-input-container>
+
+      <div class="single-choice" layout flex ng-repeat="choice in question.choices" layout-align="start center"
+        ng-mouseenter="showRemoveIcon = true" ng-mouseleave="showRemoveIcon = false" >
+        <md-checkbox ng-model="choice.state" aria-label="Choice">
+        </md-checkbox>
+        <md-input-container flex>
+          <input aria-label="choice title" ng-model="choice.title" class="choice-input">
+
+          <md-button ng-click="removeChoice(choice)" ng-show="showRemoveIcon"
+                     aria-label="remove choice" class="md-icon-button remove-choice">
+            <md-icon md-font-library="material-icons">add</md-icon>
+          </md-button>
+        </md-input-container>
+      </div>
+
+      <div layout flex layout-align="start center">
+        <md-button class="md-icon-button add-choice" aria-label="add choice" ng-click="addChoice()">
+          <md-icon md-font-library="material-icons">add</md-icon>
+        </md-button>
+      </div>
+
+      <div layout layout-align="end center">
+        <md-button aria-label="save" ng-click="cancel()">CANCEL</md-button>
+        <md-button ng-submit aria-label="save" ng-click="save()">SAVE</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

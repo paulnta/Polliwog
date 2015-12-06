@@ -1,14 +1,87 @@
 'use strict';
 
 angular.module('polliwogApp')
+  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
+
+    $scope.toolbarOpen = true;
+
+    $scope.openToolbar = function () {
+      $scope.toolbarOpen = true;
+    };
+
+    $scope.closeToolbar = function () {
+      $scope.toolbarOpen = false;
+    };
+    /**
+     * Shows a dialog to edit a question
+     * @param event
+     * @param question
+     */
+    $scope.showDialogEditQuestion = function (event, question) {
+      $mdDialog.show({
+        locals: {
+          question: question
+        },
+        controller: 'AddQuestionCtrl',
+        templateUrl: 'components/speaker/dialog-add-question/dialog-add-question.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: false
+      })
+      .then(function () {
+        console.log('showSelectType finished');
+      });
+    };
+
+    /**
+     * Show a dialog to add a new question
+     * @param event
+     */
+    $scope.showDialogAddQuestion = function (event) {
+        $scope.showDialogEditQuestion(event, {
+          title: '',
+          choices :[
+            {title: '', placeholder: 'choice 1', state: false}
+          ]
+        })
+    };
+
+    $scope.editDescription = function (event) {
+
+    };
+
+    $scope.editImage = function (event) {
+
+    };
+
+    /**
+     * Remove a question
+     * @param question
+     */
+    $scope.removeQuestion = function (question) {
+      EditPoll.removeQuestion(question);
+    };
+
+    /**
+     * Open a context menu
+     */
+    var originatorEv;
+    $scope.openMenu = function($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
+    };
+
+  })
   .directive('pollDetails', function () {
     return {
       templateUrl: 'app/directives/pollDetails/pollDetails.html',
       restrict: 'E', // only match element names : <poll-details></poll-details>
       scope: {
-        poll : '='
+        poll : '=',
+        mode: '@'
       },
-      link: function (/*scope, element, attrs*/) {
+      controller: 'EditPollCtrl',
+      link: function (scope, element, attrs) {
 
         function previewHeight() {
           var windowH = $(window).height();
@@ -29,3 +102,4 @@ angular.module('polliwogApp')
       }
     };
   });
+

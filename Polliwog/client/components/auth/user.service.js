@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('polliwogApp')
-  .factory('User', function ($resource) {
+  angular.module('polliwogApp')
+    .factory('User', function ($resource) {
     return $resource('/api/users/:id/:controller', {
       id: '@_id'
     },
@@ -21,3 +21,5 @@ angular.module('polliwogApp')
 	  });
 
   });
+
+

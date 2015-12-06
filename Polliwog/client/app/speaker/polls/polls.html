@@ -4,7 +4,7 @@
 
       <md-grid-list md-cols="2" md-cols-md="3" md-cols-gt-md="3"
                     md-row-height="1:1" md-row-height-gt-md="4:5"
-                    md-gutter="5px">
+                    md-gutter="5px" md-gutter-gt-md="3px">
 
       <!--item-->
       <md-grid-tile ng-repeat="poll in polls" class="gray"
@@ -21,7 +21,7 @@
 
             <div layout="column">
               <div class="body2">
-                <a ui-sref="polls.details({lectureId: currentLecture(), id: poll.id})">{{poll.title}}</a>
+                <a ui-sref="polls.details({lectureId: currentLecture(), pollId: poll.id})">{{poll.title}}</a>
               </div>
               <div class="body1">
                 infos
@@ -41,14 +41,14 @@
               <md-menu-content width="3">
                 <md-menu-item>
                   <md-button ng-click="">
-                    <md-icon md-font-library="material-icons">start</md-icon>
-                    Do something
+                    <md-icon md-font-library="material-icons">edit</md-icon>
+                    Edit
                   </md-button>
                 </md-menu-item>
                 <md-menu-item>
                   <md-button ng-click="">
-                    <md-icon md-font-library="material-icons">start</md-icon>
-                    Do something
+                    <md-icon md-font-library="material-icons">delete</md-icon>
+                    delete
                   </md-button>
                 </md-menu-item>
               </md-menu-content>
@@ -58,6 +58,15 @@
       </md-grid-tile>
 
     </md-grid-list>
+
+    <md-button aria-label="add poll" ng-click="addPoll()"
+               class="md-fab custom bottom right md-accent md-raised">
+      <md-tooltip md-direction="left">
+        Add Poll
+      </md-tooltip>
+      <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+    </md-button>
+
   </div>
 
   <!--poll preview (invisible on mobiles)-->
@@ -65,7 +74,8 @@
                 ng-mouseenter="disableScrollOnBody()"
                 ng-mouseleave="enableScrollOnBody()"
                 class="flex fixed"
-                poll="selected">
+                poll="selected"
+                mode="preview">
   </poll-details>
 
 </div>

@@ -8,13 +8,57 @@ poll-details {
     z-index: 10;
 
     .header {
+      position: relative;
       min-height: 400px;
       max-height: 400px;
+      color: #ffffff;
       background-color: #e6f0f9;
+
+      h3 {
+        color: black;
+      }
+
+      .poll-toolbar {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+
+        md-fab-toolbar{
+          bottom: 0;
+          right: 0;
+        }
+
+        .label-icon{
+          font-size: .5em;
+          color: #ffffff;
+        }
+        .control{
+          margin-left: 10px;
+        }
+      }
+
+      .poll-title{
+        position: absolute;
+        bottom: 0;
+        font-size: 24px;
+        padding-left: 24px;
+      }
     }
 
     .content {
-      background-color: #fff;
+      background-color: #ffffff;
+      .single-question {
+        padding-left: 16px;
+      }
+
+      .md-subheader{
+        position: relative;
+        md-menu{
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
     }
   }
 
@@ -27,12 +71,31 @@ poll-details {
     right: 3px;
     width: 50%;
   }
+
+  .empty-state{
+    height: 300px;
+
+    .infos{
+      text-align: center;
+      color: rgba(0,0,0,.54);
+    }
+  }
+
+  .poll-title{
+    position: absolute;
+  }
+
+
 }
+
 
 .sidenav poll-details.fixed{
   width: calc((100% - 256px) / 2);
 }
 
-#preview-infos.secondary-toolbar {
-    background-color: #eeeeee;
+
+#preview-infos.title-toolbar {
+  background-color: transparent;
 }
+
+
