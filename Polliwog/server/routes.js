@@ -20,7 +20,7 @@ module.exports = function(app) {
   });
   
   app.param('poll_id', function(req, res, next, poll_id) {
-    Poll.findById(poll_id, function(err, poll) {
+    Poll.findOne({_id: poll_id, session: req.body.session}, function(err, poll) {
         if (err) next(err);
         if (!poll) return res.status(404).send('Not Found');
         
@@ -30,7 +30,7 @@ module.exports = function(app) {
   });
   
   app.param('question_id', function(req, res, next, question_id) {
-    Question.findOne({_id: question_id, poll: req.body.poll._id}, function(err, question) {
+    Question.findOne({_id: question_id, poll: req.body.poll}, function(err, question) {
         if (err) next(err);
         if (!question) return res.status(404).send('Not Found');
         
@@ -41,9 +41,9 @@ module.exports = function(app) {
   
   // Insert routes below
   app.use('/api/users', require('./api/user'));
-  app.use('/api/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
-  app.use('/api/polls/:poll_id/questions', require('./api/question'));
-  app.use('/api/polls', require('./api/poll'));
+  app.use('/api/sessions/:session_id/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
+  app.use('/api/sessions/:session_id/polls/:poll_id/questions', require('./api/question'));
+  app.use('/api/sessions/:session_id/polls', require('./api/poll'));
 
   app.use('/auth', require('./auth'));
 
