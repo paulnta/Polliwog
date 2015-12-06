@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, $state, Poll, Session, EditPoll, $mdMedia) {
+  .controller('PollsCtrl', function ($scope, $state, Poll,Lecture, EditPoll, $mdMedia) {
 
     'use strict';
 
