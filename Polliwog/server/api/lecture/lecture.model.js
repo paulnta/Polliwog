@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
 
 /**
  * A lecture is a kind of lecture that is given to an attendance by a
- * speaker. This is the root document from which one can retreive polls
+ * speaker. This is the root document from which one can retrieve polls
  * resources, listeners list and moods. A lecture is defined by the
  * following properties:
  *
@@ -24,8 +24,8 @@ var mongoose = require('mongoose'),
  * A user (speaker) interacts with the API lecture endpoint by means of
  * the lecture id.
  *
- * - key. A lecture key is used by a user (speaker) in order to allow 
- * other users (listeners) to join his lecture. This key is generated 
+ * - key. A lecture key is used by a user (speaker) in order to allow
+ * other users (listeners) to join his lecture. This key is generated
  * on server side and should be unique in order for a user (listener)
  * to identify a lecture, not by its assigned identifier.
  *
@@ -34,12 +34,12 @@ var mongoose = require('mongoose'),
  * - description. A lecture is describe by a mandatory description.
  *
  * - creationDate: A lecture is characterized by a creation date. It may
- * seem to be strange to store such a data given that a lecture is supposed 
+ * seem strange to store such a data given that a lecture is supposed
  * to be temporary. This date is used as a reference for moods statistics.
  *
- * - isPrivate. The web applications is provided with two types of lectures 
+ * - isPrivate. The web applications is provided with two types of lectures
  * which are public ones and private ones. The type of a given lecture is
- * defined by a boolean flag indicating whether it is public (false) or 
+ * defined by a boolean flag indicating whether it is public (false) or
  * private (true). A lecture is by default considered to be public in case
  * of a user (speaker) having not specified its type.
  *
@@ -49,21 +49,21 @@ var mongoose = require('mongoose'),
  * consistency.
  *
  * - listeners. A lecture is hold by a user (speaker) to other users (listeners).
- * these listeners are stored by means of an array of references. Mechanisms 
- * of DELETE ON CASCADE and UPDATE ON CASCADE should be implemented in order   
+ * these listeners are stored by means of an array of references. Mechanisms
+ * of DELETE ON CASCADE and UPDATE ON CASCADE should be implemented in order
  * to ensure database consistency.
  *
- * - moods. It is expected from listeners to give a feedback about their 
- * mood throughout the speaker lecture. This feedback is gathered in an array. 
+ * - moods. It is expected from listeners to give a feedback about their
+ * mood throughout the speaker lecture. This feedback is gathered in an array.
  * That's the purpose of the moods field.
  *
  * - polls. Any questions poll belongs to only one lecture. This is done by means
- * of an array of poll references. Mechanisms of DELETE ON CASCADE and UPDATE ON 
- * CASCADE should be implemented in order to ensure database consistency. 
+ * of an array of poll references. Mechanisms of DELETE ON CASCADE and UPDATE ON
+ * CASCADE should be implemented in order to ensure database consistency.
  *
  * - resources. A user (speaker) may share resources with the audience (listeners).
- * It can be URLs, files et al. These kind of resources belong therefore to a
- * lecture. They are stored by means of an array of references.
+ * It can be URLs, files, etc. These kind of resources belong therefore to a
+ * lecture. They are stored by means in a references array.
  */
 var LectureSchema = new Schema({
   key: { type: String, unique: true },
@@ -78,14 +78,14 @@ var LectureSchema = new Schema({
   resources: [{ type: Schema.ObjectId, ref: 'Resource' }]
 });
 
-/** 
- * Middleware function executed before every lecture removal. 
- * 
- * The purpose of this middleware is to implement the common mechanism 
- * of DELETE ON CASCADE that one can retrieve in relational databases. It 
- * also implements UPDATE ON CASCADE since parent user stores a reference 
- * to his lectures. 
- */ 
+/**
+ * Middleware function executed before every lecture removal.
+ *
+ * The purpose of this middleware is to implement the common mechanism
+ * of DELETE ON CASCADE that one can retrieve in relational databases. It
+ * also implements UPDATE ON CASCADE since parent user stores a reference
+ * to his lectures.
+ */
 LectureSchema.pre('remove', function (next) {
 	/**
 	 * Update parent user's array of lectures.
@@ -104,9 +104,9 @@ LectureSchema.pre('remove', function (next) {
 	 * Further information on: http://mongoosejs.com/docs/populate.html
 	 */
 	var Poll = mongoose.model('Poll');
-	Poll.find({ lecture: this._id }, function (err, polls) { 
-		if (err) { console.log(err); return; } 
-		polls.forEach(function (poll) { poll.remove(); }); 
+	Poll.find({ lecture: this._id }, function (err, polls) {
+		if (err) { console.log(err); return; }
+		polls.forEach(function (poll) { poll.remove(); });
 	});
 
 	/**
@@ -128,10 +128,10 @@ LectureSchema.pre('remove', function (next) {
 	next();
 });
 
-/** 
- * Middleware function executed before each lecture insertion/update. 
- * 
- * The purpose of this function is to set a flag indicating whether it 
+/**
+ * Middleware function executed before each lecture insertion/update.
+ *
+ * The purpose of this function is to set a flag indicating whether it
  * is an update or an insertion. This flag is used for post save event.
  */
 LectureSchema.pre('save', function (next) {
@@ -139,16 +139,16 @@ LectureSchema.pre('save', function (next) {
 	next();
 });
 
-/** 
- * Middleware function executed after each lecture insertion/update. 
- * 
- * The purpose of this function is to update parent user's array of lectures 
+/**
+ * Middleware function executed after each lecture insertion/update.
+ *
+ * The purpose of this function is to update parent user's array of lectures
  * in order to maintain both sides references consistency.
- * 
- * The body of the function is executed only after an insertion. In the case  
+ *
+ * The body of the function is executed only after an insertion. In the case
  * of an update, the algorithm will not be executed. This is ensured by the
- * test on the flag wasNew defined on pre save event. 
- */ 
+ * test on the flag wasNew defined on pre save event.
+ */
 LectureSchema.post('save', function () {
 	var User = mongoose.model('User');
 	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }); }
