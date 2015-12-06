@@ -41,12 +41,12 @@ module.exports = function(app) {
   });
   
   // Insert routes below
-  app.use('/api/resources', require('./api/resource'));
   app.use('/api/sessions', require('./api/session'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/sessions/:session_id/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
   app.use('/api/sessions/:session_id/polls/:poll_id/questions', require('./api/question'));
   app.use('/api/sessions/:session_id/polls', require('./api/poll'));
+  app.use('/api/sessions/:session_id/resources', require('./api/resource'));
 
   app.use('/auth', require('./auth'));
 
