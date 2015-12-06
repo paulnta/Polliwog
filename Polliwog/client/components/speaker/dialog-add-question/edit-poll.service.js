@@ -55,6 +55,10 @@ angular.module('polliwogApp')
         poll.questions.splice(index,1);
       },
 
+      saveTitle: function (title) {
+        poll.title = title;
+      },
+
       save: function () {
         console.log('save poll');
       }

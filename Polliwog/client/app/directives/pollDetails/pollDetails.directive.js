@@ -27,9 +27,6 @@ angular.module('polliwogApp')
         parent: angular.element(document.body),
         targetEvent: event,
         clickOutsideToClose: false
-      })
-      .then(function () {
-        console.log('showSelectType finished');
       });
     };
 
@@ -46,8 +43,17 @@ angular.module('polliwogApp')
         })
     };
 
-    $scope.editDescription = function (event) {
-
+    $scope.editTitle = function (event, title) {
+      $mdDialog.show({
+        locals: {
+          title: title
+        },
+        controller: 'EditTitleCtrl',
+        templateUrl: 'components/speaker/dialog-edit-title/dialog-edit-title.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: false
+      });
     };
 
     $scope.editImage = function (event) {
