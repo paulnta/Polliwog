@@ -3,11 +3,15 @@
 angular.module('polliwogApp')
   .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
 
-    $scope.toolbarOpen = false;
-    //EditPoll.registerObserverCallback(function () {
-    //  console.log('EditPoll changed');
-    //});
+    $scope.toolbarOpen = true;
 
+    $scope.openToolbar = function () {
+      $scope.toolbarOpen = true;
+    };
+
+    $scope.closeToolbar = function () {
+      $scope.toolbarOpen = false;
+    };
     /**
      * Shows a dialog to edit a question
      * @param event
@@ -29,12 +33,6 @@ angular.module('polliwogApp')
       });
     };
 
-    var originatorEv;
-    $scope.openMenu = function($mdOpenMenu, ev) {
-      originatorEv = ev;
-      $mdOpenMenu(ev);
-    };
-
     /**
      * Show a dialog to add a new question
      * @param event
@@ -43,9 +41,34 @@ angular.module('polliwogApp')
         $scope.showDialogEditQuestion(event, {
           title: '',
           choices :[
-            {title: 'Choice 1', state: false}
+            {title: '', placeholder: 'choice 1', state: false}
           ]
         })
+    };
+
+    $scope.editDescription = function (event) {
+
+    };
+
+    $scope.editImage = function (event) {
+
+    };
+
+    /**
+     * Remove a question
+     * @param question
+     */
+    $scope.removeQuestion = function (question) {
+      EditPoll.removeQuestion(question);
+    };
+
+    /**
+     * Open a context menu
+     */
+    var originatorEv;
+    $scope.openMenu = function($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
     };
 
   })
@@ -54,7 +77,8 @@ angular.module('polliwogApp')
       templateUrl: 'app/directives/pollDetails/pollDetails.html',
       restrict: 'E', // only match element names : <poll-details></poll-details>
       scope: {
-        poll : '='
+        poll : '=',
+        mode: '@'
       },
       controller: 'EditPollCtrl',
       link: function (scope, element, attrs) {
@@ -78,3 +102,4 @@ angular.module('polliwogApp')
       }
     };
   });
+

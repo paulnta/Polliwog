@@ -16,9 +16,13 @@ poll-details {
 
       .poll-toolbar {
         width: 100%;
-        position: absolute;
         bottom: 0;
         right: 0;
+
+        md-fab-toolbar{
+          bottom: 0;
+          right: 0;
+        }
 
         .label-icon{
           font-size: .5em;

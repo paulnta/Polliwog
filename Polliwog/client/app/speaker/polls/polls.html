@@ -61,6 +61,9 @@
 
     <md-button aria-label="add poll" ng-click="addPoll()"
                class="md-fab custom bottom right md-accent md-raised">
+      <md-tooltip md-direction="left">
+        Add Poll
+      </md-tooltip>
       <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
     </md-button>
 
@@ -71,7 +74,8 @@
                 ng-mouseenter="disableScrollOnBody()"
                 ng-mouseleave="enableScrollOnBody()"
                 class="flex fixed"
-                poll="selected">
+                poll="selected"
+                mode="preview">
   </poll-details>
 
 </div>

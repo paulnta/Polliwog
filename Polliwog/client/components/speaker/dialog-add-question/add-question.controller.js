@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('AddQuestionCtrl', function ($scope, EditPoll, $mdDialog, question) {
+  .controller('AddQuestionCtrl', function ($document, $scope, EditPoll, $mdDialog, question) {
 
     /*
      * Default question
@@ -14,14 +14,23 @@ angular.module('polliwogApp')
      * Add a choice to the current question
      */
     $scope.addChoice = function () {
-      $scope.question.choices.push({title: 'Choice' + $scope.question.choices.length, state: false});
+      $scope.question.choices.push({placeholder: 'Choice ' + ($scope.question.choices.length + 1), state: false});
+    };
+
+    $scope.removeChoice = function (choice) {
+      var index = $scope.question.choices.indexOf(choice);
+      $scope.question.choices.splice(index, 1);
     };
 
     /*
      * Add question to the EditPoll factory
      */
     $scope.save = function () {
-      EditPoll.addQuestion($scope.question);
+      EditPoll.saveQuestion($scope.question);
       $mdDialog.hide();
+    };
+
+    $scope.cancel = function () {
+      $mdDialog.cancel();
     };
   });

@@ -3,47 +3,48 @@
   <md-whiteframe class="md-whiteframe-2dp whiteframe" layout="column">
 
     <!--TODO: Show Image and statistics-->
-    <div class="header">
-
-
+    <div class="header" ng-mouseenter="openToolbar()" ng-mouseleave="closeToolbar()">
 
       <h3 class="poll-title">{{poll.title}}</h3>
 
-      <div class="poll-toolbar">
-        <md-fab-toolbar md-open="toolbarOpen"
-                        md-direction="left">
+
+        <md-fab-toolbar ng-hide="mode == 'preview'" md-open="toolbarOpen"
+                        md-direction="left" class="md-fab-bottom-right poll-toolbar">
           <md-fab-trigger class="align-with-text">
             <md-button aria-label="menu" class="md-fab md-primary">
-              <md-icon md-font-library="material-icons" style="color: #ffffff" aria-label="menu">edit</md-icon>
+              <md-icon md-font-library="material-icons"  style="color: #ffffff" aria-label="menu">edit</md-icon>
             </md-button>
           </md-fab-trigger>
-          <md-toolbar>
+          <md-toolbar flex>
             <md-fab-actions class="md-toolbar-tools">
 
               <div layout="column" layout-align="center center" class="control">
                 <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
                   <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
                 </md-button>
-                <span class="label-icon">question</span>
+                <span class="label-icon">add question</span>
               </div>
 
               <div layout="column" layout-align="center center" class="control">
-                <md-button aria-label="label" class="md-icon-button">
-                  <md-icon md-font-library="material-icons" aria-label="add poll">star</md-icon>
+                <md-button aria-label="comment" class="md-icon-button" ng-click="editDescription($event)">
+                  <md-icon md-font-library="material-icons" aria-label="edit desc..">edit</md-icon>
                 </md-button>
-                <span class="label-icon">question</span>
+                <span class="label-icon">title</span>
               </div>
 
               <div layout="column" layout-align="center center" class="control">
-                <md-button aria-label="photo" class="md-icon-button">
-                  <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+                <md-button aria-label="comment" class="md-icon-button" ng-click="editImage($event)">
+                  <md-icon md-font-library="material-icons" aria-label="edit image">image</md-icon>
                 </md-button>
-                <span class="label-icon">question</span>
+                <span class="label-icon">image</span>
               </div>
+
+              <span flex></span>
+
             </md-fab-actions>
           </md-toolbar>
         </md-fab-toolbar>
-      </div>
+
     </div>
 
     <div>
@@ -61,12 +62,13 @@
           <!--Questions-->
           <md-list>
             <div ng-repeat="question in poll.questions">
-              <div class="single-question">
+              <div class="single-question"  ng-mouseenter="more_icon_visible = true" ng-mouseleave="more_icon_visible = false">
               <md-subheader class="md-sticky" layout>
 
                 <div>{{$index+1}}. {{question.title}}</div>
 
-                <md-menu md-position-mode="target-right target">
+                <md-menu md-position-mode="target-right target"
+                         ng-show="more_icon_visible">
                   <!--main button-->
                   <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
                     <md-icon md-font-library="material-icons">more_vert</md-icon>
@@ -75,13 +77,13 @@
                   <!--menu-->
                   <md-menu-content width="3">
                     <md-menu-item>
-                      <md-button ng-click="">
+                      <md-button ng-click="showDialogEditQuestion($event, question)">
                         <md-icon md-font-library="material-icons">edit</md-icon>
                         Edit
                       </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                      <md-button ng-click="">
+                      <md-button ng-click="removeQuestion(question)">
                         <md-icon md-font-library="material-icons">delete</md-icon>
                         delete
                       </md-button>
@@ -103,4 +105,5 @@
     </div>
   </md-whiteframe>
 </md-content>
+
 
