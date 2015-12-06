@@ -5,7 +5,7 @@ var Resource = require('./resource.model');
 
 // Get list of resources
 exports.index = function (req, res) {
-  Resource.find({ session: req.body.session }, function (err, resources) {
+  Resource.find({ lecture: req.body.lecture }, function (err, resources) {
     if (err) { return handleError(res, err); }
     return res.status(200).json(resources);
   });
@@ -13,7 +13,7 @@ exports.index = function (req, res) {
 
 // Get a single resource
 exports.show = function (req, res) {
-  Resource.findOne({_id: req.params.id, session: req.body.session }, function (err, resource) {
+  Resource.findOne({_id: req.params.id, lecture: req.body.lecture }, function (err, resource) {
     if (err) { return handleError(res, err); }
     if (!resource) { return res.status(404).send('Not Found'); }
     return res.json(resource);
@@ -33,7 +33,7 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.creationDate) { req.body.creationDate; }
-  Resource.findOne({_id: req.params.id, session: req.body.session }, function (err, resource) {
+  Resource.findOne({_id: req.params.id, lecture: req.body.lecture }, function (err, resource) {
     if (err) { return handleError(res, err); }
     if (!resource) { return res.status(404).send('Not Found'); }
     var updated = _.merge(resource, req.body);
@@ -46,7 +46,7 @@ exports.update = function (req, res) {
 
 // Deletes a resource from the DB.
 exports.destroy = function (req, res) {
-  Resource.findOne({_id: req.params.id, session: req.body.session }, function (err, resource) {
+  Resource.findOne({_id: req.params.id, lecture: req.body.lecture }, function (err, resource) {
     if (err) { return handleError(res, err); }
     if (!resource) { return res.status(404).send('Not Found'); }
     resource.remove(function (err) {

@@ -19,17 +19,17 @@
     <div class="tabs-wrapper" layout="column">
       <div layout="row" layout-align="center end" class="buttons">
 
-        <md-button class="tab" ng-class="{active:currentTab() == 'active1'}" ui-sref="session({sessionId:currentSession()})">
-          <span ng-show="isMedium() || isLarge()">Sessions</span>
+        <md-button class="tab" ng-class="{active:currentTab() == 'active1'}" ui-sref="lecture({lectureId:currentLecture()})">
+          <span ng-show="isMedium() || isLarge()">Lectures</span>
           <md-icon ng-show="isSmall()" md-font-library="material-icons">dvr</md-icon>
         </md-button>
 
-        <md-button class="tab" ui-sref-active="active" ui-sref="polls({sessionId:currentSession()})">
+        <md-button class="tab" ui-sref-active="active" ui-sref="polls({lectureId:currentLecture()})">
           <span ng-show="isMedium() || isLarge()">Polls</span>
           <md-icon ng-show="isSmall()" md-font-library="material-icons">poll</md-icon>
         </md-button>
 
-        <md-button class="tab" ui-sref-active="active" ui-sref="questions({sessionId:currentSession()})">
+        <md-button class="tab" ui-sref-active="active" ui-sref="questions({lectureId:currentLecture()})">
           <span ng-show="isMedium() || isLarge()">Questions</span>
           <md-icon ng-show="isSmall()" md-font-library="material-icons">chat</md-icon>
         </md-button>

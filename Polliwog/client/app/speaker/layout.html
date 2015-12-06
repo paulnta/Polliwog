@@ -16,10 +16,10 @@
         <md-list>
           <div ng-include="'app/speaker/user/user.html'"></div>
           <md-divider></md-divider>
-          <md-subheader class="md-no-sticky">Sessions</md-subheader>
-          <md-list-item ng-repeat="session in sessions" ng-click="goTo(session.id)" ng-class="{active: isActivated(session.id)}">
+          <md-subheader class="md-no-sticky">Lectures</md-subheader>
+          <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture.id)" ng-class="{active: isActivated(lecture.id)}">
             <md-icon md-font-library="material-icons">dvr</md-icon>
-            <p>{{session.title}}</p>
+            <p>{{lecture.title}}</p>
           </md-list-item>
         </md-list>
       </md-content>

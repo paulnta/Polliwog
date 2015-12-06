@@ -5,7 +5,7 @@ var Poll = require('./poll.model');
 
 // Get list of polls
 exports.index = function(req, res) {
-  Poll.find(function (err, polls) {
+  Poll.find({ lecture: req.body.lecture }, function (err, polls) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(polls);
   });
@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 
 // Get a single poll
 exports.show = function(req, res) {
-  Poll.findById(req.params.id, function (err, poll) {
+  Poll.findOne({ _id: req.params.id, lecture: req.body.lecture }, function (err, poll) {
     if(err) { return handleError(res, err); }
     if(!poll) { return res.status(404).send('Not Found'); }
     return res.json(poll);
@@ -22,6 +22,10 @@ exports.show = function(req, res) {
 
 // Creates a new poll in the DB.
 exports.create = function(req, res) {
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.creationDate) { delete req.body.creationDate; }
+  if (req.body.questions) { delete req.body.questions; }
+  
   Poll.create(req.body, function(err, poll) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(poll);
@@ -30,8 +34,11 @@ exports.create = function(req, res) {
 
 // Updates an existing poll in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Poll.findById(req.params.id, function (err, poll) {
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.creationDate) { delete req.body.creationDate; }
+  if (req.body.questions) { delete req.body.questions; }
+  
+  Poll.findOne({ _id: req.params.id, lecture: req.body.lecture }, function (err, poll) {
     if (err) { return handleError(res, err); }
     if(!poll) { return res.status(404).send('Not Found'); }
     var updated = _.merge(poll, req.body);
@@ -44,7 +51,7 @@ exports.update = function(req, res) {
 
 // Deletes a poll from the DB.
 exports.destroy = function(req, res) {
-  Poll.findById(req.params.id, function (err, poll) {
+  Poll.findOne({ _id: req.params.id, lecture: req.body.lecture }, function (err, poll) {
     if(err) { return handleError(res, err); }
     if(!poll) { return res.status(404).send('Not Found'); }
     poll.remove(function(err) {

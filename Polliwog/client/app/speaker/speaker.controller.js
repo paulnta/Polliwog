@@ -1,12 +1,12 @@
 angular.module('polliwogApp')
-  .controller('SpeakerCtrl', function ($scope, $state, Session, Mood, $mdSidenav, User) {
+  .controller('SpeakerCtrl', function ($scope, $state, Lecture, Mood, $mdSidenav, User) {
     'use strict';
 
     // trick: loggedUser have access to this ressource
     //$scope.users = User.query();
 
-    // TODO: Get session through API
-    $scope.sessions = Session.list();
+    // TODO: Get lecture through API
+    $scope.lectures = Lecture.list();
 
     $scope.currentTab = function () {
       if($state.includes('questions')){
@@ -15,28 +15,28 @@ angular.module('polliwogApp')
       } else if ($state.includes('polls')){
         return 'active2';
 
-      } else if ($state.includes('session')){
+      } else if ($state.includes('lecture')){
         return 'active1';
       }
     };
 
     /**
-     * Navigates to another session
-     * @param sessionId
+     * Navigates to another lecture
+     * @param lectureId
      */
-    $scope.goTo = function (sessionId) {
-      $state.go('session', {sessionId: sessionId});
+    $scope.goTo = function (lectureId) {
+      $state.go('lecture', {lectureId: lectureId});
       setTimeout(function () {
         $mdSidenav('left').close();
       }, 200);
     };
 
     /**
-     * Get the currentSession id
-     * @returns sessionId
+     * Get the currentLecture id
+     * @returns lectureId
      */
-    $scope.currentSession = function () {
-      return Session.current();
+    $scope.currentLecture = function () {
+      return Lecture.current();
     };
 
   });

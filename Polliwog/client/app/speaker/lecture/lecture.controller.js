@@ -3,8 +3,8 @@
  */
 
 angular.module('polliwogApp')
-  .controller('SessionCtrl', function ($scope) {
-    $scope.message = "SessionCtrl";
+  .controller('LectureCtrl', function ($scope) {
+    $scope.message = "LectureCtrl";
     $scope.dialOpen = false;
     $scope.toggleDial = function () {
       $scope.dialOpen = !$scope.dialOpen;

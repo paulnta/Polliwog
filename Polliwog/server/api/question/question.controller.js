@@ -5,7 +5,7 @@ var Question = require('./question.model');
 
 // Get list of questions
 exports.index = function(req, res) {
-  Question.find(function (err, questions) {
+  Question.find({ poll: req.body.poll }, function (err, questions) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(questions);
   });
@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 
 // Get a single question
 exports.show = function(req, res) {
-  Question.findById(req.params.id, function (err, question) {
+  Question.findOne({ _id: req.params.id, poll: req.body.poll }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
     return res.json(question);
@@ -22,6 +22,9 @@ exports.show = function(req, res) {
 
 // Creates a new question in the DB.
 exports.create = function(req, res) {
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.choices) { delete req.body.choices; }
+  
   Question.create(req.body, function(err, question) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(question);
@@ -30,8 +33,10 @@ exports.create = function(req, res) {
 
 // Updates an existing question in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Question.findById(req.params.id, function (err, question) {
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.choices) { delete req.body.choices; }
+  
+  Question.findOne({ _id: req.params.id, poll: req.body.poll }, function (err, question) {
     if (err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
     var updated = _.merge(question, req.body);
@@ -44,7 +49,7 @@ exports.update = function(req, res) {
 
 // Deletes a question from the DB.
 exports.destroy = function(req, res) {
-  Question.findById(req.params.id, function (err, question) {
+  Question.findOne({ _id: req.params.id, poll: req.body.poll }, function (err, question) {
     if(err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
     question.remove(function(err) {

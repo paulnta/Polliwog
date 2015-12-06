@@ -4,21 +4,21 @@
 
 'use strict';
 
-var Participation = require('./participation.model');
+var Mood = require('./mood.model');
 
 exports.register = function(socket) {
-  Participation.schema.post('save', function (doc) {
+  Mood.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
-  Participation.schema.post('remove', function (doc) {
+  Mood.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('participation:save', doc);
+  socket.emit('mood:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('participation:remove', doc);
+  socket.emit('mood:remove', doc);
 }

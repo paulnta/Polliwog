@@ -5,7 +5,7 @@ var Choice = require('./choice.model');
 
 // Get list of choices
 exports.index = function(req, res) {
-  Choice.find(function (err, choices) {
+  Choice.find({ question: req.body.question }, function (err, choices) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(choices);
   });
@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 
 // Get a single choice
 exports.show = function(req, res) {
-  Choice.findById(req.params.id, function (err, choice) {
+  Choice.findOne({ _id: req.params.id, question: req.body.question }, function (err, choice) {
     if(err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
     return res.json(choice);
@@ -22,6 +22,9 @@ exports.show = function(req, res) {
 
 // Creates a new choice in the DB.
 exports.create = function(req, res) {
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.answer_count) { delete req.body.answer_count; }
+  
   Choice.create(req.body, function(err, choice) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(choice);
@@ -30,8 +33,10 @@ exports.create = function(req, res) {
 
 // Updates an existing choice in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Choice.findById(req.params.id, function (err, choice) {
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.answer_count) { delete req.body.answer_count; }
+  
+  Choice.findOne({ _id: req.params.id, question: req.body.question }, function (err, choice) {
     if (err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
     var updated = _.merge(choice, req.body);
@@ -44,7 +49,7 @@ exports.update = function(req, res) {
 
 // Deletes a choice from the DB.
 exports.destroy = function(req, res) {
-  Choice.findById(req.params.id, function (err, choice) {
+  Choice.findOne({ _id: req.params.id, question: req.body.question }, function (err, choice) {
     if(err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
     choice.remove(function(err) {

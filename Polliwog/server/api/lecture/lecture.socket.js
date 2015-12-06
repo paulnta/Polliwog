@@ -4,21 +4,21 @@
 
 'use strict';
 
-var Answer = require('./answer.model');
+var Lecture = require('./lecture.model');
 
 exports.register = function(socket) {
-  Answer.schema.post('save', function (doc) {
+  Lecture.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
-  Answer.schema.post('remove', function (doc) {
+  Lecture.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('answer:save', doc);
+  socket.emit('lecture:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('answer:remove', doc);
+  socket.emit('lecture:remove', doc);
 }

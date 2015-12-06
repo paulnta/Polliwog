@@ -14,11 +14,11 @@ angular.module('polliwogApp')
       })
 
       /*
-       * Public session for audience
+       * Public lecture for audience
        */
-      .state('audienceSession', {
+      .state('audienceLecture', {
         parent: 'presentation',
-        url: '/:sessionCode',
+        url: '/:lectureCode',
         views: {
           '@audience':{
             templateUrl: 'app/audience/presentation/presentation.html',
