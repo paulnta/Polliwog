@@ -4,7 +4,7 @@
 
       <md-grid-list md-cols="2" md-cols-md="3" md-cols-gt-md="3"
                     md-row-height="1:1" md-row-height-gt-md="4:5"
-                    md-gutter="5px">
+                    md-gutter="5px" md-gutter-gt-md="3px">
 
       <!--item-->
       <md-grid-tile ng-repeat="poll in polls" class="gray"
@@ -58,6 +58,11 @@
       </md-grid-tile>
 
     </md-grid-list>
+
+    <md-button aria-label="add poll" class="md-fab custom bottom right md-accent md-raised">
+      <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+    </md-button>
+
   </div>
 
   <!--poll preview (invisible on mobiles)-->
