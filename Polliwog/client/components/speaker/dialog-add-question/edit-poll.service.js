@@ -14,7 +14,7 @@ angular.module('polliwogApp')
        */
       create: function () {
         poll = {
-          title: 'New Poll provided by Edit Poll service',
+          title: 'New Poll',
           questions: []
         };
         return poll;
