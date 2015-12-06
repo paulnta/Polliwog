@@ -14,7 +14,7 @@ documentation:
   - title: User Roles
     content: |
       # TODO IN MARKDOWN
-  - title: Public & private sessions
+  - title: Public & private lectures
     content: |
       # TODO IN MARKDOWN
   - title: Concept of Moods
@@ -30,7 +30,7 @@ documentation:
       * Yassin Kammoun ([yibnl](https://github.com/yibnl))
       * Paul Ntawuruhunga ([paulnta](https://github.com/paulnta))
 schemas:
-  - session: |
+  - lecture: |
       {
         "type": "object",
         "$schema": "http://json-schema.org/draft-03/schema",
@@ -87,23 +87,26 @@ schemas:
         "id": "http://jsonschema.net",
         "required": true,
         "properties": {
+          "lecture": {
+            "$ref": "lecture",
+            "required": "true"
+          },
           "title": {
             "type": "string",
             "required": "true"
           },
           "creationDate": {
-            "type": "date"
+            "type": "date",
+            "default": "date.now"
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "default": "draft",
+            "enum": ["draft", "active", "closed"]
           },
           "questions": {
             "type": "array",
             "items": {"$ref": "question"}
-          },
-          "participations": {
-            "type": "array",
-            "items": {"$ref": "participation"}
           }
         }
       }
@@ -114,12 +117,15 @@ schemas:
         "id": "http://jsonschema.net",
         "required": true,
         "properties": {
-          "poll": {"$ref": "poll"},
+          "poll": {
+            "$ref": "poll",
+            "required": "true"
+          },
           "title": {
             "type": "string",
             "required": "true"
           },
-          "title": {
+          "type": {
             "type": "string"
           },
           "choices": {
@@ -135,7 +141,10 @@ schemas:
         "id": "http://jsonschema.net",
         "required": true,
         "properties": {
-          "question": {"$ref": "question"},
+          "question": {
+            "$ref": "question",
+            "required": "true"
+          },
           "key": {
             "type": "string",
             "required": "true"
@@ -144,43 +153,11 @@ schemas:
             "type": "string",
             "required": "true"
           },
-          "answers": {
-            "type": "array",
-            "items": {"$ref": "answer"}
+          "answer_count": {
+            "type": "number",
+            "default": "0"
           }
         }  
-      }
-  - participation: |
-      {
-        "type": "object",
-        "$schema": "http://json-schema.org/draft-03/schema",
-        "id": "http://jsonschema.net",
-        "required": true,
-        "properties": {
-          "poll": {"$ref": "poll"},
-          "participant": {
-            "type": "string",
-            "required": "true"
-          },
-          "submissionDate": {
-            "type": "date"
-          },
-          "answers": {
-            "type": "array",
-            "items": {"$ref": "answer"}
-          } 
-        } 
-      }
-  - answer: |
-      {
-        "type": "object",
-        "$schema": "http://json-schema.org/draft-03/schema",
-        "id": "http://jsonschema.net",
-        "required": true,
-        "properties": {
-          "participation": {"$ref": "participation"},
-          "choice": {"$ref": "choice"}
-        }
       }
 resourceTypes:
   - collection:
@@ -320,7 +297,7 @@ resourceTypes:
               application/x-www-form-urlencoded:
                 example:
                   Not Found
-/sessions:
+/lectures:
   type:
     collection:
       exampleCollection: |
@@ -328,82 +305,82 @@ resourceTypes:
           {
             _id: 's1',
             key: 'BF2DG',
-            name: 'HEIGVD-TWEB-2015-Session1',
+            name: 'HEIGVD-TWEB-2015-Lecture1',
             description: 'Introducing TWEB course to students',
             creationDate: 'Sun, 06 Nov 1994 08:49:37 GMT',
             isPrivate: true,
             speaker: 'sp1',
             listeners: [
-              '/sessions/s1/users/u1',
-              '/sessions/s1/users/u2',
-              '/sessions/s1/users/u3',
+              '/lectures/s1/users/u1',
+              '/lectures/s1/users/u2',
+              '/lectures/s1/users/u3',
             ],
             moods: [],
             polls: [
-              '/sessions/s1/polls/p1',
-              '/sessions/s1/polls/p2',
-              '/sessions/s1/polls/p3',
+              '/lectures/s1/polls/p1',
+              '/lectures/s1/polls/p2',
+              '/lectures/s1/polls/p3',
             ],
             resources: [
-              '/sessions/s1/resources/r1',
-              '/sessions/s1/resources/r2',
-              '/sessions/s1/resources/r3',
+              '/lectures/s1/resources/r1',
+              '/lectures/s1/resources/r2',
+              '/lectures/s1/resources/r3',
 
           },
           {
             _id: 's2',
             key: 'XY12SG',
-            name: 'HEIGVD-TWEB-2015-Session2',
+            name: 'HEIGVD-TWEB-2015-Lecture2',
             description: 'Introducing Javascript basics to students',
             creationDate: 'Sun, 13 Nov 1994 08:49:37 GMT',
             isPrivate: true,
             speaker: 'sp1',
             listeners: [
-              '/sessions/s2/users/u1',
-              '/sessions/s2/users/u2',
-              '/sessions/s2/users/u3',
+              '/lectures/s2/users/u1',
+              '/lectures/s2/users/u2',
+              '/lectures/s2/users/u3',
             ],
             moods: [],
             polls: [
-              '/sessions/s2/polls/p4',
-              '/sessions/s2/polls/p5',
-              '/sessions/s2/polls/p6',
+              '/lectures/s2/polls/p4',
+              '/lectures/s2/polls/p5',
+              '/lectures/s2/polls/p6',
             ],
             resources: [
-              '/sessions/s2/resources/r4',
-              '/sessions/s2/resources/r5',
-              '/sessions/s2/resources/r6',
+              '/lectures/s2/resources/r4',
+              '/lectures/s2/resources/r5',
+              '/lectures/s2/resources/r6',
 
           },
           {
             _id: 's3',
             key: 'T89ADS',
-            name: 'HEIGVD-TWEB-2015-Session3',
+            name: 'HEIGVD-TWEB-2015-Lecture3',
             description: 'Introducing api-copilot testing tool to students',
             creationDate: 'Sun, 20 Nov 1994 08:49:37 GMT',
             isPrivate: true,
             speaker: 'sp1',
             listeners: [
-              '/sessions/s3/users/u1',
-              '/sessions/s3/users/u2',
-              '/sessions/s3/users/u3',
+              '/lectures/s3/users/u1',
+              '/lectures/s3/users/u2',
+              '/lectures/s3/users/u3',
             ],
             moods: [],
             polls: [
-              '/sessions/s3/polls/p7',
-              '/sessions/s3/polls/p8',
-              '/sessions/s3/polls/p9',
+              '/lectures/s3/polls/p7',
+              '/lectures/s3/polls/p8',
+              '/lectures/s3/polls/p9',
             ],
             resources: [
-              '/sessions/s3/resources/r7',
-              '/sessions/s3/resources/r8',
-              '/sessions/s3/resources/r9',
+              '/lectures/s3/resources/r7',
+              '/lectures/s3/resources/r8',
+              '/lectures/s3/resources/r9',
             ]
           }
         ]
       examplePostPutItem: |
         {
-          'name': 'HEIGVD-TWEB-2015-Session1',
+          'name': 'HEIGVD-TWEB-2015-Lecture1',
           'description': 'Introducing TWEB course to students',
           'isPrivate': true,
         }
@@ -411,7 +388,7 @@ resourceTypes:
         {
           _id: 's1',
           key: 'BF2DG',
-          name: 'HEIGVD-TWEB-2015-Session1',
+          name: 'HEIGVD-TWEB-2015-Lecture1',
           description: 'Introducing TWEB course to students',
           creationDate: 'Sun, 06 Nov 1994 08:49:37 GMT',
           isPrivate: true,
@@ -421,7 +398,7 @@ resourceTypes:
           polls: [],
           resources: []
         }
-  /{sessionId}:
+  /{lectureId}:
     type:
       collection-item:
         examplePostPutItem: |
@@ -432,26 +409,26 @@ resourceTypes:
           {
             _id: 's1',
             key: 'BF2DG',
-            name: 'HEIGVD-TWEB-2015-Session1',
+            name: 'HEIGVD-TWEB-2015-Lecture1',
             description: 'Introducing TWEB course to third year students',
             creationDate: 'Sun, 06 Nov 1994 08:49:37 GMT',
             isPrivate: true,
             speaker: 'sp1',
             listeners: [
-              '/sessions/s1/users/u1',
-              '/sessions/s1/users/u2',
-              '/sessions/s1/users/u3',
+              '/lectures/s1/users/u1',
+              '/lectures/s1/users/u2',
+              '/lectures/s1/users/u3',
             ],
             moods: [],
             polls: [
-              '/sessions/s1/polls/p1',
-              '/sessions/s1/polls/p2',
-              '/sessions/s1/polls/p3',
+              '/lectures/s1/polls/p1',
+              '/lectures/s1/polls/p2',
+              '/lectures/s1/polls/p3',
             ],
             resources: [
-              '/sessions/s1/resources/r1',
-              '/sessions/s1/resources/r2',
-              '/sessions/s1/resources/r3',
+              '/lectures/s1/resources/r1',
+              '/lectures/s1/resources/r2',
+              '/lectures/s1/resources/r3',
           }
     /polls: 
       type:
@@ -460,57 +437,57 @@ resourceTypes:
             [
               {
                 '_id': 'p1',
+                'lecture': '/lectures/s1',
                 'title': 'TWEB-2015',
-                'creationDate': '2015-05-02 10:41' 
-                'state': 'drafti'
+                'creationDate': '2015-05-02 10:41' ,
+                'state': 'draft',
                 'questions': 
                   [
-                    '/polls/p1/questions/q1',
-                    '/polls/p1/questions/q2',
-                    '/polls/p1/questions/q3'
-                  ],
-                'participations': ['/polls/p1/participations/pp1']
+                    '/lectures/s1/polls/p1/questions/q1',
+                    '/lectures/s1/polls/p1/questions/q2',
+                    '/lectures/s1/polls/p1/questions/q3'
+                  ]
               },
               {
                 '_id': 'p2',
+                'lecture': '/lectures/s1',
                 'title': 'AMT-2015',
-                'creationDate': '2015-11-25 14:03'
-                'state': 'active'
+                'creationDate': '2015-11-25 14:03',
+                'state': 'active',
                 'questions': 
                   [
-                    '/polls/p2/questions/q11',
-                    '/polls/p2/questions/q22',
-                    '/polls/p2/questions/q32'
-                  ],
-                'participations': []
+                    '/lectures/s1/polls/p2/questions/q11',
+                    '/lectures/s1/polls/p2/questions/q22',
+                    '/lectures/s1/polls/p2/questions/q32'
+                  ]
               },
               {
                 '_id': 'p3',
+                'lecture': '/lectures/s2',
                 'title': 'RES-2015',
                 'creationDate': '2015-12-12 12:00', 
-                'state': 'closed'
+                'state': 'closed',
                 'questions': 
                   [
-                    '/polls/p3/questions/q13',
-                    '/polls/p3/questions/q23',
-                    '/polls/p3/questions/q33'
-                  ],
-                'participations': []
+                    '/lectures/s2/polls/p3/questions/q13',
+                    '/lectures/s2/polls/p3/questions/q23',
+                    '/lectures/s2/polls/p3/questions/q33'
+                  ]
               }
             ]
           examplePostPutItem: |
             {
               'title': 'TWEB-2015', 
-              'state': 'drafti'
+              'state': 'draft'
             }
           exampleItem: |
             {
                 '_id': 'p2',
+                'lecture': '/lectures/s1',
                 'title': 'TWEB-2015',
-                'creationDate': '2015-11-25 14:03'
-                'state': 'drafti'
-                'questions': [],
-                'participations': []
+                'creationDate': '2015-11-25 14:03',
+                'state': 'draft',
+                'questions': []
               },
       /{pollId}:
         type:
@@ -518,126 +495,22 @@ resourceTypes:
             examplePostPutItem: |
               {
                 'title': 'TWEB-2015', 
-                'state': 'drafti'
+                'state': 'draft'
               }
             exampleItem: |
               {
                 '_id': 'p1',
+                'lecture': '/lectures/s1',
                 'title': 'TWEB-2015', 
                 'creationDate': '2015-11-02 09:41'
-                'state': 'drafti',
+                'state': 'draft',
                 'questions': 
                     [
-                      '/polls/p1/questions/q1',
-                      '/polls/p1/questions/q2',
-                      '/polls/p1/questions/q3'
-                    ],
-                'participations': ['/polls/p1/participations/pp1']
-              }
-        /participations:
-          type:
-            collection:
-              exampleCollection: |
-                [
-                  {
-                    '_id': 'pp1',
-                    'participant': 'yibnl',
-                    'submissionDate': '2015-12-29 23:15',
-                    'answers': 
-                      [
-                        '/polls/p1/participations/pp1/answers/a1',
-                        '/polls/p1/participations/pp1/answers/a2',
-                        '/polls/p1/participations/pp1/answers/a3'
-                      ]
-                  },
-                  {
-                    '_id': 'pp2',
-                    'participant': 'paranoodle',
-                    'submissionDate': '2015-12-29 10:15',
-                    'answers': 
-                      [
-                        '/polls/p2/participations/pp2/answers/a11',
-                        '/polls/p2/participations/pp2/answers/a22'
-                      ]
-                  },
-                  {
-                    '_id': 'pp3',
-                    'participant': 'gweezer7',
-                    'submissionDate': '2015-12-30 17:42',
-                    'answers': 
-                      [
-                        '/polls/p2/participations/pp2/answers/a13'
-                      ]
-                  }
-                ]
-              examplePostPutItem: |
-                {
-                  'participant': 'gweezer7'
-                }
-              exampleItem: |
-                {
-                  '_id': 'pp2',
-                  'participant': 'gweezer7',
-                  'submissionDate': '2015-12-29 10:15',
-                  'answers': []
-                }
-          /{participationId}:
-            type:
-              collection-item:
-                examplePostPutItem: |
-                  {
-                    'participant': 'gweezer7'
-                  }
-                exampleItem: |
-                  {
-                    '_id': 'pp3',
-                    'participant': 'gweezer7',
-                    'submissionDate': '2015-12-30 17:42',
-                    'answers': 
-                      [
-                        '/polls/p2/participations/pp2/answers/a13'
-                      ]
-                  }
-            /answers:
-              type:
-                collection:
-                  exampleCollection: | 
-                    [
-                      {
-                        '_id': 'a1',
-                        'participation': 'pp1',
-                        'choice': 'c1'
-                      }
-                      {
-                        '_id': 'a22',
-                        'participation': 'pp1',
-                        'choice': 'c11'
-                      }
-                      {
-                        '_id': 'a21',
-                        'participation': 'pp1',
-                        'choice': 'c13'
-                      }
+                      '/lectures/s1/polls/p1/questions/q1',
+                      '/lectures/s1/polls/p1/questions/q2',
+                      '/lectures/s1/polls/p1/questions/q3'
                     ]
-                  examplePostPutItem: |
-                    {
-                      There is no body. However, two query parameters are required:
-                      ?question###&choice=### where ### corresponds respectively to the identifiers of the question and the choice.
-                    }
-                  exampleItem: |
-                    
-              /{answerId}:
-                type:
-                  collection-item:
-                    examplePostPutItem: |
-                      Question query parameter is required for update action.
-                      {
-                        '_id': 'a22',
-                        'participation': 'pp1',
-                        'choice': 'c11'
-                      }
-                    exampleItem: | 
-                      {}
+              }
         /questions: 
           type:
             collection:
@@ -650,9 +523,9 @@ resourceTypes:
                     'type': 'reminder' 
                     'choices':
                       [
-                        '/polls/p1/questions/q1/choice/c1',
-                        '/polls/p1/questions/q1/choice/c2',
-                        '/polls/p1/questions/q1/choice/c3'
+                        '/lectures/s1/polls/p1/questions/q1/choice/c1',
+                        '/lectures/s1/polls/p1/questions/q1/choice/c2',
+                        '/lectures/s1/polls/p1/questions/q1/choice/c3'
                       ]
                   },
                   {
@@ -662,9 +535,9 @@ resourceTypes:
                     'type': 'reminder' 
                     'choices':
                       [
-                        '/polls/p1/questions/q2/choice/c4',
-                        '/polls/p1/questions/q2/choice/c5',
-                        '/polls/p1/questions/q2/choice/c6'
+                        '/lectures/s1/polls/p1/questions/q2/choice/c4',
+                        '/lectures/s1/polls/p1/questions/q2/choice/c5',
+                        '/lectures/s1/polls/p1/questions/q2/choice/c6'
                       ]
                   },
                   {
@@ -674,9 +547,9 @@ resourceTypes:
                     'type': 'reminder' 
                     'choices':
                       [
-                        '/polls/p1/questions/q3/choice/c7',
-                        '/polls/p1/questions/q3/choice/c8',
-                        '/polls/p1/questions/q3/choice/c9'
+                        '/lectures/s1/polls/p1/questions/q3/choice/c7',
+                        '/lectures/s1/polls/p1/questions/q3/choice/c8',
+                        '/lectures/s1/polls/p1/questions/q3/choice/c9'
                       ]
                   }
                 ]
@@ -709,9 +582,9 @@ resourceTypes:
                     'type': 'reminder' 
                     'choices':
                       [
-                        '/polls/p1/questions/q1/choice/c1',
-                        '/polls/p1/questions/q1/choice/c2',
-                        '/polls/p1/questions/q1/choice/c3'
+                        '/lectures/s1/polls/p1/questions/q1/choice/c1',
+                        '/lectures/s1/polls/p1/questions/q1/choice/c2',
+                        '/lectures/s1/polls/p1/questions/q1/choice/c3'
                       ]
                   }
             /choices:
@@ -724,26 +597,21 @@ resourceTypes:
                         'question': 'q1',
                         'key': 'a', 
                         'text': 'A setting, in particular for a work of art or literature.',
-                        'answers': []
+                        'answer_count': '0'
                       },
                       {
                         '_id': 'c2',
                         'question': 'q1',
                         'key': 'b', 
                         'text': 'A series of steps that are executed in order using the "step" method.',
-                        'answers': 
-                          [
-                            '/polls/p1/participations/pp2/answers/a1',
-                            '/polls/p1/participations/pp2/answers/a2',
-                            '/polls/p1/participations/pp2/answers/a3'
-                          ]
+                        'answer_count': '3'
                       }
                       ,{
                         '_id': 'c3',
                         'question': 'q1',
                         'key': 'c', 
                         'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
-                        'answers': []
+                        'answer_count': '0'
                       }
                     ]
                   examplePostPutItem: |
@@ -757,7 +625,7 @@ resourceTypes:
                       'question': 'q1',
                       'key': 'b', 
                       'text': 'A series of steps that are executed in order using the "step" method.',
-                      'answers': []
+                      'answer_count': '0'
                     }
               /{choiceId}:
                 type:
@@ -773,7 +641,7 @@ resourceTypes:
                         'question': 'q1',
                         'key': 'b', 
                         'text': 'A series of steps that are executed in order using the "step" method.',
-                        'answers': []
+                        'answer_count': '0'
                       }
     /resources:
       type:
@@ -782,7 +650,7 @@ resourceTypes:
             [
               {
                 '_id': 'r1',
-                'session': 's1',
+                'lecture': 's1',
                 'title': 'Lorem ipsum',
                 'subhead': 'Lorem ipsum dolor sit amet',
                 'creationDate': 'Sun, 06 Nov 1994 08:49:37 GMT', 
@@ -791,7 +659,7 @@ resourceTypes:
               },
               {
                 '_id': 'r2',
-                'session': 's1',
+                'lecture': 's1',
                 'title': 'Lorem ipsum',
                 'subhead': 'Lorem ipsum dolor sit amet',
                 'creationDate': 'Sun, 06 Nov 1994 08:49:37 GMT', 
@@ -800,7 +668,7 @@ resourceTypes:
               },
               {
                 '_id': 'r3',
-                'session': 's1',
+                'lecture': 's1',
                 'title': 'Lorem ipsum',
                 'subhead': 'Lorem ipsum dolor sit amet',
                 'creationDate': 'Sun, 06 Nov 1994 08:49:37 GMT', 
@@ -818,7 +686,7 @@ resourceTypes:
           exampleItem: |
             {
               '_id': 'r3',
-              'session': 's1',
+              'lecture': 's1',
               'title': 'Lorem ipsum',
               'subhead': 'Lorem ipsum dolor sit amet',
               'creationDate': 'Sun, 06 Nov 1994 08:49:37 GMT', 
@@ -835,7 +703,7 @@ resourceTypes:
             exampleItem: |
               {
                 '_id': 'r1',
-                'session': 's1',
+                'lecture': 's1',
                 'title': 'Ipsum lorem ',
                 'subhead': 'Lorem ipsum dolor sit amet',
                 'creationDate': 'Sun, 06 Nov 1994 08:49:37 GMT', 
