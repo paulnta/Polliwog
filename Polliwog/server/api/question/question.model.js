@@ -25,7 +25,7 @@ QuestionSchema.pre('remove', function(next) {
 });
 
 // middleware for cascade updating on create
-QuestionChoiceSchema.pre('save', function(next) {
+QuestionSchema.pre('save', function(next) {
     this.wasNew = this.isNew;
     next();
 });
