@@ -8,21 +8,44 @@ angular.module('polliwogApp')
     //  console.log('EditPoll changed');
     //});
 
-    /*
-     * Dialog for questions edition
+    /**
+     * Shows a dialog to edit a question
+     * @param event
+     * @param question
      */
-    $scope.showDialogAddQuestion = function (event) {
-      console.log('showDialogAddQuestion');
+    $scope.showDialogEditQuestion = function (event, question) {
       $mdDialog.show({
+        locals: {
+          question: question
+        },
         controller: 'AddQuestionCtrl',
         templateUrl: 'components/speaker/dialog-add-question/dialog-add-question.html',
         parent: angular.element(document.body),
         targetEvent: event,
-        clickOutsideToClose: true
+        clickOutsideToClose: false
       })
       .then(function () {
         console.log('showSelectType finished');
       });
+    };
+
+    var originatorEv;
+    $scope.openMenu = function($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
+    };
+
+    /**
+     * Show a dialog to add a new question
+     * @param event
+     */
+    $scope.showDialogAddQuestion = function (event) {
+        $scope.showDialogEditQuestion(event, {
+          title: '',
+          choices :[
+            {title: 'Choice 1', state: false}
+          ]
+        })
     };
 
   })

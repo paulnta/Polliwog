@@ -3,17 +3,12 @@
  */
 
 angular.module('polliwogApp')
-  .controller('AddQuestionCtrl', function ($scope, EditPoll) {
+  .controller('AddQuestionCtrl', function ($scope, EditPoll, $mdDialog, question) {
 
     /*
      * Default question
      */
-    $scope.question = {
-      title: '',
-      choices :[
-        {title: 'Choice 1', state: false}
-      ]
-    };
+    $scope.question = question;
 
     /*
      * Add a choice to the current question
@@ -27,5 +22,6 @@ angular.module('polliwogApp')
      */
     $scope.save = function () {
       EditPoll.addQuestion($scope.question);
+      $mdDialog.hide();
     };
   });

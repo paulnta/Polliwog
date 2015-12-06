@@ -10,55 +10,96 @@
       <h3 class="poll-title">{{poll.title}}</h3>
 
       <div class="poll-toolbar">
-      <md-fab-toolbar md-open="toolbarOpen"
-                      md-direction="left">
-        <md-fab-trigger class="align-with-text">
-          <md-button aria-label="menu" class="md-fab md-primary">
-            <md-icon md-font-library="material-icons" style="color: #ffffff" aria-label="menu">menu</md-icon>
-          </md-button>
-        </md-fab-trigger>
-        <md-toolbar>
-          <md-fab-actions class="md-toolbar-tools">
+        <md-fab-toolbar md-open="toolbarOpen"
+                        md-direction="left">
+          <md-fab-trigger class="align-with-text">
+            <md-button aria-label="menu" class="md-fab md-primary">
+              <md-icon md-font-library="material-icons" style="color: #ffffff" aria-label="menu">edit</md-icon>
+            </md-button>
+          </md-fab-trigger>
+          <md-toolbar>
+            <md-fab-actions class="md-toolbar-tools">
 
-            <div layout="column" layout-align="center center" class="control">
-              <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
-                <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
-              </md-button>
-              <span class="label-icon">question</span>
-            </div>
+              <div layout="column" layout-align="center center" class="control">
+                <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
+                  <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+                </md-button>
+                <span class="label-icon">question</span>
+              </div>
 
-            <div layout="column" layout-align="center center" class="control">
-              <md-button aria-label="label" class="md-icon-button">
-                <md-icon md-font-library="material-icons" aria-label="add poll">star</md-icon>
-              </md-button>
-              <span class="label-icon">question</span>
-            </div>
+              <div layout="column" layout-align="center center" class="control">
+                <md-button aria-label="label" class="md-icon-button">
+                  <md-icon md-font-library="material-icons" aria-label="add poll">star</md-icon>
+                </md-button>
+                <span class="label-icon">question</span>
+              </div>
 
-            <div layout="column" layout-align="center center" class="control">
-              <md-button aria-label="photo" class="md-icon-button">
-                <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
-              </md-button>
-              <span class="label-icon">question</span>
-            </div>
-          </md-fab-actions>
-        </md-toolbar>
-      </md-fab-toolbar>
+              <div layout="column" layout-align="center center" class="control">
+                <md-button aria-label="photo" class="md-icon-button">
+                  <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+                </md-button>
+                <span class="label-icon">question</span>
+              </div>
+            </md-fab-actions>
+          </md-toolbar>
+        </md-fab-toolbar>
       </div>
     </div>
 
     <div>
 
-      <div class="content" layout="column" layout-padding>
+      <md-content layout="column">
+        <div class="content">
+
+          <!--Empty state -->
           <div ng-show="poll.questions.length == 0" class="empty-state" layout="column" layout-align="center center">
             <p class="infos">
               There is nothing here. <br> Lets create some questions.
             </p>
           </div>
 
-          <div ng-repeat="question in poll.questions">
-            {{question.title}}
-          </div>
-      </div>
+          <!--Questions-->
+          <md-list>
+            <div ng-repeat="question in poll.questions">
+              <div class="single-question">
+              <md-subheader class="md-sticky" layout>
+
+                <div>{{$index+1}}. {{question.title}}</div>
+
+                <md-menu md-position-mode="target-right target">
+                  <!--main button-->
+                  <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                    <md-icon md-font-library="material-icons">more_vert</md-icon>
+                  </md-button>
+
+                  <!--menu-->
+                  <md-menu-content width="3">
+                    <md-menu-item>
+                      <md-button ng-click="">
+                        <md-icon md-font-library="material-icons">edit</md-icon>
+                        Edit
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button ng-click="">
+                        <md-icon md-font-library="material-icons">delete</md-icon>
+                        delete
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </md-subheader>
+
+              <md-list-item ng-repeat="choice in question.choices">
+                <md-checkbox ng-model="choice.state"></md-checkbox>
+                <p>{{choice.title}}</p>
+              </md-list-item>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </div>
+          </md-list>
+        </div>
+      </md-content>
     </div>
   </md-whiteframe>
 </md-content>

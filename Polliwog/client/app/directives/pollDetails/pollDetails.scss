@@ -38,7 +38,19 @@ poll-details {
     }
 
     .content {
-      background-color: #fff;
+      background-color: #ffffff;
+      .single-question {
+        padding-left: 16px;
+      }
+
+      .md-subheader{
+        position: relative;
+        md-menu{
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
     }
   }
 

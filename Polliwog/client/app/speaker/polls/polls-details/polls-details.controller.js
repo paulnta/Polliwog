@@ -11,8 +11,7 @@ angular.module('polliwogApp')
 
     } else {
       // get poll
-      $scope.poll = Poll.get($scope.pollId);
-      EditPoll.registerPoll($scope.poll);
+      $scope.poll = EditPoll.registerPoll(Poll.get($scope.pollId));
     }
   });
 
