@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
+  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, Poll) {
 
+    $scope.defaultImage = Poll.getDefaultBackImage();
     $scope.toolbarOpen = true;
 
     $scope.openToolbar = function () {
@@ -84,10 +85,17 @@ angular.module('polliwogApp')
       restrict: 'E', // only match element names : <poll-details></poll-details>
       scope: {
         poll : '=',
-        mode: '@'
+        mode: '@',
       },
       controller: 'EditPollCtrl',
       link: function (scope, element, attrs) {
+
+        var header = $('poll-details .header');
+          header.css({
+          'background-image': 'url(' + scope.defaultImage +')',
+          'background-size' : 'cover',
+          'background-repeat' : 'no-repeat'
+        });
 
         function previewHeight() {
           var windowH = $(window).height();
