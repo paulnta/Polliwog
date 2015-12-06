@@ -3,7 +3,7 @@ angular.module('polliwogApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('questions', {
-        parent: 'session',
+        parent: 'lecture',
         url: '/questions',
         views : {
           "@speaker": {

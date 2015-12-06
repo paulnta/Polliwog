@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .factory('Poll', function (Session) {
+  .factory('Poll', function (Lecture) {
     // logic here
 
     // Public API here
     return {
-      list: function (sessionId) {
+      list: function (lectureId) {
 
-        var sessions = Session.list();
+        var lectures = Lecture.list();
 
-        for(var i=0; i < sessions.length; i++) {
-          if (sessions[i].id == sessionId) {
-            return sessions[i].polls;
+        for(var i=0; i < lectures.length; i++) {
+          if (lectures[i].id == lectureId) {
+            return lectures[i].polls;
           }
         }
 

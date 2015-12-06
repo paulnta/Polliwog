@@ -1,8 +1,8 @@
 /**
- * sessions/ list of sessions
- * sessions/:sessionId
- * sessions/:sessionId/polls
- * sessions/:sessionId/questions
+ * lectures/ list of lectures
+ * lectures/:lectureId
+ * lectures/:lectureId/polls
+ * lectures/:lectureId/questions
  *
  */
 angular.module('polliwogApp')
@@ -10,14 +10,14 @@ angular.module('polliwogApp')
     $stateProvider
 
       /*
-       * This state is just used to prepend /sessions
+       * This state is just used to prepend /lectures
        * to all urls
        *
-       * We could use this state to show a session list.
-       * But for now, sessions are listed in the side navigation
+       * We could use this state to show a lecture list.
+       * But for now, lectures are listed in the side navigation
        */
-      .state('speaker.sessions', {
-        url: '/sessions',
+      .state('speaker.lectures', {
+        url: '/lectures',
         abstract: true,
       })
 
@@ -26,23 +26,23 @@ angular.module('polliwogApp')
        * because we want to keep short names when creating links.
        * So we need to use the parent attr to refer to the parent state.
        *
-       * To create a link to this state, use : ui-sref="session({sessionId: <your-session-id>})"
+       * To create a link to this state, use : ui-sref="lecture({lectureId: <your-lecture-id>})"
        */
-      .state('session', {
-        parent: 'speaker.sessions',
-        url: '/:sessionId',
+      .state('lecture', {
+        parent: 'speaker.lectures',
+        url: '/:lectureId',
         views : {
 
           /*
            * The unnamed view (@speaker) of the speaker state  (using speaker.html as template),
-           * shows our session content
+           * shows our lecture content
            *
            * All other sibling views : Polls, Questions, will use the same element view
            * to show their content.
            */
           "@speaker": {
-            templateUrl: 'app/speaker/session/session.html',
-            controller: 'SessionCtrl'
+            templateUrl: 'app/speaker/lecture/lecture.html',
+            controller: 'LectureCtrl'
           }
         }
       })
