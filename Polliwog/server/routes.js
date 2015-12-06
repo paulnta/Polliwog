@@ -10,17 +10,43 @@ var auth = require('./auth/auth.service');
 
 module.exports = function(app) {
 
-
+  app.param('session_id', function(req, res, next, session_id) {
+    Session.findById(session_id, function(err, session) {
+        if (err) next(err);
+        if (!session) return res.status(404).send('Not Found');
+        
+        req.body.session = session._id;
+        next();
+    });
+  });
+  
+  app.param('poll_id', function(req, res, next, poll_id) {
+    Poll.findOne({_id: poll_id, session: req.body.session}, function(err, poll) {
+        if (err) next(err);
+        if (!poll) return res.status(404).send('Not Found');
+        
+        req.body.poll = poll._id;
+        next();
+    });
+  });
+  
+  app.param('question_id', function(req, res, next, question_id) {
+    Question.findOne({_id: question_id, poll: req.body.poll}, function(err, question) {
+        if (err) next(err);
+        if (!question) return res.status(404).send('Not Found');
+        
+        req.body.question = question._id;
+        next();
+    });
+  });
+  
   // Insert routes below
   app.use('/api/resources', require('./api/resource'));
   app.use('/api/sessions', require('./api/session'));
   app.use('/api/users', require('./api/user'));
-  app.use('/api/polls/:poll_id/participations/:participation_id/answers', require('./api/answer'));
-  app.use('/api/polls/:poll_id/participations', require('./api/participation'));
-  app.use('/api/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
-  app.use('/api/polls/:poll_id/questions', require('./api/question'));
-  app.use('/api/polls', require('./api/poll'));
-  app.use('/api/users', require('./api/user'));
+  app.use('/api/sessions/:session_id/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
+  app.use('/api/sessions/:session_id/polls/:poll_id/questions', require('./api/question'));
+  app.use('/api/sessions/:session_id/polls', require('./api/poll'));
 
   app.use('/auth', require('./auth'));
 
