@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Session, $mdMedia, $window) {
+  .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Lecture, $mdMedia, $window) {
 
     $scope.leftNavLocked = true;
 
@@ -35,11 +35,11 @@ angular.module('polliwogApp')
     };
 
     $scope.getTitle = function () {
-      return Session.getTitle(Session.current());
+      return Lecture.getTitle(Lecture.current());
     };
 
-    $scope.isActivated = function (sessionId) {
-      return Session.current() == sessionId;
+    $scope.isActivated = function (lectureId) {
+      return Lecture.current() == lectureId;
     };
 
     $scope.isSmall = function () {

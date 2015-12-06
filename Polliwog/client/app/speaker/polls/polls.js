@@ -8,7 +8,7 @@ angular.module('polliwogApp')
        * It shows a list of polls and a side preview
        */
       .state('polls', {
-        parent: 'session',
+        parent: 'lecture',
         url: '/polls',
         views: {
           '@speaker': {

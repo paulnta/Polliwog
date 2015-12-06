@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .factory('Session', function ($state) {
+  .factory('Lecture', function ($state) {
     // logic here
 
     // test data
-   var sessions = [
+   var lectures = [
      {
-       title: 'Session 1',
+       title: 'Lecture 1',
        polls: [
          {
            title: 'poll11',
@@ -62,7 +62,7 @@ angular.module('polliwogApp')
        id: 1
      },
      {
-       title: 'session 2',
+       title: 'lecture 2',
        polls: [
          {
            title: 'poll21',
@@ -80,7 +80,7 @@ angular.module('polliwogApp')
        id: 2
      },
      {
-       title: 'session 3',
+       title: 'lecture 3',
        polls: [
          {
            title: 'poll31',
@@ -102,17 +102,17 @@ angular.module('polliwogApp')
     // Public API here
     return {
       list: function () {
-        return sessions;
+        return lectures;
       },
 
       current: function () {
-        return $state.params.sessionId;
+        return $state.params.lectureId;
       },
 
-      getTitle: function (sessionId) {
-        for(var i=0; i < sessions.length; i++){
-          if(sessions[i].id == sessionId){
-            return sessions[i].title;
+      getTitle: function (lectureId) {
+        for(var i=0; i < lectures.length; i++){
+          if(lectures[i].id == lectureId){
+            return lectures[i].title;
           }
         }
         return '';

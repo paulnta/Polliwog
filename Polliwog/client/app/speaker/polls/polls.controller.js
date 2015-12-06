@@ -3,12 +3,12 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, Poll, Session, $mdMedia) {
+  .controller('PollsCtrl', function ($scope, Poll, Lecture, $mdMedia) {
     'use strict';
 
     $scope.message = "PollsCtrl";
 
-    $scope.polls = Poll.list(Session.current());
+    $scope.polls = Poll.list(Lecture.current());
     $scope.selected = $scope.polls.length ? $scope.polls[0]: {};
 
     $scope.select = function (poll) {
