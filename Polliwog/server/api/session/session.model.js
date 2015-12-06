@@ -15,7 +15,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * A session is defined by the following properties:
+ * A session is a kind of lecture that is given to an attendance by a
+ * speaker. This is the root document from which one can retreive polls
+ * resources, listeners list and moods. A session is defined by the
+ * following properties:
  *
  * - id. An automatic identifier is assigned to the session by MongoDB.
  * A user (speaker) interacts with the API session endpoint by means of
@@ -34,7 +37,7 @@ var mongoose = require('mongoose'),
  * seem to be strange to store such a data given that a session is supposed 
  * to be temporary. This date is used as a reference for moods statistics.
  *
- * - isPrivate. The web applications provides with two types of sessions 
+ * - isPrivate. The web applications is provided with two types of sessions 
  * which are public ones and private ones. The type of a given session is
  * defined by a boolean flag indicating whether it is public (false) or 
  * private (true). A session is by default considered to be public in case

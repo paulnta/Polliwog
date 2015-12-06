@@ -14,6 +14,32 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+/**
+ * A resource is a kind of data that a speaker makes available to its
+ * audience. This data can be a text, a link or even a file for which
+ * it is possible to preview its content or to download it. A resource
+ * is defined by the following properties:
+ *
+ * - session: It belongs to a session since a speaker may want to share
+ * resources only to a given audience. Of course, it is still possible
+ * to him to share those amongst his sessions.
+ *
+ * - title: A title characterizes a resource.
+ *
+ * - subhead: A subhead come withe the resource title. Its purpose is to
+ * provide a more detailed description about the resource.
+ *
+ * - creationDate: A creation date is stored, This makes possible to the
+ * audience to known which resource has been added recently.
+ *
+ * - text: A resource has a content and its content is displayed as a text.
+ * This text could be a post, a note, a reminder, a link et al.
+ *
+ * - file: The speaker is provided with a file support. It allows him to
+ * share files to his audience. Session listeners would be able to see its
+ * content by previewing it or by downloading it.
+ *
+ */
 var ResourceSchema = new Schema({
   session: { type: Schema.ObjectId, ref: 'Session', required: true },
   title: { type: String, trim: true, required: true },
