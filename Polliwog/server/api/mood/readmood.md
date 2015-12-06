@@ -3,15 +3,15 @@ http://server/api/
 
 ---
 
-## /sessions
+## /lectures
 
-### /sessions
+### /lectures
 
-### /sessions/{sessionId}/moods/mean
+### /lectures/{lectureId}/moods/mean
 
 * **get**: Get moods mean (teacher and eventually students)
 
-### /sessions/{sessionId}/moods/
+### /lectures/{lectureId}/moods/
 
 * **get** get moods graph
 * **post**: add a mood to the list (students only)

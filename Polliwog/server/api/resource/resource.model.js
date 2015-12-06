@@ -20,9 +20,9 @@ var mongoose = require('mongoose'),
  * it is possible to preview its content or to download it. A resource
  * is defined by the following properties:
  *
- * - session: It belongs to a session since a speaker may want to share
+ * - lecture: It belongs to a lecture since a speaker may want to share
  * resources only to a given audience. Of course, it is still possible
- * to him to share those amongst his sessions.
+ * to him to share those amongst his lectures.
  *
  * - title: A title characterizes a resource.
  *
@@ -36,12 +36,12 @@ var mongoose = require('mongoose'),
  * This text could be a post, a note, a reminder, a link et al.
  *
  * - file: The speaker is provided with a file support. It allows him to
- * share files to his audience. Session listeners would be able to see its
+ * share files to his audience. Lecture listeners would be able to see its
  * content by previewing it or by downloading it.
  *
  */
 var ResourceSchema = new Schema({
-  session: { type: Schema.ObjectId, ref: 'Session', required: true },
+  lecture: { type: Schema.ObjectId, ref: 'Lecture', required: true },
   title: { type: String, trim: true, required: true },
   subhead: { type: String, trim: true, required: true },
   creationDate: { type: Date, default: Date.now },
@@ -54,12 +54,12 @@ var ResourceSchema = new Schema({
  * 
  * The purpose of this middleware is to implement the common mechanism 
  * of DELETE ON CASCADE that one can retrieve in relational databases. It 
- * also implements UPDATE ON CASCADE since parent session stores a reference 
+ * also implements UPDATE ON CASCADE since parent lecture stores a reference 
  * to its resources. 
  */ 
 ResourceSchema.pre('remove', function (next) {
-	var Session = mongoose.model('Session');
-	Session.findByIdAndUpdate(this.session, { $pull: { resources: this._id } });
+	var Lecture = mongoose.model('Lecture');
+	Lecture.findByIdAndUpdate(this.lecture, { $pull: { resources: this._id } });
 	next();
 });
 
@@ -77,7 +77,7 @@ ResourceSchema.pre('save', function (next) {
 /** 
  * Middleware function executed after each resource insertion/update. 
  * 
- * The purpose of this function is to update parent session's array of resources 
+ * The purpose of this function is to update parent lecture's array of resources 
  * in order to maintain both sides references consistency.
  * 
  * The body of the function is executed only after an insertion. In the case  
@@ -85,8 +85,8 @@ ResourceSchema.pre('save', function (next) {
  * test on the flag wasNew defined on pre save event. 
  */ 
 ResourceSchema.post('save', function () {
-	var Session = mongoose.model('Session');
-	if (this.wasNew) {Session.findByIdAndUpdate(this.session, { $push: { resources: this._id } }); }
+	var Lecture = mongoose.model('Lecture');
+	if (this.wasNew) {Lecture.findByIdAndUpdate(this.lecture, { $push: { resources: this._id } }); }
 });
 
 module.exports = mongoose.model('Resource', ResourceSchema);
