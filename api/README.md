@@ -122,18 +122,3 @@ http://polliwog-app.herokuapp.com/api/
 
 * **delete**: Delete the mood with moodId = {moodId}.
 
-### /lectures/{lectureId}/users
-
-* **get**: Get list of users.
-* **post**: Create a new user.
-
-### /lectures/{lectureId}/users/{userId}
-
-* **get**: Get the user with userId = {userId}.
-
-* **put**: Update the user with userId = {userId}.
-
-* **patch**: Update partially the user with userId = {userId}.
-
-* **delete**: Delete the user with userId = {userId}.
-
