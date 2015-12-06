@@ -1,5 +1,5 @@
 /**
- * session.model.js
+ * lecture.model.js
  *
  * Created on: 2015-11-29
  *
@@ -15,57 +15,57 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * A session is a kind of lecture that is given to an attendance by a
+ * A lecture is a kind of lecture that is given to an attendance by a
  * speaker. This is the root document from which one can retreive polls
- * resources, listeners list and moods. A session is defined by the
+ * resources, listeners list and moods. A lecture is defined by the
  * following properties:
  *
- * - id. An automatic identifier is assigned to the session by MongoDB.
- * A user (speaker) interacts with the API session endpoint by means of
- * the session id.
+ * - id. An automatic identifier is assigned to the lecture by MongoDB.
+ * A user (speaker) interacts with the API lecture endpoint by means of
+ * the lecture id.
  *
- * - key. A session key is used by a user (speaker) in order to allow 
+ * - key. A lecture key is used by a user (speaker) in order to allow 
  * other users (listeners) to join his lecture. This key is generated 
  * on server side and should be unique in order for a user (listener)
- * to identify a session, not by its assigned identifier.
+ * to identify a lecture, not by its assigned identifier.
  *
- * - name. A session is titled by a mandatory name.
+ * - name. A lecture is titled by a mandatory name.
  *
- * - description. A session is describe by a mandatory description.
+ * - description. A lecture is describe by a mandatory description.
  *
- * - creationDate: A session is characterized by a creation date. It may
- * seem to be strange to store such a data given that a session is supposed 
+ * - creationDate: A lecture is characterized by a creation date. It may
+ * seem to be strange to store such a data given that a lecture is supposed 
  * to be temporary. This date is used as a reference for moods statistics.
  *
- * - isPrivate. The web applications is provided with two types of sessions 
- * which are public ones and private ones. The type of a given session is
+ * - isPrivate. The web applications is provided with two types of lectures 
+ * which are public ones and private ones. The type of a given lecture is
  * defined by a boolean flag indicating whether it is public (false) or 
- * private (true). A session is by default considered to be public in case
+ * private (true). A lecture is by default considered to be public in case
  * of a user (speaker) having not specified its type.
  *
- * - speaker. A session belongs to a user (speaker). This field basically
+ * - speaker. A lecture belongs to a user (speaker). This field basically
  * consists of referencing the parent user. Mechanisms of DELETE ON CASCADE
  * and UPDATE ON CASCADE should be implemented in order to ensure database
  * consistency.
  *
- * - listeners. A session is hold by a user (speaker) to other users (listeners).
+ * - listeners. A lecture is hold by a user (speaker) to other users (listeners).
  * these listeners are stored by means of an array of references. Mechanisms 
  * of DELETE ON CASCADE and UPDATE ON CASCADE should be implemented in order   
  * to ensure database consistency.
  *
  * - moods. It is expected from listeners to give a feedback about their 
- * mood throughout the speaker session. This feedback is gathered in an array. 
+ * mood throughout the speaker lecture. This feedback is gathered in an array. 
  * That's the purpose of the moods field.
  *
- * - polls. Any questions poll belongs to only one session. This is done by means
+ * - polls. Any questions poll belongs to only one lecture. This is done by means
  * of an array of poll references. Mechanisms of DELETE ON CASCADE and UPDATE ON 
  * CASCADE should be implemented in order to ensure database consistency. 
  *
  * - resources. A user (speaker) may share resources with the audience (listeners).
  * It can be URLs, files et al. These kind of resources belong therefore to a
- * session. They are stored by means of an array of references.
+ * lecture. They are stored by means of an array of references.
  */
-var SessionSchema = new Schema({
+var LectureSchema = new Schema({
   key: { type: String, unique: true },
   name: { type: String, trim: true, required: true, maxlength: 30 },
   description: { type: String, trim: true, required: true, maxlength: 120 },
@@ -79,22 +79,22 @@ var SessionSchema = new Schema({
 });
 
 /** 
- * Middleware function executed before every session removal. 
+ * Middleware function executed before every lecture removal. 
  * 
  * The purpose of this middleware is to implement the common mechanism 
  * of DELETE ON CASCADE that one can retrieve in relational databases. It 
  * also implements UPDATE ON CASCADE since parent user stores a reference 
- * to his sessions. 
+ * to his lectures. 
  */ 
-SessionSchema.pre('remove', function (next) {
+LectureSchema.pre('remove', function (next) {
 	/**
-	 * Update parent user's array of sessions.
+	 * Update parent user's array of lectures.
 	 */
 	var User = mongoose.model('User');
-	User.findByIdAndUpdate(this.speaker, { $pull: { sessions: this._id } });
+	User.findByIdAndUpdate(this.speaker, { $pull: { lectures: this._id } });
 
 	/**
-	 * Remove every poll related with the current session.
+	 * Remove every poll related with the current lecture.
 	 *
 	 * Notice that it iterates through each poll. This is necessary for
 	 * triggering the question and participation middlewares which will
@@ -104,24 +104,24 @@ SessionSchema.pre('remove', function (next) {
 	 * Further information on: http://mongoosejs.com/docs/populate.html
 	 */
 	var Poll = mongoose.model('Poll');
-	Poll.find({ session: this._id }, function (err, polls) { 
+	Poll.find({ lecture: this._id }, function (err, polls) { 
 		if (err) { console.log(err); return; } 
 		polls.forEach(function (poll) { poll.remove(); }); 
 	});
 
 	/**
-	 * Remove all moods related to the current session.
+	 * Remove all moods related to the current lecture.
 	 */
 	var Mood = mongoose.model('Mood');
-	Mood.remove({ session: this._id }, function (err) {
+	Mood.remove({ lecture: this._id }, function (err) {
 		if (err) { console.log(err); }
 	});
 
 	/**
-	 * Remove all resources related to the current session.
+	 * Remove all resources related to the current lecture.
 	 */
 	var Resource = mongoose.model('Resource');
-	Resource.remove({ session: this._id }, function (err) {
+	Resource.remove({ lecture: this._id }, function (err) {
 		if (err) { console.log(err); }
 	});
 
@@ -129,29 +129,29 @@ SessionSchema.pre('remove', function (next) {
 });
 
 /** 
- * Middleware function executed before each session insertion/update. 
+ * Middleware function executed before each lecture insertion/update. 
  * 
  * The purpose of this function is to set a flag indicating whether it 
  * is an update or an insertion. This flag is used for post save event.
  */
-SessionSchema.pre('save', function (next) {
+LectureSchema.pre('save', function (next) {
 	this.wasNew = this.isNew;
 	next();
 });
 
 /** 
- * Middleware function executed after each session insertion/update. 
+ * Middleware function executed after each lecture insertion/update. 
  * 
- * The purpose of this function is to update parent user's array of sessions 
+ * The purpose of this function is to update parent user's array of lectures 
  * in order to maintain both sides references consistency.
  * 
  * The body of the function is executed only after an insertion. In the case  
  * of an update, the algorithm will not be executed. This is ensured by the
  * test on the flag wasNew defined on pre save event. 
  */ 
-SessionSchema.post('save', function () {
+LectureSchema.post('save', function () {
 	var User = mongoose.model('User');
-	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { sessions: this._id } }); }
+	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }); }
 });
 
-module.exports = mongoose.model('Session', SessionSchema);
+module.exports = mongoose.model('Lecture', LectureSchema);
