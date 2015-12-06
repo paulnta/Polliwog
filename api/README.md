@@ -13,7 +13,7 @@ http://polliwog-app.herokuapp.com/api/
 ### User Roles
 # TODO IN MARKDOWN
 
-### Public & private sessions
+### Public & private lectures
 # TODO IN MARKDOWN
 
 ### Concept of Moods
@@ -30,29 +30,29 @@ http://polliwog-app.herokuapp.com/api/
 
 ---
 
-## /sessions
+## /lectures
 
-### /sessions
+### /lectures
 
-* **get**: Get list of sessions.
-* **post**: Create a new session.
+* **get**: Get list of lectures.
+* **post**: Create a new lecture.
 
-### /sessions/{sessionId}
+### /lectures/{lectureId}
 
-* **get**: Get the session with sessionId = {sessionId}.
+* **get**: Get the lecture with lectureId = {lectureId}.
 
-* **put**: Update the session with sessionId = {sessionId}.
+* **put**: Update the lecture with lectureId = {lectureId}.
 
-* **patch**: Update partially the session with sessionId = {sessionId}.
+* **patch**: Update partially the lecture with lectureId = {lectureId}.
 
-* **delete**: Delete the session with sessionId = {sessionId}.
+* **delete**: Delete the lecture with lectureId = {lectureId}.
 
-### /sessions/{sessionId}/polls
+### /lectures/{lectureId}/polls
 
 * **get**: Get list of polls.
 * **post**: Create a new poll.
 
-### /sessions/{sessionId}/polls/{pollId}
+### /lectures/{lectureId}/polls/{pollId}
 
 * **get**: Get the poll with pollId = {pollId}.
 
@@ -62,42 +62,12 @@ http://polliwog-app.herokuapp.com/api/
 
 * **delete**: Delete the poll with pollId = {pollId}.
 
-### /sessions/{sessionId}/polls/{pollId}/participations
-
-* **get**: Get list of participations.
-* **post**: Create a new participation.
-
-### /sessions/{sessionId}/polls/{pollId}/participations/{participationId}
-
-* **get**: Get the participation with participationId = {participationId}.
-
-* **put**: Update the participation with participationId = {participationId}.
-
-* **patch**: Update partially the participation with participationId = {participationId}.
-
-* **delete**: Delete the participation with participationId = {participationId}.
-
-### /sessions/{sessionId}/polls/{pollId}/participations/{participationId}/answers
-
-* **get**: Get list of answers.
-* **post**: Create a new answer.
-
-### /sessions/{sessionId}/polls/{pollId}/participations/{participationId}/answers/{answerId}
-
-* **get**: Get the answer with answerId = {answerId}.
-
-* **put**: Update the answer with answerId = {answerId}.
-
-* **patch**: Update partially the answer with answerId = {answerId}.
-
-* **delete**: Delete the answer with answerId = {answerId}.
-
-### /sessions/{sessionId}/polls/{pollId}/questions
+### /lectures/{lectureId}/polls/{pollId}/questions
 
 * **get**: Get list of questions.
 * **post**: Create a new question.
 
-### /sessions/{sessionId}/polls/{pollId}/questions/{questionId}
+### /lectures/{lectureId}/polls/{pollId}/questions/{questionId}
 
 * **get**: Get the question with questionId = {questionId}.
 
@@ -107,12 +77,12 @@ http://polliwog-app.herokuapp.com/api/
 
 * **delete**: Delete the question with questionId = {questionId}.
 
-### /sessions/{sessionId}/polls/{pollId}/questions/{questionId}/choices
+### /lectures/{lectureId}/polls/{pollId}/questions/{questionId}/choices
 
 * **get**: Get list of choices.
 * **post**: Create a new choice.
 
-### /sessions/{sessionId}/polls/{pollId}/questions/{questionId}/choices/{choiceId}
+### /lectures/{lectureId}/polls/{pollId}/questions/{questionId}/choices/{choiceId}
 
 * **get**: Get the choice with choiceId = {choiceId}.
 
@@ -122,12 +92,12 @@ http://polliwog-app.herokuapp.com/api/
 
 * **delete**: Delete the choice with choiceId = {choiceId}.
 
-### /sessions/{sessionId}/resources
+### /lectures/{lectureId}/resources
 
 * **get**: Get list of resources.
 * **post**: Create a new resource.
 
-### /sessions/{sessionId}/resources/{resourceId}
+### /lectures/{lectureId}/resources/{resourceId}
 
 * **get**: Get the resource with resourceId = {resourceId}.
 
@@ -137,12 +107,12 @@ http://polliwog-app.herokuapp.com/api/
 
 * **delete**: Delete the resource with resourceId = {resourceId}.
 
-### /sessions/{sessionId}/moods
+### /lectures/{lectureId}/moods
 
 * **get**: Get list of moods.
 * **post**: Create a new mood.
 
-### /sessions/{sessionId}/moods/{moodId}
+### /lectures/{lectureId}/moods/{moodId}
 
 * **get**: Get the mood with moodId = {moodId}.
 
@@ -152,12 +122,12 @@ http://polliwog-app.herokuapp.com/api/
 
 * **delete**: Delete the mood with moodId = {moodId}.
 
-### /sessions/{sessionId}/users
+### /lectures/{lectureId}/users
 
 * **get**: Get list of users.
 * **post**: Create a new user.
 
-### /sessions/{sessionId}/users/{userId}
+### /lectures/{lectureId}/users/{userId}
 
 * **get**: Get the user with userId = {userId}.
 
