@@ -1,8 +1,21 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .factory('Lecture', function ($state) {
+  .factory('Lecture', function ($state, $resource) {
     // logic here
+
+    var api = $resource('/api/lectures/:id',
+
+      // url params
+      {id: '@_id'},
+
+      // methods
+      {
+        list: {method: 'GET'},
+        get: {method: 'GET'}
+
+      }
+    );
 
     // test data
    var lectures = [
@@ -124,6 +137,9 @@ angular.module('polliwogApp')
 
     // Public API here
     return {
+
+      api: api,
+
       list: function () {
         return lectures;
       },

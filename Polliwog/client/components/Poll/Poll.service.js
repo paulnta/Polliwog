@@ -2,7 +2,7 @@
 
 angular.module('polliwogApp')
 
-    .factory('Poll', function($resource) {
+    .factory('Poll', function(Lecture) {
 
     var backgrounds = [
       '/assets/images/back00.jpg',
@@ -12,26 +12,26 @@ angular.module('polliwogApp')
     ];
 
         return {
-            get: function(lecture_id, poll_id) {
-                var poll = $resource("/api/lectures/:lid/polls/:pid",
-                    {lid:lecture_id, pid:poll_id},
-                    {get: {method: "GET", isArray: false}});
+          list: function (lectureId) {
 
-                return poll.get();
-            },
-            list: function(lecture_id) {
-                var polls = $resource("/api/lectures/:lid/polls",
-                    {lid:lecture_id},
-                    {query: {method: "GET", isArray: false}});
+            var lectures = Lecture.list();
 
-                return polls.query();
-            },
-            create: function(lecture_id, title, state) {
-                var polls = $resource("/api/lectures/:lid/polls",
-                    {lid:lecture_id});
-                var newPoll = new polls({title:title, state:state});
-                newPoll.$save();
-            },
+            for(var i=0; i < lectures.length; i++) {
+              if (lectures[i].id == lectureId) {
+                return lectures[i].polls;
+              }
+            }
+
+            return [];
+          },
+
+          // TODO: Use API
+          get : function (pollId) {
+            return {
+              title: 'Poll title',
+              id: 31
+            };
+          },
 
             getDefaultBackImage: function () {
               var img =  backgrounds[Math.floor(Math.random()* backgrounds.length)];

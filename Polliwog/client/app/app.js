@@ -71,13 +71,12 @@ angular.module('polliwogApp', [
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
-      // TODO: fix bug on page reload, redirect to login
-    //if( toState.data && toState.data.authenticate            // the state need an authentication
-    //      && !Auth.hasRole(toState.data.authenticate.role)){ // has not required role
-    //    event.preventDefault();
-    //    //TargetUrl.setUrl($location.url());
-    //    $state.go('login');                                   // redirect to login
-    //  }
+    if( toState.data && toState.data.authenticate            // the state need an authentication
+          && !Auth.hasRole(toState.data.authenticate.role)){ // has not required role
+        event.preventDefault();
+        //TargetUrl.setUrl($location.url());
+        $state.go('login');                                   // redirect to login
+      }
     });
   });
 

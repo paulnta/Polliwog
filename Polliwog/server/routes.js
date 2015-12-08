@@ -7,6 +7,9 @@
 var errors = require('./components/errors');
 var path = require('path');
 var auth = require('./auth/auth.service');
+var Lecture = require('./api/lecture/lecture.model');
+var Poll = require('./api/poll/poll.model');
+var Question = require('./api/question/question.model');
 
 module.exports = function(app) {
 
@@ -14,34 +17,34 @@ module.exports = function(app) {
     Lecture.findById(lecture_id, function(err, lecture) {
         if (err) next(err);
         if (!lecture) return res.status(404).send('Not Found');
-        
+
         req.body.lecture = lecture._id;
         next();
     });
   });
-  
+
   app.param('poll_id', function(req, res, next, poll_id) {
     Poll.findOne({_id: poll_id, lecture: req.body.lecture}, function(err, poll) {
         if (err) next(err);
         if (!poll) return res.status(404).send('Not Found');
-        
+
         req.body.poll = poll._id;
         next();
     });
   });
-  
+
   app.param('question_id', function(req, res, next, question_id) {
     Question.findOne({_id: question_id, poll: req.body.poll}, function(err, question) {
         if (err) next(err);
         if (!question) return res.status(404).send('Not Found');
-        
+
         req.body.question = question._id;
         next();
     });
   });
-  
+
   // Insert routes below
-  app.use('/api/lectures', require('./api/lecture'));
+  app.use('/api/lectures', auth.isAuthenticated(), require('./api/lecture'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/lectures/:lecture_id/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
   app.use('/api/lectures/:lecture_id/polls/:poll_id/questions', require('./api/question'));
