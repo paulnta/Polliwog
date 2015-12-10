@@ -62,7 +62,22 @@ The purpose of this report is to describe what has been implemented during the s
 
 The REST API has been documented while it was being both designed and implemented. A dedicated tool has been used for that purpose. It has been decided to use the RESTful API Modeling Language (RAML) as it was the case for the first part of the project. It is useless to enumerate all its advantages except maybe one: RAML makes it very easy to fully describe resources in a generic and concise way.
 
-The current version of the REST API Documentation is well furnished. Every endpoint has been fully documented except the moods one due to reasons of time. Anyway, it is provided with various examples of use for both requests and responses. Entities schemas have also been made available. This allows one to know exactly which data type is expected for a specfic property of a payload. HTTP status codes
+The current version of the REST API Documentation is well furnished. Every endpoint has been fully documented except the moods one due to reasons of time. Anyway, it is provided with various examples of use for both requests and responses. Entities schemas have also been made available. This allows one to know exactly which data type is expected for a specfic property of a payload. 
+
+HTTP status codes likely returned by the server are enumerated when necessary. These codes have been chosen according to the HTTP specification. For example, when a POST request is performed in order to create a resource, it is expected from the server to return the 201 HTTP status code meaning that the resource has been successfully created.
+
+While RAML was used to document the REST API, some additional tools have been exploited in order to generate the said documentation. Two versions of the REST API documentation have been generated: 
+* an HTML version for the Web application
+* a Markdown version for the project repository. 
+
+This documentation generation has been made possible by the following generators:
+
+* [raml2html](https://github.com/raml2html/raml2html), a RAML to HTML documentation generator.
+* [raml2md](https://github.com/raml2html/raml2md), a RAML to Markdown documentation generator.
+
+The REST API documentation is not finished yet. It was planned to provide the documentation with general information about the API and the Web application. The purpose of that was to made aware any user about both key concepts and key mechanisms related to the application. For example, one of the feature of the platform is to ensure privacy for a lecture meaning that it is available only to some authorized users. The goal of a such information available in the API documentation would be to remind this interesting feature and to describe it with more details.
+
+>The REST API documentation is not available on the web application yet. It has not been integreted on the client side for reasons of time. Anyway, a local version can still be downloaded [here](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api) .
 
 ## <a name="Work"></a> Remaining Work
 
