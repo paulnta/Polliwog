@@ -120,7 +120,7 @@ The tasks we still need to complete to reach the goal we'd set ourselves are as 
 * Finish coding the Angular.js controllers and services for our main features
 * Finish linking the client UI (speaker side) to the server API so that it displays "real" values
 * Test both the speaker UI and the CRUD operations on the API endpoints to ensure they are functioning correctly
-* Finish implementing the audience UI
+* Implement the audience UI
 
 ## <a name="Issues"></a> Known Issues
 
