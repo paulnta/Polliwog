@@ -21,22 +21,22 @@ angular.module('polliwogApp', [
     var targetUrl = null;
 
     return {
-        setUrl : function (url) {
-          targetUrl = url;
-        },
+      setUrl : function (url) {
+        targetUrl = url;
+      },
 
-        isEmpty : function () {
-          return targetUrl === null;
-        },
+      isEmpty : function () {
+        return targetUrl === null;
+      },
 
-        getUrl: function () {
-          return targetUrl;
-        },
+      getUrl: function () {
+        return targetUrl;
+      },
 
-        reset: function () {
-           targetUrl = null;
-        }
-      };
+      reset: function () {
+        targetUrl = null;
+      }
+    };
   })
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location, TargetUrl) {
@@ -69,14 +69,15 @@ angular.module('polliwogApp', [
 
   .run(function ($rootScope, $stateParams, Auth, $state, TargetUrl, $location) {
     // Redirect to login if route requires auth and you're not logged in
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-    if( toState.data && toState.data.authenticate            // the state need an authentication
-          && !Auth.hasRole(toState.data.authenticate.role)){ // has not required role
+      if( toState.data && toState.data.authenticate            // the state need an authentication
+        && !Auth.hasRole(toState.data.authenticate.role)){ // has not required role
         event.preventDefault();
-        //TargetUrl.setUrl($location.url());
+        TargetUrl.setUrl({name:toState.name, params: toParams});
         $state.go('login');                                   // redirect to login
       }
+
     });
   });
 

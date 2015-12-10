@@ -1,0 +1,43 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <span style="color: white">Demo Checklist</span>
+  </div>
+</md-toolbar>
+
+<form layout="column" layout-padding>
+
+  <div layout="row">
+
+    <md-checkbox aria-label="Thing sate" ng-model="entry.active" style="margin-right: 30px">
+    </md-checkbox>
+
+    <div layout="column" flex>
+      <md-input-container>
+        <label>Name</label>
+        <input aria-label="Thing name" ng-model="entry.name"/>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Info</label>
+        <input aria-label="Thing info" ng-model="entry.info"/>
+      </md-input-container>
+    </div>
+  </div>
+
+  <md-button class="md-primary" ng-click="save()" raised>SAVE</md-button>
+
+</form>
+
+<md-content>
+  <md-list>
+    <md-list-item class="md-2-line" ng-repeat="thing in things" ng-click="edit(thing)">
+      <md-checkbox aria-label="Thing state" ng-model="thing.active"></md-checkbox>
+      <div class="md-list-item-text" layout="column">
+        <h3 class="">{{thing.name}}</h3>
+        <p>{{thing.info}}</p>
+      </div>
+      <md-button class="md-icon-button" ng-click="delete(thing, $index)"><md-icon md-font-library="material-icons">delete</md-icon></md-button>
+      <md-divider ng-hide="$last"></md-divider>
+    </md-list-item>
+  </md-list>
+</md-content>

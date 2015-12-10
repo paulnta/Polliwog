@@ -28,9 +28,11 @@ angular.module('polliwogApp')
         }).
         success(function(data) {
           $cookieStore.put('token', data.token);
-          currentUser = User.get();
-          deferred.resolve(data);
-          return cb();
+          User.get().$promise.then(function (user) {
+            currentUser = user;
+            deferred.resolve();
+            return cb();
+          });
         }).
         error(function(err) {
           this.logout();

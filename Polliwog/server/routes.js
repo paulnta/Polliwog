@@ -44,6 +44,7 @@ module.exports = function(app) {
   });
 
   // Insert routes below
+  app.use('/api/things', require('./api/thing'));
   app.use('/api/lectures', auth.isAuthenticated(), require('./api/lecture'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/lectures/:lecture_id/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));

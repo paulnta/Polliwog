@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window, TargetUrl) {
+  .controller('LoginCtrl', function ($scope, Auth, User, $state, $location, $window, TargetUrl) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -13,14 +13,13 @@ angular.module('polliwogApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
-        .then( function() {
+        .then(function() {
             if(TargetUrl.isEmpty()) {
-              console.log("no targetUrl");
               // Logged in, redirect to home
               $location.path('/');
             } else {
-              console.log("redirect to: " + TargetUrl.getUrl());
-              $location.path(TargetUrl.getUrl());
+              var target = TargetUrl.getUrl();
+              $state.go(target.name, target.params);
               TargetUrl.reset();
             }
           })
