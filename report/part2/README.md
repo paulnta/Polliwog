@@ -30,6 +30,7 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
     1. [User Interfaces](#UI)
     1. [State Pattern](#State)
 1. [Server](#Server)
+    1. [Authentication](#Authentication)
     1. [REST API](#API)
     1. [REST API Documentation](#APIDoc)
 1. [Remaining Work](#Work)
@@ -82,7 +83,17 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 
 ## <a name="Server"></a> Server
 
+### <a name="Authentication"></a> Authentication
+
+The authentication system of the application is working. The Angular Fullstack generator provides it by default during any project scaffolding. Therefore it was decided to use it directly instead of reinventing the wheel. A such decision implied to study the way it works which took some time.
+
 ### <a name="API"></a> REST API
+
+The REST API was fully implemented according to the current version of the data model. CRUD operations can be performed on each available endpoint. It was decided to make available for each entity all CRUD operations. Some of them may be removed if it turns out that the client side of the application does not need them.
+
+Mechanisms of UPDATE ON CASCADE and DELETE ON CASCADE were developped in order to ensure and maintain database consistency. As a reminder, references through IDs are used to establish relations between entities. Deleting or updating a document should also delete or update another document subject to this kind of interdependence. This was done with Mongoose middlewares: similar functions to traditional SQL triggers were defined on *save* and *remove* events for that purpose.
+
+The REST API was not subject to any kind of testing phase. One can not affirm whether it is working or not and whether there are issues or not. Anyway, its implementation was relalized by following the same logic as with the proposed version of the project first part. Minor errors could be encountered while testing the REST API.
 
 ### <a name="APIDOC"></a> REST API Documentation
 
@@ -92,8 +103,9 @@ The current version of the REST API Documentation is well furnished. Every endpo
 
 HTTP status codes likely to be returned by the server are enumerated when necessary. These codes have been chosen according to the HTTP specification. For example, when a POST request is performed in order to create a resource, it is expected from the server to return the 201 HTTP status code, meaning that the resource has been successfully created.
 
-While RAML was used to document the REST API, some additional tools were exploited in order to generate said documentation. Two versions of the REST API documentation have been generated: 
-* an HTML version for the Web application
+While RAML was used to document the REST API, some additional tools were exploited in order to generate said documentation. Two versions of the REST API documentation have been generated:
+
+* an HTML version for the Web application.
 * a Markdown version for the project repository. 
 
 This documentation generation was made possible by the following generators:
