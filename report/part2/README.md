@@ -104,9 +104,9 @@ This can be seen in the server's [route.js file](https://github.com/paulnta/Teac
 
 The REST API was fully implemented according to the current version of the data model. CRUD operations can be performed on each available endpoint. It was decided to make available for each entity all CRUD operations. Some of them may be removed if it turns out that the client side of the application does not need them.
 
-#### UPDATE ON CASCADE & DELETE ON CASCADE
+#### Update on cascade & Delete on cascade
 
-Mechanisms of UPDATE ON CASCADE and DELETE ON CASCADE were developped in order to ensure and maintain database consistency. As a reminder, references through IDs are used to establish relations between entities. Deleting or updating a document should also delete or update another document subject to this kind of interdependence. This was done with Mongoose middlewares: similar functions to traditional SQL triggers were defined on *save* and *remove* events for that purpose.
+Mechanisms of *UPDATE ON CASCADE* and *DELETE ON CASCADE* were developped in order to ensure and maintain database consistency. As a reminder, references through IDs are used to establish relations between entities. Deleting or updating a document should also delete or update another document subject to this kind of interdependence. This was done with Mongoose middlewares: similar functions to traditional SQL triggers were defined on *save* and *remove* events for that purpose.
 
 #### Testing
 
