@@ -136,6 +136,17 @@ The REST API documentation is not finished yet. It was planned to provide the do
 
 ## <a name="Work"></a> Remaining Work
 
+The tasks we still need to complete to reach the goal we'd set ourselves are as follows:
+
+* Finish coding the Angular.js controllers and services for our main features
+* Finish linking the client UI (speaker side) to the server API so that it displays "real" values
+* Test both the speaker UI and the CRUD operations on the API endpoints to ensure they are functioning correctly
+* Implement the audience UI
+
 ## <a name="Issues"></a> Known Issues
+
+The main known issue is that we did not manage to finish the work we'd planned to do in time, and thus that some of our features do not work. Some other features were theoretically finished, but we did not have time to test them, so we do not yet know if they contain issues that will require fixing, or if everything is fine.
+
+The biggest "issue" so far is that the speaker-side client UI and the server API have not been completely linked yet, but this should be fixed shortly. We had more trouble than expected trying to code the Angular.js services using `$resource`.
 
 ## <a name="Conclusion"></a> Conclusion
