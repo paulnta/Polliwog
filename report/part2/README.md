@@ -84,6 +84,14 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 
 ### <a name="API"></a> REST API
 
+#### Routing
+
+Since our REST API access points can reach several levels deep, such as `/api/lectures/lecture_id/polls/poll_id/questions/question_id/choices`, we decided that instead of obtaining all the IDs from the request manually at every end-point, we would make use of express.js's `app.param` method.
+
+`app.param` enables us to trigger a callback whenever the given parameter name is found in the route. We use this to store the lecture, poll, or question ID directly in the body of the request before it's processed as it normally would.
+
+This can be seen in the server's [route.js file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/Polliwog/server/routes.js).
+
 ### <a name="APIDOC"></a> REST API Documentation
 
 The REST API was documented while it was being both designed and implemented. A dedicated tool was used for that purpose. It was decided to use the RESTful API Modeling Language (RAML) as with the first part of the project. It is useless to enumerate all its advantages except maybe one: RAML makes it very easy to fully describe resources in a generic and concise way.
