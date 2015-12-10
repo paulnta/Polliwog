@@ -159,6 +159,30 @@ schemas:
           }
         }  
       }
+  - mood: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "lecture": {
+            "$ref": "lecture",
+            "required": "true"
+          },
+          "date": {
+            "type": "number",
+            "required": "true"
+          },
+          "value": {
+            "type": "number",
+            "required": "true"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }  
+      }
 resourceTypes:
   - collection:
       get:
@@ -720,22 +744,6 @@ resourceTypes:
           exampleItem: |
             {}
       /{moodId}:
-        type:
-          collection-item:
-            examplePostPutItem: |
-              {}
-            exampleItem: |
-              {}
-    /users:
-      type:
-        collection:
-          exampleCollection: |
-            []
-          examplePostPutItem: |
-            {}
-          exampleItem: |
-            {}
-      /{userId}:
         type:
           collection-item:
             examplePostPutItem: |

@@ -48,6 +48,8 @@ In the second part of the project, you will proceed with the implementation of t
 You will actually be in charge to write the specifications during part1, but we will provide you with guidelines and constraints. They are not available yet, but will be available
  [here](specifications/part2).
 
+[Report](report/part2)
+
 
 ### Part 3
 
