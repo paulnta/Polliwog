@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .factory('EditPoll', function ($state) {
+  .factory('EditPoll', function ($state, Poll) {
     var poll = {};
 
     return {

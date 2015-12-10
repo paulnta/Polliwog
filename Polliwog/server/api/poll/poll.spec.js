@@ -6,6 +6,8 @@ var request = require('supertest');
 
 describe('GET /api/lectures/:lecture_id/polls', function() {
 
+
+
   it('should respond with JSON array', function(done) {
     request(app)
       .get('/api/polls')

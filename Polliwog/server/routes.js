@@ -47,10 +47,10 @@ module.exports = function(app) {
   app.use('/api/things', require('./api/thing'));
   app.use('/api/lectures', auth.isAuthenticated(), require('./api/lecture'));
   app.use('/api/users', require('./api/user'));
-  app.use('/api/lectures/:lecture_id/polls/:poll_id/questions/:question_id/choices', require('./api/choice'));
-  app.use('/api/lectures/:lecture_id/polls/:poll_id/questions', require('./api/question'));
-  app.use('/api/lectures/:lecture_id/polls', require('./api/poll'));
-  app.use('/api/lectures/:lecture_id/resources', require('./api/resource'));
+  app.use('/api/lectures/:lecture_id/polls/:poll_id/questions/:question_id/choices', auth.isAuthenticated(), require('./api/choice'));
+  app.use('/api/lectures/:lecture_id/polls/:poll_id/questions',  auth.isAuthenticated(), require('./api/question'));
+  app.use('/api/lectures/:lecture_id/polls',  auth.isAuthenticated(), require('./api/poll'));
+  app.use('/api/lectures/:lecture_id/resources', auth.isAuthenticated(), require('./api/resource'));
 
   app.use('/auth', require('./auth'));
 

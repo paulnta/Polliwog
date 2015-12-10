@@ -28,7 +28,7 @@ User.find({}).remove(function() {
       password: 'speaker'
     },
 
-    function() {
+    function(err) {
       console.log('finished populating users');
     }
   );

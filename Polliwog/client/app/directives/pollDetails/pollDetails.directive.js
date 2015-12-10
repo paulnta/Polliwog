@@ -85,7 +85,7 @@ angular.module('polliwogApp')
       restrict: 'E', // only match element names : <poll-details></poll-details>
       scope: {
         poll : '=',
-        mode: '@',
+        mode: '@'
       },
       controller: 'EditPollCtrl',
       link: function (scope, element, attrs) {

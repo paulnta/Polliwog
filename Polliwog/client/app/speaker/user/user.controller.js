@@ -4,11 +4,7 @@
 
 
 angular.module('polliwogApp')
-  .controller('UserCtrl', function ($scope, Auth, $location, User) {
-
-    // trick to protect page by auth
-    // because this query is protected to authenticated users
-    //User.query();
+  .controller('UserCtrl', function ($scope, Auth, $location) {
 
     $scope.currentUser = Auth.getCurrentUser();
 

@@ -23,7 +23,6 @@ exports.show = function (req, res) {
 
 // Creates a new lecture in the DB.
 exports.create = function (req, res) {
-
   if (req.body._id) { delete req.body._id; }
   if (req.body.listeners) { delete req.body.listeners; }
   if (req.body.moods) { delete req.body.moods; }
@@ -31,16 +30,12 @@ exports.create = function (req, res) {
   if (req.body.resources) { delete req.body.resources; }
   if (req.body.creationDate) { delete req.body.creationDate; }
 
+  // generate key then save the lecture
   generateKey().then(function (key) {
-    console.log(key + ' is available');
     req.body.speaker = req.user._id;
     req.body.key = key;
-
     Lecture.create(req.body, function (err, lecture) {
-      if (err) {
-        console.log(err);
-        return handleError(res, err);
-      }
+      if (err) {return handleError(res, err);}
       return res.status(201).json(lecture);
     });
   });
@@ -83,17 +78,26 @@ function handleError(res, err) {
   return res.status(500).send(err);
 }
 
+/**
+ * Generate a Key for lectures
+ * Retry if the key is already used
+ * @returns {*|Promise}
+ */
 function generateKey(){
-  return recursive().catch(function () {
-    console.log('retry !!');
+  return tryGenerateKey().catch(function () {
     return generateKey();
   });
 }
 
-function recursive() {
-  console.log('generateKey');
+/**
+ * Generate a Lecture Key and check if this is a  unique key
+ * reject the promise if not unique, else resolve
+ * TODO: Increment key length if all key are already used.
+ * @returns {Promise}
+ */
+function tryGenerateKey() {
   return new Promise(function (resolve, reject) {
-    var key = rand.generate(1);
+    var key = rand.generate(5);
     Lecture.findOne({key: key}, function (err, lecture) {
       if (!lecture) {
         resolve(key);
