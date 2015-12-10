@@ -53,8 +53,6 @@ angular.module('polliwogApp', [
       // Intercept 401s and redirect you to login
       responseError: function(response) {
         if(response.status === 401) {
-          TargetUrl.setUrl($location.url());
-          console.log("target: " + TargetUrl.getUrl());
           $location.path('/login');
           // remove any stale tokens
           $cookieStore.remove('token');
