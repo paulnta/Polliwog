@@ -18,7 +18,7 @@ angular.module('polliwogApp')
        */
       .state('speaker.lectures', {
         url: '/lectures',
-        abstract: true,
+        template: '<h1>hello</h1>'
       })
 
       /*

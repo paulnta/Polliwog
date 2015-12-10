@@ -23,17 +23,26 @@ exports.show = function (req, res) {
 
 // Creates a new lecture in the DB.
 exports.create = function (req, res) {
-	if (req.body._id) { delete req.body._id; }
-	if (req.body.listeners) { delete req.body.listeners; }
-	if (req.body.moods) { delete req.body.moods; }
-	if (req.body.polls) { delete req.body.polls; }
-	if (req.body.resources) { delete req.body.resources; }
+
+  if (req.body._id) { delete req.body._id; }
+  if (req.body.listeners) { delete req.body.listeners; }
+  if (req.body.moods) { delete req.body.moods; }
+  if (req.body.polls) { delete req.body.polls; }
+  if (req.body.resources) { delete req.body.resources; }
   if (req.body.creationDate) { delete req.body.creationDate; }
-	req.body.key = generateKey();
-	req.body.speaker = req.user._id;
-  Lecture.create(req.body, function (err, lecture) {
-    if (err) { return handleError(res, err); }
-    return res.status(201).json(lecture);
+
+  generateKey().then(function (key) {
+    console.log(key + ' is available');
+    req.body.speaker = req.user._id;
+    req.body.key = key;
+
+    Lecture.create(req.body, function (err, lecture) {
+      if (err) {
+        console.log(err);
+        return handleError(res, err);
+      }
+      return res.status(201).json(lecture);
+    });
   });
 };
 
@@ -42,10 +51,10 @@ exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.key) { delete req.body.key; }
   if (req.body.speaker) { delete req.body.speaker; }
-	if (req.body.listeners) { delete req.body.listeners; }
-	if (req.body.moods) { delete req.body.moods; }
-	if (req.body.polls) { delete req.body.polls; }
-	if (req.body.resources) { delete req.body.resources; }
+  if (req.body.listeners) { delete req.body.listeners; }
+  if (req.body.moods) { delete req.body.moods; }
+  if (req.body.polls) { delete req.body.polls; }
+  if (req.body.resources) { delete req.body.resources; }
   if (req.body.creationDate) { delete req.body.creationDate; }
   Lecture.findOne({ _id: req.params.id, speaker: req.user._id }, function (err, lecture) {
     if (err) { return handleError(res, err); }
@@ -74,14 +83,24 @@ function handleError(res, err) {
   return res.status(500).send(err);
 }
 
-function generateKey() {
-	var available = false;
-	var key;
-	do {
-		key = rand.generate(5);
-		Lecture.findOne({ key: key}, function (err, lecture) {
-			if (!lecture) { available = true; }
-		});
-	} while (!available);
-	return key;
+function generateKey(){
+  return recursive().catch(function () {
+    console.log('retry !!');
+    return generateKey();
+  });
 }
+
+function recursive() {
+  console.log('generateKey');
+  return new Promise(function (resolve, reject) {
+    var key = rand.generate(1);
+    Lecture.findOne({key: key}, function (err, lecture) {
+      if (!lecture) {
+        resolve(key);
+      } else {
+        reject(key);
+      }
+    });
+  });
+}
+

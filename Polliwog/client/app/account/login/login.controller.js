@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('LoginCtrl', function ($scope, Auth, User, $state, $location, $window, TargetUrl) {
+  .controller('LoginCtrl', function ($scope, Auth, $state, $location, $window, TargetUrl) {
     $scope.user = {};
     $scope.errors = {};
 

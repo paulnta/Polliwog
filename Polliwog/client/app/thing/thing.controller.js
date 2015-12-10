@@ -52,8 +52,6 @@ angular.module('polliwogApp')
         console.log('there is an error because of ' + id);
       });
 
-
-
     };
 
     $scope.edit = function (thing) {
