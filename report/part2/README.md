@@ -60,6 +60,10 @@ The purpose of this report is to describe what has been implemented during the s
 
 ### <a name="APIDOC"></a> REST API Documentation
 
+The REST API has been documented while it was being both designed and implemented. A dedicated tool has been used for that purpose. It has been decided to use the RESTful API Modeling Language (RAML) as it was the case for the first part of the project. It is useless to enumerate all its advantages except maybe one: RAML makes it very easy to fully describe resources in a generic and concise way.
+
+The current version of the REST API Documentation is well furnished. Every endpoint has been fully documented except the moods one due to reasons of time. Anyway, it is provided with various examples of use for both requests and responses. Entities schemas have also been made available. This allows one to know exactly which data type is expected for a specfic property of a payload. HTTP status codes
+
 ## <a name="Work"></a> Remaining Work
 
 ## <a name="Issues"></a> Known Issues
