@@ -1,5 +1,16 @@
+/**
 
-/* ==========  MAIN  ========== */
+ GENERAL STYLE
+
+ 1. MAIN
+ 2. LAYOUT
+ 3. NAVIGATION
+ 4. TABS
+ 5. CONTEXT MENU
+ 6. FLOATING ACTION BUTTON
+*/
+
+/* ==========  1. MAIN  ========== */
 
 /*
 * Make html take up the entire screen
@@ -43,9 +54,7 @@ a{
 }
 
 
-
-
-/* ==========  LAYOUT  ========== */
+/* ==========  2. LAYOUT  ========== */
 
 .fluid {
   width: 100%;
@@ -70,6 +79,12 @@ a{
   }
 }
 
+
+/**
+ * Make the Header shrink when we scroll the page
+ * improve the user experience
+ *   Headroom.js is used for this purpose
+ */
 .headroom{
 
   transition: transform 0.1s linear, width 0.2s linear ;
@@ -106,11 +121,16 @@ a{
   }
 }
 
+/**
+ * Disable the scroll when the mouse
+ * is already over a scrolling area
+ * Improve the user experience
+ */
 body.overflow-hidden {
   overflow-y: hidden;
 }
 
-/* ==========  NAVIGATION  ========== */
+/* ==========  3. NAVIGATION  ========== */
 
 
 #left-nav{
@@ -145,8 +165,15 @@ body.overflow-hidden {
 }
 
 
-/* ==========  TABS  ========== */
+/* ==========  4. TABS  ========== */
 
+/**
+ * Style the tab navigation to select between
+ * Lecture, poll and question
+ * Animate borders when we navigate (Material design tab)
+ *
+ * TODO: this code is not generic and should be improve (what happen if we add a new tab)
+ */
 .borders{
   width: calc(100% / 3);
   height: 2px;
@@ -194,6 +221,11 @@ body.overflow-hidden {
 }
 
 
+/**
+ * TABS on mobile
+ * Show only an icon and tabs take the entire width
+ * TODO: make this code generic (more than three tabs == issue)
+ */
 @media screen and (max-width: 600px){
   .tabs-wrapper{
     width: 100%;
@@ -208,8 +240,11 @@ body.overflow-hidden {
 }
 
 
-/* ==========  CONTEXT MENU   ========== */
+/* ==========  5. CONTEXT MENU   ========== */
 
+/**
+ *Style for context menu (Material design)
+ */
 #app .md-open-menu-container.md-whiteframe-z2.md-active.md-clickable{
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12) !important;
 }
@@ -222,8 +257,11 @@ body.overflow-hidden {
 }
 
 
-/* ==========  FLOATING ACTION BUTTON   ========== */
+/* ==========  6. FLOATING ACTION BUTTON   ========== */
 
+/**
+ * FAB postion
+ */
 .md-fab{
 
   &.custom{

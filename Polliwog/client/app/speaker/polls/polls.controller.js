@@ -24,4 +24,8 @@ angular.module('polliwogApp')
       $state.go('polls.details', {pollId: 'create'});
     };
 
+    $scope.currentDate = function () {
+      return Date.now();
+    }
+
   });

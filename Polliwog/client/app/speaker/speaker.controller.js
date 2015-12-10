@@ -2,12 +2,13 @@ angular.module('polliwogApp')
   .controller('SpeakerCtrl', function ($scope, $state, Lecture, Mood, $mdSidenav, User) {
     'use strict';
 
-    // trick: loggedUser have access to this ressource
-    //$scope.users = User.query();
-
-    // TODO: Get lecture through API
     $scope.lectures = Lecture.list();
 
+    /**
+     * Current active tab
+     * TODO: Make this code more generic
+     * @returns {string}
+     */
     $scope.currentTab = function () {
       if($state.includes('questions')){
         return 'active3';

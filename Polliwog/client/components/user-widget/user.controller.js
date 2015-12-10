@@ -4,7 +4,7 @@
 
 
 angular.module('polliwogApp')
-  .controller('UserCtrl', function ($scope, Auth, $location) {
+  .controller('UserWidgetCtrl', function ($scope, Auth, $location) {
 
     $scope.currentUser = Auth.getCurrentUser();
 
@@ -17,3 +17,4 @@ angular.module('polliwogApp')
       $location.path('/login');
     };
   });
+

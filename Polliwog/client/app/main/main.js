@@ -9,20 +9,23 @@ angular.module('polliwogApp')
         controller: 'MainCtrl'
       });
   })
+
+  /**
+   *  Colors and theme
+   */
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
       .primaryPalette('cyan', {
-        'default': '400', // by default use shade 400 from the pink palette for primary intentions
-        'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-        'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-        'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+        'default': '400',
+
+         // use md-hue-1, md-hue-2, md-hue-3 css class
+
+        'hue-1': '100',
+        'hue-2': '600',
+        'hue-3': 'A100'
       })
 
-      // If you specify less than all of the keys, it will inherit from the
-      // default shades
       .accentPalette('yellow', {
-        'default': '300' // use shade 200 for default, and keep all other shades the same
+        'default': '300'
       });
-
-      //.foregroundPalette['4'] = 'rgba(255,0,0,1)';
   });

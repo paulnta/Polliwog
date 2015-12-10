@@ -10,6 +10,10 @@ angular.module('polliwogApp')
        */
       .state('speaker', {
         data: {
+
+          // this object is shared with any child view
+          // and specifies that users need to have a speaker role to access this view
+          // if not, users are redirected to the login state. (see app.js : $stateChangeStart)
           authenticate: {
             role: 'speaker'
           }
@@ -33,9 +37,6 @@ angular.module('polliwogApp')
           'navigation@speaker':{
             templateUrl: 'components/speaker/toolbar/toolbar.html',
             controller: 'SpeakerCtrl'
-          },
-          authenticate: {
-            role: 'speaker'
           }
         }
       });

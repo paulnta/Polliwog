@@ -14,7 +14,7 @@
       -->
       <md-content>
         <md-list>
-          <div ng-include="'app/speaker/user/user.html'"></div>
+          <div ng-include="'components/user-widget/user-widget.html'"></div>
           <md-divider></md-divider>
           <md-subheader class="md-no-sticky">Lectures</md-subheader>
           <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture.id)" ng-class="{active: isActivated(lecture.id)}">
@@ -23,20 +23,19 @@
           </md-list-item>
         </md-list>
       </md-content>
-
     </md-sidenav>
 
     <!--
       PAGE CONTENT
     -->
     <div class="page-content" ng-class="{sidenav: hasSidenavLeft()}">
+
       <!-- This state includes the toolbar corresponding to the current state-->
       <div id="navigation" ui-view="navigation"></div>
-      <div>
-        <!--MAIN VIEW-->
-        <div ui-view=""></div>
-        <div flex></div>
-      </div>
+
+      <!--CENTRAL VIEW-->
+      <div ui-view=""></div>
+
     </div>
 
 </div>

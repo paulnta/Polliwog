@@ -17,6 +17,11 @@ angular.module('polliwogApp', [
     $httpProvider.interceptors.push('authInterceptor');
   })
 
+  /**
+   * When an user tries to a state for which the user has no rights
+   * the target url is stored in this service. He'll be redirected to this url
+   * as soon as he is logged in.
+   */
   .factory('TargetUrl', function () {
     var targetUrl = null;
 
@@ -39,7 +44,7 @@ angular.module('polliwogApp', [
     };
   })
 
-  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location, TargetUrl) {
+  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
     return {
       // Add authorization token to headers
       request: function (config) {
@@ -65,15 +70,19 @@ angular.module('polliwogApp', [
     };
   })
 
-  .run(function ($rootScope, $stateParams, Auth, $state, TargetUrl, $location) {
+  /**
+   * redirect to login and save the target url if a state need an authorisation
+   * and the user is not logged in or doesn't have the correct role
+   */
+  .run(function ($rootScope, $stateParams, Auth, $state, TargetUrl) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-      if( toState.data && toState.data.authenticate            // the state need an authentication
-        && !Auth.hasRole(toState.data.authenticate.role)){ // has not required role
+      if( toState.data && toState.data.authenticate               // the state need an authentication
+        && !Auth.hasRole(toState.data.authenticate.role)){        // has not required role
         event.preventDefault();
-        TargetUrl.setUrl({name:toState.name, params: toParams});
-        $state.go('login');                                   // redirect to login
+        TargetUrl.setUrl({name:toState.name, params: toParams});  // save the target url
+        $state.go('login');                                       // redirect to login
       }
 
     });

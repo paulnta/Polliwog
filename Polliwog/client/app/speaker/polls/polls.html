@@ -1,12 +1,15 @@
 
 <div layout="row" class="polls-wrapper" ng-class="{'side-preview': previewVisible()}">
-  <div class="flex poll-list">
 
+  <!--
+   POLL LIST
+  -->
+  <div class="flex poll-list">
       <md-grid-list md-cols="2" md-cols-md="3" md-cols-gt-md="3"
                     md-row-height="1:1" md-row-height-gt-md="4:5"
                     md-gutter="5px" md-gutter-gt-md="3px">
 
-      <!--item-->
+      <!--single item -->
       <md-grid-tile ng-repeat="poll in polls" class="gray"
                     md-rowspan="1" md-colspan="1" md-colspan-sm="1">
 
@@ -18,16 +21,15 @@
           <div class="tile-footer" layout="row">
 
             <!--title-->
-
             <div layout="column">
               <div class="body2">
                 <a ui-sref="polls.details({lectureId: currentLecture(), pollId: poll.id})">{{poll.title}}</a>
               </div>
               <div class="body1">
-                infos
+                <!--TODO: put poll creation date -->
+                {{ currentDate() | date: 'dd.MM.yy'}}
               </div>
             </div>
-
 
             <span class="flex"></span>
 
@@ -40,7 +42,7 @@
               <!--menu-->
               <md-menu-content width="3">
                 <md-menu-item>
-                  <md-button ng-click="">
+                  <md-button ui-sref="polls.details({lectureId: currentLecture(), pollId: poll.id})">
                     <md-icon md-font-library="material-icons">edit</md-icon>
                     Edit
                   </md-button>
@@ -53,20 +55,18 @@
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
-
           </div>
       </md-grid-tile>
 
     </md-grid-list>
 
-    <md-button aria-label="add poll" ng-click="addPoll()"
-               class="md-fab custom bottom right md-accent md-raised">
+    <!--Floating action button to add polls-->
+    <md-button aria-label="add poll" ng-click="addPoll()" class="md-fab custom bottom right md-accent md-raised">
       <md-tooltip md-direction="left">
         Add Poll
       </md-tooltip>
       <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
     </md-button>
-
   </div>
 
   <!--poll preview (invisible on mobiles)-->
@@ -78,5 +78,4 @@
                 mode="preview"
                 image="defaultBackImage">
   </poll-details>
-
 </div>

@@ -6,6 +6,7 @@ angular.module('polliwogApp')
     // poll id in url params
     $scope.pollId = $stateParams.pollId;
 
+    //TODO: make this code cleaner (create as param ?)
     if($scope.pollId === "create"){
       $scope.poll = EditPoll.create();
 

@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Lecture, $mdMedia, $window) {
+
+
+  /**
+   *  MainCtrl defines general layout behaviors
+   *  Manage navigation, screen size and other features that need to be available from anywhere
+   */
+  .controller('MainCtrl', function ($scope, Auth, $timeout, $mdSidenav, $mdDialog, $log, Lecture, $mdMedia) {
 
     $scope.leftNavLocked = true;
 
@@ -42,16 +48,21 @@ angular.module('polliwogApp')
       return Lecture.current() == lectureId;
     };
 
+
+    /**
+     * Define screen size for adaptive ui
+     * @returns {*}
+     */
     $scope.isSmall = function () {
-      return $mdMedia('sm') || $mdMedia('xs');
+      return $mdMedia('sm') || $mdMedia('xs');    // small or extra small
     };
 
     $scope.isMedium = function () {
-      return $mdMedia('md');
+      return $mdMedia('md');                      // medium (tablet)
     };
 
     $scope.isLarge = function () {
-      return $mdMedia('gt-md');
+      return $mdMedia('gt-md');                   // bigger than tablet (desktop, tv, etc..)
     };
 
 
@@ -108,6 +119,9 @@ angular.module('polliwogApp')
     };
   })
 
+  /**
+   *  Controller for left navigation
+   */
   .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.close = function () {
       $mdSidenav('left').close()
@@ -115,14 +129,4 @@ angular.module('polliwogApp')
           $log.debug('close LEFT is done');
         });
     };
-  })
-
-  .controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-    $scope.close = function () {
-      $mdSidenav('right').close()
-        .then(function () {
-          $log.debug('close RIGHT is done');
-        });
-    };
-
   });
