@@ -40,7 +40,20 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 
 The purpose of this report is to describe what has been implemented during the second phase of the project.
 
-## <a name="Spec"></a> Specification
+## <a name="Spec"></a> Specifications
+
+First, a short summary of the features we had planned to implement for part 2:
+
+* User accounts (optional for listeners, required for speakers)
+* Lectures, allowing for the sharing of resources, creating polls, and viewing the current mood of the audience
+	* They can be public and only require a key to join
+	* Or they can be private and require an account and an invitation
+* Polls, consisting of one or more multiple-choice questions
+	* Users can answer polls while they are active
+	* Poll results can be displayed at the speaker's discretion
+* Mood, a measure of the overall satisfaction of the audience
+
+From the [original specifications](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/specifications/specifications.md), we dropped the TweetQuestions feature from part 2 with the intent to implement it in part 3 instead.
 
 ## <a name="Tools"></a> Tools
 
