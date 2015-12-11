@@ -73,6 +73,7 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 
 * [Angular Fullstack](https://github.com/angular-fullstack/generator-angular-fullstack), for project scaffolding.
 * [Angular Material](https://material.angularjs.org), as material design.
+* [InVision](http://www.invisionapp.com/), for ideas sharing.
 * [RAML 8.0](http://raml.org/), for REST API documentation.
 
 ## <a name="Client"></a> Client
