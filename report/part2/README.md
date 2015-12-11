@@ -42,7 +42,7 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 
 The purpose of this report is to describe what has been implemented during the second phase of the project.
 
-## <a name="Spec"></a> Specifications
+## <a name="Spec"></a> Specification
 
 First, a short summary of the features we had planned to implement for part 2:
 
@@ -74,6 +74,7 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 
 * [Angular Fullstack](https://github.com/angular-fullstack/generator-angular-fullstack), for project scaffolding.
 * [Angular Material](https://material.angularjs.org), as material design.
+* [InVision](http://www.invisionapp.com/), for ideas sharing.
 * [RAML 8.0](http://raml.org/), for REST API documentation.
 
 ## <a name="Client"></a> Client
@@ -274,13 +275,83 @@ Since our REST API access points can reach several levels deep, such as `/api/le
 
 This can be seen in the server's [route.js file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/Polliwog/server/routes.js).
 
-#### Endpoints
+#### Resources & actions
 
 The REST API was fully implemented according to the current version of the data model. CRUD operations can be performed on each available endpoint. It was decided to make available for each entity all CRUD operations. Some of them may be removed if it turns out that the client side of the application does not need them.
+
+![Resources & actions](../images/resources_actions.png)
+
+The illustration shows common supported CRUD operations according to the resource type:
+
+* In the case of collections, READ and CREATE operations are provided.
+
+* In the case of documents, READ, UPDATE et DELETE operations are provided.
+
+One can also notice the PATCH HTTP method which is supposed to allow partial updates on resources of document type. In the case of the REST API, the behavior is the same as the PUT's one. They share the same update algorithm. Besides, Mongoose library combined with [lodash Javascript Library](https://lodash.com/) provide merging functions making easy to implement partial updates. This is exactly the way it was implemented.
+
+```javascript
+// Updates an existing mood in the DB.
+exports.update = function(req, res) {
+  if (req.body._id) { delete req.body._id; }
+  Mood.findOne({ _id: req.params.id, lecture: req.body.lecture }, function (err, mood) {
+    if (err) { return handleError(res, err); }
+    if (!mood) { return res.status(404).send('Not Found'); }
+    var updated = _.merge(mood, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(mood);
+    });
+  });
+};
+```
+
+>First, a find query is performed in order to retrieve the document to be updated. If an error occurs. the request processing is aborted and an error response is sent to the client. If not, the retrieved document and the request body are merged. The merging result is persisted in the database. It's that easy!
+
+It could be found strange to use the PATCH HTTP method on some resources. However, this method happens to be very useful when a typo mistake has been made. This is why the REST API makes it available on any resource.
+
+#### HTTP status code
+
+Errors can occur while processing HTTP requests or while computing HTTP responses. The web application server is likely to return HTTP status code:
+
+* 200 - *It is returned when a GET request or a PUT/PATCH request is submitted and succeed. The requested/updated data is returned as the response payload.*
+
+* 201 - *It is returned when a POST request is submitted and succeed. The created data is returned as the response payload.*
+
+* 204 - No Content. *It is returned when a DELETE request is submitted and succeed.*
+
+* 404 - Not found. *It is returned when a GET request is submitted and fails. It is also returned when a POST/PUT/PATCH/DELETE request requires a research and does not find anything.*
+
+* 500 - *It is returned when an internal error occured. The raw error description is returned as the payload.*
+
+The web application returns no more information about any occured error than these HTTP status codes. They are enough for the moment but may required improvements for last part of the project.
 
 #### Update on cascade & Delete on cascade
 
 Mechanisms of *UPDATE ON CASCADE* and *DELETE ON CASCADE* were developped in order to ensure and maintain database consistency. As a reminder, references through IDs are used to establish relations between entities. Deleting or updating a document should also delete or update another document subject to this kind of interdependence. This was done with Mongoose middlewares: similar functions to traditional SQL triggers were defined on *save* and *remove* events for that purpose.
+
+*Lecture cascade delete*
+
+![Lecture cascade delete schema](../images/lecture_cascade_delete.png)
+
+>Removing a lecture will also remove its polls which removal will trigger their questions removal and so on.
+
+*Poll cascade delete*
+
+![Poll cascade delete schema](../images/poll_cascade_delete.png)
+
+>Removing a poll will also remove its questions which removal will trigger their choices removal. The lecture that "owns" the removed poll will be updated.
+
+*Question cascade delete*
+
+![Question cascade delete schema](../images/question_cascade_delete.png)
+
+>Removing a question will also remove its choices. The poll that "owns" the removed question will be updated.
+
+*Choice cascade delete*
+
+![Choice cascade delete schema](../images/choice_cascade_delete.png)
+
+>Removing a choice will update the question to which it belongs.
 
 #### Testing
 
@@ -290,13 +361,56 @@ The REST API was not subject to any kind of testing phase. One can not affirm wh
 
 The REST API was documented while it was being both designed and implemented. A dedicated tool was used for that purpose. It was decided to use the RESTful API Modeling Language (RAML) as with the first part of the project. It is useless to enumerate all its advantages except maybe one: RAML makes it very easy to fully describe resources in a generic and concise way.
 
+```raml
+resourceTypes:
+  - collection:
+      get:
+        description: Get list of <<resourcePathName>>.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleCollection>>
+          400:
+            description: Query parameters missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          500:
+            description: An internal error occured.
+      ...
+```
+
 The current version of the REST API Documentation is well furnished. Every endpoint has been fully documented except the moods one due to time constraints. Anyway, it is provided with various examples of use for both requests and responses. Entity schemas have also been made available. This allows one to know exactly which data type is expected for a specfic property of a payload. 
+
+```raml
+- poll: |
+  {
+    "type": "object",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "id": "http://jsonschema.net",
+    "required": true,
+    "properties": {
+      "lecture": {
+        "$ref": "lecture",
+        "required": "true"
+      },
+      "title": {
+        "type": "string",
+        "required": "true"
+      },
+      ...
+  }
+```
 
 HTTP status codes likely to be returned by the server are enumerated when necessary. These codes have been chosen according to the HTTP specification. For example, when a POST request is performed in order to create a resource, it is expected from the server to return the 201 HTTP status code, meaning that the resource has been successfully created.
 
 While RAML was used to document the REST API, some additional tools were exploited in order to generate said documentation. Two versions of the REST API documentation have been generated:
 
-* an HTML version for the Web application.
+* an HTML version for the web application.
 * a Markdown version for the project repository. 
 
 This documentation generation was made possible by the following generators:
@@ -304,7 +418,7 @@ This documentation generation was made possible by the following generators:
 * [raml2html](https://github.com/raml2html/raml2html), a RAML to HTML documentation generator.
 * [raml2md](https://github.com/raml2html/raml2md), a RAML to Markdown documentation generator.
 
-The REST API documentation is not finished yet. It was planned to provide the documentation with general information about the API and the Web application. The purpose of that was to make users aware of both key concepts and key mechanisms related to the application. For example, one of the feature of the platform is to ensure privacy for a lecture, meaning that it is available only to some authorized users. The goal of having such information available in the API documentation would be to remind users of this interesting feature and to describe it in more detail.
+The REST API documentation is not finished yet. It was planned to provide the documentation with general information about the API and the web application. The purpose of that was to make users aware of both key concepts and key mechanisms related to the application. For example, one of the feature of the platform is to ensure privacy for a lecture, meaning that it is available only to some authorized users. The goal of having such information available in the API documentation would be to remind users of this interesting feature and to describe it in more detail.
 
 >The REST API documentation is not available on the web application yet. It was not integrated on the client side because of time constaints. However, a local version can still be downloaded [here](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api).
 
@@ -326,7 +440,7 @@ The biggest "issue" so far is that the speaker-side client UI and the server API
 ## <a name="Conclusion"></a> Conclusion
 
 
-We have not reached our goal for this part. We find out that coding simultaously both client and server part was particularly difficult. We hardly wanted to use some of the most sophisticated tools in order to design an elegant UI. Achieving this was arduous mainly because the UI knowledge was concentrated in a single person. For the main duration of this second part of the project, it constituted a bottleneck in our implementation schedule. 
+We have not reached our goal for this part. We find out that coding simultaneously both client and server part was particularly difficult. We hardly wanted to use some of the most sophisticated tools in order to design an elegant UI. Achieving this was arduous mainly because the UI knowledge was concentrated in a single person. For the main duration of this second part of the project, it constituted a bottleneck in our implementation schedule. 
 
 We use this time to clarify very concisely the architecture of our application and pay more attention to details. Moreover, we defined more concretly the remaining features of our application. Our documentation is nearly complete which will save us some precious time for the last part of the project. 
 
