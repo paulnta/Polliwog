@@ -79,17 +79,16 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 
 ### <a name="UI"></a> User Interfaces
 
-We started our project by doing the User interface specification. We've sketched the ui and then designed them using Adobe Illustrator. 
+We started our project by doing the user interface specification. We've sketched the ui and then designed it using Adobe Illustrator. 
 
 We used Invision to share our ideas in order to implement the UI in HTML/CSS/JS with exactly the same idea in mind.
 
-Implementing the UI was one of the hardest part because our goal is to have an Adaptive UI. So we had deal with many browser compabtibily issue deal with media-queries to get a responsive design. We've tested the UI on Chrome (mobile/desktop), Mozilla firefox (Mobile/Desktop), safari (Mobile Desktop) and the last version of Internet Explorer (Desktop). 
+Implementing the UI was one of the hardest part because our goal is to have an Adaptive UI. So we had to deal with many browser compabtibily issues and css media-queries to get a responsive design. We've tested the UI on Chrome for mobile and desktop, Mozilla Firefox for mobile and desktop, safari for mobile and desktop and the last version of Internet Explorer for Desktop.
 
-At this phase of the projet, the UI doesn't look perfectly one every browser but we are quit confident for the last part because we've solved the biggest issues. As the base layout and base styles are implemented, adding content for the other page will be much more faster in the future.
+At this phase of the projet, the UI doesn't look perfectly one every browser but we are quit confident for the last part of this project because we've solved the biggest issues. As the base layout and base styles are now implemented, adding content for the other page will be much more faster in the future.
 
 
-In this second part of the project we choose to implement the foundation of the user interface (the responsive layout).
-
+In this second part of the project we choosed to implement the foundation of the user interface (the responsive layout).
 
 
 
