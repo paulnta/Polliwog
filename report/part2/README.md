@@ -97,7 +97,7 @@ In this second part of the project we choosed to implement the foundation of the
 
 ### <a name="Structure"></a> Project Structure
 
-We organised our client files and directories as follows:
+We've organised our client files and directories as follows:
 
 ```
 / app										// main views and controllers
@@ -128,9 +128,9 @@ We organised our client files and directories as follows:
 		
 ```
 
-We took advantage of the angular-fullstack generator to organize our files the best possible way. The app folder is used for main views in our app while /components is used for resuable componenents (that can be used multiple times).
+We took advantage of the [angular-fullstack generator](https://github.com/angular-fullstack/generator-angular-fullstack) to find the best way to arrange our files. The */app* folder is used to store the main views in our app while */components* is used to store reusable componenents.
 
-As our app users may be speakers our simple users (audience).. we need to separate their user interface implementation. This is done with /audience directory and /speaker directoy. Others directory in files in /app are user interface as well but can be either used by a speaker or by audience. 
+As our app users may be speakers our simple users (audience) we need to separate their user interface implementation into different folders. This is done by the */audience* and */speaker* directories. Other files or directories at the root of */app* are user interface as well but they can be either used by a speaker or by audience. 
 
 Each controllers has his own file, each state has his own stylesheet (especially components) and ui-router states are defined in the *folder-name.js* file. 
 Here an example for /app/speaker/polls folder:
@@ -141,21 +141,21 @@ polls.js,
 polls.scss
 ```
 
-This folder represent the **polls** state which is a child of the speaker state.
+This folder represent the **polls** state which is a child of the **speaker** state.
 
 
 
 ### Sass
-We use Sass to define our stylesheet. As our app is getting bigger and bigger, sass help us to stay organised. /main/main.scss includes all other sass files and declare variables. 
+We use Sass to define our stylesheets. As our app is getting bigger and bigger, sass help us to stay organised. */main/main.scss* includes all other sass files and declare variables. 
 
 ### Grunt
-Grunt injects all javascript files (controller, services, etc) we need in our index.html and as well in our main.scss for stylsheets, watch for file changes and reload our browser accordingly. This one of the best advantage of the angular-fullstack generator
+Grunt injects all javascript files we need (controller, services, etc) in our index.html and as well in our main.scss for stylsheets. Grunt watch for file changes and reload our browser accordingly. This one of the best advantage of the [angular-fullstack generator](https://github.com/angular-fullstack/generator-angular-fullstack)
 
 
 ### <a name="UI"></a> State Pattern
 
 
-In the second part of this project we had to study ui-router in order took advantage of it especially the principle of *nested sates*. This allows us to have our **speaker** state which is the root state for a speaker that defines only the layout. This is an abstract state. 
+In the second part of this project we had to study ui-router in order took advantage of it, especially the principle of *nested sates*. This allows us to have our **speaker** state which is the root state for a speaker that defines only the layout. This is an abstract state. 
 
 ```javascript
 // client/app/speaker/speaker.js
@@ -196,11 +196,30 @@ In the second part of this project we had to study ui-router in order took advan
 
 // ...
 ```
-Note that we use the *data* attribut in a parent state to share data with his children. We define an authenticate attribut that contains the required role to access to a state. So we can watch the **$stateChangeStart** event in order to redirect the user to the login page if he hasn't the required role.
+Note that we use the **data** attribut in a parent state to share data with his child states. We've added an **authenticate** attribut that contains the required role to access to a state. So we can watch the **$stateChangeStart** event in order to redirect the user to the login page if he hasn't the required role.
+
+```javascript
+// client/app/app.js
+//...
+
+ $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+
+      if( toState.data && toState.data.authenticate               // the state need an authentication
+        && !Auth.hasRole(toState.data.authenticate.role)){        // has not required role
+        event.preventDefault();
+        TargetUrl.setUrl({name:toState.name, params: toParams});  // save the target url
+        $state.go('login');                                       // redirect to login
+      }
+
+    });
+    
+//...
+```
+We've created a service called **TargetUrl** which store the last url that the user has tried to access. When the user is logged in, he's redirected to the target url. 
 
 
-Because all of his children states needs a side navigation and a header, the speaker state can define them.
-But nothing prevent a child state to redefine a parent state.. and this is really good feature. For example in our app, the polls.details state doesn't a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
+Because all child states needs a side navigation and a header and maybe a footer, the speaker state can define them once.
+But nothing prevent a child state to redefine a parent state. This is really good feature! For example in our app, the polls.details state doesn't need a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
 
 ```javascript
 /*
