@@ -19,7 +19,7 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 * [Polliwog REST API](http://polliwog-app.herokuapp.com/api).
 * [Polliwog REST API Documentation](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api).
 * [Polliwog product page](http://paulnta.github.io/Teaching-HEIGVD-TWEB-2015-Project/).
-* [Mockups user interface](https://invis.io/6Y59VQVK7) 
+* [Mockups user interface](https://invis.io/6Y59VQVK7).
 
 > The REST API Documentation link redirects to a basic markdown description of the API. However, both HTML and RAML version with more content can be found on the same location.
 
@@ -78,7 +78,8 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 	* Inputting a current mood
 
 ## <a name="Client"></a> Client
-* Note: As we've kept working on this project from our last pull request you might notice few changes in our code.
+
+>Note: As we've kept working on this project from our last pull request you might notice few changes in our code.
 
 ### <a name="UI"></a> User Interfaces
 
