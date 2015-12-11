@@ -6,7 +6,7 @@ angular.module('polliwogApp')
   .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, Poll) {
 
     $scope.defaultImage = Poll.getDefaultBackImage();
-    $scope.toolbarOpen = true;
+    $scope.toolbarOpen = false;
 
     $scope.openToolbar = function () {
       $scope.toolbarOpen = true;
