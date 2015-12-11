@@ -76,6 +76,26 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 * [RAML 8.0](http://raml.org/), for REST API documentation.
 
 ## <a name="Client"></a> Client
+
+### <a name="UI"></a> User Interfaces
+
+We started our project by doing the User interface specification. We've sketched the ui and then designed them using Adobe Illustrator. 
+
+We used Invision to share our ideas in order to implement the UI in HTML/CSS/JS with exactly the same idea in mind.
+
+Implementing the UI was one of the hardest part because our goal is to have an Adaptive UI. So we had deal with many browser compabtibily issue deal with media-queries to get a responsive design. We've tested the UI on Chrome (mobile/desktop), Mozilla firefox (Mobile/Desktop), safari (Mobile Desktop) and the last version of Internet Explorer (Desktop). 
+
+At this phase of the projet, the UI doesn't look perfectly one every browser but we are quit confident for the last part because we've solved the biggest issues. As the base layout and base styles are implemented, adding content for the other page will be much more faster in the future.
+
+
+In this second part of the project we choose to implement the foundation of the user interface (the responsive layout).
+
+
+
+
+<img src="../images/ui_process.png" style="width:600">
+
+
 ### <a name="Structure"></a> Project Structure
 
 We organised our client files and directories as follows:
@@ -95,7 +115,7 @@ We organised our client files and directories as follows:
 	/account								
 	/admin 	
 /assets
-/components								// reusable componenents
+/components									// reusable componenents
 	/auth	
 	/api									// angular service 
 		Poll.service.js
@@ -132,9 +152,6 @@ We use Sass to define our stylesheet. As our app is getting bigger and bigger, s
 ### Grunt
 Grunt injects all javascript files (controller, services, etc) we need in our index.html and as well in our main.scss for stylsheets, watch for file changes and reload our browser accordingly. This one of the best advantage of the angular-fullstack generator
 
-
-
-### <a name="UI"></a> User Interfaces
 
 ### <a name="UI"></a> State Pattern
 
@@ -180,6 +197,7 @@ In the second part of this project we had to study ui-router in order took advan
 
 // ...
 ```
+Note that we use the *data* attribut in a parent state to share data with his children. We define an authenticate attribut that contains the required role to access to a state. So we can watch the **$stateChangeStart** event in order to redirect the user to the login page if he hasn't the required role.
 
 
 Because all of his children states needs a side navigation and a header, the speaker state can define them.
