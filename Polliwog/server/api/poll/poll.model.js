@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var PollSchema = new Schema({
-    lecture : { type: Schema.ObjectId, ref: 'Lecture', required: true },
+  lecture : { type: Schema.ObjectId, ref: 'Lecture', required: true },
 	title : { type: String, trim: true, required: true },
 	creationDate : { type: Date, default: Date.now },
 	state : { type: String, default: 'draft', enum: ['draft', 'active', 'closed']},
@@ -15,13 +15,13 @@ var PollSchema = new Schema({
 PollSchema.pre('remove', function(next) {
     var Lecture = mongoose.model('Lecture');
     Lecture.findByIdAndUpdate(this.lecture, { $pull: { polls: this._id } });
-    
+
     var Question = mongoose.model('Question');
     Question.find({ poll: this._id }, function(err, questions) {
         if (err) { console.log(err); return; }
         questions.forEach(function (question) { question.remove(); });
     });
-    
+
     next();
 });
 
