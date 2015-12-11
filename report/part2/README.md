@@ -237,9 +237,45 @@ This can be seen in the server's [route.js file](https://github.com/paulnta/Teac
 
 The REST API was fully implemented according to the current version of the data model. CRUD operations can be performed on each available endpoint. It was decided to make available for each entity all CRUD operations. Some of them may be removed if it turns out that the client side of the application does not need them.
 
+![Resources & actions](../images/resources_actions.png)
+
+The illustration shows common supported CRUD operations according to the resource type:
+
+* In the case of collections, READ and CREATE operations are provided.
+
+* In the case of documents, READ, UPDATE et DELETE operations are provided.
+
+One can also notice the PATCH HTTP method which is supposed to allow partial updates on resources of document type. In the case of the REST API, the behavior is the same as the PUT's one. They share the same update algorithm. Besides, Mongoose library provides merging functions making easy to implement partial updates. This is exactly the way it has been implemented.
+
+It could be found strange to use the PATCH HTTP method on some resources. However, this method happens to be very useful when a typo mistake has been made. This is why the REST API makes it available on any document resource.
+
 #### Update on cascade & Delete on cascade
 
 Mechanisms of *UPDATE ON CASCADE* and *DELETE ON CASCADE* were developped in order to ensure and maintain database consistency. As a reminder, references through IDs are used to establish relations between entities. Deleting or updating a document should also delete or update another document subject to this kind of interdependence. This was done with Mongoose middlewares: similar functions to traditional SQL triggers were defined on *save* and *remove* events for that purpose.
+
+*Lecture cascade delete*
+
+![Lecture cascade delete schema](../images/lecture_cascade_delete.png)
+
+>Removing a lecture will also remove its polls which removal will trigger their questions removal and so on.
+
+*Poll cascade delete*
+
+![Poll cascade delete schema](../images/poll_cascade_delete.png)
+
+>Removing a poll will also remove its questions which removal will trigger their choices removal. The lecture that "owns" the removed poll will be updated.
+
+*Question cascade delete*
+
+![Question cascade delete schema](../images/question_cascade_delete.png)
+
+>Removing a question will also remove its choices. The poll that "owns" the removed question will be updated.
+
+*Choice cascade delete*
+
+![Choice cascade delete schema](../images/choice_cascade_delete.png)
+
+>Removing a choice will update the question to which it belongs.
 
 #### Testing
 
@@ -249,13 +285,56 @@ The REST API was not subject to any kind of testing phase. One can not affirm wh
 
 The REST API was documented while it was being both designed and implemented. A dedicated tool was used for that purpose. It was decided to use the RESTful API Modeling Language (RAML) as with the first part of the project. It is useless to enumerate all its advantages except maybe one: RAML makes it very easy to fully describe resources in a generic and concise way.
 
+```raml
+resourceTypes:
+  - collection:
+      get:
+        description: Get list of <<resourcePathName>>.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleCollection>>
+          400:
+            description: Query parameters missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          500:
+            description: An internal error occured.
+      ...
+```
+
 The current version of the REST API Documentation is well furnished. Every endpoint has been fully documented except the moods one due to time constraints. Anyway, it is provided with various examples of use for both requests and responses. Entity schemas have also been made available. This allows one to know exactly which data type is expected for a specfic property of a payload. 
+
+```raml
+- poll: |
+  {
+    "type": "object",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "id": "http://jsonschema.net",
+    "required": true,
+    "properties": {
+      "lecture": {
+        "$ref": "lecture",
+        "required": "true"
+      },
+      "title": {
+        "type": "string",
+        "required": "true"
+      },
+      ...
+  }
+```
 
 HTTP status codes likely to be returned by the server are enumerated when necessary. These codes have been chosen according to the HTTP specification. For example, when a POST request is performed in order to create a resource, it is expected from the server to return the 201 HTTP status code, meaning that the resource has been successfully created.
 
 While RAML was used to document the REST API, some additional tools were exploited in order to generate said documentation. Two versions of the REST API documentation have been generated:
 
-* an HTML version for the Web application.
+* an HTML version for the web application.
 * a Markdown version for the project repository. 
 
 This documentation generation was made possible by the following generators:
@@ -263,7 +342,7 @@ This documentation generation was made possible by the following generators:
 * [raml2html](https://github.com/raml2html/raml2html), a RAML to HTML documentation generator.
 * [raml2md](https://github.com/raml2html/raml2md), a RAML to Markdown documentation generator.
 
-The REST API documentation is not finished yet. It was planned to provide the documentation with general information about the API and the Web application. The purpose of that was to make users aware of both key concepts and key mechanisms related to the application. For example, one of the feature of the platform is to ensure privacy for a lecture, meaning that it is available only to some authorized users. The goal of having such information available in the API documentation would be to remind users of this interesting feature and to describe it in more detail.
+The REST API documentation is not finished yet. It was planned to provide the documentation with general information about the API and the web application. The purpose of that was to make users aware of both key concepts and key mechanisms related to the application. For example, one of the feature of the platform is to ensure privacy for a lecture, meaning that it is available only to some authorized users. The goal of having such information available in the API documentation would be to remind users of this interesting feature and to describe it in more detail.
 
 >The REST API documentation is not available on the web application yet. It was not integrated on the client side because of time constaints. However, a local version can still be downloaded [here](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api).
 
