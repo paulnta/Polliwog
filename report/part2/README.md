@@ -270,7 +270,7 @@ Since our REST API access points can reach several levels deep, such as `/api/le
 
 This can be seen in the server's [route.js file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/Polliwog/server/routes.js).
 
-#### Endpoints
+#### Resources & actions
 
 The REST API was fully implemented according to the current version of the data model. CRUD operations can be performed on each available endpoint. It was decided to make available for each entity all CRUD operations. Some of them may be removed if it turns out that the client side of the application does not need them.
 
@@ -282,9 +282,43 @@ The illustration shows common supported CRUD operations according to the resourc
 
 * In the case of documents, READ, UPDATE et DELETE operations are provided.
 
-One can also notice the PATCH HTTP method which is supposed to allow partial updates on resources of document type. In the case of the REST API, the behavior is the same as the PUT's one. They share the same update algorithm. Besides, Mongoose library provides merging functions making easy to implement partial updates. This is exactly the way it has been implemented.
+One can also notice the PATCH HTTP method which is supposed to allow partial updates on resources of document type. In the case of the REST API, the behavior is the same as the PUT's one. They share the same update algorithm. Besides, Mongoose library combined with [lodash Javascript Library](https://lodash.com/) provide merging functions making easy to implement partial updates. This is exactly the way it was implemented.
 
-It could be found strange to use the PATCH HTTP method on some resources. However, this method happens to be very useful when a typo mistake has been made. This is why the REST API makes it available on any document resource.
+```javascript
+// Updates an existing mood in the DB.
+exports.update = function(req, res) {
+  if (req.body._id) { delete req.body._id; }
+  Mood.findOne({ _id: req.params.id, lecture: req.body.lecture }, function (err, mood) {
+    if (err) { return handleError(res, err); }
+    if (!mood) { return res.status(404).send('Not Found'); }
+    var updated = _.merge(mood, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(mood);
+    });
+  });
+};
+```
+
+>First, a find query is performed in order to retrieve the document to be updated. If an error occurs. the request processing is aborted and an error response is sent to the client. If not, the retrieved document and the request body are merged. The merging result is persisted in the database. It's that easy!
+
+It could be found strange to use the PATCH HTTP method on some resources. However, this method happens to be very useful when a typo mistake has been made. This is why the REST API makes it available on any resource.
+
+#### HTTP status code
+
+Errors can occur while processing HTTP requests or while computing HTTP responses. The web application server is likely to return HTTP status code:
+
+* 200 - *It is returned when a GET request or a PUT/PATCH request is submitted and succeed. The requested/updated data is returned as the response payload.*
+
+* 201 - *It is returned when a POST request is submitted and succeed. The created data is returned as the response payload.*
+
+* 204 - No Content. *It is returned when a DELETE request is submitted and succeed.*
+
+* 404 - Not found. *It is returned when a GET request is submitted and fails. It is also returned when a POST/PUT/PATCH/DELETE request requires a research and does not find anything.*
+
+* 500 - *It is returned when an internal error occured. The raw error description is returned as the payload.*
+
+The web application returns no more information about any occured error than these HTTP status codes. They are enough for the moment but may required improvements for last part of the project.
 
 #### Update on cascade & Delete on cascade
 
