@@ -41,7 +41,7 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 
 The purpose of this report is to describe what has been implemented during the second phase of the project.
 
-## <a name="Spec"></a> Specifications
+## <a name="Spec"></a> Specification
 
 First, a short summary of the features we had planned to implement for part 2:
 
@@ -435,7 +435,7 @@ The biggest "issue" so far is that the speaker-side client UI and the server API
 ## <a name="Conclusion"></a> Conclusion
 
 
-We have not reached our goal for this part. We find out that coding simultaously both client and server part was particularly difficult. We hardly wanted to use some of the most sophisticated tools in order to design an elegant UI. Achieving this was arduous mainly because the UI knowledge was concentrated in a single person. For the main duration of this second part of the project, it constituted a bottleneck in our implementation schedule. 
+We have not reached our goal for this part. We find out that coding simultaneously both client and server part was particularly difficult. We hardly wanted to use some of the most sophisticated tools in order to design an elegant UI. Achieving this was arduous mainly because the UI knowledge was concentrated in a single person. For the main duration of this second part of the project, it constituted a bottleneck in our implementation schedule. 
 
 We use this time to clarify very concisely the architecture of our application and pay more attention to details. Moreover, we defined more concretly the remaining features of our application. Our documentation is nearly complete which will save us some precious time for the last part of the project. 
 
