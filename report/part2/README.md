@@ -19,6 +19,7 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 * [Polliwog REST API](http://polliwog-app.herokuapp.com/api).
 * [Polliwog REST API Documentation](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api).
 * [Polliwog product page](http://paulnta.github.io/Teaching-HEIGVD-TWEB-2015-Project/).
+* [Mockups user interface](https://invis.io/6Y59VQVK7) 
 
 > The REST API Documentation link redirects to a basic markdown description of the API. However, both HTML and RAML version with more content can be found on the same location.
 
@@ -77,12 +78,15 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 	* Inputting a current mood
 
 ## <a name="Client"></a> Client
+* Note: As we've kept working on this project from our last pull request you might notice few changes in our code.
 
 ### <a name="UI"></a> User Interfaces
 
 We started our project by doing the user interface specification. We've sketched the ui and then designed it using Adobe Illustrator. 
 
 We used Invision to share our ideas in order to implement the UI in HTML/CSS/JS with exactly the same idea in mind.
+
+You can see our mockups made with illustrator and invision: [Mockups user interface](https://invis.io/6Y59VQVK7) 
 
 Implementing the UI was one of the hardest part because our goal is to have an Adaptive UI. So we had to deal with many browser compabtibily issues and css media-queries to get a responsive design. We've tested the UI on Chrome for mobile and desktop, Mozilla Firefox for mobile and desktop, safari for mobile and desktop and the last version of Internet Explorer for Desktop.
 
@@ -220,7 +224,7 @@ We've created a service called **TargetUrl** which store the last url that the u
 
 
 Because all child states needs a side navigation and a header and maybe a footer, the speaker state can define them once.
-But nothing prevent a child state to redefine a parent state. This is really good feature! For example in our app, the polls.details state doesn't need a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
+But nothing prevent a child state to redefine a parent state. This is really good feature! For example in our app, the **polls.details** state doesn't need a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
 
 
 ```javascript
