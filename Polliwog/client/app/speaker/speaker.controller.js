@@ -4,6 +4,8 @@ angular.module('polliwogApp')
 
     $scope.lectures = Lecture.list();
 
+    console.log($scope.lectures);
+
     /**
      * Current active tab
      * TODO: Make this code more generic
@@ -33,11 +35,16 @@ angular.module('polliwogApp')
     };
 
     /**
-     * Get the currentLecture id
-     * @returns lectureId
-     */
+    * Get the currentLecture id
+    * @returns lectureId
+    */
     $scope.currentLecture = function () {
-      return Lecture.current();
+      return Lecture.current()._id;
+    };
+
+
+    $scope.showCreateSessionDialog = function () {
+
     };
 
   });

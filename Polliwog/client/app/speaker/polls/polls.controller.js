@@ -9,7 +9,7 @@ angular.module('polliwogApp')
 
     $scope.message = "PollsCtrl";
 
-    $scope.polls = Poll.list(Lecture.current());
+    $scope.polls = Poll.list(Lecture.current()._id);
     $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
 
     $scope.select = function (poll) {

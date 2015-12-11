@@ -17,9 +17,13 @@
           <div ng-include="'components/user-widget/user-widget.html'"></div>
           <md-divider></md-divider>
           <md-subheader class="md-no-sticky">Lectures</md-subheader>
-          <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture.id)" ng-class="{active: isActivated(lecture.id)}">
+          <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture._id)" ng-class="{active: isActivated(lecture._id)}">
             <md-icon md-font-library="material-icons">dvr</md-icon>
-            <p>{{lecture.title}}</p>
+            <p>{{lecture.name}}</p>
+          </md-list-item>
+          <md-list-item ng-click="showCreateSessionDialog()">
+            <md-icon md-font-library="material-icons">add</md-icon>
+            <p>Create new session</p>
           </md-list-item>
         </md-list>
       </md-content>

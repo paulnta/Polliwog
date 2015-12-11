@@ -41,13 +41,12 @@ angular.module('polliwogApp')
     };
 
     $scope.getTitle = function () {
-      return Lecture.getTitle(Lecture.current());
+      return Lecture.current().name;
     };
 
     $scope.isActivated = function (lectureId) {
-      return Lecture.current() == lectureId;
+      return Lecture.current()._id === lectureId;
     };
-
 
     /**
      * Define screen size for adaptive ui
