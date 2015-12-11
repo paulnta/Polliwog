@@ -76,9 +76,28 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 * [RAML 8.0](http://raml.org/), for REST API documentation.
 
 ## <a name="Client"></a> Client
+
+### <a name="UI"></a> User Interfaces
+
+We started our project by doing the user interface specification. We've sketched the ui and then designed it using Adobe Illustrator. 
+
+We used Invision to share our ideas in order to implement the UI in HTML/CSS/JS with exactly the same idea in mind.
+
+Implementing the UI was one of the hardest part because our goal is to have an Adaptive UI. So we had to deal with many browser compabtibily issues and css media-queries to get a responsive design. We've tested the UI on Chrome for mobile and desktop, Mozilla Firefox for mobile and desktop, safari for mobile and desktop and the last version of Internet Explorer for Desktop.
+
+At this phase of the projet, the UI doesn't look perfectly one every browser but we are quit confident for the last part of this project because we've solved the biggest issues. As the base layout and base styles are now implemented, adding content for the other page will be much more faster in the future.
+
+
+In this second part of the project we choosed to implement the foundation of the user interface (the responsive layout).
+
+
+
+<img src="../images/ui_process.png" style="width:600">
+
+
 ### <a name="Structure"></a> Project Structure
 
-We organised our client files and directories as follows:
+We've organised our client files and directories as follows:
 
 ```
 / app										// main views and controllers
@@ -95,7 +114,7 @@ We organised our client files and directories as follows:
 	/account								
 	/admin 	
 /assets
-/components								// reusable componenents
+/components									// reusable componenents
 	/auth	
 	/api									// angular service 
 		Poll.service.js
@@ -109,9 +128,9 @@ We organised our client files and directories as follows:
 		
 ```
 
-We took advantage of the angular-fullstack generator to organize our files the best possible way. The app folder is used for main views in our app while /components is used for resuable componenents (that can be used multiple times).
+We took advantage of the [angular-fullstack generator](https://github.com/angular-fullstack/generator-angular-fullstack) to find the best way to arrange our files. The */app* folder is used to store the main views in our app while */components* is used to store reusable componenents.
 
-As our app users may be speakers our simple users (audience).. we need to separate their user interface implementation. This is done with /audience directory and /speaker directoy. Others directory in files in /app are user interface as well but can be either used by a speaker or by audience. 
+As our app users may be either speakers or listeners (audience) we need to separate their user interface implementation into different folders. This is done by the */audience* and */speaker* directories. Other files or directories at the root of */app* are user interface as well but they can be either used by a speaker or by audience. 
 
 Each controllers has his own file, each state has his own stylesheet (especially components) and ui-router states are defined in the *folder-name.js* file. 
 Here an example for /app/speaker/polls folder:
@@ -122,24 +141,21 @@ polls.js,
 polls.scss
 ```
 
-This folder represent the **polls** state which is a child of the speaker state.
+This folder represent the **polls** state which is a child of the **speaker** state.
 
 
 
 ### Sass
-We use Sass to define our stylesheet. As our app is getting bigger and bigger, sass help us to stay organised. /main/main.scss includes all other sass files and declare variables. 
+We use Sass to define our stylesheets. As our app is getting bigger and bigger, sass help us to stay organised. */main/main.scss* includes all other sass files and declare variables. 
 
 ### Grunt
-Grunt injects all javascript files (controller, services, etc) we need in our index.html and as well in our main.scss for stylsheets, watch for file changes and reload our browser accordingly. This one of the best advantage of the angular-fullstack generator
+Grunt injects all javascript files we need (controller, services, etc) in our index.html and as well in our main.scss for stylsheets. Grunt watch for file changes and reload our browser accordingly. This one of the best advantage of the [angular-fullstack generator](https://github.com/angular-fullstack/generator-angular-fullstack)
 
-
-
-### <a name="UI"></a> User Interfaces
 
 ### <a name="UI"></a> State Pattern
 
 
-In the second part of this project we had to study ui-router in order took advantage of it especially the principle of *nested sates*. This allows us to have our **speaker** state which is the root state for a speaker that defines only the layout. This is an abstract state. 
+In the second part of this project we had to study ui-router in order took advantage of it, especially the principle of *nested sates*. This allows us to have our **speaker** state which is the root state for a speaker that defines only the layout. This is an abstract state. 
 
 ```javascript
 // client/app/speaker/speaker.js
@@ -180,10 +196,31 @@ In the second part of this project we had to study ui-router in order took advan
 
 // ...
 ```
+Note that we use the **data** attribut in a parent state to share data with his child states. We've added an **authenticate** attribut that contains the required role to access to a state. So we can watch the **$stateChangeStart** event in order to redirect the user to the login page if he hasn't the required role.
+
+```javascript
+// client/app/app.js
+//...
+
+ $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+
+      if( toState.data && toState.data.authenticate               // the state need an authentication
+        && !Auth.hasRole(toState.data.authenticate.role)){        // has not required role
+        event.preventDefault();
+        TargetUrl.setUrl({name:toState.name, params: toParams});  // save the target url
+        $state.go('login');                                       // redirect to login
+      }
+
+    });
+    
+//...
+```
+We've created a service called **TargetUrl** which store the last url that the user has tried to access. When the user is logged in, he's redirected to the target url. 
 
 
-Because all of his children states needs a side navigation and a header, the speaker state can define them.
-But nothing prevent a child state to redefine a parent state.. and this is really good feature. For example in our app, the polls.details state doesn't a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
+Because all child states needs a side navigation and a header and maybe a footer, the speaker state can define them once.
+But nothing prevent a child state to redefine a parent state. This is really good feature! For example in our app, the polls.details state doesn't need a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
+
 
 ```javascript
 /*
@@ -221,7 +258,7 @@ But nothing prevent a child state to redefine a parent state.. and this is reall
 
 Every endpoint access requires that the user is authenticated. The authentication system of the application is working. The Angular Fullstack generator provides it by default during any project scaffolding. Therefore it was decided to use it directly instead of reinventing the wheel. A such decision implied to study the way it works which took some time.
 
-Angular Fullstack uses the [Passport](http://passportjs.org/) authentication middleware for Node.js. Any user authentication is made via a username and a password. The authentication is ensured by checking whether the user request defines the HTTP Authorization field. If it is the case, the request is authorized and therefore forwarded to the appropriate middlewares. Otherwise, Passport will generate a token and store it in the Authorization field. Of course, it the user did not log in before, resource access will be forbidden.
+Angular Fullstack uses the [Passport](http://passportjs.org/) authentication middleware for Node.js. Any user authentication is made via a username and a password. The authentication is ensured by checking whether the user request defines the HTTP Authorization field. If it is the case, the request is authorized and therefore forwarded to the appropriate middlewares. Otherwise, Passport will generate a token and store it in the Authorization field. Of course, if the user did not log in before, resource access will be forbidden.
 
 Every time that the server controls whether a user submitting a request is authenticated or not, the previously described procedure will be applied. Besides, the document related to the user will be retrieved from the database and attached to the request. This greatly facilitates the API implementation. Retrieving any user will be done only one time and at only one location.
 
@@ -362,3 +399,10 @@ The main known issue is that we did not manage to finish the work we'd planned t
 The biggest "issue" so far is that the speaker-side client UI and the server API have not been completely linked yet, but this should be fixed shortly. We had more trouble than expected trying to code the Angular.js services using `$resource`.
 
 ## <a name="Conclusion"></a> Conclusion
+
+
+We have not reached our goal for this part. We find out that coding simultaously both client and server part was particularly difficult. We hardly wanted to use some of the most sophisticated tools in order to design an elegant UI. Achieving this was arduous mainly because the UI knowledge was concentrated in a single person. For the main duration of this second part of the project, it constituted a bottleneck in our implementation schedule. 
+
+We use this time to clarify very concisely the architecture of our application and pay more attention to details. Moreover, we defined more concretly the remaining features of our application. Our documentation is nearly complete which will save us some precious time for the last part of the project. 
+
+Implementing the final features should not be hard to accomplish. We have a great overall view of our application and we hope to finalize it properly. Our attention must now be focused firmly on testing our code in order to have a faultlessly working application.
