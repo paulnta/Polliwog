@@ -109,6 +109,11 @@ poll-details {
   width: calc((100% - 256px) / 2);
 }
 
+#extended-toolbar.transparent{
+  position: absolute;
+  z-index: 20;
+  background-color: transparent;
+}
 
 #preview-infos.title-toolbar {
   background-color: transparent;

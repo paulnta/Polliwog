@@ -10,13 +10,18 @@
   }
 
   #layout-detail {
-    margin-top: 40px;
     position: relative;
     z-index: 10;
 
     md-content{
       background-color: transparent;
     }
+  }
+}
+
+@media screen and (min-width: 960px) {
+  #layout-detail{
+    margin-top: 40px;
   }
 }
 

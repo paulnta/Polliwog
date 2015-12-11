@@ -1,4 +1,4 @@
-<md-toolbar id="extended-toolbar" class="extended-toolbar">
+<md-toolbar ng-class="{transparent: isSmall()}" id="extended-toolbar" class="extended-toolbar">
   <div class="md-toolbar-tools">
     <div ng-include="'components/speaker/toolbar/menu-button.html'"></div>
     <md-button ui-sref="polls({sessionId: 1})" class="md-icon-button" aria-label="back">
