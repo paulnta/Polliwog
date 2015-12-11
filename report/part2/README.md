@@ -27,8 +27,9 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 1. [Specification](#Spec)
 1. [Tools](#Tools)
 1. [Client](#Client)
-    1. [User Interfaces](#UI)
-    1. [State Pattern](#State)
+	 1. [User Interfaces](#UI)
+	 1. [Project Structure](#Structure) 
+	 1. [State Pattern](#State)
 1. [Server](#Server)
     1. [REST API](#API)
     1. [REST API Documentation](#APIDoc)
@@ -75,10 +76,142 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 * [RAML 8.0](http://raml.org/), for REST API documentation.
 
 ## <a name="Client"></a> Client
+### <a name="Structure"></a> Project Structure
+
+We organised our client files and directories as follows:
+
+```
+/ app										// main views and controllers
+	/audience								// specific views for audience
+		/join							
+		/presentation	 
+		..	
+	/speaker								// specific views for speaker
+		/lecture							// each folder defines a state
+		/polls
+		/questions
+		..
+	/main									// main css styles and controller
+	/account								
+	/admin 	
+/assets
+/components								// reusable componenents
+	/auth	
+	/api									// angular service 
+		Poll.service.js
+		Lecture.service.js
+		...
+	/speaker								// specifc for speaker
+		/navbar
+		/toolbar
+		/dialog-add-question
+		/dialog-edit-question
+		
+```
+
+We took advantage of the angular-fullstack generator to organize our files the best possible way. The app folder is used for main views in our app while /components is used for resuable componenents (that can be used multiple times).
+
+As our app users may be speakers our simple users (audience).. we need to separate their user interface implementation. This is done with /audience directory and /speaker directoy. Others directory in files in /app are user interface as well but can be either used by a speaker or by audience. 
+
+Each controllers has his own file, each state has his own stylesheet (especially components) and ui-router states are defined in the *folder-name.js* file. 
+Here an example for /app/speaker/polls folder:
+```
+polls.controller.js,
+polls.html,
+polls.js,
+polls.scss
+```
+
+This folder represent the **polls** state which is a child of the speaker state.
+
+
+
+### Sass
+We use Sass to define our stylesheet. As our app is getting bigger and bigger, sass help us to stay organised. /main/main.scss includes all other sass files and declare variables. 
+
+### Grunt
+Grunt injects all javascript files (controller, services, etc) we need in our index.html and as well in our main.scss for stylsheets, watch for file changes and reload our browser accordingly. This one of the best advantage of the angular-fullstack generator
+
+
 
 ### <a name="UI"></a> User Interfaces
 
 ### <a name="UI"></a> State Pattern
+
+
+In the second part of this project we had to study ui-router in order took advantage of it especially the principle of *nested sates*. This allows us to have our **speaker** state which is the root state for a speaker that defines only the layout. This is an abstract state. 
+
+```javascript
+// client/app/speaker/speaker.js
+// ...
+
+.state('speaker', {
+    data: {
+
+      // this object is shared with any child view
+      // and specifies that users need to have a speaker role to access this view
+      // if not, users are redirected to the login state. (see app.js : $stateChangeStart)
+      authenticate: {
+        role: 'speaker'
+      }
+    },
+    abstract: true,
+    views: {
+
+      /*
+       * The unnamed view "<div ui-view>" of index.html
+       * is used to show the speakers layout
+       */
+      '' : {
+        templateUrl: 'app/speaker/layout.html',
+        controller: 'SpeakerCtrl'
+      },
+
+      /*
+       * The named view '<div ui-view='navigation'>' of speaker.html
+       * has a dynamic toolbar which can be redefined by other views.
+       */
+      'navigation@speaker':{
+        templateUrl: 'components/speaker/toolbar/toolbar.html',
+        controller: 'SpeakerCtrl'
+      }
+    }
+  });
+
+// ...
+```
+
+
+Because all of his children states needs a side navigation and a header, the speaker state can define them.
+But nothing prevent a child state to redefine a parent state.. and this is really good feature. For example in our app, the polls.details state doesn't a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
+
+```javascript
+/*
+* full detail state
+*
+*  Here we use the dot notation to refer to parent state (polls)
+*  we could use the parent attr but having a state called "details" has no meaning.
+*/
+.state('polls.details', {
+	url: '/:pollId',
+	views : {
+      "@speaker": {
+        templateUrl: 'app/speaker/polls/polls-details/polls-details.html',
+        controller: 'PollsDetailsCtrl'
+      },
+
+      /*
+       * Redefines the main toolbar into an extended toolbar
+       */
+      "navigation@speaker": {
+        templateUrl: 'components/speaker/toolbar/toolbar-extended.html'
+      }
+    }
+});
+```
+
+#### state pattern diagram
+<img src="../images/state_pattern.png" style="width:600">
 
 ## <a name="Server"></a> Server
 
