@@ -130,7 +130,7 @@ We organised our client files and directories as follows:
 
 We took advantage of the angular-fullstack generator to organize our files the best possible way. The app folder is used for main views in our app while /components is used for resuable componenents (that can be used multiple times).
 
-As our app users may be speakers our simple users (audience).. we need to separate their user interface implementation. This is done with /audience directory and /speaker directoy. Others directory in files in /app are user interface as well but can be either used by a speaker or by audience. 
+As our app users may be either speakers or listeners (audience), we need to separate their user interface implementation. This is done with /audience directory and /speaker directoy. Others directory in files in /app are user interface as well but can be either used by a speaker or by audience. 
 
 Each controllers has his own file, each state has his own stylesheet (especially components) and ui-router states are defined in the *folder-name.js* file. 
 Here an example for /app/speaker/polls folder:
@@ -200,7 +200,7 @@ Note that we use the *data* attribut in a parent state to share data with his ch
 
 
 Because all of his children states needs a side navigation and a header, the speaker state can define them.
-But nothing prevent a child state to redefine a parent state.. and this is really good feature. For example in our app, the polls.details state doesn't a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
+But nothing prevent a child state to redefine a parent state... and this is really good feature. For example in our app, the polls.details state doesn't have a navigation anymore. So it redefines the tabbed navigation into a simple toolbar.
 
 ```javascript
 /*
@@ -238,7 +238,7 @@ But nothing prevent a child state to redefine a parent state.. and this is reall
 
 Every endpoint access requires that the user is authenticated. The authentication system of the application is working. The Angular Fullstack generator provides it by default during any project scaffolding. Therefore it was decided to use it directly instead of reinventing the wheel. A such decision implied to study the way it works which took some time.
 
-Angular Fullstack uses the [Passport](http://passportjs.org/) authentication middleware for Node.js. Any user authentication is made via a username and a password. The authentication is ensured by checking whether the user request defines the HTTP Authorization field. If it is the case, the request is authorized and therefore forwarded to the appropriate middlewares. Otherwise, Passport will generate a token and store it in the Authorization field. Of course, it the user did not log in before, resource access will be forbidden.
+Angular Fullstack uses the [Passport](http://passportjs.org/) authentication middleware for Node.js. Any user authentication is made via a username and a password. The authentication is ensured by checking whether the user request defines the HTTP Authorization field. If it is the case, the request is authorized and therefore forwarded to the appropriate middlewares. Otherwise, Passport will generate a token and store it in the Authorization field. Of course, if the user did not log in before, resource access will be forbidden.
 
 Every time that the server controls whether a user submitting a request is authenticated or not, the previously described procedure will be applied. Besides, the document related to the user will be retrieved from the database and attached to the request. This greatly facilitates the API implementation. Retrieving any user will be done only one time and at only one location.
 
@@ -300,3 +300,10 @@ The main known issue is that we did not manage to finish the work we'd planned t
 The biggest "issue" so far is that the speaker-side client UI and the server API have not been completely linked yet, but this should be fixed shortly. We had more trouble than expected trying to code the Angular.js services using `$resource`.
 
 ## <a name="Conclusion"></a> Conclusion
+
+
+We have not reached our goal for this part. We find out that coding simultaously both client and server part was particularly difficult. We hardly wanted to use some of the most sophisticated tools in order to design an elegant UI. Achieving this was arduous mainly because the UI knowledge was concentrated in a single person. For the main duration of this second part of the project, it constituted a bottleneck in our implementation schedule. 
+
+We use this time to clarify very concisely the architecture of our application and pay more attention to details. Moreover, we defined more concretly the remaining features of our application. Our documentation is nearly complete which will save us some precious time for the last part of the project. 
+
+Implementing the final features should not be hard to accomplish. We have a great overall view of our application and we hope to finalize it properly. Our attention must now be focused firmly on testing our code in order to have a faultlessly working application.
