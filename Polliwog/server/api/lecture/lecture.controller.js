@@ -70,18 +70,59 @@ exports.destroy = function (req, res) {
     if (!lecture) { return res.status(404).send('Not Found'); }
     lecture.remove(function (err) {
       if (err) { return handleError(res, err); }
-      return res.status(204).send('No Content');
+      return res.status(200).send('No Content');
     });
   });
 };
 
-// Deletes all lectures from the DB.
+
+/**
+ * Deletes all lectures from the DB.
+ *
+ * We could have used the simple method Lecture.remove({}, function(err){})
+ * but in this case, the hook pre 'remove' would not be called
+ * check: https://github.com/Automattic/mongoose/issues/1241
+ *
+ * So we need to remove each document one by one calling doc.remove()
+ * to preserve the DELETE CASCADE implemented in the hook pre 'remove'
+ *
+ * @param req
+ * @param res
+ */
 exports.destroyAll = function (req, res) {
-  Lecture.remove({}, function (err) {
-    if(err) handleError(err, res);
-    return res.status(200).send('No Content');
-  });
+  Lecture.find({}, function (err, lectures) {
+    if(err) return handleError(err, res);
+    removeAll(lectures)
+      .then(function (num) {
+        return res.status(200).send('removed ' + num + ' lectures');
+      })
+      .catch(function (err) {
+        return handleError(err, res);
+      });
+    });
 };
+
+function removeAll(docs) {
+  var pending = docs.length;
+  return new Promise(function (resolve, reject) {
+    // nothing to remove
+    if(pending == 0){
+      resolve(num);
+    }
+    // remove all
+    docs.forEach(function (doc) {
+      doc.remove(function (err) {
+        if (err) reject(err);
+
+        // check if done
+        if(0 === --pending) {
+          resolve(num);
+        }
+      });
+    });
+  });
+}
+
 
 function handleError(res, err) {
   return res.status(500).send(err);

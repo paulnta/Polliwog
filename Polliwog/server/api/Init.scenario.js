@@ -90,6 +90,21 @@ scenario.step('Handle login data', function (response) {
   }
 });
 
+scenario.step('Remove all Lectures', function () {
+  var urls = ['lectures' /*, 'polls', 'questions', 'choices'*/];
+  var requests = _.map(urls, function (url) {
+    return this.delete({
+      url: '/api/'+url
+    });
+  }, this);
+  return this.all(requests);
+});
+
+scenario.step('Handle responses', function (responses) {
+  responses = _.pluck(responses, 'body');
+  console.log(responses);
+});
+
 /**
 * Create Lectures
 */

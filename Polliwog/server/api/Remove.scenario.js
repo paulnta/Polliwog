@@ -89,20 +89,45 @@ scenario.step('Handle login data', function (response) {
   }
 });
 
-scenario.step('Remove all Lectures', function () {
-  var urls = ['lectures' , 'polls', 'questions', 'choices'];
-  var requests = _.map(urls, function (url) {
-    return this.delete({
-      url: '/api/'+url
-    });
-  }, this);
-  return this.all(requests);
+scenario.step('get lectures', function () {
+  return this.get({
+    url: '/api/lectures'
+  });
 });
 
-scenario.step('Handle responses', function (responses) {
-  responses = _.pluck(responses, 'body');
-  console.log(responses);
+
+scenario.step('Remove first lecture', function (response) {
+  var lectures = response.body;
+  if(!lectures.length){
+    this.fail('no lectures found');
+  }
+  console.log(lectures.length + ' lectures found');
+  console.log('will remove ' + lectures[0]._id);
+
+  return this.delete({
+    url: '/api/lectures/' + lectures[0]._id
+  });
+
 });
+
+scenario.step('handle repsonse', function (response) {
+  console.log(response.body);
+});
+
+//scenario.step('Remove all Lectures', function () {
+//  var urls = ['lectures' /*, 'polls', 'questions', 'choices'*/];
+//  var requests = _.map(urls, function (url) {
+//    return this.delete({
+//      url: '/api/'+url
+//    });
+//  }, this);
+//  return this.all(requests);
+//});
+//
+//scenario.step('Handle responses', function (responses) {
+//  responses = _.pluck(responses, 'body');
+//  console.log(responses);
+//});
 
 
 module.exports = scenario;
