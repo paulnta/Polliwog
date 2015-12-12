@@ -21,16 +21,7 @@ angular.module('polliwogApp')
       }
     };
 
-    /**
-     * Navigates to another lecture
-     * @param lectureId
-     */
-    $scope.goTo = function (lectureId) {
-      $state.go('lecture', {lectureId: lectureId});
-      setTimeout(function () {
-        $mdSidenav('left').close();
-      }, 200);
-    };
+
 
     /**
     * Get the currentLecture id

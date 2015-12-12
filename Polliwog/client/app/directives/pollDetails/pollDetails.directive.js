@@ -35,7 +35,7 @@ angular.module('polliwogApp')
           }
         }
         setTimeout(previewHeight, 0);
-        window.addEventListener("resize", previewHeight);
+        window.addEventListener('resize', previewHeight);
       }
     };
   });

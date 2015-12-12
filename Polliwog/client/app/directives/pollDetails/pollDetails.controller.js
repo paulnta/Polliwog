@@ -1,6 +1,7 @@
 /**
  * Created by paulnta on 10.12.15.
  */
+'use strict';
 
 angular.module('polliwogApp')
   .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, Poll) {
@@ -43,7 +44,7 @@ angular.module('polliwogApp')
         choices :[
           {title: '', placeholder: 'choice 1', state: false}
         ]
-      })
+      });
     };
 
     /**
@@ -65,7 +66,7 @@ angular.module('polliwogApp')
     };
 
     $scope.editImage = function (event) {
-
+      angular.noop(event);
     };
 
     /**
@@ -85,15 +86,4 @@ angular.module('polliwogApp')
       $mdOpenMenu(ev);
     };
 
-  })
-  .directive('ngRightClick', function($parse) {
-    return function(scope, element, attrs) {
-      var fn = $parse(attrs.ngRightClick);
-      element.bind('contextmenu', function(event) {
-        scope.$apply(function() {
-          event.preventDefault();
-          fn(scope, {$event:event});
-        });
-      });
-    };
   });

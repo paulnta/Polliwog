@@ -1,36 +1,6 @@
 <div ng-controller="MainCtrl" layout flex>
 
-    <!--
-      LEFT SIDE NAV
-    -->
-    <md-sidenav id="left-nav"
-                class="md-sidenav-left md-whiteframe-z2"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-md') && leftNavLocked">
-
-      <!--
-        The side nav left has a fixed position
-        the md-content tag makes his content scrollable when his content overflows
-      -->
-      <md-content>
-        <md-list>
-          <div ng-include="'components/user-widget/user-widget.html'"></div>
-          <md-divider></md-divider>
-          <md-list-item ui-sref-active="active" ui-sref="speaker.home">
-            <md-icon md-font-library="material-icons">home</md-icon>
-            <p>Home</p>
-          </md-list-item>
-          <md-subheader class="md-no-sticky">Lectures</md-subheader>
-          <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture._id)" ng-class="{active: isActivated(lecture._id)}">
-            <md-icon md-font-library="material-icons">dvr</md-icon>
-            <p>{{lecture.name}}</p>
-          </md-list-item>
-          <md-list-item ng-click="showCreateSessionDialog()">
-            <md-icon md-font-library="material-icons">add</md-icon>
-            <p>Create new session</p>
-        </md-list>
-      </md-content>
-    </md-sidenav>
+    <div ng-include="'components/speaker/side-nav/side-nav.html'"></div>
 
     <!--
       PAGE CONTENT

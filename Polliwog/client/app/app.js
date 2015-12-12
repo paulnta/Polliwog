@@ -1,5 +1,16 @@
 'use strict';
 
+function checkAuth(toState, Auth, cb){
+  if(toState.hasOwnProperty('data') && toState.data.hasOwnProperty('authenticate')){
+    var role = toState.data.authenticate.role;
+    Auth.hasRoleAsync(role, function (ok) {
+      cb(ok);
+    });
+  } else{
+    cb(true);
+  }
+}
+
 angular.module('polliwogApp', [
   'ngCookies',
   'ngResource',
@@ -70,11 +81,12 @@ angular.module('polliwogApp', [
     };
   })
 
+
 /**
  * redirect to login and save the target url if a state need an authorisation
  * and the user is not logged in or doesn't have the correct role
  */
-  .run(function ($rootScope, $stateParams, Auth, $state, TargetUrl) {
+  .run(function ($rootScope, Auth, $state, TargetUrl) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
@@ -88,8 +100,8 @@ angular.module('polliwogApp', [
     });
   })
 
-  .run(function ($rootScope, Lecture, $stateParams) {
-    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+  .run(function ($rootScope, Lecture) {
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams){
 
       if(toParams.lectureId) {
         Lecture.setCurrent(toParams.lectureId).then(function (lecture) {
@@ -97,20 +109,11 @@ angular.module('polliwogApp', [
         });
       }
 
-    })
+    });
   });
 
 
-function checkAuth(toState, Auth, cb){
-  if(toState.hasOwnProperty('data') && toState.data.hasOwnProperty('authenticate')){
-    var role = toState.data.authenticate.role;
-    Auth.hasRoleAsync(role, function (ok) {
-      cb(ok);
-    });
-  } else{
-    cb(true);
-  }
-}
+
 
 
 

@@ -2,7 +2,9 @@
   The menu button is always shown on small screen
   The menu button is shown on large screen only when the side navigation is hidden
 -->
-<md-button ng-show="!leftNavLocked || !isLarge()" class="md-icon-button"
-           ng-click="toggleLeft()" aria-label="Settings">
-  <md-icon md-font-library="material-icons">menu</md-icon>
-</md-button>
+<div ng-controller="SideNavCtrl">
+  <md-button ng-show="!leftNavLocked || !isLarge()" class="md-icon-button"
+             ng-click="toggleLeft()" aria-label="Settings">
+    <md-icon md-font-library="material-icons">menu</md-icon>
+  </md-button>
+</div>

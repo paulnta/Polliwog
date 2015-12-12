@@ -180,8 +180,7 @@ scenario.step('show created polls', function(responses) {
 scenario.step('create questions', function () {
   var i = 0;
   var requests = _.map(questions, function (data) {
-    var url = '/api/lectures/'+ ids_lecture[i % ids_lecture.length] + '/polls/'
-      + ids_polls[i % ids_polls.length] + '/questions';
+    var url = '/api/lectures/'+ ids_lecture[i % ids_lecture.length] + '/polls/' + ids_polls[i % ids_polls.length] + '/questions';
     i++;
     return this.post({
       url: url,
@@ -206,8 +205,7 @@ scenario.step('create choices', function () {
 
   var i = 0;
   var requests = _.map(choices, function (data) {
-    var url = '/api/lectures/'+ ids_lecture[i % ids_lecture.length] + '/polls/'
-      + ids_polls[i % ids_polls.length] + '/questions/' + ids_questions[i % ids_questions.length] + '/choices';
+    var url = '/api/lectures/'+ ids_lecture[i % ids_lecture.length] + '/polls/' + ids_polls[i % ids_polls.length] + '/questions/' + ids_questions[i % ids_questions.length] + '/choices';
     i++;
     return this.post({
       url: url,

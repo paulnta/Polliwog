@@ -22,7 +22,7 @@ exports.show = function (req, res) {
 
 // Creates a new resource in the DB.
 exports.create = function (req, res) {
-  if (req.body.creationDate) { req.body.creationDate; }
+  if (req.body.creationDate) { delete req.body.creationDate; }
   Resource.create(req.body, function (err, resource) {
     if (err) { return handleError(res, err); }
     return res.status(201).json(resource);
@@ -32,7 +32,7 @@ exports.create = function (req, res) {
 // Updates an existing resource in the DB.
 exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
-  if (req.body.creationDate) { req.body.creationDate; }
+  if (req.body.creationDate) { delete req.body.creationDate; }
   Resource.findOne({_id: req.params.id, lecture: req.body.lecture }, function (err, resource) {
     if (err) { return handleError(res, err); }
     if (!resource) { return res.status(404).send('Not Found'); }

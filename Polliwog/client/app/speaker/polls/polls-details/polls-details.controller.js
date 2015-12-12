@@ -1,4 +1,4 @@
-
+'use strict';
 
 angular.module('polliwogApp')
   .controller('PollsDetailsCtrl', function ($scope, $stateParams, $mdDialog, $mdMedia, EditPoll, Poll) {
