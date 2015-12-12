@@ -94,6 +94,7 @@ exports.destroyAll = function (req, res) {
     if(err) return handleError(err, res);
     removeAll(lectures)
       .then(function (num) {
+        console.log('promise fullfiled');
         return res.status(200).send('removed ' + num + ' lectures');
       })
       .catch(function (err) {
@@ -104,19 +105,17 @@ exports.destroyAll = function (req, res) {
 
 function removeAll(docs) {
   var pending = docs.length;
+  if(0 === pending){
+    return Promise.resolve(pending);
+  }
   return new Promise(function (resolve, reject) {
-    // nothing to remove
-    if(pending == 0){
-      resolve(num);
-    }
-    // remove all
     docs.forEach(function (doc) {
       doc.remove(function (err) {
         if (err) reject(err);
-
+        console.log('removed one, ' + (pending-1) + 'pending');
         // check if done
         if(0 === --pending) {
-          resolve(num);
+          resolve(docs.length);
         }
       });
     });

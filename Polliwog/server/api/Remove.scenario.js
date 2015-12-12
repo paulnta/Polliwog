@@ -115,7 +115,7 @@ scenario.step('handle repsonse', function (response) {
 });
 
 //scenario.step('Remove all Lectures', function () {
-//  var urls = ['lectures' /*, 'polls', 'questions', 'choices'*/];
+//  var urls = ['lectures'];
 //  var requests = _.map(urls, function (url) {
 //    return this.delete({
 //      url: '/api/'+url

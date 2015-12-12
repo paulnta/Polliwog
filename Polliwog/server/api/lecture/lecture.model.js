@@ -89,45 +89,48 @@ var LectureSchema = new Schema({
 LectureSchema.pre('remove', function (next) {
 
   console.log('LectureSchema.pre(remove)');
-	///**
-	// * Update parent user's array of lectures.
-	// */
+	/**
+	* Update parent user's array of lectures.
+   * TODO add lecture attr in UserSchema
+	*/
 	//var User = mongoose.model('User');
 	//User.findByIdAndUpdate(this.speaker, { $pull: { lectures: this._id } });
-    //
+
+	/**
+	* Remove every poll related with the current lecture.
+	*
+	* Notice that it iterates through each poll. This is necessary for
+	* triggering the question and participation middlewares which will
+	* apply the same mechanism of DELEATE ON CASCADE and/or UPDATE ON
+	* CASCADE.
+	*
+	* Further information on: http://mongoosejs.com/docs/populate.html
+	*/
+	var Poll = mongoose.model('Poll');
+	Poll.find({ lecture: this._id }, function (err, polls) {
+    console.log('Will delete ' + polls.length + ' polls');
+		if (err) { console.log(err); return; }
+		polls.forEach(function (poll) {
+     poll.remove();
+    });
+	});
+
 	///**
-	// * Remove every poll related with the current lecture.
-	// *
-	// * Notice that it iterates through each poll. This is necessary for
-	// * triggering the question and participation middlewares which will
-	// * apply the same mechanism of DELEATE ON CASCADE and/or UPDATE ON
-	// * CASCADE.
-	// *
-	// * Further information on: http://mongoosejs.com/docs/populate.html
-	// */
-	//var Poll = mongoose.model('Poll');
-	//Poll.find({ lecture: this._id }, function (err, polls) {
-    //console.log('Will delete ' + polls.length.polls + ' polls');
-	//	if (err) { console.log(err); return; }
-	//	polls.forEach(function (poll) { poll.remove(); });
-	//});
-    //
-	///**
-	// * Remove all moods related to the current lecture.
-	// */
+	//* Remove all moods related to the current lecture.
+	//*/
 	//var Mood = mongoose.model('Mood');
 	//Mood.remove({ lecture: this._id }, function (err) {
 	//	if (err) { console.log(err); }
 	//});
     //
 	///**
-	// * Remove all resources related to the current lecture.
-	// */
+	//* Remove all resources related to the current lecture.
+	//*/
 	//var Resource = mongoose.model('Resource');
 	//Resource.remove({ lecture: this._id }, function (err) {
 	//	if (err) { console.log(err); }
 	//});
-    //
+
 	next();
 });
 
