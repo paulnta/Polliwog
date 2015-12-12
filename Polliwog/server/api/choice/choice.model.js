@@ -13,7 +13,9 @@ var ChoiceSchema = new Schema({
 // middleware for cascade delete
 ChoiceSchema.pre('remove', function(next) {
     var Question = mongoose.model('Question');
-    Question.findByIdAndUpdate(this.question, { $pull: { choices: this._id } });
+    Question.findByIdAndUpdate(this.question, { $pull: { choices: this._id } }, function (err) {
+      if(err) console.error(err);
+    });
     next();
 });
 

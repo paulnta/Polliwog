@@ -115,21 +115,22 @@ LectureSchema.pre('remove', function (next) {
     });
 	});
 
-	///**
-	//* Remove all moods related to the current lecture.
-	//*/
-	//var Mood = mongoose.model('Mood');
-	//Mood.remove({ lecture: this._id }, function (err) {
-	//	if (err) { console.log(err); }
-	//});
-    //
-	///**
-	//* Remove all resources related to the current lecture.
-	//*/
-	//var Resource = mongoose.model('Resource');
-	//Resource.remove({ lecture: this._id }, function (err) {
-	//	if (err) { console.log(err); }
-	//});
+	/**
+	* Remove all moods related to the current lecture.
+	*/
+	var Mood = mongoose.model('Mood');
+	Mood.remove({ lecture: this._id }, function (err) {
+		if (err) { console.log(err); }
+	});
+
+
+	/**
+	* Remove all resources related to the current lecture.
+	*/
+	var Resource = mongoose.model('Resource');
+	Resource.remove({ lecture: this._id }, function (err) {
+		if (err) { console.log(err); }
+	});
 
 	next();
 });
@@ -157,7 +158,9 @@ LectureSchema.pre('save', function (next) {
  */
 LectureSchema.post('save', function () {
 	var User = mongoose.model('User');
-	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }); }
+	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }, function (err) {
+    if(err) console.error(err);
+  }); }
 });
 
 module.exports = mongoose.model('Lecture', LectureSchema);

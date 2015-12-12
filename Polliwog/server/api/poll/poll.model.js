@@ -14,7 +14,9 @@ var PollSchema = new Schema({
 // middleware for cascade delete
 PollSchema.pre('remove', function(next) {
     var Lecture = mongoose.model('Lecture');
-    Lecture.findByIdAndUpdate(this.lecture, { $pull: { polls: this._id } });
+    Lecture.findByIdAndUpdate(this.lecture, { $pull: { polls: this._id } }, function (err) {
+      if(err) console.error(err);
+    });
 
     var Question = mongoose.model('Question');
     Question.find({ poll: this._id }, function(err, questions) {
