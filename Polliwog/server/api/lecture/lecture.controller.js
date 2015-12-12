@@ -4,6 +4,7 @@ var _ = require('lodash');
 var rand = require("random-key");
 var Lecture = require('./lecture.model');
 
+
 // Get list of lectures
 exports.index = function (req, res) {
   Lecture.find({ speaker: req.user._id }, function (err, lectures) {
@@ -71,6 +72,14 @@ exports.destroy = function (req, res) {
       if (err) { return handleError(res, err); }
       return res.status(204).send('No Content');
     });
+  });
+};
+
+// Deletes all lectures from the DB.
+exports.destroyAll = function (req, res) {
+  Lecture.remove({}, function (err) {
+    if(err) handleError(err, res);
+    return res.status(200).send('No Content');
   });
 };
 

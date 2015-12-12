@@ -24,7 +24,7 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.answer_count) { delete req.body.answer_count; }
-  
+
   Choice.create(req.body, function(err, choice) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(choice);
@@ -35,7 +35,7 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.answer_count) { delete req.body.answer_count; }
-  
+
   Choice.findOne({ _id: req.params.id, question: req.body.question }, function (err, choice) {
     if (err) { return handleError(res, err); }
     if(!choice) { return res.status(404).send('Not Found'); }
@@ -56,6 +56,14 @@ exports.destroy = function(req, res) {
       if(err) { return handleError(res, err); }
       return res.status(204).send('No Content');
     });
+  });
+};
+
+// Deletes all choices from the DB.
+exports.destroyAll = function (req, res) {
+  Choice.remove({}, function (err) {
+    if(err) handleError(err, res);
+    return res.status(200).send('No Content');
   });
 };
 

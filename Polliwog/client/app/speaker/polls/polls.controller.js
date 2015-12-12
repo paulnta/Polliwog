@@ -7,6 +7,10 @@ angular.module('polliwogApp')
 
     'use strict';
 
+    Poll.api.query({lecture_id: Lecture.current()._id}).$promise.then(function (polls) {
+      console.log(polls);
+    });
+
     $scope.message = "PollsCtrl";
 
     $scope.polls = Poll.list(Lecture.current()._id);

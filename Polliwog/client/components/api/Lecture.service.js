@@ -4,7 +4,7 @@ angular.module('polliwogApp')
   .factory('Lecture', function ($state, $resource) {
     // logic here
     var api = $resource('/api/lectures/:id', {id: '@_id'});
-    var currentLecture = {};
+    var currentLecture = {_id: 'none'};
 
     // test data
    //var lectures = [
@@ -135,10 +135,14 @@ angular.module('polliwogApp')
       },
 
       current: function () {
+        if(currentLecture === null){
+          console.error("want current but null");
+        }
         return currentLecture;
       },
 
       setCurrent: function (lectureId) {
+        console.log("set current " + lectureId);
         return api.get({id: lectureId}).$promise.then(function (lecture) {
           currentLecture = lecture;
           return lecture;

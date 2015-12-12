@@ -23,7 +23,7 @@
             <!--title-->
             <div layout="column">
               <div class="body2">
-                <a ui-sref="polls.details({lectureId: currentLecture(), pollId: poll.id})">{{poll.title}}</a>
+                <a ui-sref="polls.details({lectureId: currentLecture(), pollId: poll._id})">{{poll.title}}</a>
               </div>
               <div class="body1">
                 <!--TODO: put poll creation date -->
@@ -42,7 +42,7 @@
               <!--menu-->
               <md-menu-content width="3">
                 <md-menu-item>
-                  <md-button ui-sref="polls.details({lectureId: currentLecture(), pollId: poll.id})">
+                  <md-button ui-sref="polls.details({lectureId: currentLecture(), pollId: poll._id})">
                     <md-icon md-font-library="material-icons">edit</md-icon>
                     Edit
                   </md-button>

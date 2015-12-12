@@ -16,6 +16,10 @@
         <md-list>
           <div ng-include="'components/user-widget/user-widget.html'"></div>
           <md-divider></md-divider>
+          <md-list-item ui-sref-active="active" ui-sref="speaker.home">
+            <md-icon md-font-library="material-icons">home</md-icon>
+            <p>Home</p>
+          </md-list-item>
           <md-subheader class="md-no-sticky">Lectures</md-subheader>
           <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture._id)" ng-class="{active: isActivated(lecture._id)}">
             <md-icon md-font-library="material-icons">dvr</md-icon>

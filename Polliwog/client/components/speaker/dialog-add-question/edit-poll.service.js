@@ -39,6 +39,7 @@ angular.module('polliwogApp')
        */
       saveQuestion: function (question) {
 
+        console.log(question);
         // modify if exist
         var index = poll.questions.indexOf(question);
         if( index !== -1){
@@ -48,6 +49,8 @@ angular.module('polliwogApp')
         } else {
           poll.questions.push(question);
         }
+
+        Poll.saveQuestion(question);
       },
 
       removeQuestion: function (question) {
@@ -57,6 +60,7 @@ angular.module('polliwogApp')
 
       saveTitle: function (title) {
         poll.title = title;
+        Poll.save(poll);
       },
 
       save: function () {

@@ -14,13 +14,13 @@ var QuestionSchema = new Schema({
 QuestionSchema.pre('remove', function(next) {
     var Poll = mongoose.model('Poll');
     Poll.findByIdAndUpdate(this.poll, { $pull: { questions: this._id } });
-    
+
     var Choice = mongoose.model('Choice');
     Choice.find({ question: this._id }, function(err, choices) {
         if (err) { console.log(err); return; }
         choices.forEach(function (choice) { choice.remove(); });
     });
-    
+
     next();
 });
 
@@ -30,8 +30,22 @@ QuestionSchema.pre('save', function(next) {
     next();
 });
 QuestionSchema.post('save', function() {
+
     var Poll = mongoose.model('Poll');
-    if (this.wasNew) { Poll.findByIdAndUpdate(this.poll, { $push: { questions: this._id } }); }
+    if (this.wasNew) {
+      console.info('post save question schema');
+      //Poll.findByIdAndUpdate(this.poll, { $push: { questions: this } });
+      Poll.findOneAndUpdate({_id: this.poll},
+        {$push: {questions: this}},
+        {"upsert": true},
+        function (err, doc) {
+          if(err)
+            console.error(err);
+          if(doc)
+            console.log(doc);
+
+        });
+    }
 });
 
 module.exports = mongoose.model('Question', QuestionSchema);

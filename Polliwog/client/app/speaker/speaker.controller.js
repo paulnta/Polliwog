@@ -2,8 +2,7 @@ angular.module('polliwogApp')
   .controller('SpeakerCtrl', function ($scope, $state, Lecture, Mood, $mdSidenav, User) {
     'use strict';
 
-    $scope.lectures = Lecture.list();
-
+    $scope.lectures = Lecture.api.query();
     console.log($scope.lectures);
 
     /**

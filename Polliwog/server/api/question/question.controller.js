@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Question = require('./question.model');
+var Poll = require('../poll/poll.model');
 
 // Get list of questions
 exports.index = function(req, res) {
@@ -24,7 +25,7 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.choices) { delete req.body.choices; }
-  
+
   Question.create(req.body, function(err, question) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(question);
@@ -35,7 +36,7 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.choices) { delete req.body.choices; }
-  
+
   Question.findOne({ _id: req.params.id, poll: req.body.poll }, function (err, question) {
     if (err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
@@ -56,6 +57,14 @@ exports.destroy = function(req, res) {
       if(err) { return handleError(res, err); }
       return res.status(204).send('No Content');
     });
+  });
+};
+
+// Deletes all questions from the DB.
+exports.destroyAll = function (req, res) {
+  Question.remove({}, function (err) {
+    if(err) handleError(err, res);
+    return res.status(200).send('No Content');
   });
 };
 

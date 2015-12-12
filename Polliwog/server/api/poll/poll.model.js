@@ -30,9 +30,14 @@ PollSchema.pre('save', function(next) {
     this.wasNew = this.isNew;
     next();
 });
+
 PollSchema.post('save', function() {
     var Lecture = mongoose.model('Lecture');
-    if (this.wasNew) { Lecture.findByIdAndUpdate(this.lecture, { $push: { polls: this._id } }); }
+    if (this.wasNew) {
+      Lecture.findByIdAndUpdate(this.lecture, {$push: {polls: this}}, function (err) {
+          if(err) console.error(err);
+      });
+    }
 });
 
 module.exports = mongoose.model('Poll', PollSchema);

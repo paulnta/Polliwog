@@ -13,6 +13,7 @@ angular.module('polliwogApp')
     } else {
       // get poll
       $scope.poll = EditPoll.registerPoll(Poll.get($scope.pollId));
+      console.log($scope.poll);
     }
   });
 

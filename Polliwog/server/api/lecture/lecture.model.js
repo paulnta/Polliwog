@@ -87,6 +87,8 @@ var LectureSchema = new Schema({
  * to his lectures.
  */
 LectureSchema.pre('remove', function (next) {
+
+  console.log('delete lecture');
 	/**
 	 * Update parent user's array of lectures.
 	 */
@@ -105,6 +107,7 @@ LectureSchema.pre('remove', function (next) {
 	 */
 	var Poll = mongoose.model('Poll');
 	Poll.find({ lecture: this._id }, function (err, polls) {
+    console.log('Will delete ' + polls.length.polls + ' polls');
 		if (err) { console.log(err); return; }
 		polls.forEach(function (poll) { poll.remove(); });
 	});

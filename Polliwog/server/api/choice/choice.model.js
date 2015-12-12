@@ -14,7 +14,6 @@ var ChoiceSchema = new Schema({
 ChoiceSchema.pre('remove', function(next) {
     var Question = mongoose.model('Question');
     Question.findByIdAndUpdate(this.question, { $pull: { choices: this._id } });
-    
     next();
 });
 
@@ -25,7 +24,18 @@ ChoiceSchema.pre('save', function(next) {
 });
 ChoiceSchema.post('save', function() {
     var Question = mongoose.model('Question');
-    if (this.wasNew) { Question.findByIdAndUpdate(this.question, { $push: { choices: this._id } }); }
+    if (this.wasNew) {
+      //Question.findByIdAndUpdate(this.question, { $push: { choices: this._id } });
+      Question.findOneAndUpdate({_id: this.question},
+        { $push: { choices: this._id }},
+        {"upsert": true},
+        function (err, doc) {
+          if(err)
+            console.error(err);
+          if(doc)
+            console.log(doc);
+        });
+    }
 });
 
 module.exports = mongoose.model('Choice', ChoiceSchema);

@@ -15,7 +15,7 @@
  resources: [{ type: Schema.ObjectId, ref: 'Resource' }]
  */
 angular.module('polliwogApp')
-  .controller('QuestionsCtrl', function ($scope, $resource, Lecture, $http) {
+  .controller('QuestionsCtrl', function ($scope, $resource, Lecture) {
 
     $scope.lectures = Lecture.list();
 
