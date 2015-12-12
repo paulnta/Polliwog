@@ -19,14 +19,14 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 * [Polliwog REST API](http://polliwog-app.herokuapp.com/api).
 * [Polliwog REST API Documentation](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/tree/master/api).
 * [Polliwog product page](http://paulnta.github.io/Teaching-HEIGVD-TWEB-2015-Project/).
-* [Mockups user interface](https://invis.io/6Y59VQVK7) 
+* [Mockups user interface](https://invis.io/6Y59VQVK7).
 
 > The REST API Documentation link redirects to a basic markdown description of the API. However, both HTML and RAML version with more content can be found on the same location.
 
 ## Table of Contents
 1. [Introduction](#Intro)
-1. [Specification](#Spec)
 1. [Tools](#Tools)
+1. [Specification](#Spec)
 1. [Client](#Client)
 	 1. [User Interfaces](#UI)
 	 1. [Project Structure](#Structure) 
@@ -41,6 +41,13 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 ## <a name="Intro"></a> Introduction
 
 The purpose of this report is to describe what has been implemented during the second phase of the project.
+
+## <a name="Tools"></a> Tools
+
+* [Angular Fullstack](https://github.com/angular-fullstack/generator-angular-fullstack), for project scaffolding.
+* [Angular Material](https://material.angularjs.org), as material design.
+* [InVision](http://www.invisionapp.com/), for ideas sharing.
+* [RAML 8.0](http://raml.org/), for REST API documentation.
 
 ## <a name="Spec"></a> Specification
 
@@ -70,15 +77,9 @@ Client-wise, we wanted an interface that was clean and simple to use, and that i
 	* Responding to polls when available
 	* Inputting a current mood
 
-## <a name="Tools"></a> Tools
-
-* [Angular Fullstack](https://github.com/angular-fullstack/generator-angular-fullstack), for project scaffolding.
-* [Angular Material](https://material.angularjs.org), as material design.
-* [InVision](http://www.invisionapp.com/), for ideas sharing.
-* [RAML 8.0](http://raml.org/), for REST API documentation.
-
 ## <a name="Client"></a> Client
-* Note: As we've kept working on this project from our last pull request you might notice few changes in our code.
+
+>Note: As we've kept working on this project from our last pull request you might notice few changes in our code.
 
 ### <a name="UI"></a> User Interfaces
 
@@ -273,7 +274,22 @@ Since our REST API access points can reach several levels deep, such as `/api/le
 
 `app.param` enables us to trigger a callback whenever the given parameter name is found in the route. We use this to store the lecture, poll, or question ID directly in the body of the request before it's processed as it normally would.
 
-This can be seen in the server's [route.js file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/Polliwog/server/routes.js).
+```javascript
+module.exports = function(app) {
+
+  app.param('lecture_id', function(req, res, next, lecture_id) {
+    Lecture.findById(lecture_id, function(err, lecture) {
+        if (err) next(err);
+        if (!lecture) return res.status(404).send('Not Found');
+
+        req.body.lecture = lecture._id;
+        next();
+    });
+  });
+  // ...
+```
+
+>For further details see [server's routes definition file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/Polliwog/server/routes.js).
 
 #### Resources & actions
 
@@ -384,6 +400,8 @@ resourceTypes:
       ...
 ```
 
+>For further details see [API's RAML definition file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/api/api.raml).
+
 The current version of the REST API Documentation is well furnished. Every endpoint has been fully documented except the moods one due to time constraints. Anyway, it is provided with various examples of use for both requests and responses. Entity schemas have also been made available. This allows one to know exactly which data type is expected for a specfic property of a payload. 
 
 ```raml
@@ -405,6 +423,8 @@ The current version of the REST API Documentation is well furnished. Every endpo
       ...
   }
 ```
+
+>For further details see [API's RAML definition file](https://github.com/paulnta/Teaching-HEIGVD-TWEB-2015-Project/blob/master/api/api.raml).
 
 HTTP status codes likely to be returned by the server are enumerated when necessary. These codes have been chosen according to the HTTP specification. For example, when a POST request is performed in order to create a resource, it is expected from the server to return the 201 HTTP status code, meaning that the resource has been successfully created.
 
