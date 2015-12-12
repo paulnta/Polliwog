@@ -101,15 +101,15 @@ angular.module('polliwogApp', [
   })
 
   .run(function ($rootScope, Lecture) {
-    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams){
-
-      if(toParams.lectureId) {
-        Lecture.setCurrent(toParams.lectureId).then(function (lecture) {
-          console.log({'set current lecture': lecture._id});
-        });
-      }
-
-    });
+    //$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams){
+    //
+    //  if(toParams.lectureId) {
+    //    Lecture.setCurrent(toParams.lectureId).then(function (lecture) {
+    //      console.log({'set current lecture': lecture._id});
+    //    });
+    //  }
+    //
+    //});
   });
 
 

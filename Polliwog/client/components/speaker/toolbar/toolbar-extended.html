@@ -1,7 +1,7 @@
 <md-toolbar ng-class="{transparent: isSmall()}" id="extended-toolbar" class="extended-toolbar">
   <div class="md-toolbar-tools">
     <div ng-include="'components/speaker/toolbar/menu-button.html'"></div>
-    <md-button ui-sref="polls({sessionId: 1})" class="md-icon-button" aria-label="back">
+    <md-button ui-sref="polls({sessionId: currentLecture()._id})" class="md-icon-button" aria-label="back">
       <md-icon md-font-library="material-icons">arrow_back</md-icon>
     </md-button>
   </div>

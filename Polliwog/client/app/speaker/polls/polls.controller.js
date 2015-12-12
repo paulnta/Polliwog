@@ -7,13 +7,14 @@ angular.module('polliwogApp')
 
     'use strict';
     var currentLectureId = $stateParams.lectureId;
+    console.log(currentLectureId);
 
-    console.log(Lecture.current()._id);
-    Poll.api.query({lecture_id: currentLectureId}).$promise.then(function (polls) {
-      console.log(polls);
-    }).catch(function (err) {
-      console.error(err);
-    });
+
+    //Poll.api.query({lecture_id: currentLectureId}).$promise.then(function (polls) {
+    //  console.log(polls);
+    //}).catch(function (err) {
+    //  console.error(err);
+    //});
 
     $scope.message = "PollsCtrl";
 

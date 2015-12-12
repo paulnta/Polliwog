@@ -2,12 +2,12 @@
 
 angular.module('polliwogApp')
 
-
   /**
    *  MainCtrl defines general layout behaviors
    *  Manage navigation, screen size and other features that need to be available from anywhere
    */
   .controller('MainCtrl', function ($scope, $stateParams, Auth, $timeout, $mdSidenav, $mdDialog, $log, Lecture, $mdMedia) {
+
 
     /**
      * Define body behaviors
@@ -22,6 +22,9 @@ angular.module('polliwogApp')
     };
 
     $scope.getTitle = function () {
+      if(!Lecture.current().hasOwnProperty('name')){
+        return '';
+      }
       return Lecture.current().name;
     };
 

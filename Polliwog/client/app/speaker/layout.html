@@ -2,15 +2,13 @@
 
     <div ng-include="'components/speaker/side-nav/side-nav.html'"></div>
 
-    <!--
-      PAGE CONTENT
-    -->
+    <!-- Page content -->
     <div class="page-content" ng-class="{sidenav: hasSidenavLeft()}">
 
       <!-- This state includes the toolbar corresponding to the current state-->
       <div id="navigation" ui-view="navigation"></div>
 
-      <!--CENTRAL VIEW-->
+      <!-- Central view -->
       <div ui-view=""></div>
 
     </div>

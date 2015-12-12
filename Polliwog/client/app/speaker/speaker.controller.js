@@ -1,5 +1,5 @@
 angular.module('polliwogApp')
-  .controller('SpeakerCtrl', function ($scope, $state, Lecture, Mood, $mdSidenav, User) {
+  .controller('SpeakerCtrl', function ($scope, $state, Lecture, $stateParams) {
     'use strict';
 
     $scope.lectures = Lecture.api.query();
@@ -22,13 +22,12 @@ angular.module('polliwogApp')
     };
 
 
-
     /**
     * Get the currentLecture id
     * @returns lectureId
     */
     $scope.currentLecture = function () {
-      return Lecture.current()._id;
+      return Lecture.current();
     };
 
 
