@@ -56,9 +56,7 @@ angular.module('polliwogApp')
       },
 
       getDefaultBackImage: function () {
-        var img =  backgrounds[Math.floor(Math.random()* backgrounds.length)];
-        console.log(Math.floor(Math.random()* backgrounds.length)+1);
-        return img;
+        return backgrounds[Math.floor(Math.random()* backgrounds.length)];
       },
 
       saveQuestion: function (question, callback) {

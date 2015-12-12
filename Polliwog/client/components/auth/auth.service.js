@@ -144,6 +144,22 @@ angular.module('polliwogApp')
       hasRole: function (requiredRole) {
         return userRoles.indexOf(currentUser.role) >= userRoles.indexOf(requiredRole);
       },
+
+      hasRoleAsync: function (requiredRole, cb) {
+        if(currentUser.hasOwnProperty('role')) {
+          cb(userRoles.indexOf(currentUser.role) >= userRoles.indexOf(requiredRole));
+        } else if(currentUser.hasOwnProperty('$promise')){
+          currentUser.$promise
+            .then(function () {
+            cb(userRoles.indexOf(currentUser.role) >= userRoles.indexOf(requiredRole));
+            })
+            .catch(function () {
+              cb(false);
+            });
+        } else {
+          cb(false); // user not logged in
+        }
+      },
       /**
        * Get auth token
        */

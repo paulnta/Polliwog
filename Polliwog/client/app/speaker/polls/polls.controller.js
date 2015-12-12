@@ -3,17 +3,22 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, $state, Poll,Lecture, EditPoll, $mdMedia) {
+  .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia) {
 
     'use strict';
+    var currentLectureId = $stateParams.lectureId;
 
-    Poll.api.query({lecture_id: Lecture.current()._id}).$promise.then(function (polls) {
+    console.log(Lecture.current()._id);
+    Poll.api.query({lecture_id: currentLectureId}).$promise.then(function (polls) {
       console.log(polls);
+    }).catch(function (err) {
+      console.error(err);
     });
 
     $scope.message = "PollsCtrl";
 
-    $scope.polls = Poll.list(Lecture.current()._id);
+    $scope.polls = [];
+    $scope.polls = Poll.list(currentLectureId);
     $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
 
     $scope.select = function (poll) {

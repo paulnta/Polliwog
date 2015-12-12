@@ -3,7 +3,6 @@ angular.module('polliwogApp')
     'use strict';
 
     $scope.lectures = Lecture.api.query();
-    console.log($scope.lectures);
 
     /**
      * Current active tab

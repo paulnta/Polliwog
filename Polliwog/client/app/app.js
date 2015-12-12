@@ -78,13 +78,13 @@ angular.module('polliwogApp', [
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-      if (toState.data && toState.data.authenticate               // the state need an authentication
-        && !Auth.hasRole(toState.data.authenticate.role)) {        // has not required role
-        event.preventDefault();
-        TargetUrl.setUrl({name: toState.name, params: toParams});  // save the target url
-        $state.go('login');                                       // redirect to login
-      }
-
+      checkAuth(toState, Auth, function (ok) {
+        if(!ok){
+          event.preventDefault();
+          TargetUrl.setUrl({name: toState.name, params: toParams});
+          $state.go('login');
+        }
+      });
     });
   })
 
@@ -100,6 +100,17 @@ angular.module('polliwogApp', [
     })
   });
 
+
+function checkAuth(toState, Auth, cb){
+  if(toState.hasOwnProperty('data') && toState.data.hasOwnProperty('authenticate')){
+    var role = toState.data.authenticate.role;
+    Auth.hasRoleAsync(role, function (ok) {
+      cb(ok);
+    });
+  } else{
+    cb(true);
+  }
+}
 
 
 
