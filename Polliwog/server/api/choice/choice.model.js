@@ -22,19 +22,13 @@ ChoiceSchema.pre('save', function(next) {
     this.wasNew = this.isNew;
     next();
 });
+
 ChoiceSchema.post('save', function() {
     var Question = mongoose.model('Question');
     if (this.wasNew) {
-      //Question.findByIdAndUpdate(this.question, { $push: { choices: this._id } });
-      Question.findOneAndUpdate({_id: this.question},
-        { $push: { choices: this._id }},
-        {"upsert": true},
-        function (err, doc) {
-          if(err)
-            console.error(err);
-          if(doc)
-            console.log(doc);
-        });
+      Question.findOneAndUpdate({_id: this.question}, { $push: { choices: this._id }}, function (err) {
+          if(err) console.error(err);
+      });
     }
 });
 

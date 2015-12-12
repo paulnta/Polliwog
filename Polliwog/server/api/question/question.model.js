@@ -29,22 +29,13 @@ QuestionSchema.pre('save', function(next) {
     this.wasNew = this.isNew;
     next();
 });
-QuestionSchema.post('save', function() {
 
+QuestionSchema.post('save', function() {
     var Poll = mongoose.model('Poll');
     if (this.wasNew) {
-      console.info('post save question schema');
-      //Poll.findByIdAndUpdate(this.poll, { $push: { questions: this } });
-      Poll.findOneAndUpdate({_id: this.poll},
-        {$push: {questions: this}},
-        {"upsert": true},
-        function (err, doc) {
-          if(err)
-            console.error(err);
-          if(doc)
-            console.log(doc);
-
-        });
+      Poll.findOneAndUpdate({_id: this.poll}, {$push: {questions: this}}, function (err) {
+          if(err) console.error(err);
+      });
     }
 });
 
