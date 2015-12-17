@@ -115,13 +115,15 @@ LectureSchema.pre('remove', function (next) {
     });
 	});
 
-	/**
-	* Remove all moods related to the current lecture.
-	*/
-	var Mood = mongoose.model('Mood');
-	Mood.remove({ lecture: this._id }, function (err) {
-		if (err) { console.log(err); }
-	});
+
+    /**
+    * Remove all moods related to the current lecture.
+    */
+
+    var Mood = mongoose.model('Mood');
+    //Mood.remove({ lecture: this._id }, function (err) {
+		//  if (err) { console.log(err); }
+    //});
 
 
 	/**
@@ -161,6 +163,8 @@ LectureSchema.post('save', function () {
 	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }, function (err) {
     if(err) console.error(err);
   }); }
+
+
 });
 
 module.exports = mongoose.model('Lecture', LectureSchema);
