@@ -64,11 +64,4 @@ angular.module('polliwogApp')
         $scope.things.splice(index, 1);
       });
     };
-
-    function callbackSave(doc){
-      console.log('thing saved');
-      console.log(doc);
-      $scope.things = Thing.query();
-    }
-
   });

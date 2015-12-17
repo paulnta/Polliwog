@@ -7,6 +7,8 @@
  */
 angular.module('polliwogApp')
   .config(function ($stateProvider) {
+    'use strict';
+
     $stateProvider
 
       /*
@@ -40,11 +42,11 @@ angular.module('polliwogApp')
            * All other sibling views : Polls, Questions, will use the same element view
            * to show their content.
            */
-          "@speaker": {
+          '@speaker': {
             templateUrl: 'app/speaker/lecture/lecture.html',
             controller: 'LectureCtrl'
           }
         }
-      })
+      });
 
   });

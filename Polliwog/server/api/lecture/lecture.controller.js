@@ -94,7 +94,6 @@ exports.destroyAll = function (req, res) {
     if(err) return handleError(err, res);
     removeAll(lectures)
       .then(function (num) {
-        console.log('promise fullfiled');
         return res.status(200).send('removed ' + num + ' lectures');
       })
       .catch(function (err) {
@@ -111,7 +110,7 @@ function removeAll(docs) {
   return new Promise(function (resolve, reject) {
     docs.forEach(function (doc) {
       doc.remove(function (err) {
-        if (err) reject(err);
+        if (err) {reject(err);}
         console.log('removed one, ' + (pending-1) + 'pending');
         // check if done
         if(0 === --pending) {
@@ -133,9 +132,10 @@ function handleError(res, err) {
  * @returns {*|Promise}
  */
 function generateKey(){
-  return tryGenerateKey().catch(function () {
-    return generateKey();
-  });
+  return tryGenerateKey()
+    .catch(function () {
+      return generateKey();
+    });
 }
 
 /**

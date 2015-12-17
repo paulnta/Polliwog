@@ -75,8 +75,8 @@ angular.module('polliwogApp')
             (function (index) {
               saveSingleChoice(params, question.choices[index]).then(function (data) {
                 console.log(data);
-                if(index == nbChoices){
-                  callback()
+                if(index === nbChoices){
+                  callback();
                 }
               });
 

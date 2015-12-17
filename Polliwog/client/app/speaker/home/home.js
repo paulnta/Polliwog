@@ -14,11 +14,11 @@ angular.module('polliwogApp')
            * All other sibling views : Polls, Questions, will use the same element view
            * to show their content.
            */
-          "navigation@speaker": {
+          'navigation@speaker': {
             templateUrl: 'components/speaker/toolbar/toolbar-home.html'
           },
 
-          "@speaker": {
+          '@speaker': {
             templateUrl: 'app/speaker/home/home.html',
             controller: 'HomeCtrl'
           }

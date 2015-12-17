@@ -16,6 +16,7 @@
  */
 angular.module('polliwogApp')
   .controller('QuestionsCtrl', function ($scope, $resource, Lecture) {
+    'use strict';
 
     $scope.lectures = Lecture.list();
 

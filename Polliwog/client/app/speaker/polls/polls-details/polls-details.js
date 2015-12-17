@@ -1,7 +1,8 @@
 angular.module('polliwogApp')
   .config(function ($stateProvider) {
-    $stateProvider
+    'use strict';
 
+    $stateProvider
       /*
        * full detail state
        *
@@ -11,7 +12,7 @@ angular.module('polliwogApp')
       .state('polls.details', {
         url: '/:pollId',
         views : {
-              "@speaker": {
+              '@speaker': {
                 templateUrl: 'app/speaker/polls/polls-details/polls-details.html',
                 controller: 'PollsDetailsCtrl'
               },
@@ -19,7 +20,7 @@ angular.module('polliwogApp')
               /*
                * Redefines the main toolbar into an extended toolbar
                */
-              "navigation@speaker": {
+              'navigation@speaker': {
                 templateUrl: 'components/speaker/toolbar/toolbar-extended.html'
               }
             }

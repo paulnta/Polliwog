@@ -4,11 +4,9 @@
 
 angular.module('polliwogApp')
   .controller('LectureCtrl', function ($scope) {
-    $scope.message = "LectureCtrl";
+    'use strict';
     $scope.dialOpen = false;
     $scope.toggleDial = function () {
       $scope.dialOpen = !$scope.dialOpen;
     };
-
-
   });

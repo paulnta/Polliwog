@@ -3,24 +3,24 @@
 angular.module('polliwogApp')
     .factory('Choice', function($resource) {
         return {
-            get: function(lecture_id, poll_id, question_id, choice_id) {
-                var choice = $resource("/api/lectures/:lid/polls/:pid/questions/:qid/choices/:cid",
-                    {lid:lecture_id, pid:poll_id, qid:question_id, cid:choice_id},
-                    {get: {method: "GET", isArray: false}});
-                
-                return choice.get();
+            get: function(lectureId, pollId, questionId, choiceId) {
+                var Choice = $resource('/api/lectures/:lid/polls/:pid/questions/:qid/choices/:cid',
+                    {lid:lectureId, pid:pollId, qid:questionId, cid:choiceId},
+                    {get: {method: 'GET', isArray: false}});
+
+                return Choice.get();
             },
-            list: function(lecture_id, poll_id, question_id) {
-                var choices = $resource("/api/lectures/:lid/polls/:pid/questions/:qid/choices",
-                    {lid:lecture_id, pid:poll_id, qid:question_id},
-                    {query: {method: "GET", isArray: false}});
-                
-                return choices.query();
+            list: function(lectureId, pollId, questionId) {
+                var Choice = $resource('/api/lectures/:lid/polls/:pid/questions/:qid/choices',
+                    {lid:lectureId, pid:pollId, qid:questionId},
+                    {query: {method: 'GET', isArray: false}});
+
+                return Choice.query();
             },
-            create: function(lecture_id, poll_id, question_id, key, text) {
-                var choices = $resource("/api/lectures/:lid/polls/:pid/questions/:qid/choices",
-                    {lid:lecture_id, pid:poll_id, qid:question_id});
-                var newChoice = new choices({key:key, text:text});
+            create: function(lectureId, pollId, questionId, key, text) {
+                var Choices = $resource('/api/lectures/:lid/polls/:pid/questions/:qid/choices',
+                    {lid:lectureId, pid:pollId, qid:questionId});
+                var newChoice = new Choices({key:key, text:text});
                 newChoice.$save();
             }
         };

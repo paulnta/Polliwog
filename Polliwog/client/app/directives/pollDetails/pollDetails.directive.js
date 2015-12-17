@@ -11,7 +11,7 @@ angular.module('polliwogApp')
         mode: '@'    // mode preview or edit
       },
       controller: 'EditPollCtrl',
-      link: function (scope, element, attrs) {
+      link: function (scope) {
 
         var header = $('poll-details .header');
           header.css({

@@ -31,7 +31,8 @@ angular.module('polliwogApp')
         };
 
         $scope.toggleCollapse = function () {
-          $scope.collapsed ? $scope.expandContent() : $scope.collapseContent();
+          if($scope.collapsed){$scope.expandContent();}
+          else { $scope.collapseContent();}
         };
 
       },

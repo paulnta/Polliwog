@@ -9,6 +9,7 @@ angular.module('polliwogApp')
     var currentLecture = {};
 
     function setCurrentLecture(lectureId){
+      // faster to search within current lecture than making a request
       for(var i =0; i < list.length; i++){
         if(list[i]._id === lectureId){
           currentLecture = list[i];
@@ -23,8 +24,9 @@ angular.module('polliwogApp')
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
       console.info('$stateChangeSuccess');
-      if(toParams.hasOwnProperty('lectureId'))
+      if(toParams.hasOwnProperty('lectureId')) {
         setCurrentLecture(toParams.lectureId);
+      }
     });
 
     // Public API here

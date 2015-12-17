@@ -4,6 +4,8 @@
 
 angular.module('polliwogApp')
   .factory('EditPoll', function ($state, Poll) {
+    'use strict';
+
     var poll = {};
 
     return {

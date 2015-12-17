@@ -75,7 +75,7 @@ scenario.step('Send credentials', function () {
       email: user.email,
       password: user.password
     }
-  })
+  });
 });
 
 scenario.step('Handle login data', function (response) {
@@ -113,7 +113,7 @@ scenario.step('create lectures', function () {
     return this.post({
       url: '/api/lectures',
       body: data
-    })
+    });
   }, this);
   return this.all(requests);
 });
@@ -131,23 +131,6 @@ scenario.step('show created data', function(responses) {
     ids_lecture.push(lecture._id);
   });
 });
-
-//scenario.step('Remove all Lectures', function () {
-//  var urls = ['lectures' /*, 'polls', 'questions', 'choices'*/];
-//  var requests = _.map(urls, function (url) {
-//    return this.delete({
-//      url: '/api/'+url
-//    });
-//  }, this);
-//  return this.all(requests);
-//});
-//
-//scenario.step('Handle responses', function (responses) {
-//  responses = _.pluck(responses, 'body');
-//  console.log(responses);
-//});
-//
-
 
 
 /**

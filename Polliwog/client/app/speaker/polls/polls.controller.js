@@ -4,21 +4,11 @@
 
 angular.module('polliwogApp')
   .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia) {
-
     'use strict';
+
     var currentLectureId = $stateParams.lectureId;
     console.log(currentLectureId);
 
-
-    //Poll.api.query({lecture_id: currentLectureId}).$promise.then(function (polls) {
-    //  console.log(polls);
-    //}).catch(function (err) {
-    //  console.error(err);
-    //});
-
-    $scope.message = "PollsCtrl";
-
-    $scope.polls = [];
     $scope.polls = Poll.list(currentLectureId);
     $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
 
@@ -36,6 +26,6 @@ angular.module('polliwogApp')
 
     $scope.currentDate = function () {
       return Date.now();
-    }
+    };
 
   });
