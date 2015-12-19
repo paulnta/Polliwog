@@ -11,6 +11,7 @@ var PollSchema = new Schema({
 	questions : [{ type: Schema.ObjectId, ref: 'Question' }]
 });
 
+
 // middleware for cascade delete
 PollSchema.pre('remove', function(next) {
     var Lecture = mongoose.model('Lecture');

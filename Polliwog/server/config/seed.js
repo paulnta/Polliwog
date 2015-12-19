@@ -6,11 +6,9 @@
 'use strict';
 
 var User = require('../api/user/user.model');
-
-
+var Init = require('../api/Init.scenario');
 
 User.find({}).remove(function() {
-  console.log("SEED JS");
   User.create({
     provider: 'local',
     name: 'Test User',
@@ -32,6 +30,7 @@ User.find({}).remove(function() {
 
     function(err) {
       console.log('finished populating users');
+      Init.run();
     }
   );
 });
