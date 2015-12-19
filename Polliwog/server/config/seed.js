@@ -8,7 +8,9 @@
 var User = require('../api/user/user.model');
 
 
+
 User.find({}).remove(function() {
+  console.log("SEED JS");
   User.create({
     provider: 'local',
     name: 'Test User',

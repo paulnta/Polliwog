@@ -147,8 +147,10 @@ angular.module('polliwogApp')
 
       hasRoleAsync: function (requiredRole, cb) {
         if(currentUser.hasOwnProperty('role')) {
+          console.log("user is logged in sync");
           cb(userRoles.indexOf(currentUser.role) >= userRoles.indexOf(requiredRole));
         } else if(currentUser.hasOwnProperty('$promise')){
+          console.log("user is a resource async");
           currentUser.$promise
             .then(function () {
             cb(userRoles.indexOf(currentUser.role) >= userRoles.indexOf(requiredRole));
@@ -157,6 +159,7 @@ angular.module('polliwogApp')
               cb(false);
             });
         } else {
+          console.log("user is not logged in");
           cb(false); // user not logged in
         }
       },

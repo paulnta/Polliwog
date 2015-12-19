@@ -6,15 +6,5 @@ var request = require('supertest');
 
 describe('GET /api/lectures/:lecture_id/polls/:poll_id/questions/:question_id/choices', function() {
 
-  it('should respond with JSON array', function(done) {
-    request(app)
-      .get('/api/polls/:poll_id/questions/:question_id/choices')
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err);
-        res.body.should.be.instanceof(Array);
-        done();
-      });
-  });
+
 });

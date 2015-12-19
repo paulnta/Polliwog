@@ -168,7 +168,7 @@ scenario.step('create questions', function () {
     return this.post({
       url: url,
       body: data
-    })
+    });
   }, this);
   return this.all(requests);
 

@@ -116,14 +116,14 @@ LectureSchema.pre('remove', function (next) {
 	});
 
 
-    /**
-    * Remove all moods related to the current lecture.
-    */
+  /**
+  * Remove all moods related to the current lecture.
+  */
 
-    var Mood = mongoose.model('Mood');
-    //Mood.remove({ lecture: this._id }, function (err) {
-		//  if (err) { console.log(err); }
-    //});
+  var Mood = mongoose.model('Mood');
+  Mood.remove({ lecture: this._id }, function (err) {
+    if (err) { console.log(err); }
+  });
 
 
 	/**

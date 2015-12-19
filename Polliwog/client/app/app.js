@@ -90,11 +90,13 @@ angular.module('polliwogApp', [
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
+      event.preventDefault();
       checkAuth(toState, Auth, function (ok) {
         if(!ok){
-          event.preventDefault();
           TargetUrl.setUrl({name: toState.name, params: toParams});
           $state.go('login');
+        }else {
+
         }
       });
     });
