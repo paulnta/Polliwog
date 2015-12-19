@@ -1,7 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
+
 var Poll = require('./poll.model');
+var Question = require('../question/question.model');
 
 // Get list of polls
 exports.index = function(req, res) {
@@ -42,7 +43,7 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   if (req.body._id) { delete req.body._id; }
   if (req.body.creationDate) { delete req.body.creationDate; }
-  if (req.body.questions) { delete req.body.questions; }
+  //if (req.body.questions) { delete req.body.questions; }
 
   Poll.create(req.body, function(err, poll) {
     if(err) { return handleError(res, err); }

@@ -59,4 +59,21 @@ describe('Poll model', function() {
 
   });
 
+  it('should save a poll with questions', function (done) {
+
+    var poll = new Poll({
+      lecture: lectureId,
+      title: 'poll with question',
+      questions: [
+        {title: 'question 1'},
+        {title: 'question 2'}
+      ]
+    });
+
+    poll.save(function (err, poll) {
+      poll.questions.should.have.length(2);
+    });
+
+  });
+
 });

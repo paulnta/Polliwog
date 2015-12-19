@@ -1,7 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    _ = require('lodash'),
+    Q = require('q');
 
 var PollSchema = new Schema({
   lecture : { type: Schema.ObjectId, ref: 'Lecture', required: true },
@@ -32,6 +34,19 @@ PollSchema.pre('remove', function(next) {
 PollSchema.pre('save', function(next) {
     this.wasNew = this.isNew;
     next();
+});
+
+PollSchema.post('save', function (next) {
+  if(this.questions) {
+    var questions = _.map(this.questions, function(question){
+      question.poll = this._id;
+      return new Question(question);
+    });
+
+    Q.all(_.invoke(questions, 'save')).then(function () {
+      next();
+    });
+  }
 });
 
 PollSchema.post('save', function() {
