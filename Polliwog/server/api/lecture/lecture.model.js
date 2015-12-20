@@ -89,6 +89,7 @@ var LectureSchema = new Schema({
 LectureSchema.pre('remove', function (next) {
 
   console.log('LectureSchema.pre(remove)');
+
 	/**
 	* Update parent user's array of lectures.
    * TODO add lecture attr in UserSchema

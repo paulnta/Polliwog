@@ -53,7 +53,7 @@ module.exports = function(app) {
   app.use('/api/lectures/:lecture_id/resources', auth.isAuthenticated(), require('./api/resource'));
   app.use('/api/polls', auth.isAuthenticated(), require('./api/poll'));
   app.use('/api/questions', auth.isAuthenticated(), require('./api/question'));
-  app.use('/api/choices', auth.isAuthenticated(), require('./api/choice'));
+  //app.use('/api/choices', auth.isAuthenticated(), require('./api/choice'));
 
 
   app.use('/auth', require('./auth'));

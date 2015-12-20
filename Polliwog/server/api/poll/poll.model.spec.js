@@ -19,9 +19,10 @@ var user = new User({
 var userId = null;
 var lectureId = null;
 
-describe.skip('Poll model', function() {
+describe('Poll model', function() {
 
   before(function (done) {
+    Q.all(_.invoke([Poll, User, Lecture], 'remove')).then(function (products) {
       user.save(function (err, user) {
         userId = user._id;
         Lecture.create({
@@ -33,6 +34,7 @@ describe.skip('Poll model', function() {
           done();
         });
       });
+    });
   });
 
   after(function (done) {
@@ -41,7 +43,7 @@ describe.skip('Poll model', function() {
     });
   });
 
-  it.skip('should save a simple poll and update lecture', function (done) {
+  it('should save a simple poll and update lecture', function (done) {
 
     var poll =  new Poll({
       lecture: lectureId,
@@ -55,9 +57,6 @@ describe.skip('Poll model', function() {
         done();
       });
     });
-
   });
-
-
 
 });

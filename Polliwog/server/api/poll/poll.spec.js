@@ -71,6 +71,8 @@ describe('GET /api/lectures/:lecture_id/polls', function() {
         res.body.questions.should.have.length(2);
         done();
       });
-
   });
+
+
+
 });

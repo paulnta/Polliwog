@@ -1,13 +1,15 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema,
+  Choice = require('../choice/choice.model');
 
 var QuestionSchema = new Schema({
 	poll : { type: Schema.ObjectId, ref: 'Poll', required: true },
 	title : { type: String, trim: true, required: true },
 	type : { type: String, trim: true, default: '' },
-	choices	: [{ type: Schema.ObjectId, ref: 'Choice' }]
+  choices	: [Choice.schema]
+	//choices	: [{ type: Schema.ObjectId, ref: 'Choice' }]
 });
 
 // middleware for cascade delete
@@ -17,11 +19,11 @@ QuestionSchema.pre('remove', function(next) {
       if(err) console.error(err);
     });
 
-    var Choice = mongoose.model('Choice');
-    Choice.find({ question: this._id }, function(err, choices) {
-        if (err) { console.log(err); return; }
-        choices.forEach(function (choice) { choice.remove(); });
-    });
+    //var Choice = mongoose.model('Choice');
+    //Choice.find({ question: this._id }, function(err, choices) {
+    //    if (err) { console.log(err); return; }
+    //    choices.forEach(function (choice) { choice.remove(); });
+    //});
 
     next();
 });
