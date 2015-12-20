@@ -1,6 +1,7 @@
 'use strict';
 
-
+var _ = require('lodash');
+var Q = require('q');
 var Poll = require('./poll.model');
 var Question = require('../question/question.model');
 
@@ -39,17 +40,52 @@ exports.show = function(req, res) {
     });
 };
 
-// Creates a new poll in the DB.
-exports.create = function(req, res) {
-  if (req.body._id) { delete req.body._id; }
+exports.create = function (req, res) {
+  if(req.body._id) {delete req.body._id; }
   if (req.body.creationDate) { delete req.body.creationDate; }
-  //if (req.body.questions) { delete req.body.questions; }
+  var questions = req.body.questions;
 
-  Poll.create(req.body, function(err, poll) {
-    if(err) { return handleError(res, err); }
-    return res.status(201).json(poll);
-  });
+  if(req.body.questions){
+    delete req.body.questions;
+    createPollQuestions(req.body, questions).then(function (poll) {
+      return res.status(201).json(poll);
+    }).catch(function (err) {
+      return handleError(err, res);
+    });
+
+  } else {
+    Poll.create(req.body, function (err, poll) {
+      if(err) return handleError(err, res);
+      return res.status(201).json(poll);
+    });
+  }
+
 };
+
+function createPollQuestions(poll, questions){
+
+  return new Promise(function (resolve, reject) {
+    // Save poll
+    Poll.create(poll, function (err, poll) {
+      // create question models
+      questions = (_.map(questions, function (question) {
+        question.poll = poll._id;
+        return new Question(question);
+      }));
+
+      // save all questions (will update the poll)
+      Q.all(_.invoke(questions, 'save')).then(function (docs) {
+        // return
+        return Poll.findOne({_id: poll._id}, function (err,poll) {
+          if(err) reject(err);
+          resolve(poll);
+        });
+      });
+
+    });
+  });
+
+}
 
 // Updates an existing poll in the DB.
 exports.update = function(req, res) {

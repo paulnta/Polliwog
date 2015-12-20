@@ -19,7 +19,7 @@ var user = new User({
 var userId = null;
 var lectureId = null;
 
-describe('Poll model', function() {
+describe.skip('Poll model', function() {
 
   before(function (done) {
       user.save(function (err, user) {
@@ -37,12 +37,11 @@ describe('Poll model', function() {
 
   after(function (done) {
     Q.all(_.invoke([Poll, User, Lecture], 'remove')).then(function (products) {
-      console.log(products.length);
       done();
     });
   });
 
-  it('should save a simple poll and update lecture', function (done) {
+  it.skip('should save a simple poll and update lecture', function (done) {
 
     var poll =  new Poll({
       lecture: lectureId,
@@ -59,21 +58,6 @@ describe('Poll model', function() {
 
   });
 
-  it('should save a poll with questions', function (done) {
 
-    var poll = new Poll({
-      lecture: lectureId,
-      title: 'poll with question',
-      questions: [
-        {title: 'question 1'},
-        {title: 'question 2'}
-      ]
-    });
-
-    poll.save(function (err, poll) {
-      poll.questions.should.have.length(2);
-    });
-
-  });
 
 });

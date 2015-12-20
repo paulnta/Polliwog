@@ -36,18 +36,6 @@ PollSchema.pre('save', function(next) {
     next();
 });
 
-PollSchema.post('save', function (next) {
-  if(this.questions) {
-    var questions = _.map(this.questions, function(question){
-      question.poll = this._id;
-      return new Question(question);
-    });
-
-    Q.all(_.invoke(questions, 'save')).then(function () {
-      next();
-    });
-  }
-});
 
 PollSchema.post('save', function() {
     var Lecture = mongoose.model('Lecture');

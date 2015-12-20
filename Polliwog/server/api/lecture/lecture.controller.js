@@ -93,7 +93,6 @@ exports.destroy = function (req, res) {
 exports.destroyAll = function (req, res) {
   Lecture.find({}, function (err, lectures) {
     if(err) {return handleError(err, res);}
-    console.log('destroyAll');
     removeAll(lectures)
       .then(function (num) {
         return res.status(200).send('removed ' + num + ' lectures');

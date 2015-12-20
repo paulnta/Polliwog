@@ -35,7 +35,8 @@ QuestionSchema.pre('save', function(next) {
 QuestionSchema.post('save', function() {
     var Poll = mongoose.model('Poll');
     if (this.wasNew) {
-      Poll.findOneAndUpdate({_id: this.poll}, {$push: {questions: this}}, function (err) {
+      Poll.findOneAndUpdate({_id: this.poll}, {$push: {questions: this}}, function (err, product) {
+          console.log(product);
           if(err) console.error(err);
       });
     }
