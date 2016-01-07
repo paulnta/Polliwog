@@ -23,7 +23,7 @@ angular.module('polliwogApp')
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-      console.info('$stateChangeSuccess');
+      console.info('$stateChangeSuccess, lecture: ' + toParams.lectureId);
       if(toParams.hasOwnProperty('lectureId')) {
         setCurrentLecture(toParams.lectureId);
       }

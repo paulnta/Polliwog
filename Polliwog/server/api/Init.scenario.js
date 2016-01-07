@@ -25,38 +25,48 @@ var ids_polls = [];
 var ids_questions = [];
 
 var polls = [
-  {title:'Test 1'}, {title:'Test 2'}, {title:'Test 3'},
-  {title:'Test 4'}, {title:'Test 5'}, {title:'Test 6'},
-  {title:'Test 7'}, {title:'Test 8'}, {title:'Test 9'}
+  {title:'Test 1'},
+  {title:'Test 2'},
+  {title:'Test 3'},
+  {title:'Test 4'},
+  {title:'Test 5'},
+  {title:'Test 6'},
+  {title:'Test 7'},
+  {title:'Test 8'},
+  {title:'Test 9'}
+
 ];
 
 var questions = [
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
-  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}}
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 2', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 3', choices: {key: 'A', text: 'sample choice'}}
 ];
 
-//var choices = [
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}
-//];
 
 var scenario = new copilot.Scenario({
   name: 'Init',
@@ -154,12 +164,15 @@ scenario.step('show created polls', function(responses) {
   var polls = _.pluck(responses, 'body');
   console.log(polls.length + ' polls created:');
   _.each(polls, function(poll) {
-    console.log('- ' + poll.title + ' id: ' + poll._id);
+    console.log('- ' + poll.title + ' id: ' + poll._id + ' session: ' + poll.lecture);
     ids_polls.push(poll._id);
   });
 });
 
 
+/**
+ * Create questions
+ */
 scenario.step('create questions', function () {
   var i = 0;
   var requests = _.map(questions, function (data) {
