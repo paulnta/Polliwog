@@ -9,7 +9,7 @@ angular.module('polliwogApp')
     var currentLectureId = $stateParams.lectureId;
     console.log(currentLectureId);
 
-    $scope.polls = Poll.list(currentLectureId);
+    $scope.polls = Poll.api.query({lecture_id: currentLectureId});
     $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
 
     $scope.select = function (poll) {

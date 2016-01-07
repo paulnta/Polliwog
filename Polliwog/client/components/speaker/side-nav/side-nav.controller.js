@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('SideNavCtrl', function ($scope, $mdSidenav, $stateParams, $state, $timeout, $log) {
+  .controller('SideNavCtrl', function ($scope, $mdSidenav, $stateParams, $state, $timeout) {
 
     /**
      * Navigates to another lecture
@@ -44,9 +44,6 @@ angular.module('polliwogApp')
       return debounce(function() {
         $mdSidenav(navID)
           .toggle()
-          .then(function () {
-            $log.debug('toggle ' + navID + ' is done');
-          });
       }, 200);
     }
 

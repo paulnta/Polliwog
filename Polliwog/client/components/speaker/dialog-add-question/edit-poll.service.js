@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .factory('EditPoll', function ($state, Poll) {
+  .factory('EditPoll', function (Poll) {
     'use strict';
 
     var poll = {};
@@ -41,17 +41,19 @@ angular.module('polliwogApp')
        */
       saveQuestion: function (question) {
 
-        console.log(question);
+        console.log({ready: question});
         // modify if exist
         var index = poll.questions.indexOf(question);
-        if( index !== -1){
-          poll.questions[index] = question;
 
+        if(question.hasOwnProperty('_id')){
+          console.info('this question already exist, will update');
         // add new question
         } else {
+          console.info('this is a new question');
           poll.questions.push(question);
         }
 
+        console.log({veryready: question});
         Poll.saveQuestion(question);
       },
 
@@ -66,7 +68,7 @@ angular.module('polliwogApp')
       },
 
       save: function () {
-        console.log('save poll');
+
       }
     };
 

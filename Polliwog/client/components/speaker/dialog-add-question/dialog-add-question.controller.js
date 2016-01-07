@@ -14,7 +14,7 @@ angular.module('polliwogApp')
      * Add a choice to the current question
      */
     $scope.addChoice = function () {
-      $scope.question.choices.push({placeholder: 'Choice ' + ($scope.question.choices.length + 1), state: false});
+      $scope.question.choices.push({placeholder: 'Choice ' + ($scope.question.choices.length + 1), state: false, key: 'X'});
     };
 
     $scope.removeChoice = function (choice) {

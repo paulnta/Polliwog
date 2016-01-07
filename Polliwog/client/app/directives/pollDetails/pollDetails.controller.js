@@ -16,6 +16,7 @@ angular.module('polliwogApp')
     $scope.closeToolbar = function () {
       $scope.toolbarOpen = false;
     };
+
     /**
      * Shows a dialog to edit a question
      * @param event

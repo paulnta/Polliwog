@@ -16,14 +16,10 @@ angular.module('polliwogApp')
           break;
         }
       }
-      //currentLecture = api.get({id: lectureId});
-      //currentLecture.$promise.then(function () {
-      //  console.info('currentLectureChanged: ' + currentLecture);
-      //});
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-      console.info('$stateChangeSuccess, lecture: ' + toParams.lectureId);
+      //console.info('$stateChangeSuccess, lecture: ' + toParams.lectureId);
       if(toParams.hasOwnProperty('lectureId')) {
         setCurrentLecture(toParams.lectureId);
       }
