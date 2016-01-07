@@ -22,10 +22,11 @@ angular.module('polliwogApp')
     };
 
     $scope.getTitle = function () {
-      if(!Lecture.current().hasOwnProperty('name')){
-        return '';
-      }
-      return Lecture.current().name;
+      //if(!Lecture.current().hasOwnProperty('name')){
+      //  return '';
+      //}
+      //return Lecture.current().name;
+      return 'Error';
     };
 
     /**

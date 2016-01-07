@@ -35,7 +35,7 @@ angular.module('polliwogApp')
            * has a dynamic toolbar which can be redefined by other views.
            */
           'navigation@speaker':{
-            templateUrl: 'components/speaker/toolbar/toolbar.html',
+            templateUrl: 'components/speaker/toolbar/toolbar-lecture.html',
             controller: 'SpeakerCtrl'
           }
         }

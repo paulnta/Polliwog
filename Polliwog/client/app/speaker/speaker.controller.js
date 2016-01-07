@@ -1,8 +1,8 @@
 angular.module('polliwogApp')
-  .controller('SpeakerCtrl', function ($scope, $state, Lecture) {
+  .controller('SpeakerCtrl', function ($scope, $state, $stateParams, Lecture, CurrentLecture) {
     'use strict';
 
-    $scope.lectures = Lecture.api.query();
+    $scope.lectures = Lecture.query();
 
     /**
      * Current active tab
@@ -26,7 +26,7 @@ angular.module('polliwogApp')
     * @returns lectureId
     */
     $scope.currentLecture = function () {
-      return Lecture.current();
+      return CurrentLecture;
     };
 
     $scope.showCreateSessionDialog = function () {};
