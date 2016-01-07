@@ -2,7 +2,9 @@
 
 angular.module('polliwogApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
-    $scope.user = {};
+    $scope.user = {
+        type: 'user'
+    };
     $scope.errors = {};
 
     $scope.register = function(form) {
@@ -12,7 +14,8 @@ angular.module('polliwogApp')
         Auth.createUser({
           name: $scope.user.name,
           email: $scope.user.email,
-          password: $scope.user.password
+          password: $scope.user.password,
+          role: $scope.user.type
         })
         .then( function() {
           // Account created, redirect to home

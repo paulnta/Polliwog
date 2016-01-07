@@ -53,6 +53,14 @@
             {{ errors.password }}
           </p>
         </div>
+        
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+          <label>User Type</label>
+          
+          <input type="radio" name="type" value="speaker" class="form-control" ng-model="user.type"> Speaker
+          <input type="radio" name="type" value="user" class="form-control" ng-model="user.type"> User
+        </div>
 
         <div>
           <button class="btn btn-inverse btn-lg btn-login" type="submit">
