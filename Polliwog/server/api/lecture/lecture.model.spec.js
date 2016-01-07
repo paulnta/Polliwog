@@ -8,7 +8,9 @@ var
   should = require('should');
 
 var userId = null;
-describe.only('Lecture model', function () {
+var lectureId = null;
+
+describe('Lecture model', function () {
 
   before(function(done) {
     // Clear users before testing
@@ -42,15 +44,36 @@ describe.only('Lecture model', function () {
     });
 
     lecture.save(function (err, lecture) {
-      if(err) {
-        console.log(err);
-        done(err);
-      }
+      if(err) {done(err);}
+      lectureId = lecture._id;
       lecture.should.have.property('slug')
         .which.eql('test-lecture-1');
       done();
     });
+  });
 
+  it('should update slug when lecture is modified', function (done) {
+    Lecture.findById(lectureId, function (err, lecture) {
+      if(err) {done(err);}
+      lecture.name = 'new lecture\'s name';
+      lecture.save(function(err, lecture){
+        if(err) {done(err);}
+        lecture.slug.should.eql('new-lectures-name');
+        done();
+      });
+    });
+  });
+
+  it.skip('should update slug when lecture is updated', function (done) {
+    Lecture.findByIdAndUpdate(
+      lectureId, {name: 'updated name'}, {new: true},
+      function (err, lecture) {
+        if(err) {done(err);}
+        console.log(lecture);
+        lecture.name.should.eql('updated name');
+        lecture.slug.should.eql('updated-name');
+        done();
+      })
   });
 
 });

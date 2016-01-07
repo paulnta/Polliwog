@@ -69,7 +69,7 @@ var mongoose = require('mongoose'),
 var LectureSchema = new Schema({
   key: { type: String, unique: true },
   name: { type: String, trim: true, required: true, maxlength: 30 },
-  slug: {type: String, trim: true, required: false},
+  slug: {type: String, trim: true, required: false},  // TODO: require : true
   description: { type: String, trim: true, required: true, maxlength: 120 },
   creationDate: { type: Date, default: Date.now },
   isPrivate: { type: Boolean, default: false },
@@ -147,14 +147,17 @@ LectureSchema.pre('remove', function (next) {
  * is an update or an insertion. This flag is used for post save event.
  */
 LectureSchema.pre('save', function (next) {
-  console.log('SAAAAVE lecture ' + this.name);
+  console.log('========>PRE SAVE');
   this.wasNew = this.isNew;
-  if(this.isNew) { this.slug = slug(this.name)};
+  this.slug = slug(this.name);
 	next();
 });
 
-LectureSchema.pre('update', function (next) {
+// TODO: update slug on findOneAndUpdate
+LectureSchema.post('findOneAndUpdate', function (next) {
+  console.log('========>POST UPDATE: ' + this.name);
   this.slug = slug(this.name);
+  next();
 });
 
 /**
