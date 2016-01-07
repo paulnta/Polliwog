@@ -8,8 +8,6 @@ angular.module('polliwogApp')
     // set the currentLecture object by id
     function setCurrentLecture(lectureId){
       currentLecture = Lecture.get({id: lectureId});
-      currentLecture.$promise.then(function (lecture) {
-      });
     }
 
     // update current Lecture on state change
