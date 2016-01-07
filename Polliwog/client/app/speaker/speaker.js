@@ -36,7 +36,7 @@ angular.module('polliwogApp')
            */
           'navigation@speaker':{
             templateUrl: 'components/speaker/toolbar/toolbar-lecture.html',
-            controller: 'SpeakerCtrl'
+            controller: 'toolbarLectureCtrl'
           }
         }
       });
