@@ -11,7 +11,7 @@ var user = new User({
   password: 'password'
 });
 
-describe.skip('User Model', function() {
+describe('User Model', function() {
   before(function(done) {
     // Clear users before testing
     User.remove().exec().then(function() {

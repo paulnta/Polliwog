@@ -7,16 +7,17 @@ var async = require('async'),
     User = require('../../api/user/user.model'),
     Poll = require('../../api/poll/poll.model'),
     Lecture = require('../../api/lecture/lecture.model'),
+    Question = require('../../api/question/question.model'),
     _ = require('lodash'),
     Q = require('q');
 
 
-exports.createUserAndLecture = function (user, lecture, callback) {
-  async.waterfall([
+exports.createUserAndLecture = function (callback) {
 
-    // remove
+  async.waterfall([
+    // remove Users, Polls and Lectures
     function (callback) {
-      Q.all(_.invoke([User, Poll, Lecture], 'remove'))
+      Q.all(_.invoke([User, Poll, Lecture, Question], 'remove'))
         .then(function () {
           callback(null);
         });
@@ -34,7 +35,6 @@ exports.createUserAndLecture = function (user, lecture, callback) {
 
     // create lecture
     function (user, callback) {
-      console.log('user: ' + user);
       Lecture.create({
         name: 'Fake Lecture',
         description: 'lecture for tests',

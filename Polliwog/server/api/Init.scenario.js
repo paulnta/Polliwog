@@ -31,32 +31,32 @@ var polls = [
 ];
 
 var questions = [
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
 
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
 
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'},
-  {title: 'question 1'}, {title: 'question 2'}, {title: 'question 3'}
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}},
+  {title: 'question 1', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 2', choices: {key: 'A', text: 'sample choice'}}, {title: 'question 3', choices: {key: 'A', text: 'sample choice'}}
 ];
 
-var choices = [
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
-  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}
-];
+//var choices = [
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'},
+//  {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}, {key: 'a', text: 'hello 1'}, {key: 'b', text: 'hello 2'}, {key: 'c', text: 'hello 3'}
+//];
 
 var scenario = new copilot.Scenario({
   name: 'Init',
@@ -184,29 +184,5 @@ scenario.step('show created questions', function(responses) {
   });
 });
 
-scenario.step('create choices', function () {
-
-  var i = 0;
-  var requests = _.map(choices, function (data) {
-    var url = '/api/lectures/'+ ids_lecture[i % ids_lecture.length] + '/polls/' + ids_polls[i % ids_polls.length] + '/questions/' + ids_questions[i % ids_questions.length] + '/choices';
-    i++;
-    return this.post({
-      url: url,
-      body: data
-    })
-  }, this);
-  return this.all(requests);
-});
-
-
-scenario.step('show created choices', function(responses) {
-  var choices = _.pluck(responses, 'body');
-  console.log(choices.length + ' choices created:');
-  var i = 0;
-  _.each(choices, function(choice) {
-    console.log('- ' + choice.text + ' id: ' + choice._id);
-    i++;
-  });
-});
 
 module.exports = scenario;

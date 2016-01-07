@@ -24,7 +24,7 @@ exports.show = function(req, res) {
 // Creates a new question in the DB.
 exports.create = function(req, res) {
   if (req.body._id) { delete req.body._id; }
-  if (req.body.choices) { delete req.body.choices; }
+  //if (req.body.choices) { delete req.body.choices; }
 
   Question.create(req.body, function(err, question) {
     if(err) { return handleError(res, err); }

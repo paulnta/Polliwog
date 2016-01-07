@@ -2,37 +2,51 @@
  * Created by paulnta on 20.12.15.
  */
 
-var _ = require('lodash'),
-  async = require('async'),
-  should = require('should'),
+var should = require('should'),
+  mongoose = require('mongoose'),
   Poll = require('../poll/poll.model'),
   Question = require('./question.model'),
   init = require('../../components/utils/utils').createUserAndLecture;
-var User = require('./../user/user.model');
-var Lecture = require('./../lecture/lecture.model');
-var Q = require('q');
 
 
-var poll = {};
+var lectureId = null;
+var pollId = null;
 
-describe.only('Question model', function () {
+describe('Question model', function () {
 
   before(function (done) {
-    init('my user', 'my lecture', function (err,lecture) {
-      if(err) console.log(err);
-      console.log('created by utils : \n' + lecture);
+    init(function (err, lecture) {
+      if(err) done(err);
+      lectureId = lecture._id;
       done();
     });
   });
 
-  //after(function (done) {
-  //  Q.all(_.invoke([Poll, User, Lecture], 'remove')).then(function (products) {
-  //    done();
-  //  });
-  //});
+  beforeEach(function (done) {
+    Poll.create({
+      lecture: lectureId,
+      title: 'Fake poll'
+    }, function (err, poll) {
+      if(err) done(err);
+      pollId = poll._id;
+      done();
+    });
+  });
+
 
   it('should save question', function (done) {
-    (true).should.be.ok;
-    done();
+    Question.create({
+      poll: pollId,
+      title: 'fake question'
+    }, function (err, question) {
+      question.should.have.property('_id');
+      question.title.should.eql('fake question');
+      Poll.findById(pollId, function (err, poll) {
+        poll.questions.should.be.an.Array;
+        poll.questions.should.have.length(1);
+        done();
+      });
+    });
   });
+
 });
