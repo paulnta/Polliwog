@@ -1,19 +1,19 @@
 /**
- * Created by paulnta on 07.01.16.
+ * Provides the current lecture to all controllers
  */
-
 angular.module('polliwogApp')
-  .factory('CurrentLecture', function ($rootScope, Lecture, lodash) {
+  .factory('CurrentLecture', function ($rootScope, Lecture) {
     var currentLecture = {};
-    var lectures = Lecture.query();
 
+    // set the currentLecture object by id
     function setCurrentLecture(lectureId){
-      currentLecture = lodash.find(lectures, {_id: lectureId});
-      console.info({currentLecture: currentLecture});
+      currentLecture = Lecture.get({id: lectureId});
+      currentLecture.$promise.then(function (lecture) {
+      });
     }
 
+    // update current Lecture on state change
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-      console.info('$stateChangeSuccess, lecture: ' + toState.lectureId);
       if(toParams.hasOwnProperty('lectureId')) {
         setCurrentLecture(toParams.lectureId);
       }
