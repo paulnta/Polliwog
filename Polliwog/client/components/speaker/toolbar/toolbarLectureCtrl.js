@@ -7,7 +7,7 @@ angular.module('polliwogApp')
   .controller('toolbarLectureCtrl', function ($scope, Lecture, CurrentLecture, $stateParams, $state) {
     'use strict';
 
-    $scope.testLecture = CurrentLecture;
+    $scope.currentLecture = CurrentLecture;
 
     /**
      * Current active tab
@@ -24,14 +24,6 @@ angular.module('polliwogApp')
       } else if ($state.includes('lecture')){
         return 'active1';
       }
-    };
-
-    /**
-     * Get the currentLecture id
-     * @returns lectureId
-     */
-    $scope.currentLecture = function () {
-      return $scope.currentLecture;
     };
 
   });
