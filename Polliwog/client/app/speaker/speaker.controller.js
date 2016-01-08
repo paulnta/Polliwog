@@ -1,10 +1,6 @@
 angular.module('polliwogApp')
-  .controller('SpeakerCtrl', function ($scope, $state, $stateParams, Lecture, CurrentLecture) {
+  .controller('SpeakerCtrl', function ($scope, $state, $stateParams, Lecture) {
     'use strict';
-
     $scope.lectures = Lecture.query();
-
-
     $scope.showCreateSessionDialog = function () {};
-
   });

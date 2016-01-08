@@ -21,7 +21,7 @@
           <p>Home</p>
         </md-list-item>
         <md-subheader class="md-no-sticky">Lectures</md-subheader>
-        <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture._id)" ng-class="{active: isActivated(lecture._id)}">
+        <md-list-item ng-repeat="lecture in lectures" ng-click="goTo(lecture.slug)" ng-class="{active: isActivated(lecture.slug)}">
           <md-icon md-font-library="material-icons">dvr</md-icon>
           <p>{{lecture.name}}</p>
         </md-list-item>

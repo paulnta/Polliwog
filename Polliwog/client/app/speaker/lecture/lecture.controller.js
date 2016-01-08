@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('LectureCtrl', function ($scope, CurrentLecture, $stateParams) {
+  .controller('LectureCtrl', function ($scope, CurrentLecture) {
     'use strict';
     $scope.dialOpen = false;
     $scope.toggleDial = function () {

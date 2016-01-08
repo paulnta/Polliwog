@@ -153,10 +153,10 @@ LectureSchema.pre('save', function (next) {
 });
 
 // TODO: update slug on findOneAndUpdate
-LectureSchema.post('findOneAndUpdate', function (next) {
-  this.slug = slug(this.name);
-  next();
-});
+//LectureSchema.post('findOneAndUpdate', function (next) {
+//  //this.slug = slug(this.name);
+//  next();
+//});
 
 /**
  * Middleware function executed after each lecture insertion/update.

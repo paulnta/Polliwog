@@ -6,20 +6,22 @@ angular.module('polliwogApp')
     var currentLecture = {};
 
     // set the currentLecture object by id
-    function setCurrentLecture(lectureId){
-      if(lectureId) {
-        Lecture.get({id: lectureId}).$promise.then(function (lecture) {
+    function setCurrentLecture(lectureSlug){
+      if(lectureSlug) {
+        Lecture.get({id: lectureSlug, slug: true}).$promise.then(function (lecture) {
           lodash.merge(currentLecture, lecture);
+          console.info(currentLecture);
         });
+
       }
     }
 
-    setCurrentLecture($stateParams.lectureId);
+    setCurrentLecture($stateParams.lectureSlug);
 
     // update current Lecture on state change
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-      if(toParams.hasOwnProperty('lectureId')) {
-        setCurrentLecture(toParams.lectureId);
+      if(toParams.hasOwnProperty('lectureSlug')) {
+        setCurrentLecture(toParams.lectureSlug);
       }
     });
 

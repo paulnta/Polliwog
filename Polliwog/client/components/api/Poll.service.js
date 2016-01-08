@@ -2,7 +2,7 @@
 
 angular.module('polliwogApp')
 
-  .factory('Poll', function(Lecture, $resource) {
+  .factory('Poll', function(Lecture, CurrentLecture, $resource) {
 
     var api = $resource('/api/lectures/:lecture_id/polls/:poll_id',
       {lecture_id: '@lecture'},
@@ -31,7 +31,7 @@ angular.module('polliwogApp')
 
       // TODO: Use API
       get : function (pollId) {
-        return api.get({lecture_id: Lecture.current()._id, poll_id: pollId});
+        return api.get({lecture_id: CurrentLecture._id, poll_id: pollId});
       },
 
       getDefaultBackImage: function () {
@@ -39,7 +39,7 @@ angular.module('polliwogApp')
       },
 
       saveQuestion: function (question, callback) {
-        var lectureId = Lecture.current()._id;
+        var lectureId = CurrentLecture._id;
         // save questions
 
         Question.update({lecture_id: lectureId}, question, function (doc) {

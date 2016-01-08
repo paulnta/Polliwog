@@ -73,6 +73,4 @@ describe.skip('GET /api/lectures/:lecture_id/polls', function() {
       });
   });
 
-
-
 });

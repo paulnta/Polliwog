@@ -17,7 +17,7 @@ exports.index = function (req, res) {
 // Get a single lecture
 exports.show = function (req, res) {
   var options = { _id: req.params.id, speaker: req.user._id };
-  if(req.query.slug){
+  if(req.query.slug === 'true'){
     options = { slug: req.params.id, speaker: req.user._id };
   }
   Lecture.findOne(options, function (err, lecture) {
