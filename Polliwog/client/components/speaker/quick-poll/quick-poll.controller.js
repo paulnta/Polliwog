@@ -12,7 +12,7 @@ angular.module('polliwogApp')
         parent: angular.element(document.body),
         targetEvent: event,
         clickOutsideToClose: true,
-        fullscreen: $mdMedia('sm')
+        fullscreen: $mdMedia('xs')
       })
       .then(function () {
           console.log('showSelectType finished');

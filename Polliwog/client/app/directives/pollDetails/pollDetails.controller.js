@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
+  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, $mdMedia) {
 
 
 
@@ -46,7 +46,8 @@ angular.module('polliwogApp')
         templateUrl: 'components/speaker/dialog-add-question/dialog-add-question.html',
         parent: angular.element(document.body),
         targetEvent: event,
-        clickOutsideToClose: false
+        clickOutsideToClose: false,
+        fullscreen: $mdMedia('xs')
       });
     };
 
@@ -77,7 +78,8 @@ angular.module('polliwogApp')
         templateUrl: 'components/speaker/dialog-edit-title/dialog-edit-title.html',
         parent: angular.element(document.body),
         targetEvent: event,
-        clickOutsideToClose: false
+        clickOutsideToClose: false,
+        fullscreen: $mdMedia('xs')
       });
     };
 
