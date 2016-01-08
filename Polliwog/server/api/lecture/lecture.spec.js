@@ -1,6 +1,7 @@
 'use strict';
 
 var should = require('should'),
+    Lecture = require('./lecture.model'),
     app = require('../../app'),
     User = require('../user/user.model'),
     request = require('supertest');
@@ -13,18 +14,29 @@ var user = new User({
 });
 
 var auth = {};
+var lectureId = null;
 
-describe('GET /api/lectures', function() {
+describe.only('GET /api/lectures', function() {
 
   before(function (done) {
-    user.save(function () {
-      done();
+    user.save(function (err, user) {
+      Lecture.create({
+        speaker: user._id,
+        name: 'test lecture',
+        description: 'test lecture'
+      }, function (err, lecture) {
+        if(err) { console.log(err);done(err);}
+        lectureId = lecture._id;
+          done();
+      });
     });
   });
 
   after(function (done) {
     User.remove().exec().then(function () {
-      done();
+      Lecture.remove().exec().then(function () {
+        done();
+      });
     });
   });
 
@@ -59,5 +71,36 @@ describe('GET /api/lectures', function() {
         done();
       });
   });
+
+
+  it('should get lecture by id', function (done) {
+    console.log(lectureId);
+    request(app)
+      .get('/api/lectures/' + lectureId)
+      .set(auth)
+      .expect(200)
+      .end(function (err, res) {
+        if(err) {done(err);}
+        res.body.should.be.ok;
+        res.body.name.should.be.eql('test lecture');
+        done();
+      });
+  });
+
+
+  it('should get lecture by slug', function (done) {
+    console.log(lectureId);
+    request(app)
+      .get('/api/lectures/test-lecture?slug=true')
+      .set(auth)
+      .expect(200)
+      .end(function (err, res) {
+        if(err) {done(err);}
+        res.body.should.be.ok;
+        res.body.slug.should.be.eql('test-lecture');
+        done();
+      });
+  });
+
 
 });

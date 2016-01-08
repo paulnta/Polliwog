@@ -16,7 +16,11 @@ exports.index = function (req, res) {
 
 // Get a single lecture
 exports.show = function (req, res) {
-  Lecture.findOne({ _id: req.params.id, speaker: req.user._id }, function (err, lecture) {
+  var options = { _id: req.params.id, speaker: req.user._id };
+  if(req.query.slug){
+    options = { slug: req.params.id, speaker: req.user._id };
+  }
+  Lecture.findOne(options, function (err, lecture) {
     if (err) { return handleError(res, err); }
     if (!lecture) { return res.status(404).send('Not Found'); }
     return res.json(lecture);

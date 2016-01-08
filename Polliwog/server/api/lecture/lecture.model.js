@@ -147,7 +147,6 @@ LectureSchema.pre('remove', function (next) {
  * is an update or an insertion. This flag is used for post save event.
  */
 LectureSchema.pre('save', function (next) {
-  console.log('========>PRE SAVE');
   this.wasNew = this.isNew;
   this.slug = slug(this.name);
 	next();
@@ -155,7 +154,6 @@ LectureSchema.pre('save', function (next) {
 
 // TODO: update slug on findOneAndUpdate
 LectureSchema.post('findOneAndUpdate', function (next) {
-  console.log('========>POST UPDATE: ' + this.name);
   this.slug = slug(this.name);
   next();
 });
