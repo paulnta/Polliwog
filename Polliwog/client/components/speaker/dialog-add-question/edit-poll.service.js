@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .factory('EditPoll', function (Poll) {
+  .factory('EditPoll', function (Poll, $state, Question, $log, CurrentLecture) {
     'use strict';
 
     var poll = {};
@@ -29,9 +29,7 @@ angular.module('polliwogApp')
        */
       registerPoll: function (existingPoll) {
         poll = existingPoll;
-        //if(!poll.hasOwnProperty('questions')){
-        //  poll.questions = [];
-        //}
+        console.log(poll);
         return poll;
       },
 
@@ -41,34 +39,49 @@ angular.module('polliwogApp')
        */
       saveQuestion: function (question) {
 
-        console.log({ready: question});
-        // modify if exist
+        // TODO : Check if ok to use indexOf even if question is different
         var index = poll.questions.indexOf(question);
 
         if(question.hasOwnProperty('_id')){
           console.info('this question already exist, will update');
-        // add new question
-        } else {
-          console.info('this is a new question');
-          poll.questions.push(question);
-        }
 
-        console.log({veryready: question});
-        Poll.saveQuestion(question);
+          // update existing question
+          Question.update({lectureId: poll.lecture}, question, function (doc) {
+            $log.debug({'updated': doc});
+          });
+
+        } else {
+          // add new question
+          console.info('this is a new question');
+          Question.save({lectureId: poll.lecture, pollId: poll._id}, question, function (doc) {
+            $log.debug({'saved': doc});
+            poll.questions.push(question);
+          });
+        }
       },
 
       removeQuestion: function (question) {
-        var index = poll.questions.indexOf(question);
-        poll.questions.splice(index,1);
+        Question.delete({lectureId: poll.lecture, pollId: poll._id}, question, function (doc) {
+          $log.debug({'deleted': doc});
+          var index = poll.questions.indexOf(question);
+          poll.questions.splice(index,1);
+        });
       },
 
       saveTitle: function (title) {
         poll.title = title;
-        Poll.save(poll);
-      },
-
-      save: function () {
-
+        if(poll.hasOwnProperty('_id')) {
+          poll.$update(function (doc) {
+            $log.debug({'updated': doc});
+          });
+        } else {
+          CurrentLecture.$promise.then(function () {
+            Poll.save({lectureId: CurrentLecture._id}, poll, function (doc) {
+              $log.debug({'saved': doc});
+              $state.go('polls.details', {pollId: doc._id})
+            });
+          });
+        }
       }
     };
 

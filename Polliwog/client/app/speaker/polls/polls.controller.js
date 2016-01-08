@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture) {
+  .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
     'use strict';
 
     // wait for currentLecture resolved
@@ -31,6 +31,17 @@ angular.module('polliwogApp')
 
     $scope.currentDate = function () {
       return Date.now();
+    };
+
+    $scope.delete = function (poll) {
+      var index = $scope.polls.indexOf(poll);
+      console.log({willDelete: poll});
+      Poll.delete({lectureId: CurrentLecture._id}, poll, function (doc) {
+        $scope.polls.splice(index, 1);
+        var newIndex = index < $scope.polls.length ? index : index -1;
+        $scope.selected = EditPoll.registerPoll(newIndex < 0 ? {} : $scope.polls[newIndex]);
+        $log.debug({deleted: doc});
+      });
     };
 
   });

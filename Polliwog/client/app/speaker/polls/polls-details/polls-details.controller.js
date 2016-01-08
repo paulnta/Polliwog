@@ -3,9 +3,11 @@
 angular.module('polliwogApp')
   .controller('PollsDetailsCtrl', function ($scope, $stateParams, EditPoll, Poll, CurrentLecture) {
 
+    $scope.isNew = false;
     //TODO: make this code cleaner (create as param ?)
     if($stateParams.pollId === 'create'){
       $scope.poll = EditPoll.create();
+      $scope.isNew = true;
 
     } else {
       // get poll

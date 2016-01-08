@@ -43,49 +43,13 @@ exports.show = function(req, res) {
 exports.create = function (req, res) {
   if(req.body._id) {delete req.body._id; }
   if (req.body.creationDate) { delete req.body.creationDate; }
-  var questions = req.body.questions;
-
-  if(req.body.questions){
-    delete req.body.questions;
-    createPollQuestions(req.body, questions).then(function (poll) {
-      return res.status(201).json(poll);
-    }).catch(function (err) {
-      return handleError(err, res);
-    });
-
-  } else {
-    Poll.create(req.body, function (err, poll) {
-      if(err) return handleError(err, res);
-      return res.status(201).json(poll);
-    });
-  }
-
+  if (req.body.questions) { delete req.body.questions; }
+  Poll.create(req.body, function (err, poll) {
+    if(err) return handleError(err, res);
+    return res.status(201).json(poll);
+  });
 };
 
-function createPollQuestions(poll, questions){
-
-  return new Promise(function (resolve, reject) {
-    // Save poll
-    Poll.create(poll, function (err, poll) {
-      // create question models
-      questions = (_.map(questions, function (question) {
-        question.poll = poll._id;
-        return new Question(question);
-      }));
-
-      // save all questions (will update the poll)
-      Q.all(_.invoke(questions, 'save')).then(function (docs) {
-        // return
-        return Poll.findOne({_id: poll._id}, function (err,poll) {
-          if(err) reject(err);
-          resolve(poll);
-        });
-      });
-
-    });
-  });
-
-}
 
 // Updates an existing poll in the DB.
 exports.update = function(req, res) {
@@ -93,13 +57,17 @@ exports.update = function(req, res) {
   if (req.body.creationDate) { delete req.body.creationDate; }
   if (req.body.questions) { delete req.body.questions; }
 
-  Poll.findOne({ _id: req.params.id, lecture: req.body.lecture }, function (err, poll) {
+  Poll.findById(req.params.id, function (err, poll) {
     if (err) { return handleError(res, err); }
     if(!poll) { return res.status(404).send('Not Found'); }
     var updated = _.merge(poll, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.status(200).json(poll);
+    updated.save(function (err, doc) {
+      Poll.populate(doc, {path: 'questions'}, function (err, poll) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.status(200).json(poll);
+      });
     });
   });
 };
