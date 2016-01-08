@@ -28,11 +28,11 @@ angular.module('polliwogApp')
        * because we want to keep short names when creating links.
        * So we need to use the parent attr to refer to the parent state.
        *
-       * To create a link to this state, use : ui-sref="lecture({lectureId: <your-lecture-id>})"
+       * To create a link to this state, use : ui-sref="lecture({lectureSLug: <your-lecture-slug>})"
        */
       .state('lecture', {
         parent: 'speaker.lectures',
-        url: '/:lectureId',
+        url: '/:lectureSlug',
         views : {
 
           /*

@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .factory('EditPoll', function ($state, Poll) {
+  .factory('EditPoll', function (Poll, $state, Question, $log, CurrentLecture) {
     'use strict';
 
     var poll = {};
@@ -29,9 +29,7 @@ angular.module('polliwogApp')
        */
       registerPoll: function (existingPoll) {
         poll = existingPoll;
-        if(!poll.questions){
-          poll.questions = [];
-        }
+        console.log(poll);
         return poll;
       },
 
@@ -41,32 +39,49 @@ angular.module('polliwogApp')
        */
       saveQuestion: function (question) {
 
-        console.log(question);
-        // modify if exist
+        // TODO : Check if ok to use indexOf even if question is different
         var index = poll.questions.indexOf(question);
-        if( index !== -1){
-          poll.questions[index] = question;
 
-        // add new question
+        if(question.hasOwnProperty('_id')){
+          console.info('this question already exist, will update');
+
+          // update existing question
+          Question.update({lectureId: poll.lecture}, question, function (doc) {
+            $log.debug({'updated': doc});
+          });
+
         } else {
-          poll.questions.push(question);
+          // add new question
+          console.info('this is a new question');
+          Question.save({lectureId: poll.lecture, pollId: poll._id}, question, function (doc) {
+            $log.debug({'saved': doc});
+            poll.questions.push(question);
+          });
         }
-
-        Poll.saveQuestion(question);
       },
 
       removeQuestion: function (question) {
-        var index = poll.questions.indexOf(question);
-        poll.questions.splice(index,1);
+        Question.delete({lectureId: poll.lecture, pollId: poll._id}, question, function (doc) {
+          $log.debug({'deleted': doc});
+          var index = poll.questions.indexOf(question);
+          poll.questions.splice(index,1);
+        });
       },
 
       saveTitle: function (title) {
         poll.title = title;
-        Poll.save(poll);
-      },
-
-      save: function () {
-        console.log('save poll');
+        if(poll.hasOwnProperty('_id')) {
+          poll.$update(function (doc) {
+            $log.debug({'updated': doc});
+          });
+        } else {
+          CurrentLecture.$promise.then(function () {
+            Poll.save({lectureId: CurrentLecture._id}, poll, function (doc) {
+              $log.debug({'saved': doc});
+              $state.go('polls.details', {pollId: doc._id})
+            });
+          });
+        }
       }
     };
 

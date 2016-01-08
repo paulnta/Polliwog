@@ -12,7 +12,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema,
+  slug = require('slug');
 
 /**
  * A lecture is a kind of lecture that is given to an attendance by a
@@ -68,6 +69,7 @@ var mongoose = require('mongoose'),
 var LectureSchema = new Schema({
   key: { type: String, unique: true },
   name: { type: String, trim: true, required: true, maxlength: 30 },
+  slug: {type: String, trim: true, required: false},  // TODO: require : true
   description: { type: String, trim: true, required: true, maxlength: 120 },
   creationDate: { type: Date, default: Date.now },
   isPrivate: { type: Boolean, default: false },
@@ -145,9 +147,16 @@ LectureSchema.pre('remove', function (next) {
  * is an update or an insertion. This flag is used for post save event.
  */
 LectureSchema.pre('save', function (next) {
-	this.wasNew = this.isNew;
+  this.wasNew = this.isNew;
+  this.slug = slug(this.name);
 	next();
 });
+
+// TODO: update slug on findOneAndUpdate
+//LectureSchema.post('findOneAndUpdate', function (next) {
+//  //this.slug = slug(this.name);
+//  next();
+//});
 
 /**
  * Middleware function executed after each lecture insertion/update.
@@ -160,6 +169,7 @@ LectureSchema.pre('save', function (next) {
  * test on the flag wasNew defined on pre save event.
  */
 LectureSchema.post('save', function () {
+  console.log('saved lecture ' + this.name);
 	var User = mongoose.model('User');
 	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }, function (err) {
     if(err) console.error(err);

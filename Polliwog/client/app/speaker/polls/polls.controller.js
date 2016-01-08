@@ -3,14 +3,19 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia) {
+  .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
     'use strict';
 
-    var currentLectureId = $stateParams.lectureId;
-    console.log(currentLectureId);
+    // wait for currentLecture resolved
+    CurrentLecture.$promise.then(function () {
+      // get currentLecture's polls
+      $scope.polls = Poll.query({lectureId: CurrentLecture._id});
 
-    $scope.polls = Poll.list(currentLectureId);
-    $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
+      // wait for polls resolved and set selected poll
+      $scope.polls.$promise.then(function () {
+        $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
+      });
+    });
 
     $scope.select = function (poll) {
       $scope.selected = EditPoll.registerPoll(poll);
@@ -26,6 +31,17 @@ angular.module('polliwogApp')
 
     $scope.currentDate = function () {
       return Date.now();
+    };
+
+    $scope.delete = function (poll) {
+      var index = $scope.polls.indexOf(poll);
+      console.log({willDelete: poll});
+      Poll.delete({lectureId: CurrentLecture._id}, poll, function (doc) {
+        $scope.polls.splice(index, 1);
+        var newIndex = index < $scope.polls.length ? index : index -1;
+        $scope.selected = EditPoll.registerPoll(newIndex < 0 ? {} : $scope.polls[newIndex]);
+        $log.debug({deleted: doc});
+      });
     };
 
   });

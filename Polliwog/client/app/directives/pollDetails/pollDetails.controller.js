@@ -4,9 +4,23 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, Poll) {
+  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
 
-    $scope.defaultImage = Poll.getDefaultBackImage();
+
+
+    var backgrounds = [
+      '/assets/images/back00.jpg',
+      '/assets/images/back01.jpg',
+      '/assets/images/back02.jpg',
+      '/assets/images/back03.jpg'
+    ];
+
+    function getDefaultBackImage(){
+      return backgrounds[Math.floor(Math.random()* backgrounds.length)];
+    }
+
+    $scope.defaultImage = getDefaultBackImage();
+
     $scope.toolbarOpen = false;
 
     $scope.openToolbar = function () {
@@ -16,6 +30,8 @@ angular.module('polliwogApp')
     $scope.closeToolbar = function () {
       $scope.toolbarOpen = false;
     };
+
+
     /**
      * Shows a dialog to edit a question
      * @param event
@@ -42,7 +58,7 @@ angular.module('polliwogApp')
       $scope.showDialogEditQuestion(event, {
         title: '',
         choices :[
-          {title: '', placeholder: 'choice 1', state: false}
+          {title: '', placeholder: 'choice 1', key: 'A', state: false}
         ]
       });
     };
@@ -64,6 +80,10 @@ angular.module('polliwogApp')
         clickOutsideToClose: false
       });
     };
+
+    if($scope.new){
+      $scope.editTitle(null, $scope.poll.title);
+    }
 
     $scope.editImage = function (event) {
       angular.noop(event);

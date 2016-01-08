@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('PollsDetailsCtrl', function ($scope, $stateParams, $mdDialog, $mdMedia, EditPoll, Poll) {
+  .controller('PollsDetailsCtrl', function ($scope, $stateParams, EditPoll, Poll, CurrentLecture) {
 
-    // poll id in url params
-    $scope.pollId = $stateParams.pollId;
-
+    $scope.isNew = false;
     //TODO: make this code cleaner (create as param ?)
-    if($scope.pollId === 'create'){
+    if($stateParams.pollId === 'create'){
       $scope.poll = EditPoll.create();
+      $scope.isNew = true;
 
     } else {
       // get poll
-      $scope.poll = EditPoll.registerPoll(Poll.get($scope.pollId));
-      console.log($scope.poll);
+      CurrentLecture.$promise.then(function () {
+        $scope.poll = EditPoll.registerPoll(Poll.get({lectureId: CurrentLecture._id, pollId: $stateParams.pollId}));
+      });
     }
   });
 

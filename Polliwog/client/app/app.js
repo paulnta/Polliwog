@@ -18,7 +18,8 @@ angular.module('polliwogApp', [
   'btford.socket-io',
   'ui.router',
   'ngMaterial',
-  'headroom'
+  'headroom',
+  'ngLodash'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

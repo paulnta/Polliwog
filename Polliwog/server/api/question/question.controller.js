@@ -35,13 +35,13 @@ exports.create = function(req, res) {
 // Updates an existing question in the DB.
 exports.update = function(req, res) {
   if (req.body._id) { delete req.body._id; }
-  if (req.body.choices) { delete req.body.choices; }
-
+  console.log(req.body);
   Question.findOne({ _id: req.params.id, poll: req.body.poll }, function (err, question) {
     if (err) { return handleError(res, err); }
     if(!question) { return res.status(404).send('Not Found'); }
-    var updated = _.merge(question, req.body);
-    updated.save(function (err) {
+    var updated = req.body;
+    question.choices = req.body.choices;
+    question.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.status(200).json(question);
     });
@@ -69,5 +69,6 @@ exports.destroyAll = function (req, res) {
 };
 
 function handleError(res, err) {
+  console.log(err);
   return res.status(500).send(err);
 }

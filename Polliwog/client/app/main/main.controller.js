@@ -21,12 +21,6 @@ angular.module('polliwogApp')
       angular.element('body').removeClass('overflow-hidden');
     };
 
-    $scope.getTitle = function () {
-      if(!Lecture.current().hasOwnProperty('name')){
-        return '';
-      }
-      return Lecture.current().name;
-    };
 
     /**
      * Define side navigation behaviors

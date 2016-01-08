@@ -7,17 +7,17 @@ angular.module('polliwogApp')
 
     /**
      * Navigates to another lecture
-     * @param lectureId
+     * @param lectureSlug
      */
-    $scope.goTo = function (lectureId) {
-      $state.go('lecture', {lectureId: lectureId});
+    $scope.goTo = function (lectureSlug) {
+      $state.go('lecture', {lectureSlug: lectureSlug});
       setTimeout(function () {
         $mdSidenav('left').close();
       }, 200);
     };
 
-    $scope.isActivated = function (lectureId) {
-      return $stateParams.lectureId === lectureId;
+    $scope.isActivated = function (lectureSlug) {
+      return $stateParams.lectureSlug === lectureSlug;
     };
 
     /**
@@ -44,9 +44,6 @@ angular.module('polliwogApp')
       return debounce(function() {
         $mdSidenav(navID)
           .toggle()
-          .then(function () {
-            $log.debug('toggle ' + navID + ' is done');
-          });
       }, 200);
     }
     /**

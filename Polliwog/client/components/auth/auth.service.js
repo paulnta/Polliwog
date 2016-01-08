@@ -28,7 +28,6 @@ angular.module('polliwogApp')
         }).
         success(function(data) {
           $cookieStore.put('token', data.token);
-            console.log(data.token);
           User.get().$promise.then(function (user) {
             currentUser = user;
             deferred.resolve();

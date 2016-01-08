@@ -20,7 +20,7 @@ var user = new User({
 
 var auth = {};
 
-describe('GET /api/lectures/:lecture_id/polls', function() {
+describe.skip('GET /api/lectures/:lecture_id/polls', function() {
 
   before(function (done) {
     Q.all(_.invoke([Poll, User, Lecture], 'remove')).then(function (products) {
@@ -72,7 +72,5 @@ describe('GET /api/lectures/:lecture_id/polls', function() {
         done();
       });
   });
-
-
 
 });
