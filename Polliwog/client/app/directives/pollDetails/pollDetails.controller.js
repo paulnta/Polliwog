@@ -4,9 +4,20 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, Poll) {
+  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll) {
 
-    $scope.defaultImage = Poll.getDefaultBackImage();
+    var backgrounds = [
+      '/assets/images/back00.jpg',
+      '/assets/images/back01.jpg',
+      '/assets/images/back02.jpg',
+      '/assets/images/back03.jpg'
+    ];
+
+    function getDefaultBackImage(){
+      return backgrounds[Math.floor(Math.random()* backgrounds.length)];
+    }
+    $scope.defaultImage = getDefaultBackImage();
+
     $scope.toolbarOpen = false;
 
     $scope.openToolbar = function () {
@@ -16,6 +27,7 @@ angular.module('polliwogApp')
     $scope.closeToolbar = function () {
       $scope.toolbarOpen = false;
     };
+
 
     /**
      * Shows a dialog to edit a question

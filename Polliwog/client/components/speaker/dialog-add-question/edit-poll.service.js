@@ -29,9 +29,9 @@ angular.module('polliwogApp')
        */
       registerPoll: function (existingPoll) {
         poll = existingPoll;
-        if(!poll.questions){
-          poll.questions = [];
-        }
+        //if(!poll.hasOwnProperty('questions')){
+        //  poll.questions = [];
+        //}
         return poll;
       },
 

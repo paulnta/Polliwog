@@ -6,9 +6,15 @@ angular.module('polliwogApp')
   .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture) {
     'use strict';
 
+    // wait for currentLecture resolved
     CurrentLecture.$promise.then(function () {
-      $scope.polls = Poll.api.query({lecture_id: CurrentLecture._id});
-      $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
+      // get currentLecture's polls
+      $scope.polls = Poll.query({lectureId: CurrentLecture._id});
+
+      // wait for polls resolved and set selected poll
+      $scope.polls.$promise.then(function () {
+        $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
+      });
     });
 
     $scope.select = function (poll) {

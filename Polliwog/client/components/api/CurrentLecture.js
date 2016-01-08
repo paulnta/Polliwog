@@ -13,9 +13,7 @@ angular.module('polliwogApp')
       if(lectureSlug) {
         Lecture.get({id: lectureSlug, slug: true}).$promise.then(function (lecture) {
           lodash.merge(currentLecture, lecture);
-          console.info(currentLecture);
         });
-
       }
     }
 
