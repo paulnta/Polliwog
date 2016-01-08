@@ -1,0 +1,66 @@
+<div id="dialog-add-lecture">
+  <md-toolbar class="primary">
+    <div class="md-toolbar-tools"><span>Create new Lecture</span></div>
+  </md-toolbar>
+  <md-content layout-padding>
+
+    <md-tabs>
+      
+      <md-tab label="create">  
+        <md-content class="md-padding">
+          <form name="lectureForm">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Name</label>
+              <input md-maxlength="30" required name="name" ng-model="lecture.name" />
+            </md-input-container>
+            
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Privacy</label>
+              <md-select ng-model="lecture.isPrivate" required>
+                <md-option ng-repeat="v in visibilities" value="{{v.value}} ">
+                  {{v.label}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Description</label>
+              <input md-maxlength="120" required name="description" ng-model="lecture.description" />
+            </md-input-container>
+          </form>
+
+          <div layout layout-align="end center">
+            <md-button ng-submit aria-label="create" ng-click="create()">CREATE</md-button>
+          </div>
+
+        </md-content>
+      </md-tab>
+
+      <md-tab label="share">  
+        <md-content class="md-padding">            
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Ask your audience to join this lecture at</label>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <md-button class="md-primary" ng-href="{{joinUrl}}" target="_blank">{{joinUrl}}</md-button>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>and enter this key</label>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>{{lecture.key}}</label>
+          </md-input-container>
+
+          <div layout layout-align="end center">
+            <md-button aria-label="save" ng-click="cancel()">CANCEL</md-button>
+            <md-button ng-submit aria-label="save" ng-click="finished()">FINISHED</md-button>
+          </div>
+        </md-content>
+      </md-tab>
+
+    </md-tabs>
+  </md-content>
+</div>
