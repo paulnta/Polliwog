@@ -3,7 +3,10 @@
  */
 angular.module('polliwogApp')
   .factory('CurrentLecture', function ($rootScope, Lecture, lodash, $stateParams) {
-    var currentLecture = {};
+
+    var currentLecture = {}; // TODO: check if ok to return {} before Lecture.get(..)
+    if($stateParams.lectureSlug)
+      currentLecture = Lecture.get({id: $stateParams.lectureSlug, slug: true});
 
     // set the currentLecture object by id
     function setCurrentLecture(lectureSlug){
@@ -15,8 +18,6 @@ angular.module('polliwogApp')
 
       }
     }
-
-    setCurrentLecture($stateParams.lectureSlug);
 
     // update current Lecture on state change
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
