@@ -8,6 +8,7 @@ var config = require('./environment');
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
+
 }
 
 // When the user connects.. perform this
@@ -20,8 +21,7 @@ function onConnect(socket) {
   // Insert sockets below
   require('../api/thing/thing.socket').register(socket);
   require('../api/resource/resource.socket').register(socket);
-  require('../api/session/session.socket').register(socket);
-  require('../api/choice/choice.socket').register(socket);
+  require('../api/lecture/lecture.socket').register(socket);
   require('../api/question/question.socket').register(socket);
   require('../api/poll/poll.socket').register(socket);
 

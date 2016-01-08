@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('PollsDetailsCtrl', function ($scope, $stateParams, EditPoll, Poll, CurrentLecture) {
+  .controller('PollsDetailsCtrl', function ($scope, socket, $stateParams, EditPoll, Poll, CurrentLecture) {
 
     $scope.isNew = false;
     //TODO: make this code cleaner (create as param ?)
@@ -15,5 +15,8 @@ angular.module('polliwogApp')
         $scope.poll = EditPoll.registerPoll(Poll.get({lectureId: CurrentLecture._id, pollId: $stateParams.pollId}));
       });
     }
+
+    socket.socket.emit('info', 'test form client');
+
   });
 

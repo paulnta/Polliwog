@@ -67,7 +67,6 @@ exports.update = function (req, res) {
     });
   });
 };
-
 // Deletes a lecture from the DB.
 exports.destroy = function (req, res) {
   Lecture.findOne({ _id: req.params.id, speaker: req.user._id }, function (err, lecture) {
