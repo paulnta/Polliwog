@@ -16,18 +16,23 @@ var user = new User({
 var auth = {};
 var lectureId = null;
 
-describe.only('GET /api/lectures', function() {
+describe('GET /api/lectures', function() {
 
   before(function (done) {
-    user.save(function (err, user) {
-      Lecture.create({
-        speaker: user._id,
-        name: 'test lecture',
-        description: 'test lecture'
-      }, function (err, lecture) {
-        if(err) { console.log(err);done(err);}
-        lectureId = lecture._id;
+    Lecture.remove().exec().then(function () {
+      user.save(function (err, user) {
+        Lecture.create({
+          speaker: user._id,
+          name: 'test lecture',
+          description: 'test lecture'
+        }, function (err, lecture) {
+          if (err) {
+            console.log(err);
+            done(err);
+          }
+          lectureId = lecture._id;
           done();
+        });
       });
     });
   });

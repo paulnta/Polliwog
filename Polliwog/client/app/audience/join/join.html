@@ -1,3 +1,22 @@
-<div class="col-md-12">
-This is the join view.
+
+
+<div layout="row" flex  style="height: 100%;">
+
+  <div flex-offset-xs="0" flex-offset="20"
+       flex-xs="100" flex="60" >
+
+    <div>
+      <form name="joinSessionForm">
+        <md-input-container layout flex>
+        <label>Session code</label>
+        <input ng-model="inputCode" aria-label="session code" md-autofocus>
+      </md-input-container>
+        <div layout layout-align="end end">
+          <md-button ng-click="join()" class="md-primary" raised>Join</md-button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
 </div>

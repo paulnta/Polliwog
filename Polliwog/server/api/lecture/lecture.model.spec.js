@@ -14,15 +14,19 @@ describe('Lecture model', function () {
 
   before(function(done) {
     // Clear users before testing
-    User.remove().exec().then(function() {
-      User.create({
-        name: 'test',
-        email: 'test@test.com',
-        password: 'test'
-      }, function (err, user) {
-        if(err) {done(err);}
-        userId = user._id;
-        done();
+    Lecture.remove().exec().then(function () {
+      User.remove().exec().then(function () {
+        User.create({
+          name: 'test',
+          email: 'test@test.com',
+          password: 'test'
+        }, function (err, user) {
+          if (err) {
+            done(err);
+          }
+          userId = user._id;
+          done();
+        });
       });
     });
   });

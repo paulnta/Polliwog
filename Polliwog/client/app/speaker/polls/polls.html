@@ -70,7 +70,7 @@
   </div>
 
   <!--poll preview (invisible on mobiles)-->
-  <poll-details ng-show="previewVisible()"
+  <poll-details ng-show="previewVisible() && polls.length > 0"
                 ng-mouseenter="disableScrollOnBody()"
                 ng-mouseleave="enableScrollOnBody()"
                 class="flex fixed"
