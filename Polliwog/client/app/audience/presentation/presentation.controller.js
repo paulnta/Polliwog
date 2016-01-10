@@ -7,19 +7,21 @@ angular.module('polliwogApp')
 
     socket.socket.emit('lecture:join', $scope.code);
     socket.socket.on('lecture:join', function (data) {
-      $log.debug(data);
+      $log.debug('[SOCKET] Join successful : ' + data);
     });
 
-    socket.socket.on('lecture:broadcast', function (data) {
-      $log.debug(data);
+    socket.socket.on('lecture:pollStartNotification', function (data) {
+      $log.debug('[SOCKET] Notification - a new poll : ' + data);
     });
 
     $scope.test = function () {
       var data = {
         key: $scope.code,
-        msg: 'TEST FROM ' + $scope.code
+        pollId: $scope.poll.id,
+        answers: "poll's answers here",
+        msg: 'Submit poll answers. [Lecture key : ' + $scope.code + ', Poll id : ' + $scope.poll.id + ']'
       };
-      socket.socket.emit('lecture:broadcast', data);
+      socket.socket.emit('lecture:vote', data);
     }
 
   });

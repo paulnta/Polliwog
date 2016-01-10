@@ -15,18 +15,29 @@ exports.register = function(socket) {
     onRemove(socket, doc);
   });
 
-  // join a lecture by key
+  // join a lecture by key => register member in the corresponding lecture room and send info about this lecture
   socket.on('lecture:join', function (key) {
     socket.join(key);
     console.log('[SOCKET] join session: ' + key);
+    Lecture.findById(key, function (err, lecture) {
+      if(err) {console.log(err);}
+      socket.emit('lecture:join', lecture);
+      });
+    });
+
+  // speaker starts a lecture poll => notify all members in the lecture room
+  socket.on('lecture:pollStart', function (poll) {
+    console.log('[SOCKET] Speaker has started poll : ' + poll._id + ' from lecture : ' + poll.lecture);
+    socket.join(poll.lecture + poll._id);
+    socket.to(poll.lecture).emit('lecture:pollStartNotification', poll);
   });
 
-  // send the message to all others client connected to the room
-  socket.on('lecture:broadcast', function (data) {
-    console.log('[SOCKET] broadcast: ' + data);
-    socket.to(data.key).emit('lecture:broadcast', data);
+  // student vote for a poll => notify speaker about new results
+  socket.on('lecture:vote', function (data) {
+    console.log('[SOCKET] Student has voted for poll : ' + data.pollId + ' from lecture : ' + data.key);
+    socket.to(data.key + data.pollId).emit('lecture:pollResultsUpdated', data);
+    // todo update poll results in DB
   });
-
 };
 
 function onSave(socket, doc, cb) {

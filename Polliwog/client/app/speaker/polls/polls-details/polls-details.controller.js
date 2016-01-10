@@ -18,5 +18,14 @@ angular.module('polliwogApp')
 
     socket.socket.emit('info', 'test form client');
 
+    $scope.startPoll = function() {
+      console.log('speaker started poll : ' + $scope.poll._id + ' lecture : ' + $scope.poll.lecture);
+      socket.socket.emit('lecture:pollStart', $scope.poll);
+    };
+
+    socket.socket.on('lecture:pollResultsUpdated', function (data) {
+      console.log('poll answers received : ' + data);
+    });
+
   });
 
