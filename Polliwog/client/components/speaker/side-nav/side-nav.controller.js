@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('SideNavCtrl', function ($scope, $mdSidenav, $stateParams, $state, $timeout) {
+  .controller('SideNavCtrl', function ($scope, $mdDialog, $mdSidenav, $stateParams, $state, $timeout, $log) {
 
     /**
      * Navigates to another lecture
@@ -45,6 +45,25 @@ angular.module('polliwogApp')
         $mdSidenav(navID)
           .toggle()
       }, 200);
+    }
+    /**
+     * Show a dialog to create a new lecture.
+     */
+    $scope.showCreateLectureDialog = function (event) {
+      /*$mdDialog.show({
+        locals: {},
+        controller: 'AddLectureCtrl',
+        templateUrl: 'components/speaker/dialog-add-lecture/dialog-add-lecture.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: false
+      });*/
+      $mdDialog.show({
+        controller: 'AddLectureCtrl',
+        templateUrl: 'components/speaker/dialog-add-lecture/dialog-add-lecture.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: false
+      });
     }
 
     $scope.toggleLeft = buildDelayedToggler('left');
