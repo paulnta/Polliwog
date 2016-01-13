@@ -19,11 +19,15 @@ exports.register = function(socket) {
   socket.on('lecture:join', function (key) {
     socket.join(key);
     console.log('[SOCKET] join session: ' + key);
-    Lecture.findById(key, function (err, lecture) {
-      if(err) {console.log(err);}
-      socket.emit('lecture:join', lecture);
-      });
+    Lecture.findOne({key: key}, function (err, lecture) {
+      if(err) {
+        console.log(err);
+        socket.emit('lecture:join', err);
+      } else {
+        socket.emit('lecture:join', lecture);
+      }
     });
+  });
 
   // speaker starts a lecture poll => notify all members in the lecture room
   socket.on('lecture:pollStart', function (poll) {

@@ -7,7 +7,7 @@ angular.module('polliwogApp')
 
     socket.socket.emit('lecture:join', $scope.code);
     socket.socket.on('lecture:join', function (data) {
-      $log.debug('[SOCKET] Join successful : ' + data);
+      $log.debug('[SOCKET] Join successful : '+ JSON.stringify(data));
     });
 
     socket.socket.on('lecture:pollStartNotification', function (data) {
