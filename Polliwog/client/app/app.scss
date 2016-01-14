@@ -4,7 +4,9 @@
    Declarations of Sass variables
    ------------------------------ */
 
-
+#app .md-open-menu-container{
+  z-index: 999;
+}
 
 
 // Component styles are injected through grunt

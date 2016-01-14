@@ -3,19 +3,24 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, $state, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
+  .controller('PollsCtrl', function ($scope, $state, socket, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
     'use strict';
 
     // wait for currentLecture resolved
-    CurrentLecture.$promise.then(function () {
+    CurrentLecture.$promise.then(function (lecture) {
       // get currentLecture's polls
-      $scope.polls = Poll.query({lectureId: CurrentLecture._id});
+      $scope.currentLecture = lecture;
+        $scope.polls = Poll.query({lectureId: lecture._id});
 
       // wait for polls resolved and set selected poll
       $scope.polls.$promise.then(function () {
         $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
       });
     });
+
+    $scope.startPoll = function (poll) {
+      socket.socket.emit('poll:start', {poll:poll, key: $scope.currentLecture.key});
+    };
 
     $scope.select = function (poll) {
       $scope.selected = EditPoll.registerPoll(poll);
