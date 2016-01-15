@@ -1,8 +1,12 @@
 
-  #form md-input-container.md-block{
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+#form md-input-container.md-block {
+  margin: 0 !important;
+}
+
+#form md-checkbox {
+  margin-bottom: 0;
+}
+
 
 
 .section-primary{
@@ -12,6 +16,23 @@
 .form-wrapper{
   background-color: #fff;
 
+
+  .social-login{
+
+    .social-icons
+    {
+      width: 70%;
+      margin: auto auto 30px;
+
+      md-icon{
+        width: 35px;
+        height: 35px;
+      }
+    }
+    .title{
+      margin-bottom: 20px;
+    }
+  }
 
   .form-title{
     margin: 18px 0 36px 0;
