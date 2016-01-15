@@ -1,9 +1,15 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('PresentationCtrl', function ($scope, socket, $stateParams, $mdDialog, $mdMedia, $log) {
+  .controller('PresentationCtrl', function ($scope, socket, $stateParams, Poll, $mdDialog, $mdMedia, $log) {
     $scope.message = 'Hello';
     $scope.code = $stateParams.lectureCode;
+
+    //debug
+    Poll.query({lectureId: '568f27e5ea14b8bccf8a4b43'}).$promise.then(function (polls) {
+      $scope.showPoll(null, polls[0]);
+    });
+
 
     socket.socket.emit('lecture:join', $scope.code);
     socket.socket.on('lecture:join', function (data) {
@@ -13,6 +19,11 @@ angular.module('polliwogApp')
     socket.socket.on('poll:start', function (data) {
       $scope.showPoll(null, data);
     });
+
+    $scope.onChoiceChanged = function (choice) {
+      $log.debug(choice);
+    };
+
 
     //socket.socket.on('lecture:pollStartNotification', function (data) {
     //  $log.debug('[SOCKET] Notification - a new poll : ' + data);

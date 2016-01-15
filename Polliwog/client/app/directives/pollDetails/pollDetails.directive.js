@@ -9,7 +9,8 @@ angular.module('polliwogApp')
       scope: {
         poll : '=',  // poll data
         mode: '@',    // mode preview or edit
-        new: '='
+        new: '=',
+        onChoiceChanged: '&' // a ref to a function that handles choice updates
       },
       controller: 'EditPollCtrl',
       link: function (scope) {

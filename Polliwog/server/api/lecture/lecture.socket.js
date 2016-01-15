@@ -5,7 +5,7 @@
 'use strict';
 
 var Lecture = require('./lecture.model');
-
+var speakerSocket;
 exports.register = function(socket) {
 
   Lecture.schema.post('save', function (doc) {
@@ -15,6 +15,9 @@ exports.register = function(socket) {
     onRemove(socket, doc);
   });
 
+  socket.on('lecture:speakerConnect', function (data) {
+      speakerSocket = socket;
+  });
   // join a lecture by key => register member in the corresponding lecture room and send info about this lecture
   socket.on('lecture:join', function (key) {
 

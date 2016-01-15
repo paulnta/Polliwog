@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, $mdDialog, EditPoll, $mdMedia) {
+  .controller('EditPollCtrl', function ($scope, $mdDialog, $log, EditPoll, $mdMedia) {
 
 
 
@@ -99,6 +99,9 @@ angular.module('polliwogApp')
       EditPoll.removeQuestion(question);
     };
 
+    $scope.choiceChanged = function (choice) {
+      $scope.onChoiceChanged()(choice);
+    };
     /**
      * Open a context menu
      */

@@ -1,3 +1,6 @@
+
+<md-dialog flex="100" flex-gt-sm="60">
+<md-dialog-content>
 <div id="dialog-add-lecture">
   <md-toolbar class="primary">
     <div class="md-toolbar-tools"><span>Create new Lecture</span></div>
@@ -5,15 +8,15 @@
   <md-content layout-padding>
 
     <md-tabs>
-      
-      <md-tab label="create">  
+
+      <md-tab label="create">
         <md-content class="md-padding">
           <form name="lectureForm">
             <md-input-container class="md-block" flex-gt-sm>
               <label>Name</label>
               <input md-maxlength="30" required name="name" ng-model="lecture.name" />
             </md-input-container>
-            
+
             <md-input-container class="md-block" flex-gt-sm>
               <label>Privacy</label>
               <md-select ng-model="lecture.isPrivate" required>
@@ -36,8 +39,8 @@
         </md-content>
       </md-tab>
 
-      <md-tab label="share">  
-        <md-content class="md-padding">            
+      <md-tab label="share">
+        <md-content class="md-padding">
           <md-input-container class="md-block" flex-gt-sm>
             <label>Ask your audience to join this lecture at</label>
           </md-input-container>
@@ -64,3 +67,5 @@
     </md-tabs>
   </md-content>
 </div>
+</md-dialog-content>
+</md-dialog>
