@@ -5,11 +5,6 @@ angular.module('polliwogApp')
     $scope.message = 'Hello';
     $scope.code = $stateParams.lectureCode;
 
-    //debug
-    Poll.query({lectureId: '568f27e5ea14b8bccf8a4b43'}).$promise.then(function (polls) {
-      $scope.showPoll(null, polls[0]);
-    });
-
 
     socket.socket.emit('lecture:join', $scope.code);
     socket.socket.on('lecture:join', function (data) {
