@@ -29,7 +29,6 @@ angular.module('polliwogApp')
        */
       registerPoll: function (existingPoll) {
         poll = existingPoll;
-        console.log(poll);
         return poll;
       },
 
