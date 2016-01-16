@@ -17,7 +17,7 @@ var user = new User({
 var auth = {};
 var lectureId = null;
 
-describe.only('GET /api/lectures', function() {
+describe('GET /api/lectures', function() {
 
   // create user and lecture
   before(function (done) {

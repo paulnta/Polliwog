@@ -5,7 +5,8 @@
 var
   User = require('../user/user.model'),
   Lecture = require('./lecture.model'),
-  should = require('should');
+  should = require('should'),
+  init = require('../../components/utils/utils').createUserAndLecture;
 
 var userId = null;
 var lectureId = null;
@@ -14,21 +15,12 @@ describe('Lecture model', function () {
 
   before(function(done) {
     // Clear users before testing
-    Lecture.remove().exec().then(function () {
-      User.remove().exec().then(function () {
-        User.create({
-          name: 'test',
-          email: 'test@test.com',
-          password: 'test'
-        }, function (err, user) {
-          if (err) {
-            done(err);
-          }
-          userId = user._id;
-          done();
-        });
-      });
+    init(function (err, lecture) {
+      if(err) done(err);
+      userId = lecture.speaker;
+      lectureId = lecture._id;
     });
+
   });
 
   after(function(done) {
