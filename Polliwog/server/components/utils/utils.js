@@ -6,6 +6,7 @@
 var async = require('async'),
     User = require('../../api/user/user.model'),
     Poll = require('../../api/poll/poll.model'),
+    rand = require('random-key'),
     Lecture = require('../../api/lecture/lecture.model'),
     Question = require('../../api/question/question.model'),
     _ = require('lodash'),
@@ -38,7 +39,8 @@ exports.createUserAndLecture = function (callback) {
       Lecture.create({
         name: 'Fake Lecture',
         description: 'lecture for tests',
-        speaker: user._id
+        speaker: user._id,
+        key: rand.generate(5)
       }, callback);
     }
   ], function (err, lecture) {
