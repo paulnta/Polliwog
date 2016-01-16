@@ -6,7 +6,10 @@ angular.module('polliwogApp')
 
     $scope.join = function () {
       Lecture.query().$promise.then(function (lectures) {
-          var lecture = lodash.find(lectures, key, $scope.inputCode);
+        var lecture = lodash.find(lectures, {key: $scope.inputCode});
+
+        if(lecture)
+          $state.go('audienceLecture', {lectureCode: $scope.inputCode});
       });
     };
 
