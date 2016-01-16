@@ -3,7 +3,7 @@
 angular.module('polliwogApp')
   .controller('AddLectureCtrl', function ($scope, $mdDialog, Lecture) {
   	$scope.lecture = {};
-  	$scope.joinUrl = 'http://polliwog.com/join'
+  	$scope.joinUrl = 'http://polliwog.com/join';
   	$scope.visibilities = ('Public:false;Private:true').split(';').map(function (v) {
   		var args = v.split(':');
   		return {
@@ -16,7 +16,7 @@ angular.module('polliwogApp')
       var lecture = new Lecture($scope.lecture);
       lecture.$save({}, function (lecture) {
         $scope.lecture = lecture;
-      });  
+      });
   	};
 
   	$scope.cancel = function () {
