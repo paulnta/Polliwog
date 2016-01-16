@@ -15,15 +15,10 @@ angular.module('polliwogApp')
         $scope.poll = EditPoll.registerPoll(Poll.get({lectureId: CurrentLecture._id, pollId: $stateParams.pollId}));
       });
     }
-
+    //TODO: enlever cette fonction. Elle a été créee dans le but de contourner le problème du menu sur un poll qui ne marche pas.
     $scope.startPoll = function() {
       console.log('speaker started poll : ' + $scope.poll._id + ' lecture : ' + $scope.poll.lecture);
-      socket.socket.emit('lecture:pollStart', $scope.poll);
+      socket.socket.emit('poll:start', {poll:$scope.poll, key: $scope.poll.lecture});
     };
-
-    socket.socket.on('lecture:pollResultsUpdated', function (data) {
-      console.log('poll answers received : ' + data);
-    });
-
   });
 
