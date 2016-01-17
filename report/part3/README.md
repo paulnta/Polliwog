@@ -26,6 +26,8 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 ## Table of Contents
 1. [Introduction](#Intro)
 1. [User Guide](#Guide)
+    1. [Speaker Side](#Speaker)
+    1. [Audience Side](#Audience)
 1. [Design](#Design)
     1. [Database](#Database) 
     1. [REST API](#RestAPI)
@@ -44,7 +46,7 @@ Upon accessing the site root, the user will be greeted with a choice between a s
 
 We will first cover the speaker side, and late the audience side.
 
-### Speaker Side
+### <a name="Speaker"></a> Speaker Side
 
 Selecting the speaker side will lead to a login page if the user is not already logged in:
 
@@ -100,7 +102,7 @@ They can click on the vertical "..." to open poll options, such as editing, dele
 
 On the poll overview, the user can select a poll, that will be displayed on the right side of the screen, to allow for viewing without having to go into a new page for each poll. Next to the question choices, a number is displayed corresponding to the number of times audience members have selected that choice.
 
-### Audience Side
+### <a name="Audience"></a> Audience Side
 
 The audience landing page is very simple: It does not display anything until you have entered which lecture you would like to join. Having obtained a lecture key, the user can simply enter it in this field to join:
 
