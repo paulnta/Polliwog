@@ -1,4 +1,5 @@
 <md-dialog aria-label="Edit Lecture" id="dialog-add-lecture">
+  <form name="lectureForm" ng-submit="save(lectureForm)" novalidate>
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Create new Lecture</h2>
@@ -9,20 +10,22 @@
       </div>
     </md-toolbar>
     <md-dialog-content style="width: 100%">
-      <md-tabs md-dynamic-height md-border-bottom>
-        <md-tab label="Create">
+      <md-tabs md-dynamic-height md-border-bottom md-center-tabs md-no-ink>
+        <md-tab label="Create" ng-disabled="!showEditTab">
           <md-content class="md-padding" layout flex layout-align="center center">
             <div layout="column" flex="66" flex-sm="80" flex-xs="100">
-              <form name="lectureForm">
                 <md-input-container class="md-block" flex-gt-sm>
                   <label>Name</label>
-                  <input md-maxlength="30" required name="name" ng-model="lecture.name" />
+                  <input md-autofocus md-maxlength="30" required name="name" ng-model="lecture.name" />
+                  <div ng-messages="lectureForm.name.$error">
+                    <div ng-message="required" ng-show="lectureForm.name.$error.required"> Please a lecture name</div>
+                  </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
                   <label>Privacy</label>
                   <md-select ng-model="lecture.isPrivate" required>
-                    <md-option ng-repeat="v in visibilities" value="{{v.value}} ">
+                    <md-option ng-repeat="v in visibilities" value="{{v.value}}">
                       {{v.label}}
                     </md-option>
                   </md-select>
@@ -31,12 +34,15 @@
                 <md-input-container class="md-block" flex-gt-sm>
                   <label>Description</label>
                   <input md-maxlength="120" required name="description" ng-model="lecture.description" />
+                  <div ng-messages="lectureForm.description.$error">
+                    <div ng-message="required" ng-show="lectureForm.description.$error.required"> Please a lecture description</div>
+                    <div ng-message="md-maxlength" ng-show="lectureForm.description.$error.md-maxlength"> Please a lecture description</div>
+                  </div>
                 </md-input-container>
-              </form>
             </div>
           </md-content>
         </md-tab>
-        <md-tab label="Share">
+        <md-tab label="Share" ng-disabled="!showShareTab">
           <md-content class="md-padding" layout="column" layout-align="center center" flex>
 
             <p class="instructions">Ask your audience to join this lecture at</p>
@@ -48,7 +54,7 @@
             <p class="instructions">and enter this key</p>
 
             <div class="text-primary text-large">
-              {{lecture.key}} test
+              {{lecture.key}}
             </div>
 
             <!--<div layout layout-align="end center">-->
@@ -64,7 +70,9 @@
       <span flex></span>
       <!--<md-button aria-label="save" ng-click="cancel()">CANCEL</md-button>-->
       <!--<md-button ng-submit aria-label="create" style="margin-right:20px;" ng-click="create()">CREATE</md-button>-->
-      <!--<md-button ng-submit aria-label="save" ng-click="finished()">FINISHED</md-button>-->
-
+      <md-button ng-click="back()">BACK</md-button>
+      <md-button aria-label="save" ng-show="showShareTab" ng-click="finished()">FINISHED</md-button>
+      <md-button type="submit" ng-show="showEditTab"> NEXT</md-button>
     </md-dialog-actions>
+  </form>
 </md-dialog>
