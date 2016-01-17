@@ -3,7 +3,8 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, $state, socket, $stateParams, Poll,Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
+  .controller('PollsCtrl', function ($scope, $state, socket, $stateParams, Poll, lodash,
+                                     Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
     'use strict';
 
     // wait for currentLecture resolved
@@ -11,20 +12,26 @@ angular.module('polliwogApp')
       // get currentLecture's polls
       $scope.currentLecture = lecture;
         $scope.polls = Poll.query({lectureId: lecture._id});
-
       // wait for polls resolved and set selected poll
       $scope.polls.$promise.then(function () {
         $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
       });
     });
 
+    /**
+     * Share a poll with audience
+     * @param poll
+       */
     $scope.startPoll = function (poll) {
       socket.socket.emit('poll:start', {poll:poll, key: $scope.currentLecture.key});
     };
 
-    socket.socket.on('poll:results', function (poll) {
-      //TODO: @Yassin utilise l'objet poll pour afficher le chart
-      console.log('poll answers received : ' + poll);
+    /**
+     * Get audience updates
+     * TODO: user poll:updated to update the chart when someone votes
+     */
+    socket.socket.on('poll:updated', function (data) {
+      console.log({'poll:updated': data});
     });
 
     $scope.select = function (poll) {

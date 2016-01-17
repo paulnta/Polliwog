@@ -91,8 +91,10 @@
               </md-subheader>
 
               <md-list-item ng-repeat="choice in question.choices">
-                <md-checkbox ng-model="choice.state" ng-init="choice.state=false" ng-click="choiceChanged(choice)"></md-checkbox>
+                <md-checkbox ng-model="choice.state" ng-click="choiceChanged(choice, question)"></md-checkbox>
                 <p>{{choice.text}}</p>
+                <span flex></span>
+                <span>{{choice.answer_count}}</span>
               </md-list-item>
               </div>
               <md-divider ng-if="!$last"></md-divider>

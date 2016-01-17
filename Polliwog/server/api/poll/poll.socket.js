@@ -9,12 +9,6 @@ var Poll = require('./poll.model'),
 
 var speakerSockets = {};
 exports.register = function(socket) {
-  Poll.schema.post('save', function (doc) {
-    onSave(socket, doc);
-  });
-  Poll.schema.post('remove', function (doc) {
-    onRemove(socket, doc);
-  });
 
   socket.on('poll:start', function (data) {
 
@@ -38,7 +32,7 @@ exports.register = function(socket) {
    */
   socket.on('poll:vote', function (data) {
     // find the question related to the choice answered
-    var pollId;
+
     Question.findById(data.question, function (err, question) {
         if(!err){
           // update answer for this choice
@@ -56,11 +50,3 @@ exports.register = function(socket) {
   });
 };
 
-
-function onSave(socket, doc, cb) {
-  socket.emit('poll:save', doc);
-}
-
-function onRemove(socket, doc, cb) {
-  socket.emit('poll:remove', doc);
-}

@@ -99,8 +99,10 @@ angular.module('polliwogApp')
       EditPoll.removeQuestion(question);
     };
 
-    $scope.choiceChanged = function (choice) {
-      $scope.onChoiceChanged()(choice);
+    $scope.choiceChanged = function (choice, question) {
+      setTimeout(function () {
+        $scope.onChoiceChanged()(choice, question);
+      }, 0);
     };
     /**
      * Open a context menu
