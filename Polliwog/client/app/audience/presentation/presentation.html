@@ -1,6 +1,45 @@
-<div layout="column" layout-align="center center">
-  <div><h3>You've joined the lecture with code: <span>{{code}}</span></h3></div>
-  <p>Session: <span>{{code}}</span></p>
-  <input type="text" name="pollId" class="form-control" ng-model="poll.id" />
-  <md-button ng-click="vote()">VOTE</md-button>
+
+<div layout="row" id="poll-list" class="polls-wrapper" flex layout-align="center center">
+
+  <div class="flex poll-list" flex="100" flex-gt-sm="80" >
+    <md-grid-list md-cols="2" md-cols-md="4" md-cols-gt-md="4"
+                  md-row-height="1:1" md-row-height-gt-md="1:1"
+                  md-gutter="5px" md-gutter-gt-md="3px">
+
+      <!--single item -->
+      <md-grid-tile ng-repeat="poll in polls" class="gray"
+                    md-rowspan="1" md-colspan="1" md-colspan-sm="1">
+
+        <!--clickable thumbnail with a ripple effect-->
+        <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754">
+          <div class="controls" ng-class="{visible: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+               layout="row" flex layout-align="space-around center">
+
+            <!--button show stats if closed-->
+            <a href="#" ng-click="" ng-show="poll.state == 'closed'">
+              <md-tooltip md-direction="bottom">Statistics</md-tooltip>
+              <md-icon md-font-library="material-icons" class="ic-48">timeline</md-icon>
+            </a>
+
+            <!--button participate if poll active-->
+            <a href ng-click="showPoll($event, poll)" ng-show="poll.state == 'active'">
+              <md-tooltip md-direction="bottom">Participate</md-tooltip>
+              <md-icon md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+            </a>
+
+          </div>
+        </div>
+
+        <md-grid-tile-footer>
+          <div layout="row" flex>
+            <h3>{{poll.title}}</h3>
+          </div>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+
+
+    </md-grid-list>
+
+  </div>
+
 </div>

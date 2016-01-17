@@ -19,19 +19,15 @@ angular.module('polliwogApp')
     });
 
     /**
-     * Share a poll with audience
-     * @param poll
-       */
-    $scope.startPoll = function (poll) {
-      socket.socket.emit('poll:start', {poll:poll, key: $scope.currentLecture.key});
-    };
-
-    /**
      * Get audience updates
      * TODO: user poll:updated to update the chart when someone votes
      */
     socket.socket.on('poll:updated', function (data) {
-      console.log({'poll:updated': data});
+      var pollIndex = lodash.findIndex($scope.polls, {'_id': data.pollId});
+      if(pollIndex < 0) return;
+      var questionIndex = lodash.findIndex($scope.polls[pollIndex].questions, {'_id': data.question._id});
+      if(questionIndex < 0) return;
+        $scope.polls[pollIndex].questions[questionIndex] = data.question;
     });
 
     $scope.select = function (poll) {

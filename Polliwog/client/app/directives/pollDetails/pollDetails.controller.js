@@ -4,9 +4,7 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, $mdDialog, $log, EditPoll, $mdMedia) {
-
-
+  .controller('EditPollCtrl', function ($scope, Poll, socket, $mdDialog, $log, EditPoll, $mdMedia) {
 
     var backgrounds = [
       '/assets/images/back00.jpg',
@@ -18,6 +16,16 @@ angular.module('polliwogApp')
     function getDefaultBackImage(){
       return backgrounds[Math.floor(Math.random()* backgrounds.length)];
     }
+
+
+    $scope.nb_user_participated = 10;
+
+    $scope.choiceStatistics = function (choice) {
+      if($scope.nb_user_participated !=0)
+        return choice.answer_count/$scope.nb_user_participated*100;
+      else
+        return 0;
+    };
 
     $scope.defaultImage = getDefaultBackImage();
 
@@ -32,14 +40,14 @@ angular.module('polliwogApp')
     };
 
 
-    $scope.labels = ['choice 1', 'choice 2', 'choice 3', 'choice 4'];
-    $scope.series = ['Series A'];
+    $scope.gauge_data = [
+      {label: "CPU", value: 75, suffix: "%", color: "steelblue"}
+    ];
+    $scope.gauge_options = {thickness: 5, mode: "gauge", total: 100};
+    //$scope.labels = ["Participation"];
+    //$scope.data = [[27],[17]];
+    //$scope.series = ['Series A', 'Series B'];
 
-    //$scope.data = [
-    //  [65, 59, 80, 81, 56, 55, 40],
-    //  [28, 48, 40, 19, 86, 27, 90]
-    //];
-    $scope.data = [[65, 59, 80, 81]];
 
     /**
      * Shows a dialog to edit a question

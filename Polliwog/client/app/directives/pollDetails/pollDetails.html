@@ -6,23 +6,24 @@
       <!--<div class="header-overlay"></div>-->
       <h3 class="poll-title">{{poll.title}}</h3>
 
-      <div class="controls" layout-fill ng-class="{visible: hover}"
+      <div  class="controls" ng-show="mode == 'edit'"layout-fill ng-class="{visible: hover}"
            ng-mouseenter="hover = true" ng-mouseleave="hover = false"
-           layout="row" flex layout-align="center center">
+           layout="row" flex layout-align="center center" ng-controller="PollVoteCtrl">
 
-        <a href="#" ng-click="">
+        <a href ng-click="">
           <md-tooltip md-direction="bottom">Statistics</md-tooltip>
           <md-icon md-font-library="material-icons" class="ic-24">timeline</md-icon>
         </a>
 
-        <a href="#" ng-click="startPoll(poll)">
+        <a href ng-click="togglePollState(poll)">
           <md-tooltip md-direction="bottom">Start poll</md-tooltip>
-          <md-icon md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+            <md-icon ng-hide="poll.state == 'active'" md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+            <md-icon ng-show="poll.state == 'active'" md-font-library="material-icons" class="ic-48">stop</md-icon>
         </a>
 
         <md-menu>
           <!--main button-->
-          <a href="#" aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+          <a href aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
             <md-tooltip md-direction="bottom">Settings</md-tooltip>
             <md-icon md-font-library="material-icons" class="ic-24">more_horiz</md-icon>
           </a>
@@ -45,6 +46,14 @@
         </md-menu>
 
       </div>
+
+
+      <!--<pie-chart data="gauge_data" options="gauge_options"></pie-chart>-->
+      <!--<div class="chart-container">-->
+        <!--<canvas id="doughnut" class="chart chart-doughnut"-->
+                <!--chart-data="data" chart-labels="labels" chart-series="series">-->
+        <!--</canvas>-->
+      <!--</div>-->
       <!--<div ng-show="mode == 'edit'" class="statistics" layout="column" flex>-->
         <!--<h2 class="question-title">Question title</h2>-->
         <!--<div layout flex layout-align="center center">-->
@@ -143,9 +152,10 @@
                 <md-checkbox ng-model="choice.state" ng-click="choiceChanged(choice, question)"></md-checkbox>
                 <p>{{choice.text}}</p>
                 <span flex></span>
-                <span>{{choice.answer_count}}</span>
+                <md-progress-linear ng-show="poll.state != 'draft'" flex="50" md-mode="determinate" value="{{choiceStatistics(choice)}}"></md-progress-linear>
               </md-list-item>
               </div>
+
               <md-divider ng-if="!$last"></md-divider>
             </div>
           </md-list>

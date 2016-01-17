@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('PollParticipationCtrl', function ($scope, $log, poll, lectureCode,  socket) {
+  .controller('PollParticipationCtrl', function ($scope, $log, poll, lectureCode, $mdDialog, socket) {
 
     $scope.poll = poll;
     $scope.lectureCode = lectureCode;
@@ -14,13 +14,17 @@ angular.module('polliwogApp')
      * @param question
      */
     $scope.onChoiceChanged = function (choice, question) {
-      console.log(choice.state);
+      console.log(choice.state + ' code: ' + $scope.lectureCode);
       socket.socket.emit('poll:vote', {
         key: $scope.lectureCode,
         question: question._id,
         choice: choice._id,
         state: choice.state
       })
+    };
+
+    $scope.close = function () {
+      $mdDialog.hide();
     };
 
   });

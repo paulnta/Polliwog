@@ -5,10 +5,13 @@
 
 
 angular.module('polliwogApp')
-  .controller('PollsCtrl', function ($scope, Poll) {
+  .controller('PollVoteCtrl', function ($scope, Poll, socket) {
+
+    $scope.getClassState = function (poll) {
+      return poll.state;
+    };
 
     $scope.togglePollState = function (poll) {
-      console.log(poll);
       switch (poll.state){
         case 'draft':
           startPoll(poll);
@@ -29,22 +32,21 @@ angular.module('polliwogApp')
     function startPoll(poll) {
       console.log('start poll');
       poll.state = 'active';
-      Poll.save({}, poll, function (poll) {
-        console.log({'saved':poll});
+      Poll.update({}, poll, function (poll) {
         socket.socket.emit('poll:start', {poll:poll, key: $scope.currentLecture.key});
       });
     }
 
     function stopPoll(poll) {
-      console.log('stop poll');
       poll.state = 'closed';
-      Poll.save({}, poll);
+      Poll.update({}, poll);
     }
 
     function restartPoll(poll) {
-      console.log('restart poll');
       poll.state = 'active';
-      Poll.save({}, poll);
+      Poll.update({}, poll, function (poll) {
+        socket.socket.emit('poll:start', {poll:poll, key: $scope.currentLecture.key});
+      });
     }
 
   });

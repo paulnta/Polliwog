@@ -20,7 +20,6 @@ angular.module('polliwogApp', [
   'ngMaterial',
   'headroom',
   'ngLodash',
-  'chart.js'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

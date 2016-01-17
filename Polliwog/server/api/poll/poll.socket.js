@@ -12,6 +12,7 @@ exports.register = function(socket) {
 
   socket.on('poll:start', function (data) {
 
+    console.log('POLL START ' + data);
     /**
      * Le speaker passe la clé de la session, c'est plus simple pour le serveur car
      * nous devons transmettre le poll à tout les utilisateurs connectés à la room ayant cette clé comme nom.
@@ -31,20 +32,30 @@ exports.register = function(socket) {
    * -> On notifie le speaker des nouveaux résultats
    */
   socket.on('poll:vote', function (data) {
-    // find the question related to the choice answered
 
+    console.log('POLL:VOTE');
+    console.log(data);
+    var speakerSocket = speakerSockets[data.key];
+    // find the question related to the choice answered
     Question.findById(data.question, function (err, question) {
         if(!err){
           // update answer for this choice
           var choice = question.choices.id(data.choice);
           choice.answer_count += (data.state ? 1 : -1);
-          question.save(function (err) {
-            console.log(question.choices);
-          });
+          question.save(function (err, question) {
 
-          // notify the speaker related to the session key
-          var speakerSocket = speakerSockets[data.key];
-          speakerSocket.emit('poll:updated', {pollId : question.poll});
+            // notify the speaker related to the session key
+
+            if(speakerSocket) {
+              var data = {  pollId : question.poll,
+                            question: question };
+              console.log(data);
+              speakerSocket.emit('poll:updated', data);
+            } else {
+              console.log('speaker not found');
+            }
+
+          });
         }
     });
   });

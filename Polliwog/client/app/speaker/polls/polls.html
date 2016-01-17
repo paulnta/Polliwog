@@ -5,7 +5,7 @@
    POLL LIST
   -->
   <div class="flex poll-list">
-    <md-grid-list md-cols="2" md-cols-md="2" md-cols-gt-md="3"
+    <md-grid-list md-cols="2" md-cols-sm="3" md-cols-gt-sm="2" md-cols-gt-md="3"
                   md-row-height="1:1" md-row-height-gt-md="4:5"
                   md-gutter="5px" md-gutter-gt-md="3px">
 
@@ -13,18 +13,19 @@
       <md-grid-tile ng-repeat="poll in polls" class="gray"
                     md-rowspan="1" md-colspan="1" md-colspan-sm="1">
 
-
         <!--clickable thumbnail with a ripple effect-->
         <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754">
-          <div class="controls" ng-class="{visible: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" layout="row" flex layout-align="space-around center">
+          <div class="controls" ng-class="{visible: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+               layout="row" flex layout-align="space-around center" ng-controller="PollVoteCtrl">
             <a href="#" ng-click="">
               <md-tooltip md-direction="bottom">Statistics</md-tooltip>
               <md-icon md-font-library="material-icons" class="ic-24">timeline</md-icon>
             </a>
 
-            <a href="#" ng-click="startPoll(poll)">
+            <a href ng-click="togglePollState(poll)">
               <md-tooltip md-direction="bottom">Start poll</md-tooltip>
-              <md-icon md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+              <md-icon ng-hide="poll.state == 'active'" md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+              <md-icon ng-show="poll.state == 'active'" md-font-library="material-icons" class="ic-48">stop</md-icon>
             </a>
 
             <md-menu>
@@ -54,10 +55,11 @@
         </div>
 
         <md-grid-tile-footer>
-          <h3><a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a></h3>
+          <div layout="row" flex>
+            <h3><a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a></h3>
+            <span class="poll-state-label footer" ng-class="getClassState(poll)" flex>active</span>
+          </div>
         </md-grid-tile-footer>
-
-
 
   </md-grid-tile>
 

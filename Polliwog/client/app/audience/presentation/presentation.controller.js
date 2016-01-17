@@ -2,40 +2,27 @@
 
 angular.module('polliwogApp')
   .controller('PresentationCtrl', function ($scope, socket, $stateParams, Poll, $mdDialog, $mdMedia, $log) {
-    $scope.message = 'Hello';
     $scope.code = $stateParams.lectureCode;
+    $scope.polls = [];
+    $scope.lecture = {};
 
+    /**
+     * Join the lecture
+     * Get activated polls
+     */
     socket.socket.emit('lecture:join', $scope.code);
     socket.socket.on('lecture:join', function (data) {
-      $log.debug('[SOCKET] Join successful : ' + JSON.stringify(data));
+      $scope.polls = data.polls;
+      $scope.lecture = data.lecture;
     });
 
     /**
      * Receive a poll from the speaker
      */
     socket.socket.on('poll:start', function (poll) {
-      $scope.showPoll(null, poll);
+      $scope.polls.push(poll);
     });
 
-    $scope.onChoiceChanged = function (choice) {
-      $log.debug(choice);
-    };
-
-    //socket.socket.on('lecture:pollStartNotification', function (data) {
-    //  $log.debug('[SOCKET] Notification - a new poll : ' + data);
-    //});
-    // TODO: add doc
-    //$scope.vote = function () {
-    //  var results = [];
-    //  results['title'] = '1';
-    //  var data = {
-    //    lectureId: $scope.code,
-    //    pollId: $scope.poll.id,
-    //    results: results
-    //  };
-    //  socket.socket.emit('poll:vote', data);
-    //  $log.debug(data);
-    //};
 
     /**
      * Shows a dialog to participate to a poll
