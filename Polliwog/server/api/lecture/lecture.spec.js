@@ -73,8 +73,7 @@ describe('GET /api/lectures', function() {
         done();
       });
   });
-
-
+  
   it('should get lecture by slug', function (done) {
     request(app)
       .get('/api/lectures/Fake-Lecture?slug=true')

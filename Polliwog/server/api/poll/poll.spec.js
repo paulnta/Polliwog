@@ -20,7 +20,7 @@ var user = new User({
 
 var auth = {};
 
-describe.skip('GET /api/lectures/:lecture_id/polls', function() {
+describe('GET /api/lectures/:lecture_id/polls', function() {
 
   before(function (done) {
     Q.all(_.invoke([Poll, User, Lecture], 'remove')).then(function (products) {
@@ -49,28 +49,6 @@ describe.skip('GET /api/lectures/:lecture_id/polls', function() {
         auth = {Authorization: 'Bearer ' + res.body.token};
         done();
       })
-  });
-
-  it('should save a poll with questions', function (done) {
-
-    var poll = {
-      title: 'poll with question',
-      questions: [
-        {title: 'question 1'},
-        {title: 'question 2'}
-      ]
-    };
-
-    request(app)
-      .post('/api/lectures/' + lectureId + '/polls')
-      .set(auth)
-      .send(poll)
-      .expect(200)
-      .end(function (err, res) {
-        res.body.should.have.property('questions');
-        res.body.questions.should.have.length(2);
-        done();
-      });
   });
 
 });

@@ -61,16 +61,4 @@ describe('Lecture model', function () {
     });
   });
 
-  it.skip('should update slug when lecture is updated', function (done) {
-    Lecture.findByIdAndUpdate(
-      lectureId, {name: 'updated name'}, {new: true},
-      function (err, lecture) {
-        if(err) {done(err);}
-        console.log(lecture);
-        lecture.name.should.eql('updated name');
-        lecture.slug.should.eql('updated-name');
-        done();
-      })
-  });
-
 });
