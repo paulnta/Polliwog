@@ -1,0 +1,635 @@
+#%RAML 0.8
+title: Polliwog
+baseUri: http://polliwog-app.herokuapp.com/api/
+documentation:
+  - title: Contributors
+    content: |
+      * Eléonore d'Agostino ([paranoodle](https://github.com/paranoodle))
+      * Karim Ghozlani ([gweezer7](https://github.com/gweezer7))
+      * Yassin Kammoun ([yibnl](https://github.com/yibnl))
+      * Paul Ntawuruhunga ([paulnta](https://github.com/paulnta))
+schemas:
+  - lecture: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "key": {
+            "type": "string",
+            "unique": true
+          },
+          "name": {
+            "type": "string",
+            "required": true,
+            "maxlength": 30
+          },
+          "slug": {
+            "type": "string",
+            "required": false
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "maxlength": 120
+          },
+          "creationDate": {
+            "type": "date",
+            "default": "date.now"
+          },
+          "isPrivate": {
+            "type": "boolean",
+            "default": false
+          },
+          "speaker": {
+            "$ref": "user"
+          },
+          "listeners": {
+            "type": "array",
+            "items": {"$ref": "user"}
+          },
+          "polls": {
+            "type": "array",
+            "items": {"$ref": "poll"}
+          }
+        }
+      }
+  - poll: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "lecture": {
+            "$ref": "lecture",
+            "required": "true"
+          },
+          "title": {
+            "type": "string",
+            "required": "true"
+          },
+          "creationDate": {
+            "type": "date",
+            "default": "date.now"
+          },
+          "state": {
+            "type": "string",
+            "default": "draft",
+            "enum": ["draft", "active", "closed"]
+          },
+          "questions": {
+            "type": "array",
+            "items": {"$ref": "question"}
+          }
+        }
+      }
+  - question: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "poll": {
+            "$ref": "poll",
+            "required": "true"
+          },
+          "title": {
+            "type": "string",
+            "required": "true"
+          },
+          "type": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {"type": "choice"}
+          }
+        }
+      }
+  - choice: |
+      {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "id": "http://jsonschema.net",
+        "required": true,
+        "properties": {
+          "key": {
+            "type": "string",
+            "required": "true"
+          },
+          "text": {
+            "type": "string",
+            "required": "true"
+          },
+          "answer_count": {
+            "type": "number",
+            "default": "0"
+          }
+        }  
+      }
+resourceTypes:
+  - collection:
+      get:
+        description: Get list of <<resourcePathName>>.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleCollection>>
+          400:
+            description: Query parameters missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          500:
+            description: An internal error occured.
+      post:
+        description: Create a new <<resourcePathName|!singularize>>.
+        body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
+            example: |
+              <<examplePostPutItem>>
+        responses:
+          201:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          400:
+            description: It is returned when required query parameters are missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+          409:
+            description: It is returned when a POST request is submitted and an equivalent resource already exists.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Conflict
+  - collection-item:
+      get:
+        description: |
+          Get the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+      put:
+        description: |
+          Update the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
+            example: |
+              <<examplePostPutItem>>
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          400:
+            description: It is returned when required query parameters are missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+      patch:
+        description: |
+          Update partially the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
+            example: |
+              <<examplePostPutItem>>
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName|!singularize>>
+                example: |
+                  <<exampleItem>>
+          400:
+            description: It is returned when required query parameters are missing.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Bad Request
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+      delete:
+        description: |
+          Delete the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}.
+        responses:
+          204:
+            description: It is returned when a DELETE request is submitted and succeed.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Content
+          404:
+            description: The resource has not been found.
+            body:
+              application/x-www-form-urlencoded:
+                example:
+                  Not Found
+/lectures:
+  type:
+    collection:
+      exampleCollection: |
+        [
+          {
+            _id: 's1',
+            key: 'BF2DG',
+            name: 'HEIGVD TWEB 2015 Lecture1',
+            slug: 'HEIGVD-TWEB-2015-Lecture1',
+            description: 'Introducing TWEB course to students',
+            creationDate: 'Sun, 06 Nov 1994 08:49:37 GMT',
+            isPrivate: true,
+            speaker: 'sp1',
+            listeners: [
+              '/lectures/s1/users/u1',
+              '/lectures/s1/users/u2',
+              '/lectures/s1/users/u3',
+            ],
+            polls: [
+              '/lectures/s1/polls/p1',
+              '/lectures/s1/polls/p2',
+              '/lectures/s1/polls/p3',
+            ]
+          },
+          {
+            _id: 's2',
+            key: 'XY12SG',
+            name: 'HEIGVD TWEB 2015 Lecture2',
+            slug: 'HEIGVD-TWEB-2015-Lecture2',
+            description: 'Introducing Javascript basics to students',
+            creationDate: 'Sun, 13 Nov 1994 08:49:37 GMT',
+            isPrivate: true,
+            speaker: 'sp1',
+            listeners: [
+              '/lectures/s2/users/u1',
+              '/lectures/s2/users/u2',
+              '/lectures/s2/users/u3',
+            ],
+            polls: [
+              '/lectures/s2/polls/p4',
+              '/lectures/s2/polls/p5',
+              '/lectures/s2/polls/p6',
+            ]
+          },
+          {
+            _id: 's3',
+            key: 'T89ADS',
+            name: 'HEIGVD TWEB 2015 Lecture3',
+            slug: 'HEIGVD-TWEB-2015-Lecture3',
+            description: 'Introducing api-copilot testing tool to students',
+            creationDate: 'Sun, 20 Nov 1994 08:49:37 GMT',
+            isPrivate: true,
+            speaker: 'sp1',
+            listeners: [
+              '/lectures/s3/users/u1',
+              '/lectures/s3/users/u2',
+              '/lectures/s3/users/u3',
+            ],
+            polls: [
+              '/lectures/s3/polls/p7',
+              '/lectures/s3/polls/p8',
+              '/lectures/s3/polls/p9',
+            ]
+          }
+        ]
+      examplePostPutItem: |
+        {
+          'name': 'HEIGVD TWEB 2015 Lecture1',
+          'description': 'Introducing TWEB course to students',
+          'isPrivate': true,
+        }
+      exampleItem: |
+        {
+          _id: 's1',
+          key: 'BF2DG',
+          slug: 'HEIGVD TWEB 2015 Lecture1',
+          name: 'HEIGVD-TWEB-2015-Lecture1',
+          description: 'Introducing TWEB course to students',
+          creationDate: 'Sun, 06 Nov 1994 08:49:37 GMT',
+          isPrivate: true,
+          speaker: 'sp1',
+          listeners: [],
+          polls: []
+        }
+  /{lectureId}:
+    type:
+      collection-item:
+        examplePostPutItem: |
+          {
+            'description': 'Introducing TWEB course to third year students',
+          }
+        exampleItem: |
+          {
+            _id: 's1',
+            key: 'BF2DG',
+            name: 'HEIGVD TWEB 2015 Lecture1',
+            slug: 'HEIGVD-TWEB-2015-Lecture1',
+            description: 'Introducing TWEB course to third year students',
+            creationDate: 'Sun, 06 Nov 1994 08:49:37 GMT',
+            isPrivate: true,
+            speaker: 'sp1',
+            listeners: [
+              '/lectures/s1/users/u1',
+              '/lectures/s1/users/u2',
+              '/lectures/s1/users/u3',
+            ],
+            polls: [
+              '/lectures/s1/polls/p1',
+              '/lectures/s1/polls/p2',
+              '/lectures/s1/polls/p3',
+            ]
+          }
+    /polls: 
+      type:
+        collection:
+          exampleCollection: |
+            [
+              {
+                '_id': 'p1',
+                'lecture': '/lectures/s1',
+                'title': 'TWEB-2015',
+                'creationDate': '2015-05-02 10:41' ,
+                'state': 'draft',
+                'questions': 
+                  [
+                    '/lectures/s1/polls/p1/questions/q1',
+                    '/lectures/s1/polls/p1/questions/q2',
+                    '/lectures/s1/polls/p1/questions/q3'
+                  ]
+              },
+              {
+                '_id': 'p2',
+                'lecture': '/lectures/s1',
+                'title': 'AMT-2015',
+                'creationDate': '2015-11-25 14:03',
+                'state': 'active',
+                'questions': 
+                  [
+                    '/lectures/s1/polls/p2/questions/q11',
+                    '/lectures/s1/polls/p2/questions/q22',
+                    '/lectures/s1/polls/p2/questions/q32'
+                  ]
+              },
+              {
+                '_id': 'p3',
+                'lecture': '/lectures/s2',
+                'title': 'RES-2015',
+                'creationDate': '2015-12-12 12:00', 
+                'state': 'closed',
+                'questions': 
+                  [
+                    '/lectures/s2/polls/p3/questions/q13',
+                    '/lectures/s2/polls/p3/questions/q23',
+                    '/lectures/s2/polls/p3/questions/q33'
+                  ]
+              }
+            ]
+          examplePostPutItem: |
+            {
+              'title': 'TWEB-2015', 
+              'state': 'draft'
+            }
+          exampleItem: |
+            {
+                '_id': 'p2',
+                'lecture': '/lectures/s1',
+                'title': 'TWEB-2015',
+                'creationDate': '2015-11-25 14:03',
+                'state': 'draft',
+                'questions': []
+              },
+      /{pollId}:
+        type:
+          collection-item:
+            examplePostPutItem: |
+              {
+                'title': 'TWEB-2015', 
+                'state': 'draft'
+              }
+            exampleItem: |
+              {
+                '_id': 'p1',
+                'lecture': '/lectures/s1',
+                'title': 'TWEB-2015', 
+                'creationDate': '2015-11-02 09:41'
+                'state': 'draft',
+                'questions': 
+                    [
+                      '/lectures/s1/polls/p1/questions/q1',
+                      '/lectures/s1/polls/p1/questions/q2',
+                      '/lectures/s1/polls/p1/questions/q3'
+                    ]
+              }
+        /questions: 
+          type:
+            collection:
+              exampleCollection: |
+                [
+                  {
+                    '_id': 'q1',
+                    'poll': 'p1',
+                    'title': 'What is a scenario ?',
+                    'type': 'reminder' 
+                    'choices':
+                      [
+                        {
+                          '_id': 'c1',
+                          'key': 'a', 
+                          'text': 'A setting, in particular for a work of art or literature.',
+                          'answer_count': '0'
+                        },
+                        {
+                          '_id': 'c2',
+                          'key': 'b', 
+                          'text': 'A series of steps that are executed in order using the "step" method.',
+                          'answer_count': '3'
+                        }
+                        ,{
+                          '_id': 'c3',
+                          'key': 'c', 
+                          'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                          'answer_count': '0'
+                        }
+                      ]                  
+                    },
+                  {
+                    '_id': 'q2',
+                    'poll': 'p1',
+                    'title': ''How do you run a scenario ?',
+                    'type': 'reminder' 
+                    'choices':
+                      [
+                        {
+                          '_id': 'c1',
+                          'key': 'a', 
+                          'text': 'A setting, in particular for a work of art or literature.',
+                          'answer_count': '0'
+                        },
+                        {
+                          '_id': 'c2',
+                          'key': 'b', 
+                          'text': 'A series of steps that are executed in order using the "step" method.',
+                          'answer_count': '3'
+                        }
+                        ,{
+                          '_id': 'c3',
+                          'key': 'c', 
+                          'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                          'answer_count': '0'
+                        }
+                      ]
+                  },
+                  {
+                    '_id': 'q3',
+                    'poll': 'p1',
+                    'title': 'Who is the author of the API Copilot',
+                    'type': 'reminder' 
+                    'choices':
+                      [
+                        {
+                          '_id': 'c1',
+                          'key': 'a', 
+                          'text': 'A setting, in particular for a work of art or literature.',
+                          'answer_count': '0'
+                        },
+                        {
+                          '_id': 'c2',
+                          'key': 'b', 
+                          'text': 'A series of steps that are executed in order using the "step" method.',
+                          'answer_count': '3'
+                        }
+                        ,{
+                          '_id': 'c3',
+                          'key': 'c', 
+                          'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                          'answer_count': '0'
+                        }
+                      ]
+                  }
+                ]
+              examplePostPutItem: |
+                {
+                  'title': 'What is a scenario ?',
+                  'type': 'reminder',
+                  'choices': |
+                    [
+                      {
+                        '_id': 'c1',
+                        'key': 'a', 
+                        'text': 'A setting, in particular for a work of art or literature.',
+                        'answer_count': '0'
+                      },
+                      {
+                        '_id': 'c2',
+                        'key': 'b', 
+                        'text': 'A series of steps that are executed in order using the "step" method.',
+                        'answer_count': '3'
+                      }
+                      ,{
+                        '_id': 'c3',
+                        'key': 'c', 
+                        'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                        'answer_count': '0'
+                      }
+                    ]
+                }
+              exampleItem: |
+                {
+                  '_id': 'q1',
+                  'title': 'What is a scenario ?',
+                  'type': 'reminder' 
+                  'choices': []
+                }
+          /{questionId}:
+            type:
+              collection-item:
+                examplePostPutItem: |
+                  {
+                    'title': 'What is a scenario ?',
+                    'type': 'reminder',
+                    'choices': |
+                      [
+                        {
+                          'key': 'a', 
+                          'text': 'A setting, in particular for a work of art or literature.',
+                        },
+                        {
+                          'key': 'b', 
+                          'text': 'A series of steps that are executed in order using the "step" method.',
+                        }
+                        ,{
+                          'key': 'c', 
+                          'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                        }
+                      ]
+                  }
+                exampleItem: |
+                  {
+                    '_id': 'q1',
+                    'poll': 'p1',
+                    'title': 'What is a scenario ?',
+                    'type': 'reminder' 
+                    'choices':
+                      [
+                        {
+                          '_id': 'c1',
+                          'key': 'a', 
+                          'text': 'A setting, in particular for a work of art or literature.',
+                          'answer_count': '0'
+                        },
+                        {
+                          '_id': 'c2',
+                          'key': 'b', 
+                          'text': 'A series of steps that are executed in order using the "step" method.',
+                          'answer_count': '3'
+                        }
+                        ,{
+                          '_id': 'c3',
+                          'key': 'c', 
+                          'text': 'A written outline of a film, novel, or stage work giving details of the plot and individual scenes.',
+                          'answer_count': '0'
+                        }
+                      ]
+                  }
