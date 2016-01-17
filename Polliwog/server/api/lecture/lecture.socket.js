@@ -5,7 +5,8 @@
 'use strict';
 
 var Lecture = require('./lecture.model'),
-  Poll = require('../poll/poll.model');
+  Poll = require('../poll/poll.model'),
+  pollSocket = require('../poll/poll.socket');
 
 var speakerSocket;
 exports.register = function(socket) {

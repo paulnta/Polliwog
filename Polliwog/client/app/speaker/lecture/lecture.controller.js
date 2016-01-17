@@ -3,12 +3,16 @@
  */
 
 angular.module('polliwogApp')
-  .controller('LectureCtrl', function ($scope, CurrentLecture) {
+  .controller('LectureCtrl', function ($scope, socket, CurrentLecture) {
     'use strict';
     $scope.dialOpen = false;
     $scope.toggleDial = function () {
       $scope.dialOpen = !$scope.dialOpen;
     };
+
+    CurrentLecture.$promise.then(function (lecture) {
+      socket.socket.emit('lecture:speakerConnect', lecture.key);
+    });
 
     /**
      * Get the currentLecture id

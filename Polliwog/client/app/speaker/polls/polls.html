@@ -57,7 +57,7 @@
         <md-grid-tile-footer>
           <div layout="row" flex>
             <h3><a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a></h3>
-            <span class="poll-state-label footer" ng-class="getClassState(poll)" flex>active</span>
+            <span class="poll-state-label footer" ng-class="getClassState(poll)" flex>{{poll.state}}</span>
           </div>
         </md-grid-tile-footer>
 
