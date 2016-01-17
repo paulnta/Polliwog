@@ -4,7 +4,9 @@
 
 'use strict';
 
-var Poll = require('./poll.model');
+var Poll = require('./poll.model'),
+  Question = require('../question/question.model');
+
 var speakerSocket;
 exports.register = function(socket) {
   Poll.schema.post('save', function (doc) {
@@ -37,33 +39,22 @@ exports.register = function(socket) {
    * -> On notifie le speaker des nouveaux résultats
    */
   socket.on('poll:vote', function (data) {
-    Poll.findById(data.pollId, function (err, poll) {
-      if (err) { return ;}//TODO handleError(res, err); }
-      if(!poll) { return res.status(404).send('Not Found'); }
-      for(var i = 0; i < poll.questions.length ; i ++){
-        var question = poll.questions[i];
-        var selectedChoice = data.results[question.title];
-        for(var j = 0; j < poll.questions.choices ; j++){
-          var choice = poll.questions.choices[j];
-          if(choice.key == selectedChoice ){
-            choice.answer_count ++;
-          }
+    // find the question related to the choice answered
+    Question.findById(data.question, function (err, question) {
+        if(!err){
+
+          // update answer for this choice
+          var choice = question.choices.id(data.choice);
+          choice.answer_count += (data.state ? 1 : -1);
+          question.save(function (err) {
+            console.log(question.choices);
+          });
         }
-      }
-
-      //var updated = _.merge(poll, req.body);
-      poll.save(function (err, doc) {
-        //Poll.populate(doc, {path: 'questions'}, function (err, poll) {
-        //  if (err) {
-        //    return handleError(res, err);
-        //  }
-        //  return res.status(200).json(poll);
-        //});
-      });
-      speakerSocket.emit('poll:results', poll);
     });
-  });
 
+    // notify the speaker
+    speakerSocket.emit('poll:updated', poll);
+  });
 
 };
 
