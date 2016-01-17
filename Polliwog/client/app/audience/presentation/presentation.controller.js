@@ -24,22 +24,18 @@ angular.module('polliwogApp')
     //  $log.debug('[SOCKET] Notification - a new poll : ' + data);
     //});
 
-    // TODO: test ?
-    //$scope.test = function () {
-    //  var data = {
-    //    key: $scope.code,
-    //    pollId: $scope.poll.id,
-
-        /* TODO: pourquoi passer: answer et msg ?
-           il suffit de passer l'id de choix, le serveur ajoutera alors le nombre de réponse pour ce choix.
-         **/
-    //    answers: "poll's answers here",
-    //    msg: 'Submit poll answers. [Lecture key : ' + $scope.code + ', Poll id : ' + $scope.poll.id + ']'
-    //  };
-
-    // TODO: Pourquoi le nom de l'événement est : lecture:vote , on vote pour un poll non ?
-    //  socket.socket.emit('lecture:vote', data);
-    //};
+    // TODO: add doc
+    $scope.vote = function () {
+      var results = [];
+      results['title'] = '1';
+      var data = {
+        lectureId: $scope.code,
+        pollId: $scope.poll.id,
+        results: results
+      };
+      socket.socket.emit('poll:vote', data);
+      $log.debug(data);
+    };
 
     /**
      * Shows a dialog to participate to a poll

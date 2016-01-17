@@ -40,23 +40,6 @@ exports.register = function(socket) {
       }
     });
   });
-
-  /**
-   * TODO: Ce code est par rapport au Poll, pas au lecture.. à mettre dans le fichier poll.socket.js
-   */
-  // speaker starts a lecture poll => notify all members in the lecture room
-  //socket.on('lecture:pollStart', function (poll) {
-  //  console.log('[SOCKET] Speaker has started poll : ' + poll._id + ' from lecture : ' + poll.lecture);
-  //  socket.join(poll.lecture + poll._id);  // TODO: Pourquoi socket.join(poll.lecture + poll._id ) ??? (marche pas)
-                                             // TODO: Alors que plus haut tu as utilisé socket.join(key) ??
-  //  socket.to(poll.lecture).emit('lecture:pollStartNotification', poll);
-  //});
-  // student vote for a poll => notify speaker about new results
-  //socket.on('lecture:vote', function (data) {
-  //  console.log('[SOCKET] Student has voted for poll : ' + data.pollId + ' from lecture : ' + data.key);
-  //  socket.to(data.key + data.pollId).emit('lecture:pollResultsUpdated', data);
-  //  // todo update poll results in DB
-  //});
 };
 
 function onSave(socket, doc, cb) {

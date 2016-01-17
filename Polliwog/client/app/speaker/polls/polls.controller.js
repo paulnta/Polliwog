@@ -22,6 +22,11 @@ angular.module('polliwogApp')
       socket.socket.emit('poll:start', {poll:poll, key: $scope.currentLecture.key});
     };
 
+    socket.socket.on('poll:results', function (poll) {
+      //TODO: @Yassin utilise l'objet poll pour afficher le chart
+      console.log('poll answers received : ' + poll);
+    });
+
     $scope.select = function (poll) {
       $scope.selected = EditPoll.registerPoll(poll);
     };
