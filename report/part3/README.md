@@ -41,8 +41,6 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 
 ## <a name="Design"></a> Design
 
-### <a name="Interface"></a> User interface
-
 ### <a name="Database"></a> Database
 
 #### Data model
