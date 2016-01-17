@@ -50,18 +50,6 @@
     overflow: hidden;
   }
 
-  md-grid-tile-footer{
-    background-color: transparent;
-
-    h3{
-      font-weight: 400;
-      font-size: 1.2em;
-      a{
-        color:white;
-      }
-    }
-  }
-
   .controls{
 
     height: 100%;
@@ -72,19 +60,29 @@
     transform: scale(1.5,1.5);
 
     md-icon{
-      opacity: 0.7;
+      opacity: 0.9;
+      border: 2px solid transparent;
+      border-radius: 50%;
+      padding: 2px;
+
     }
 
     md-icon:hover{
       opacity: 1;
+      border-color: #fff;
     }
 
+    md-icon:active{
+      color: $color-primary;
+    }
     .ic-48{
+
       font-weight: 100;
       color: white;
       height: 48px;
       width:48px;
       font-size: 48px;
+      margin: 40px;
     }
 
     .ic-24{
@@ -97,8 +95,6 @@
     .side-button{
 
     }
-
-
   }
 
   .controls.visible{
@@ -106,5 +102,20 @@
     transform: scale(1,1);
   }
 
+  md-grid-tile-footer{
+    background-color: transparent;
 
+    h3{
+      font-weight: 400;
+      font-size: 1.2em;
+      a{
+        color:white;
+      }
+    }
+  }
+
+}
+
+.wrapper .header .controls md-icon{
+  margin: 20px;
 }

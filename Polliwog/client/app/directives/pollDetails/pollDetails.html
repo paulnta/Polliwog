@@ -4,18 +4,57 @@
     <!--TODO: Show Image and statistics-->
     <div class="header" flex>
       <!--<div class="header-overlay"></div>-->
-      <!--<h3 class="poll-title">{{poll.title}}</h3>-->
+      <h3 class="poll-title">{{poll.title}}</h3>
 
-      <div ng-show="mode == 'edit'" class="statistics" layout="column" flex>
-        <h2 class="question-title">Question title</h2>
-        <div layout flex layout-align="center center">
-          <div class="chart-wrapper" flex-xs="90" flex-gt-xs="80" flex-gt-sm="60" flex-gt-md="70">
-            <canvas id="bar" class="chart chart-bar" chart-legend="false"
-                    chart-data="data" chart-labels="labels" chart-series="series">
-            </canvas>
-          </div>
-        </div>
+      <div class="controls" layout-fill ng-class="{visible: hover}"
+           ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+           layout="row" flex layout-align="center center">
+
+        <a href="#" ng-click="">
+          <md-tooltip md-direction="bottom">Statistics</md-tooltip>
+          <md-icon md-font-library="material-icons" class="ic-24">timeline</md-icon>
+        </a>
+
+        <a href="#" ng-click="startPoll(poll)">
+          <md-tooltip md-direction="bottom">Start poll</md-tooltip>
+          <md-icon md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+        </a>
+
+        <md-menu>
+          <!--main button-->
+          <a href="#" aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            <md-tooltip md-direction="bottom">Settings</md-tooltip>
+            <md-icon md-font-library="material-icons" class="ic-24">more_horiz</md-icon>
+          </a>
+
+          <!--menu-->
+          <md-menu-content width="3">
+            <md-menu-item>
+              <md-button ng-click="openToolbar()">
+                <md-icon md-font-library="material-icons">edit</md-icon>
+                Edit
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="delete(poll)">
+                <md-icon md-font-library="material-icons">delete</md-icon>
+                delete
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+
       </div>
+      <!--<div ng-show="mode == 'edit'" class="statistics" layout="column" flex>-->
+        <!--<h2 class="question-title">Question title</h2>-->
+        <!--<div layout flex layout-align="center center">-->
+          <!--<div class="chart-wrapper" flex-xs="90" flex-gt-xs="80" flex-gt-sm="60" flex-gt-md="70">-->
+            <!--<canvas id="bar" class="chart chart-bar" chart-legend="false"-->
+                    <!--chart-data="data" chart-labels="labels" chart-series="series">-->
+            <!--</canvas>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
         <md-fab-toolbar ng-hide="!(mode == 'edit')" md-open="toolbarOpen"
                         md-direction="left" class="md-fab-bottom-right poll-toolbar">
