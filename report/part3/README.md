@@ -283,6 +283,22 @@ The *Choice Schema* does not store a reference to its related question any more.
 
 > The document structures of Moods and Resources entities were removed since they were not used in the system any more. The reason for that is due to the fact that the related features were not implemented during the last phase of the project.
 
+### <a name="RestAPI"></a> REST API
+
+#### Resources
+
+The REST API resources are taken from the data model. Note the following elements:
+
+* A **Lecture** can contain several polls.
+
+* A **Poll** can contain several multiple-choice **Questions**. A poll can be in different states: *draft*, *active* and *closed*.
+
+* For every question, there can be several **Choices**.
+
+#### Resources & actions
+
+![Resources & actions](images/resources_actions.png)
+
 ## <a name="Testing"></a> Testing and validation
 
 The second phase of the project was subject to integration problems between the client part and the server part. This last part begun with an initial testing and validation step in order to test and validate what was done previously. 
