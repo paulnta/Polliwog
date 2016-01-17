@@ -32,6 +32,15 @@ angular.module('polliwogApp')
     };
 
 
+    $scope.labels = ['choice 1', 'choice 2', 'choice 3', 'choice 4'];
+    $scope.series = ['Series A'];
+
+    //$scope.data = [
+    //  [65, 59, 80, 81, 56, 55, 40],
+    //  [28, 48, 40, 19, 86, 27, 90]
+    //];
+    $scope.data = [[65, 59, 80, 81]];
+
     /**
      * Shows a dialog to edit a question
      * @param event
