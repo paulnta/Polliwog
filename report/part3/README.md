@@ -26,6 +26,10 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 ## Table of Contents
 1. [Introduction](#Intro)
 1. [User Guide](#Guide)
+1. [Design](#Design)
+    1. [User interface](#Interface)
+    1. [Database](#Database) 
+    1. [REST API](#RestAPI)
 1. [Testing and validation](#Testing)
     1. [Test strategy](#Strategy)
     1. [Tools](#Tools)
@@ -34,6 +38,175 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 ## <a name="Intro"></a> Introduction
 
 ## <a name="Guide"></a> User Guide
+
+## <a name="Design"></a> Design
+
+### <a name="Interface"></a> User interface
+
+### <a name="Database"></a> Database
+
+#### Data model
+
+![Data model](images/data_model.png)
+
+*Note that the purpose of the different types of strokes is just to make the figure more readable.*
+
+Changes have been made to the data model. Firstly, *Resource* and *Mood* entities were removed. This removal is justified by the fact that they were minor features unnecessary for the core of the system. It was decided to give priority to the main features of the application for reasons of schedule feasibility.
+
+The *Lecture* entity was subject to a property addition whith is the *slug*property. A user (speaker) would certainly expect to access one of its lecture by its name through an URL. However, URLs are governed by naming rules which prohibit the use of some particular characters like the space one. A lecture name should therefore be adapted in order to be used through an URL. This is where the *slug* property becomes useful since its consists of the lecture name on which prohibited characters are replaced by allowed one. 
+
+Assume that a lecture is named *HEIGVD TWEB 2015 Lecture1* for example. The "slug" process would convert this name as *HEIGVD-TWEB-2015-Lecture1*. A speaker would be able to access his lecture by entering the slug equivalent of its name as part of the URL.
+
+It was decided before to take the relational database's traditional approach in which references are used to establish relations between entities. This is still applied but only for *Lecture* and *Poll* entities. The *Question* one does not store an array of choice references anymore. Since a user (speaker) would create a question and its choices at the same time, this creation must be done in only one process. To do so, the *Question* entity uses now an array of choice subdocuments. This facilitates both the creation and the update of questions. The same comments can be applied for a choice.
+
+Given the fact that a choice is now a subdocument of a question, the *Choice* entity does not need to store a reference to its question anymore.
+
+#### Document structures
+
+Some document structures were subject to modifications from the second phase of the project. Here are reminded the document structures of the database with the new ones.
+
+**Users**
+```javascript
+{
+  name: String,
+  email: String,
+  role: String,
+  hashedPassword: String,
+  provider: String,
+  salt: String,
+  facebook: Object,
+  twitter: Object,
+  google: Object,
+  github: Object
+}
+```
+
+*Example*
+```javascript
+{
+  name: 'Speaker',
+  email: 'speaker@speaker.com',
+  role: 'user',
+  hashedPassword: 'qBjLmf3fkD323QegJH4Tody2LV2YvJ0S+lKdXfVxlAXm54H1fyj50KPAX9i+7RFfAGQRCXAZvZXxzqDfbJgIDA==',
+  provider: 'local',
+  salt: 'YyzmR4E2Zj6YporgyeOF9Q=='
+}
+```
+
+**Lectures**
+```javascript
+{
+    _id: <ObjectId>,
+    key: String,
+    name: String,
+    slug: String,
+    description: String,
+    creationDate: Date,
+    isPrivate: Boolean,
+    speaker: <ObjectId>,
+    listeners: [<ObjectId>],
+    polls: [<ObjectId>]
+}
+```
+
+*Example*
+```javascript
+{
+    _id: 123e3f895,
+    key: 'BF2DG',
+    name: 'HEIGVD TWEB 2015 Lecture1',
+    slug: 'HEIGVD-TWEB-2015-Lecture1',
+    description: 'Introducing TWEB course to students',
+    creationDate: 2015-11-02 17:00,
+    isPrivate: false,
+    speaker: 2233454,
+    listeners: [422334578, 22357],
+    polls: []
+}
+```
+
+An additionnal property was added to the *Lecture Schema* which is  the *slug* property. The value that its stores is similar to the lecture name with the only difference being that it is converted as such it is possible to use it in the lecture URL.
+
+**Polls**
+```javascript
+{
+    _id: <ObjectId>,
+    lecture: <ObjectId>,
+    title: String,
+    creationDate: Date,
+    state: String,
+    questions: [<ObjectId>]
+}
+```
+
+*Example*
+```javascript
+{
+    _id: 345ae2224df,
+    lecture: 1225578,
+    title: 'api-copilot-2015',
+    creationDate: 2015-11-02 17:00,
+    state: 'active',
+    questions: [422334578, 2233454, 22357]
+}
+```
+
+**Questions**
+```javascript
+{
+    _id: <ObjectId>,
+    poll: <ObjectId>,
+    title: String,
+    type: String,
+    choices: [Choice]
+}
+```
+
+A question does not store references of choices. An array is still used. However, it is choice subdocuments which are persisted instead of choice ids. This change facilitates both creation and update of questions as such choices.
+
+*Example*
+```javascript
+{
+    _id: 422334578,
+    poll: 345ae2224df,
+    title: 'What is a scenario?',
+    type: 'reminder',
+    choices: [
+        {
+            _id: 12347,
+            key: 'a',
+            text: 'A sequence of steps that you define using the step method.',
+            answer_count: 3
+        }
+    ]
+}
+```
+***
+
+**Choices**
+```javascript
+{
+    _id: <ObjectId>,
+    key: String,
+    text: String,
+    answer_count: Number
+}
+```
+
+The *Choice Schema* does not store a reference to its related question any more. This is due to the fact that a choice is now a subdocument of a question.
+
+*Example*
+```javascript
+{
+    _id: 12347,
+    key: 'a',
+    text: 'A sequence of steps that you define using the step method.',
+    answer_count: 3
+}
+```
+***
+
+> The document structures of Moods and Resources entities were removed since they were not used in the system any more. The reason for that is due to the fact that the related features were not implemented during the last phase of the project.
 
 ## <a name="Testing"></a> Testing and validation
 
