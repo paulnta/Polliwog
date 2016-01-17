@@ -367,3 +367,9 @@ File: [choice.model.spec.js](https://github.com/paulnta/Polliwog/blob/master/Pol
 ## <a name="Issues"></a> Known Issues
 
 ## <a name="Conclusion"></a> Conclusion
+
+Now that we have reached the end of this project, our conclusion stays similar to that of part 2. While we tried to finish implementing as many features as possible, our plans for this project were too ambitious, especially while taking into account that of the four members of our team, only one was completely at ease with web development and could work fast and efficiently. Given the large amounts of work we had parallel to this project, this was one of the factors that complicated development.
+
+However, what we did manage to implement is functional, appealing, and intuitive to use. As can be seen in the user guide, most interactions are simple and straightforward, and do not require much explanation. The features that have been implemented have been tested and work well, and could function in a real, live situation. On the server side, we also have a REST API with a well thought out architecture and fully functional endpoints to manipulate all the data the site will need.
+
+In conclusion, while we are somewhat disappointed to not have been able to finish this project to the extent we had first hoped for in part 1, we are content with the quality of the work that was done, for we preferred that to having a large amount of broken features.
