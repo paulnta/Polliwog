@@ -1,13 +1,13 @@
 
-<div layout="row" class="polls-wrapper" ng-class="{'side-preview': previewVisible()}">
+<div layout="row" id="poll-list" class="polls-wrapper" ng-class="{'side-preview': previewVisible()}">
 
   <!--
    POLL LIST
   -->
   <div class="flex poll-list">
-      <md-grid-list md-cols="2" md-cols-md="2" md-cols-gt-md="3"
-                    md-row-height="1:1" md-row-height-gt-md="4:5"
-                    md-gutter="5px" md-gutter-gt-md="3px">
+    <md-grid-list md-cols="2" md-cols-md="2" md-cols-gt-md="3"
+                  md-row-height="1:1" md-row-height-gt-md="4:5"
+                  md-gutter="5px" md-gutter-gt-md="3px">
 
       <!--single item -->
       <md-grid-tile ng-repeat="poll in polls" class="gray"
@@ -15,53 +15,72 @@
 
 
         <!--clickable thumbnail with a ripple effect-->
-        <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754"></div>
+        <div class="ripple" ng-click="select(poll)" layout-fill md-ink-ripple="#ebc754">
 
-          <!--Footer -->
-          <div class="tile-footer" layout="row">
-
-            <!--title-->
-            <div layout="column">
-              <div class="body2">
-                <a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a>
-              </div>
-              <div class="body1">
-                <!--TODO: put poll creation date -->
-                {{ currentDate() | date: 'dd.MM.yy'}}
-              </div>
-            </div>
-
-            <span class="flex"></span>
-
-            <md-menu>
-              <!--main button-->
-              <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-                <md-icon md-font-library="material-icons">more_vert</md-icon>
-              </md-button>
-
-              <!--menu-->
-              <md-menu-content width="3">
-                <md-menu-item>
-                  <md-button ng-click="startPoll(poll)">
-                    <md-icon md-font-library="material-icons">play_arrow</md-icon>
-                    Start
-                  </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                  <md-button ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">
-                    <md-icon md-font-library="material-icons">edit</md-icon>
-                    Edit
-                  </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                  <md-button ng-click="delete(poll)">
-                    <md-icon md-font-library="material-icons">delete</md-icon>
-                    delete
-                  </md-button>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
+          <div class="controls" ng-class="{visible: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" layout="row" flex layout-align="space-around center">
+              <a href="#" ng-click=""><md-icon md-font-library="material-icons" class="ic-24">timeline</md-icon></a>
+              <a href="#" ng-click=""><md-icon md-font-library="material-icons" class="ic-48">play_arrow</md-icon></a>
+              <a href="#" ng-click=""><md-icon md-font-library="material-icons" class="ic-24">more_horiz</md-icon></a>
           </div>
+
+          <!--<div class="poll-title">-->
+            <!--<a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a>-->
+          <!--</div>-->
+        </div>
+
+        <md-grid-tile-footer>
+          <h3><a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a></h3>
+        </md-grid-tile-footer>
+
+        <!--<div class="poll-controls" layout="row" flex>-->
+        <!---->
+        <!--</div>-->
+        <!--Footer -->
+        <!--<div class="tile-footer" layout="row">-->
+
+        <!--&lt;!&ndash;title&ndash;&gt;-->
+        <!--<div layout="column">-->
+        <!--<div class="body2">-->
+        <!--<a ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">{{poll.title}}</a>-->
+        <!--</div>-->
+        <!--<div class="body1">-->
+        <!--&lt;!&ndash;TODO: put poll creation date &ndash;&gt;-->
+        <!--{{ currentDate() | date: 'dd.MM.yy'}}-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<span class="flex"></span>-->
+
+        <!--<md-menu>-->
+        <!--&lt;!&ndash;main button&ndash;&gt;-->
+        <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">-->
+        <!--<md-icon md-font-library="material-icons">more_vert</md-icon>-->
+        <!--</md-button>-->
+
+        <!--&lt;!&ndash;menu&ndash;&gt;-->
+        <!--<md-menu-content width="3">-->
+        <!--<md-menu-item>-->
+        <!--<md-button ng-click="startPoll(poll)">-->
+        <!--<md-icon md-font-library="material-icons">play_arrow</md-icon>-->
+        <!--Start-->
+        <!--</md-button>-->
+        <!--</md-menu-item>-->
+        <!--<md-menu-item>-->
+        <!--<md-button ui-sref="polls.details({lectureId: currentLecture._id, pollId: poll._id})">-->
+        <!--<md-icon md-font-library="material-icons">edit</md-icon>-->
+        <!--Edit-->
+        <!--</md-button>-->
+        <!--</md-menu-item>-->
+        <!--<md-menu-item>-->
+        <!--<md-button ng-click="delete(poll)">-->
+        <!--<md-icon md-font-library="material-icons">delete</md-icon>-->
+        <!--delete-->
+        <!--</md-button>-->
+        <!--</md-menu-item>-->
+        <!--</md-menu-content>-->
+        <!--</md-menu>-->
+        <!---->
+        <!--</div>-->
       </md-grid-tile>
 
     </md-grid-list>
@@ -76,12 +95,12 @@
   </div>
 
   <!--poll preview (invisible on mobiles)-->
-  <poll-details ng-show="previewVisible() && polls.length > 0"
-                ng-mouseenter="disableScrollOnBody()"
-                ng-mouseleave="enableScrollOnBody()"
-                class="flex fixed"
-                poll="selected"
-                mode="preview"
-                image="defaultBackImage">
-  </poll-details>
+  <!--<poll-details ng-show="previewVisible() && polls.length > 0"-->
+  <!--ng-mouseenter="disableScrollOnBody()"-->
+  <!--ng-mouseleave="enableScrollOnBody()"-->
+  <!--class="flex fixed"-->
+  <!--poll="selected"-->
+  <!--mode="preview"-->
+  <!--image="defaultBackImage">-->
+  <!--</poll-details>-->
 </div>
