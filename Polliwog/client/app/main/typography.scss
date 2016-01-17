@@ -57,7 +57,7 @@ h6 { font-size: $h6-fontsize; line-height: 110%; margin: ($h6-fontsize / 2) 0 ($
 
 }
 
-.text-primary{
+.text-primary, .text-primary a, a.text-primary a{
   color: $color-primary;
 }
 

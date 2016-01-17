@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .controller('SideNavCtrl', function ($scope, $mdDialog, $mdSidenav, $stateParams, $state, $timeout, $log) {
+  .controller('SideNavCtrl', function ($scope, $mdDialog, $mdSidenav,$mdMedia, $stateParams, $state, $timeout, $log) {
 
     /**
      * Navigates to another lecture
@@ -55,7 +55,8 @@ angular.module('polliwogApp')
         templateUrl: 'components/speaker/dialog-add-lecture/dialog-add-lecture.html',
         parent: angular.element(document.body),
         targetEvent: event,
-        clickOutsideToClose: false
+        clickOutsideToClose: false,
+        fullscreen: $mdMedia('xs')
       });
     }
 
