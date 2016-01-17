@@ -4,7 +4,9 @@
 
 'use strict';
 
-var Lecture = require('./lecture.model');
+var Lecture = require('./lecture.model'),
+  Poll = require('../poll/poll.model');
+
 var speakerSocket;
 exports.register = function(socket) {
 
@@ -32,11 +34,15 @@ exports.register = function(socket) {
 
     console.log('[SOCKET] join session: ' + key);
     Lecture.findOne({key: key}, function (err, lecture) {
-      if(err) {
-        console.log(err);
-        socket.emit('lecture:join', err);
-      } else {
-        socket.emit('lecture:join', lecture);
+      if(!err) {
+        // find activated polls
+        Poll.find({state: 'active', lecture: lecture._id})
+          .populate('questions')
+          .exec(function (err, polls) {
+            if(err) console.log(err);
+          console.log(polls);
+          socket.emit('lecture:join', {lecture: lecture, polls: polls});
+        });
       }
     });
   });
