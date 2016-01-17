@@ -15,7 +15,7 @@ var user = new User({
 });
 
 var auth = {};
-var lectureId = null;
+var lectureId, lectureKey;
 
 describe('GET /api/lectures', function() {
 
@@ -24,15 +24,8 @@ describe('GET /api/lectures', function() {
     init(function (err, lecture) {
       if(err) done(err);
       lectureId = lecture._id;
+      lectureKey = lecture.key;
       done();
-    });
-  });
-
-  after(function (done) {
-    User.remove().exec().then(function () {
-      Lecture.remove().exec().then(function () {
-        done();
-      });
     });
   });
 
@@ -70,7 +63,6 @@ describe('GET /api/lectures', function() {
 
 
   it('should get lecture by id', function (done) {
-    console.log(lectureId);
     request(app)
       .get('/api/lectures/' + lectureId)
       .set(auth)
@@ -84,7 +76,6 @@ describe('GET /api/lectures', function() {
 
 
   it('should get lecture by slug', function (done) {
-    console.log(lectureId);
     request(app)
       .get('/api/lectures/Fake-Lecture?slug=true')
       .set(auth)
@@ -97,5 +88,27 @@ describe('GET /api/lectures', function() {
       });
   });
 
+  it('should get an lecture url by lecture key', function (done) {
+    request(app)
+      .get('/api/lectures/' + lectureKey + '/url')
+      .expect(200)
+      .end(function (err, res) {
+        if(err) {done(err);}
+        res.body.url.should.be.eql('/presentations/' + lectureKey);
+        done();
+      });
+  });
+
+  it('should get an lecture url by lecture key when authenticated', function (done) {
+    request(app)
+      .get('/api/lectures/' + lectureKey + '/url')
+      .expect(200)
+      .set(auth)
+      .end(function (err, res) {
+        if(err) {done(err);}
+        res.body.url.should.be.eql('/presentations/' + lectureKey);
+        done();
+      });
+  });
 
 });

@@ -80,6 +80,12 @@ var LectureSchema = new Schema({
   resources: [{ type: Schema.ObjectId, ref: 'Resource' }]
 });
 
+
+LectureSchema
+  .virtual('url')
+  .get(function () {
+    return '/presentations/' + this.key;
+  });
 /**
  * Middleware function executed before every lecture removal.
  *
@@ -89,8 +95,6 @@ var LectureSchema = new Schema({
  * to his lectures.
  */
 LectureSchema.pre('remove', function (next) {
-
-  console.log('LectureSchema.pre(remove)');
 
 	/**
 	* Update parent user's array of lectures.
@@ -111,7 +115,6 @@ LectureSchema.pre('remove', function (next) {
 	*/
 	var Poll = mongoose.model('Poll');
 	Poll.find({ lecture: this._id }, function (err, polls) {
-    console.log('Will delete ' + polls.length + ' polls');
 		if (err) { console.log(err); return; }
 		polls.forEach(function (poll) {
      poll.remove();
@@ -169,7 +172,6 @@ LectureSchema.pre('save', function (next) {
  * test on the flag wasNew defined on pre save event.
  */
 LectureSchema.post('save', function () {
-  console.log('saved lecture ' + this.name);
 	var User = mongoose.model('User');
 	if (this.wasNew) { User.findByIdAndUpdate(this.speaker, { $push: { lectures: this._id } }, function (err) {
     if(err) console.error(err);

@@ -27,6 +27,14 @@ exports.show = function (req, res) {
   });
 };
 
+exports.getUrlByKey = function(req, res) {
+  Lecture.findOne({key: req.params.key}, function (err, lecture) {
+    if(err) {return handleError(res, err);}
+    if(!lecture) { return res.status(404).send('Not Found');}
+    return res.status(200).send({url: lecture.url});
+  });
+};
+
 // Creates a new lecture in the DB.
 exports.create = function (req, res) {
   if (req.body._id) { delete req.body._id; }
@@ -153,3 +161,4 @@ function tryGenerateKey() {
       });
   });
 }
+

@@ -9,6 +9,28 @@ var compose = require('composable-middleware');
 var User = require('../api/user/user.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
 
+
+function onlyIfAuthenticated(){
+  return compose()
+    .use(function(req, res, next) {
+
+      // allow access_token to be passed through query parameter as well
+      if(req.query && req.query.hasOwnProperty('access_token')) {
+        console.log('AUTH OK');
+        req.headers.authorization = 'Bearer ' + req.query.access_token;
+      }
+
+      validateJwt(req, res, function (err) {
+        // call the next public route
+        if(err) next('route');
+
+        // call the next route in the stack (private)
+        else next();
+      });
+
+    })
+    .use(attachUserToRequest);
+}
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
@@ -24,15 +46,7 @@ function isAuthenticated() {
       validateJwt(req, res, next);
     })
     // Attach user to request
-    .use(function(req, res, next) {
-      User.findById(req.user._id, function (err, user) {
-        if (err) return next(err);
-        if (!user) return res.status(401).send('Unauthorized');
-
-        req.user = user;
-        next();
-      });
-    });
+    .use(attachUserToRequest);
 }
 
 /**
@@ -70,7 +84,18 @@ function setTokenCookie(req, res) {
   res.redirect('/');
 }
 
+
+function attachUserToRequest(req, res, next) {
+  User.findById(req.user._id, function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.status(401).send('Unauthorized');
+
+    req.user = user;
+    next();
+  });
+}
 exports.isAuthenticated = isAuthenticated;
+exports.onlyIfAuthenticated = onlyIfAuthenticated;
 exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;

@@ -12,16 +12,25 @@ var async = require('async'),
     _ = require('lodash'),
     Q = require('q');
 
+exports.initUser = function (callback) {
+  cleanDB().then(function () {
+    User.create({
+      provider: 'local',
+      name: 'Fake User',
+      email: 'test@test.com',
+      password: 'password'
+    }, callback)
+  });
+};
 
 exports.createUserAndLecture = function (callback) {
 
   async.waterfall([
     // remove Users, Polls and Lectures
     function (callback) {
-      Q.all(_.invoke([User, Poll, Lecture, Question], 'remove'))
-        .then(function () {
-          callback(null);
-        });
+      cleanDB().then(function () {
+        callback(null);
+      });
     },
 
     // create user
@@ -43,7 +52,9 @@ exports.createUserAndLecture = function (callback) {
         key: rand.generate(5)
       }, callback);
     }
-  ], function (err, lecture) {
-    callback(err, lecture);
-  });
+  ], callback);
 };
+
+function cleanDB(){
+  return Q.all(_.invoke([User, Poll, Lecture, Question], 'remove'));
+}
