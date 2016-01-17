@@ -35,6 +35,82 @@ Ntawuruhunga, Paul    | [paulnta](https://github.com/paulnta)       |
 
 ## <a name="Guide"></a> User Guide
 
+Upon accessing the site root, the user will be greeted with a choice between a speaker or audience page:
+
+[![](images/landing.png)](images/landing.png)
+
+We will first cover the speaker side, and late the audience side.
+
+### Speaker Side
+
+Selecting the speaker side will lead to a login page if the user is not already logged in:
+
+[![](images/login.png)](images/login.png)
+
+If the user already has an account, they may login. If not, there is a link to a page on which they can sign up to Polliwog. Attempting to login without entering any credentials leads to this error:
+
+[![](images/login_error.png)](images/login_error.png)
+
+If the user wishes to sign up, they are expected to enter a name for the site to address them as, an email address that will be used to log in, bypassing the need for a username, and a password. Passwords are required to be at least three characters long, and an error (similar to those illustrated above) will be displayed.
+
+[![](images/signup.png)](images/signup.png)
+
+After signing up, the user is then returned to the login page where they may use their newly obtained account.
+
+Upon logging in, the user is greeted by a landing page, containing a menu that displays all the lectures they have created. For this example, we are using a speaker that has previously created lectures.
+
+[![](images/speaker_landing.png)](images/speaker_landing.png)
+
+To continue, the speaker can simply click on the lecture they'd like to see, or create a new one by clicking the "+ Lecture" button in the menu, which brings up this dialog:
+
+[![](images/lecture_new.png)](images/lecture_new.png)
+
+Having created their new lecture, the user is presented with the "share" tab, which displays the lecture key used by this lecture, necessary to allow audience members to connect to it.
+
+[![](images/lecture_share.png)](images/lecture_share.png)
+
+Having created a new lecture, the user can then click on it to bring up the lecture's overview:
+
+[![](images/lecture_landing.png)](images/lecture_landing.png)
+
+If the user navigates to the "poll" tab, they can access the list of polls that has been created for this lecture. Since this is a new lecture, it does not have any polls, and as such the user will have to create a new one using the large "+" button in the bottom-right corner:
+
+[![](images/poll_new.png)](images/poll_new.png)
+
+This bring up a dialog box to request a name for this new poll. Having given it a name, the user now has an empty poll to work with:
+
+[![](images/poll_empty.png)](images/poll_empty.png)
+
+The user can then start adding questions to it by clicking on the edit button and selecting "add question":
+
+[![](images/poll_options.png)](images/poll_options.png)
+
+This opens a dialog box to name the question, and decide on the possible choices for it. New choices are added with the "+" button in the bottom-left corner, or existing choices can be removed with the "X" to the right of them. If the user would like to set some choices as "correct", they may click on the checkbox to the left of them. Saving the question returns the user to the previous poll screen, now with a new question added.
+
+[![](images/poll_question.png)](images/poll_question.png)
+
+If the user returns to the poll overview page, they can see their new poll displayed:
+
+[![](images/poll_overview.png)](images/poll_overview.png)
+
+They can click on the vertical "..." to open poll options, such as editing, deleting, or "starting" the poll. That is, sending the poll to all the audience members connected to this lecture so that they may respond to it.
+
+On the poll overview, the user can select a poll, that will be displayed on the right side of the screen, to allow for viewing without having to go into a new page for each poll. Next to the question choices, a number is displayed corresponding to the number of times audience members have selected that choice.
+
+### Audience Side
+
+The audience landing page is very simple: It does not display anything until you have entered which lecture you would like to join. Having obtained a lecture key, the user can simply enter it in this field to join:
+
+[![](images/audience_landing.png)](images/audience_landing.png)
+
+Once the lecture has been joined, the user can simply wait for polls to appear on their screen, and answer them as they do. Leaving the lecture is as simple as closing the tab.
+
+[![](images/audience_join.png)](images/audience_join.png)
+
+To use the example we showed previously on the speaker side, we would see a poll appear as such:
+
+[![](images/audience_poll.png)](images/audience_poll.png)
+
 ## <a name="Testing"></a> Testing and validation
 
 The second phase of the project was subject to integration problems between the client part and the server part. This last part begun with an initial testing and validation step in order to test and validate what was done previously. 
