@@ -9,6 +9,7 @@ angular.module('polliwogApp')
   .controller('MainCtrl', function ($scope, $stateParams, Auth, $timeout, $mdSidenav, $mdDialog, $log, Lecture, $mdMedia) {
 
 
+
     /**
      * Define body behaviors
      * ==============================================
