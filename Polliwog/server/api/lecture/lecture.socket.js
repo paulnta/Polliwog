@@ -6,9 +6,9 @@
 
 var Lecture = require('./lecture.model'),
   Poll = require('../poll/poll.model'),
-  pollSocket = require('../poll/poll.socket');
+  speakersSockets = require('../../components/speakersSocket/speakersSocket');
 
-var speakerSocket;
+
 exports.register = function(socket) {
 
   Lecture.schema.post('save', function (doc) {
@@ -18,11 +18,12 @@ exports.register = function(socket) {
     onRemove(socket, doc);
   });
 
-  socket.on('lecture:speakerConnect', function (data) {
-      speakerSocket = socket;
+  socket.on('lecture:speakerConnect', function (key) {
+    speakersSockets.setSpeakerSocket(socket, key);
   });
   // join a lecture by key => register member in the corresponding lecture room and send info about this lecture
   socket.on('lecture:join', function (key) {
+
 
     /**
      * Ici l'utilisateur est ajouté à la room de la session. Le nom de cette room est la clé de la session (ex: XVRF9)
@@ -33,16 +34,15 @@ exports.register = function(socket) {
      */
     socket.join(key);
 
-    console.log('[SOCKET] join session: ' + key);
     Lecture.findOne({key: key}, function (err, lecture) {
       if(!err) {
         // find activated polls
         Poll.find({state: 'active', lecture: lecture._id})
           .populate('questions')
           .exec(function (err, polls) {
-            if(err) console.log(err);
-          console.log(polls);
-          socket.emit('lecture:join', {lecture: lecture, polls: polls});
+          if(!err){
+            socket.emit('lecture:join', {lecture: lecture, polls: polls});
+          }
         });
       }
     });

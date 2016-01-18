@@ -5,11 +5,9 @@
 
 
 angular.module('polliwogApp')
-  .controller('PollVoteCtrl', function ($scope, Poll, socket) {
+  .controller('PollVoteCtrl', function ($scope, Poll, CurrentLecture, socket) {
 
-    $scope.getClassState = function (poll) {
-      return poll.state;
-    };
+    $scope.currentLecture = CurrentLecture;
 
     $scope.togglePollState = function (poll) {
       switch (poll.state){

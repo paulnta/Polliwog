@@ -6,7 +6,8 @@
 }
 
 .gray {
-  background-color: rgba(157,194,232,0.25);
+  background-color: rgba(242, 241, 239, 1);
+  border-radius: 2px;
 }
 
 .tile-footer{
@@ -54,7 +55,7 @@
 
     height: 100%;
     overflow: hidden;
-    background: linear-gradient(to bottom,  rgba(19,19,19,0) 0%,rgba(0,0,0,0.4) 100%);
+    background: linear-gradient(to bottom,  rgba(19,19,19,0) 0%,rgba(0,0,0,0.2) 100%);
     opacity: 0;
     transition: opacity .2s ease-in, transform .2s ease-in;
     transform: scale(1.5,1.5);
@@ -109,7 +110,7 @@
       font-size: 1.2em;
       display: inline-block;
       a{
-        color:white;
+        color: rgb(100, 100, 100);
       }
     }
   }
@@ -122,9 +123,10 @@
 
 .poll-state-label{
 
-  border: 1px solid white;
-  border-radius: 3px;
-  padding: 3px;
+  border-radius: 50px;
+  padding: 2px 5px 2px 5px;
+  color: white;
+  font-size: 0.7em;
 
   &.footer{
     margin-left: 20px;
@@ -132,18 +134,15 @@
   }
 
   &.active{
-    color: #218B38;
-    border-color: #218B38;
+    background-color: $color-primary;
   }
 
   &.draft{
-    color: whitesmoke;
-    border-color: whitesmoke;
+    background-color: #808b8d;
   }
 
   &.closed{
-    color: #cd595a;
-    border-color: #cd595a;
+    background-color: #e84c3d;
   }
 
 }

@@ -11,8 +11,10 @@ angular.module('polliwogApp')
     CurrentLecture.$promise.then(function (lecture) {
       // get currentLecture's polls
       $scope.currentLecture = lecture;
+      socket.socket.emit('lecture:speakerConnect', lecture.key);
         $scope.polls = Poll.query({lectureId: lecture._id});
       // wait for polls resolved and set selected poll
+
       $scope.polls.$promise.then(function () {
         $scope.selected =  EditPoll.registerPoll($scope.polls.length ? $scope.polls[0]: {});
       });
@@ -55,6 +57,10 @@ angular.module('polliwogApp')
         $scope.selected = EditPoll.registerPoll(newIndex < 0 ? {} : $scope.polls[newIndex]);
         $log.debug({deleted: doc});
       });
+    };
+
+    $scope.getClassState = function (poll) {
+      return poll.state;
     };
 
   });

@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
  * Choice Schema
  */
 var ChoiceSchema = new Schema({
-  //question : { type: Schema.ObjectId, ref: 'Question', required: true },
   key : { type: String, trim: true, required: true },
   text : { type: String, trim: true, required: true },
   answer_count : { type: Number, default: 0 }

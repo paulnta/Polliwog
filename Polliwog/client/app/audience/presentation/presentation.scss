@@ -1,0 +1,40 @@
+#presentation {
+
+  //background-color: rgba(242, 241, 239, 1);
+  .md-toolbar-tools.dark {
+      color: white;
+  }
+  .md-toolbar-tools.light {
+    color: #2d3e50;
+  }
+
+
+  .gray{
+    //background-color: #2d3e50;
+  }
+
+  .poll-title{
+    color: rgb(100, 100, 100);;
+  }
+}
+
+md-dialog {
+
+  poll-details:not([mode="preview"]) .wrapper {
+    padding: 0;
+  }
+
+  poll-details .wrapper .content{
+    min-height: 0;
+  }
+}
+
+.md-button.md-icon-button.close{
+  md-icon{
+    color: white;
+  }
+  z-index: 999;
+  position: absolute;
+  right: 0;
+  top: 0;
+}

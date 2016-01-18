@@ -152,7 +152,7 @@
                 <md-checkbox ng-model="choice.state" ng-click="choiceChanged(choice, question)"></md-checkbox>
                 <p>{{choice.text}}</p>
                 <span flex></span>
-                <md-progress-linear ng-show="poll.state != 'draft'" flex="50" md-mode="determinate" value="{{choiceStatistics(choice)}}"></md-progress-linear>
+                <md-progress-linear ng-show="(poll.state != 'draft') && (mode != 'user')" flex="50" md-mode="determinate" value="{{choiceStatistics(choice)}}"></md-progress-linear>
               </md-list-item>
               </div>
 

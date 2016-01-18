@@ -6,6 +6,7 @@ var speakersSockets = {};
 
 exports.setSpeakerSocket = function (socket, key) {
   speakersSockets[key] = socket;
+  console.log('speaker: key ' + key + ' id: ' + socket.id);
 };
 
 exports.getSpeakerSocket = function (key) {

@@ -10,7 +10,8 @@ var PollSchema = new Schema({
 	title : { type: String, trim: true, required: true },
 	creationDate : { type: Date, default: Date.now },
 	state : { type: String, default: 'draft', enum: ['draft', 'active', 'closed']},
-	questions : [{ type: Schema.ObjectId, ref: 'Question' }]
+	questions : [{ type: Schema.ObjectId, ref: 'Question' }],
+  nb_participation: {type: Number, default: 0}
 });
 
 

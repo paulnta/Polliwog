@@ -5,7 +5,7 @@
 'use strict';
 
 var Poll = require('./poll.model'),
-  speakersSockets = require('../../components/speakersSocket/speakersSocket');
+  speakersSockets = require('../../components/speakersSocket/speakersSocket'),
   Question = require('../question/question.model');
 
 
@@ -13,18 +13,19 @@ exports.register = function(socket) {
 
   socket.on('poll:start', function (data) {
 
-    console.log('POLL START ' + data);
+    console.log('poll start ' + data);
+
     /**
      * Le speaker passe la clé de la session, c'est plus simple pour le serveur car
      * nous devons transmettre le poll à tout les utilisateurs connectés à la room ayant cette clé comme nom.
      */
-    speakersSockets.setSpeakerSocket(socket, key);
+    speakersSockets.setSpeakerSocket(socket, data.key);
 
     /**
     *  Le poll en question
     */
     var poll = data.poll;
-    socket.to(key).emit('poll:start', poll);
+    socket.to(data.key).emit('poll:start', poll);
   });
   /**
    * A la réception d'un nouveau vote -> mise à jour des résultats en base de données
@@ -33,8 +34,7 @@ exports.register = function(socket) {
   socket.on('poll:vote', function (data) {
     console.log('POLL:VOTE');
     console.log(data);
-    var speakerSocket = speakersSockets.getSpeakerSocket(data.key);
-
+    var speaker = speakersSockets.getSpeakerSocket(data.key);
     // find the question related to the choice answered
     Question.findById(data.question, function (err, question) {
         if(!err){
@@ -45,11 +45,11 @@ exports.register = function(socket) {
           question.save(function (err, question) {
 
             // notify the speaker related to the session key
-            if(speakerSocket) {
+            if(speaker) {
               var data = {  pollId : question.poll,
                             question: question };
               console.log(data);
-              speakerSocket.emit('poll:updated', data);
+              speaker.emit('poll:updated', data);
             } else {
               console.log('speaker not found');
             }
@@ -57,8 +57,4 @@ exports.register = function(socket) {
         }
     });
   });
-};
-
-exports.setSpeakerSocket = function (socket, key) {
-  speakerSockets[key] = socket;
 };
