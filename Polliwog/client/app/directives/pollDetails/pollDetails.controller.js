@@ -17,17 +17,16 @@ angular.module('polliwogApp')
       return backgrounds[Math.floor(Math.random()* backgrounds.length)];
     }
 
+    $scope.defaultImage = getDefaultBackImage();
 
+    // TODO: find nb user participated to a poll
     $scope.nb_user_participated = 10;
-
     $scope.choiceStatistics = function (choice) {
       if($scope.nb_user_participated !=0)
         return choice.answer_count/$scope.nb_user_participated*100;
       else
         return 0;
     };
-
-    $scope.defaultImage = getDefaultBackImage();
 
     $scope.toolbarOpen = false;
 
@@ -38,16 +37,6 @@ angular.module('polliwogApp')
     $scope.closeToolbar = function () {
       $scope.toolbarOpen = false;
     };
-
-
-    $scope.gauge_data = [
-      {label: "CPU", value: 75, suffix: "%", color: "steelblue"}
-    ];
-    $scope.gauge_options = {thickness: 5, mode: "gauge", total: 100};
-    //$scope.labels = ["Participation"];
-    //$scope.data = [[27],[17]];
-    //$scope.series = ['Series A', 'Series B'];
-
 
     /**
      * Shows a dialog to edit a question

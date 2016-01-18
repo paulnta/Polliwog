@@ -8,7 +8,6 @@ var Lecture = require('./lecture.model'),
   Poll = require('../poll/poll.model'),
   speakersSockets = require('../../components/speakersSocket/speakersSocket');
 
-
 exports.register = function(socket) {
 
   Lecture.schema.post('save', function (doc) {
@@ -21,17 +20,12 @@ exports.register = function(socket) {
   socket.on('lecture:speakerConnect', function (key) {
     speakersSockets.setSpeakerSocket(socket, key);
   });
-  // join a lecture by key => register member in the corresponding lecture room and send info about this lecture
+
+  /**
+   * join a lecture by key => register member in the corresponding lecture room and send info about this lecture
+   */
   socket.on('lecture:join', function (key) {
 
-
-    /**
-     * Ici l'utilisateur est ajouté à la room de la session. Le nom de cette room est la clé de la session (ex: XVRF9)
-     * Cela permet de distribuer nos socket uniquement à ceux qui sont connectés à cette romm (session)
-     *
-     * On communique avec eux avec : socket.to(nom de la room).emit(nom de l'évenement, données)
-     * Example: socket.to(key).emit(poll:start, poll);
-     */
     socket.join(key);
 
     Lecture.findOne({key: key}, function (err, lecture) {
