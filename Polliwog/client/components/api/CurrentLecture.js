@@ -2,9 +2,11 @@
  * Provides the current lecture to all controllers
  */
 angular.module('polliwogApp')
-  .factory('CurrentLecture', function ($rootScope, Lecture, lodash, $stateParams) {
+  .factory('CurrentLecture', function ($rootScope, $q,  Lecture, lodash, $stateParams) {
 
-    var currentLecture = {}; // TODO: check if ok to return {} before Lecture.get(..)
+
+    var currentLecture = $q.defer();
+
     if($stateParams.lectureSlug)
       currentLecture = Lecture.get({id: $stateParams.lectureSlug, slug: true});
 

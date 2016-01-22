@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('EditPollCtrl', function ($scope, Poll, socket, $mdDialog, $log, EditPoll, $mdMedia) {
+  .controller('EditPollCtrl', function ($scope, lodash, $state, CurrentLecture, EditPoll, socket, $mdDialog, $log, $mdMedia) {
+
 
     var backgrounds = [
       '/assets/images/back00.jpg',
@@ -19,13 +20,15 @@ angular.module('polliwogApp')
 
     $scope.defaultImage = getDefaultBackImage();
 
-    // TODO: find nb user participated to a poll
-    $scope.nb_user_participated = 10;
-    $scope.choiceStatistics = function (choice) {
-      if($scope.nb_user_participated !=0)
-        return choice.answer_count/$scope.nb_user_participated*100;
-      else
+
+    $scope.choiceStatistics = function (choice, question) {
+      if(question.hasOwnProperty('nb_participation') && question.nb_participation != 0) {
+        var value = choice.answer_count / question.nb_participation * 100;
+        choice.stats = value;
+        return value;
+      } else {
         return 0;
+      }
     };
 
     $scope.toolbarOpen = false;
@@ -77,16 +80,22 @@ angular.module('polliwogApp')
      */
     $scope.editTitle = function (event, title) {
       $mdDialog.show({
-        locals: {
-          title: title  // params to pass to the dialog controller
-        },
-        controller: 'EditTitleCtrl',
-        templateUrl: 'components/speaker/dialog-edit-title/dialog-edit-title.html',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: false,
-        fullscreen: $mdMedia('xs')
-      });
+          locals: {
+            title: title  // params to pass to the dialog controller
+          },
+          controller: 'EditTitleCtrl',
+          templateUrl: 'components/speaker/dialog-edit-title/dialog-edit-title.html',
+          parent: angular.element(document.body),
+          targetEvent: event,
+          clickOutsideToClose: false,
+          fullscreen: $mdMedia('xs')
+        })
+        .then(function (answer) {
+          if ($scope.new && answer === 'cancel')
+            $state.go('polls', {lectureSlug: CurrentLecture.slug});
+        });
+
+
     };
 
     if($scope.new){
@@ -95,14 +104,6 @@ angular.module('polliwogApp')
 
     $scope.editImage = function (event) {
       angular.noop(event);
-    };
-
-    /**
-     * Remove a question
-     * @param question
-     */
-    $scope.removeQuestion = function (question) {
-      EditPoll.removeQuestion(question);
     };
 
     $scope.choiceChanged = function (choice, question) {
@@ -119,4 +120,12 @@ angular.module('polliwogApp')
       $mdOpenMenu(ev);
     };
 
- });
+    $scope.getClassState = function (poll) {
+      return poll.state;
+    };
+
+    $scope.removeQuestion = function (question) {
+      EditPoll.removeQuestion(question);
+    };
+
+  });

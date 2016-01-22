@@ -12,6 +12,10 @@ md-dialog {
         margin-bottom: 0;
       }
 
+      md-checkbox .md-icon{
+        top: -10px;
+      }
+
       .add-choice{
         margin: 0 0 0 -10px;
         padding: 0;
@@ -19,7 +23,7 @@ md-dialog {
 
       .single-choice {
 
-        margin: 20px 0 20px 0;
+        margin: 0 10px 0 0;
 
         md-input-container {
           margin-bottom: 0;

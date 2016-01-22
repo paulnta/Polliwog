@@ -46,19 +46,7 @@ angular.module('polliwogApp')
           .toggle()
       }, 200);
     }
-    /**
-     * Show a dialog to create a new lecture.
-     */
-    $scope.showCreateLectureDialog = function (event) {
-      $mdDialog.show({
-        controller: 'AddLectureCtrl',
-        templateUrl: 'components/speaker/dialog-add-lecture/dialog-add-lecture.html',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: false,
-        fullscreen: $mdMedia('xs')
-      });
-    }
+
 
     $scope.toggleLeft = buildDelayedToggler('left');
 

@@ -16,6 +16,16 @@
   .poll-title{
     color: rgb(100, 100, 100);;
   }
+
+  .empty-state {
+
+    .infos{
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 1.1em;
+      opacity: 0.34;
+    }
+  }
 }
 
 md-dialog {
@@ -37,4 +47,5 @@ md-dialog {
   position: absolute;
   right: 0;
   top: 0;
+
 }

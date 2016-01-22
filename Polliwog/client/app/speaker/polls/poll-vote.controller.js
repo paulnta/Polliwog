@@ -37,7 +37,9 @@ angular.module('polliwogApp')
 
     function stopPoll(poll) {
       poll.state = 'closed';
-      Poll.update({}, poll);
+      Poll.update({}, poll, function () {
+        socket.socket.emit('poll:stop', {poll:poll, key: $scope.currentLecture.key});
+      });
     }
 
     function restartPoll(poll) {

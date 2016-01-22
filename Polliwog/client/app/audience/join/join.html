@@ -1,18 +1,33 @@
 
 
-<div layout="row" flex  style="height: 100%;">
+<div layout="row" layout-align="center center" flex>
 
-  <div flex-offset-xs="0" flex-offset="20"
-       flex-xs="100" flex="60" >
+  <div layout="column" flex-xs="100" flex="60" >
 
-    <div>
-      <form name="joinSessionForm">
-        <md-input-container layout flex>
-        <label>Session code</label>
-        <input ng-model="inputCode" aria-label="session code" md-autofocus>
-      </md-input-container>
+      <div>
+        <h3 class="join-info">Enter the lecture code received from the speaker to join his lecture</h3>
+      </div>
+
+    <div layout="row" layout-align="center center">
+
+      <form class="join-session-form" name="joinSessionForm" ng-submit="join(joinSessionForm)" novalidate flex="90" flex-gt-sm="60">
+        <md-input-container class="md-block" layout flex >
+          <label>Session code</label>
+          <input ng-model="inputCode" ng-keydown="errorCode = false" name="inputCode" minlength="5" aria-label="session code" required md-autofocus>
+          <div ng-messages="joinSessionForm.inputCode.$error" md-auto-hide="true">
+            <div ng-message="required" ng-show="joinSessionForm.inputCode.$error.required">
+              Please enter a code
+            </div>
+            <div ng-message="minlength" multiple md-auto-hide="true" ng-show="joinSessionForm.inputCode.$error.minlength">
+              Your code must have 5 characters
+            </div>
+            <div ng-message="" ng-show="errorCode">
+              Your code is not valid
+            </div>
+          </div>
+        </md-input-container>
         <div layout layout-align="end end">
-          <md-button ng-click="join()" class="md-primary" raised>Join</md-button>
+          <md-button type="submit" class="md-raised md-primary">Join</md-button>
         </div>
       </form>
     </div>

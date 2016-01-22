@@ -10,6 +10,7 @@ var speakersSockets = require('../../components/speakersSocket/speakersSocket'),
 
 exports.register = function(socket) {
 
+
   /**
    * Speaker send a poll to all connected users
    */
@@ -19,6 +20,9 @@ exports.register = function(socket) {
     socket.to(data.key).emit('poll:start', poll);
   });
 
+  socket.on('poll:stop', function (data) {
+    socket.to(data.key).emit('poll:stop', data.poll);
+  });
 
   /**
    * Users votes and send results to the speaker
@@ -27,6 +31,7 @@ exports.register = function(socket) {
     console.log('POLL:VOTE');
     console.log(data);
     var speaker = speakersSockets.getSpeakerSocket(data.key);
+    //console.log('new vote for ' + speaker.id);
     // find the question related to the choice answered
     Question.findById(data.question, function (err, question) {
         if(!err){
@@ -36,11 +41,11 @@ exports.register = function(socket) {
           choice.answer_count += (data.state ? 1 : -1);
           question.save(function (err, question) {
 
+            console.log(question);
             // notify the speaker related to the session key
             if(speaker) {
               var data = {  pollId : question.poll,
                             question: question };
-              console.log(data);
               speaker.emit('poll:updated', data);
             } else {
               console.log('speaker not found');

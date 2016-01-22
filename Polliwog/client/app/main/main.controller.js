@@ -76,4 +76,22 @@ angular.module('polliwogApp')
       originatorEv = ev;
       $mdOpenMenu(ev);
     };
+
+    /**
+     * Show a dialog to create a new lecture.
+     */
+    $scope.showCreateLectureDialog = function (event, lecture) {
+
+      $mdDialog.show({
+        locals : {
+          lecture : lecture
+        },
+        controller: 'AddLectureCtrl',
+        templateUrl: 'components/speaker/dialog-add-lecture/dialog-add-lecture.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: false,
+        fullscreen: $mdMedia('xs')
+      });
+    };
   });

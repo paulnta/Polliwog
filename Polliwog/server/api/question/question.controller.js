@@ -25,8 +25,8 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   if (req.body._id) { delete req.body._id; }
   //if (req.body.choices) { delete req.body.choices; }
-
-  Question.create(req.body, function(err, question) {
+  var question = new Question(req.body);
+  question.save(function(err, question) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(question);
   });

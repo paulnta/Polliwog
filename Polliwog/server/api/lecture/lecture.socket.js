@@ -18,7 +18,18 @@ exports.register = function(socket) {
   });
 
   socket.on('lecture:speakerConnect', function (key) {
+    console.log('lecture:speakerConnect ' + key);
     speakersSockets.setSpeakerSocket(socket, key);
+  });
+
+  socket.on('lecture:checkCode', function (key) {
+    Lecture.findOne({key: key}, function (err, lecture) {
+        if(!err && lecture) {
+          socket.emit('lecture:codeValid', key);
+        }else {
+          socket.emit('lecture:errorCode', key);
+        }
+    });
   });
 
   /**
@@ -29,7 +40,7 @@ exports.register = function(socket) {
     socket.join(key);
 
     Lecture.findOne({key: key}, function (err, lecture) {
-      if(!err) {
+      if(!err && lecture) {
         // find activated polls
         Poll.find({state: 'active', lecture: lecture._id})
           .populate('questions')

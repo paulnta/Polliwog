@@ -1,0 +1,27 @@
+<md-dialog id="dialog-share-lecture" layout="row" flex layout-align="center center" flex>
+  <md-button class="md-icon-button btn-close" ng-click="cancel()">
+    <md-icon md-font-library="material-icons">close</md-icon>
+  </md-button>
+  <md-dialog-content>
+    <div class="md-padding" layout="column" layout-align="center center" flex>
+
+      <p class="instructions">Please connect to this url</p>
+
+      <div class="text-primary text-large">
+        <a ui-sref="join">{{joinUrl}}</a>
+      </div>
+
+      <p class="instructions">and enter this code</p>
+
+      <div class="text-primary text-large">
+        {{lecture.key}}
+      </div>
+
+      <!--<div layout layout-align="end center">-->
+      <!--<md-button aria-label="save" ng-click="cancel()">CANCEL</md-button>-->
+      <!--<md-button ng-submit aria-label="save" ng-click="finished()">FINISHED</md-button>-->
+      <!--</div>-->
+
+    </div>
+  </md-dialog-content>
+</md-dialog>

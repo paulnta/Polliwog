@@ -1,6 +1,6 @@
 
 
-#dialog-add-lecture{
+#dialog-add-lecture, #dialog-share-lecture{
   width: 90%;
 
   md-toolbar{
@@ -22,4 +22,15 @@
   #dialog-add-lecture{
     width: 600px;
   }
+}
+
+#dialog-add-lecture .text-large{
+  font-size: 2.5em;
+  font-weight: 400;
+}
+
+#dialog-share-lecture .md-button.btn-close {
+  position: absolute;
+  right: 0;
+
 }

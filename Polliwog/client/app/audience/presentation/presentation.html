@@ -7,8 +7,15 @@
 
     <div layout="row" layout-align="center center" flex>
 
-      <div layout="column" flex="100" flex-gt-sm="80">
-        <h2 class="title-1">New polls</h2>
+      <div ng-show="polls.length == 0" class="empty-state" layout="column" layout-align="center center">
+        <img src="/assets/images/empty_state.png" height="100px" width="100px" alt="empty"/>
+        <p class="infos">
+          Don't worry, new polls will arrive here.
+        </p>
+      </div>
+
+      <div ng-show="polls.length > 0" layout="column" flex="100" flex-gt-sm="80">
+        <!--<h2 class="title-1">New polls</h2>-->
       <div class="flex poll-list" >
         <md-grid-list md-cols="2" md-cols-md="4" md-cols-gt-md="4"
                       md-row-height="1:1" md-row-height-gt-md="1:1"
@@ -24,13 +31,13 @@
                    layout="row" flex layout-align="space-around center">
 
                 <!--button show stats if closed-->
-                <a href="#" ng-click="" ng-show="poll.state == 'closed'">
+                <a href="#" ng-click="showPoll($event, poll, false)" ng-show="poll.state == 'closed'">
                   <md-tooltip md-direction="bottom">Statistics</md-tooltip>
                   <md-icon md-font-library="material-icons" class="ic-48">timeline</md-icon>
                 </a>
 
                 <!--button participate if poll active-->
-                <a href ng-click="showPoll($event, poll)" ng-show="poll.state == 'active'">
+                <a href ng-click="showPoll($event, poll, true)" ng-show="poll.state == 'active'">
                   <md-tooltip md-direction="bottom">Participate</md-tooltip>
                   <md-icon md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
                 </a>
@@ -41,6 +48,7 @@
             <md-grid-tile-footer>
               <div layout="row" flex>
                 <h3 class="poll-title">{{poll.title}}</h3>
+                <span class="poll-state-label footer" ng-class="poll.state" flex>{{poll.state}}</span>
               </div>
             </md-grid-tile-footer>
           </md-grid-tile>

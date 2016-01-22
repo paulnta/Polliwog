@@ -3,12 +3,16 @@
 
     <!--TODO: Show Image and statistics-->
     <div class="header" flex>
-      <!--<div class="header-overlay"></div>-->
-      <h3 class="poll-title">{{poll.title}}</h3>
+      <div class="header-overlay"></div>
 
-      <div  class="controls" ng-show="mode == 'edit'"layout-fill ng-class="{visible: hover}"
-           ng-mouseenter="hover = true" ng-mouseleave="hover = false"
-           layout="row" flex layout-align="center center" ng-controller="PollVoteCtrl">
+      <div class="header-footer">
+        <h3 class="poll-title">{{poll.title}}</h3>
+        <span class="poll-state-label footer" ng-class="(poll.state)" flex>{{poll.state}}</span>
+      </div>
+
+      <div  class="controls" ng-show="mode == 'edit'" layout-fill ng-class="{visible: hover}"
+            ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+            layout="row" flex layout-align="center center" ng-controller="PollVoteCtrl">
 
         <a href ng-click="">
           <md-tooltip md-direction="bottom">Statistics</md-tooltip>
@@ -17,8 +21,8 @@
 
         <a href ng-click="togglePollState(poll)">
           <md-tooltip md-direction="bottom">Start poll</md-tooltip>
-            <md-icon ng-hide="poll.state == 'active'" md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
-            <md-icon ng-show="poll.state == 'active'" md-font-library="material-icons" class="ic-48">stop</md-icon>
+          <md-icon ng-hide="poll.state == 'active'" md-font-library="material-icons" class="ic-48">play_arrow</md-icon>
+          <md-icon ng-show="poll.state == 'active'" md-font-library="material-icons" class="ic-48">stop</md-icon>
         </a>
 
         <md-menu>
@@ -47,60 +51,42 @@
 
       </div>
 
+      <md-fab-toolbar ng-hide="!(mode == 'edit')" md-open="toolbarOpen"
+                      md-direction="left" class="md-fab-bottom-right poll-toolbar">
+        <md-fab-trigger class="align-with-text">
+          <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-font-library="material-icons"  style="color: #ffffff" aria-label="menu">edit</md-icon>
+          </md-button>
+        </md-fab-trigger>
+        <md-toolbar flex>
+          <md-fab-actions class="md-toolbar-tools">
 
-      <!--<pie-chart data="gauge_data" options="gauge_options"></pie-chart>-->
-      <!--<div class="chart-container">-->
-        <!--<canvas id="doughnut" class="chart chart-doughnut"-->
-                <!--chart-data="data" chart-labels="labels" chart-series="series">-->
-        <!--</canvas>-->
-      <!--</div>-->
-      <!--<div ng-show="mode == 'edit'" class="statistics" layout="column" flex>-->
-        <!--<h2 class="question-title">Question title</h2>-->
-        <!--<div layout flex layout-align="center center">-->
-          <!--<div class="chart-wrapper" flex-xs="90" flex-gt-xs="80" flex-gt-sm="60" flex-gt-md="70">-->
-            <!--<canvas id="bar" class="chart chart-bar" chart-legend="false"-->
-                    <!--chart-data="data" chart-labels="labels" chart-series="series">-->
-            <!--</canvas>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
+            <div layout="column" layout-align="center center" class="control">
+              <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
+                <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
+              </md-button>
+              <span class="label-icon">add question</span>
+            </div>
 
-        <md-fab-toolbar ng-hide="!(mode == 'edit')" md-open="toolbarOpen"
-                        md-direction="left" class="md-fab-bottom-right poll-toolbar">
-          <md-fab-trigger class="align-with-text">
-            <md-button aria-label="menu" class="md-fab md-primary">
-              <md-icon md-font-library="material-icons"  style="color: #ffffff" aria-label="menu">edit</md-icon>
-            </md-button>
-          </md-fab-trigger>
-          <md-toolbar flex>
-            <md-fab-actions class="md-toolbar-tools">
+            <div layout="column" layout-align="center center" class="control">
+              <md-button aria-label="comment" class="md-icon-button" ng-click="editTitle($event, poll.title)">
+                <md-icon md-font-library="material-icons" aria-label="edit desc..">edit</md-icon>
+              </md-button>
+              <span class="label-icon">title</span>
+            </div>
 
-              <div layout="column" layout-align="center center" class="control">
-                <md-button aria-label="comment" class="md-icon-button" ng-click="showDialogAddQuestion($event)">
-                  <md-icon md-font-library="material-icons" aria-label="add poll">add</md-icon>
-                </md-button>
-                <span class="label-icon">add question</span>
-              </div>
+            <div layout="column" layout-align="center center" class="control">
+              <md-button aria-label="comment" class="md-icon-button" ng-click="editImage($event)">
+                <md-icon md-font-library="material-icons" aria-label="edit image">image</md-icon>
+              </md-button>
+              <span class="label-icon">image</span>
+            </div>
 
-              <div layout="column" layout-align="center center" class="control">
-                <md-button aria-label="comment" class="md-icon-button" ng-click="editTitle($event, poll.title)">
-                  <md-icon md-font-library="material-icons" aria-label="edit desc..">edit</md-icon>
-                </md-button>
-                <span class="label-icon">title</span>
-              </div>
+            <span flex></span>
 
-              <div layout="column" layout-align="center center" class="control">
-                <md-button aria-label="comment" class="md-icon-button" ng-click="editImage($event)">
-                  <md-icon md-font-library="material-icons" aria-label="edit image">image</md-icon>
-                </md-button>
-                <span class="label-icon">image</span>
-              </div>
-
-              <span flex></span>
-
-            </md-fab-actions>
-          </md-toolbar>
-        </md-fab-toolbar>
+          </md-fab-actions>
+        </md-toolbar>
+      </md-fab-toolbar>
 
     </div>
 
@@ -119,41 +105,44 @@
           <md-list>
             <div ng-repeat="question in poll.questions">
               <div class="single-question"  ng-mouseenter="more_icon_visible = (mode == 'edit')" ng-mouseleave="more_icon_visible = false">
-              <md-subheader class="md-sticky" layout>
+                <md-subheader class="md-sticky" layout>
 
-                <div>{{$index+1}}. {{question.title}}</div>
+                  <div>{{$index+1}}. {{question.title}}</div>
 
-                <md-menu md-position-mode="target-right target"
-                         ng-show="more_icon_visible">
-                  <!--main button-->
-                  <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-                    <md-icon md-font-library="material-icons">more_vert</md-icon>
-                  </md-button>
+                  <md-menu ng-if="mode == 'edit'" md-position-mode="target-right target"
+                           ng-show="more_icon_visible">
+                    <!--main button-->
+                    <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                      <md-icon md-font-library="material-icons">more_vert</md-icon>
+                    </md-button>
 
-                  <!--menu-->
-                  <md-menu-content width="3">
-                    <md-menu-item>
-                      <md-button ng-click="showDialogEditQuestion($event, question)">
-                        <md-icon md-font-library="material-icons">edit</md-icon>
-                        Edit
-                      </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                      <md-button ng-click="removeQuestion(question)">
-                        <md-icon md-font-library="material-icons">delete</md-icon>
-                        delete
-                      </md-button>
-                    </md-menu-item>
-                  </md-menu-content>
-                </md-menu>
-              </md-subheader>
+                    <!--menu-->
+                    <md-menu-content width="3">
+                      <md-menu-item>
+                        <md-button ng-click="showDialogEditQuestion($event, question)">
+                          <md-icon md-font-library="material-icons">edit</md-icon>
+                          Edit
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="removeQuestion(question)">
+                          <md-icon md-font-library="material-icons">delete</md-icon>
+                          delete
+                        </md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                  </md-menu>
+                </md-subheader>
 
-              <md-list-item ng-repeat="choice in question.choices">
-                <md-checkbox ng-model="choice.state" ng-click="choiceChanged(choice, question)"></md-checkbox>
-                <p>{{choice.text}}</p>
-                <span flex></span>
-                <md-progress-linear ng-show="(poll.state != 'draft') && (mode != 'user')" flex="50" md-mode="determinate" value="{{choiceStatistics(choice)}}"></md-progress-linear>
-              </md-list-item>
+                <md-list-item ng-repeat="choice in question.choices">
+                  <md-checkbox ng-model="choice.state" ng-click="choiceChanged(choice, question)"></md-checkbox>
+                  <p>{{choice.text}}</p>
+                  <span flex></span>
+                  <md-progress-linear ng-show="((poll.state != 'draft') && (mode != 'user')) || (poll.state == 'closed' && mode == 'user') "
+                                      flex="50" md-mode="determinate"
+                                      value="{{choiceStatistics(choice, question)}}">
+                  </md-progress-linear>
+                </md-list-item>
               </div>
 
               <md-divider ng-if="!$last"></md-divider>

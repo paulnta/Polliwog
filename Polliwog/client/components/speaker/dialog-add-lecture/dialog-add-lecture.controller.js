@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('polliwogApp')
-  .controller('AddLectureCtrl', function ($log, $scope, $mdDialog, Lecture) {
+  .controller('AddLectureCtrl', function ($log, $scope, lecture, $mdDialog, Lecture) {
   	$scope.showEditTab = true;
     $scope.showShareTab = false;
     $scope.saved = false;
-    $scope.lecture = {isPrivate: false};
-  	$scope.joinUrl = 'http://polliwog.com/join';
+    $scope.lecture = lecture || {isPrivate: false};
+  	$scope.joinUrl = 'polliwog-app.herokuapp.com';
   	$scope.visibilities = ('Public:false;Private:true').split(';').map(function (v) {
   		var args = v.split(':');
   		return {

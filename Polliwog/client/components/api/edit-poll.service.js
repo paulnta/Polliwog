@@ -3,7 +3,7 @@
  */
 
 angular.module('polliwogApp')
-  .factory('EditPoll', function (Poll, $state, Question, $log, CurrentLecture) {
+  .factory('EditPoll', function (Poll, lodash, $state, Question, $log, CurrentLecture) {
     'use strict';
 
     var poll = {};
@@ -32,14 +32,14 @@ angular.module('polliwogApp')
         return poll;
       },
 
+      getRegisteredPoll: function () {
+        return poll;
+      },
       /**
        * Add or edit a question
        * @param question
        */
       saveQuestion: function (question) {
-
-        // TODO : Check if ok to use indexOf even if question is different
-        var index = poll.questions.indexOf(question);
 
         if(question.hasOwnProperty('_id')){
           console.info('this question already exist, will update');
@@ -55,15 +55,18 @@ angular.module('polliwogApp')
           Question.save({lectureId: poll.lecture, pollId: poll._id}, question, function (doc) {
             $log.debug({'saved': doc});
             poll.questions.push(question);
+            console.log(poll.questions);
           });
         }
+
+
       },
 
       removeQuestion: function (question) {
-        Question.delete({lectureId: poll.lecture, pollId: poll._id}, question, function (doc) {
-          $log.debug({'deleted': doc});
+        return Question.delete({lectureId: poll.lecture, pollId: poll._id}, question, function () {
           var index = poll.questions.indexOf(question);
-          poll.questions.splice(index,1);
+          if(index >= 0)
+            poll.questions.splice(index, 1);
         });
       },
 

@@ -4,15 +4,36 @@
   <div class="md-toolbar-tools fluid">
     <div ng-include="'components/speaker/toolbar/menu-button.html'"></div>
     <h2>
-      <span ng-bind="currentLecture.name"></span> - <span ng-bind="currentLecture.key"></span>
+      <span>{{currentLecture.name}} - </span> <span>{{currentLecture.key}}</span>
     </h2>
     <span flex></span>
-    <md-button class="md-icon-button" aria-label="search">
-      <md-icon md-font-library="material-icons">search</md-icon>
+
+    <md-button class="md-icon-button"  ng-click="share()" aria-label="search">
+      <md-icon md-font-library="material-icons">share</md-icon>
     </md-button>
-    <md-button class="md-icon-button" aria-label="more">
-      <md-icon md-font-library="material-icons">more_vert</md-icon>
-    </md-button>
+
+    <md-menu md-position-mode="target-right target">
+      <!--main button-->
+      <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+        <md-icon md-font-library="material-icons">more_vert</md-icon>
+      </md-button>
+
+      <!--menu-->
+      <md-menu-content width="3">
+        <md-menu-item>
+          <md-button ng-click="editLecture()">
+            <md-icon md-font-library="material-icons">edit</md-icon>
+            Edit
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="deleteLecture()">
+            <md-icon md-font-library="material-icons">delete</md-icon>
+            delete
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
   </div>
 
   <span flex></span>

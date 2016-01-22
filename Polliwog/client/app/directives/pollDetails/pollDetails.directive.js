@@ -15,12 +15,12 @@ angular.module('polliwogApp')
       controller: 'EditPollCtrl',
       link: function (scope) {
 
-        //var header = $('poll-details .header');
-        //  header.css({
-        //  'background-image': 'url(' + scope.defaultImage +')',
-        //  'background-size' : 'cover',
-        //  'background-repeat' : 'no-repeat'
-        //});
+        var header = $('poll-details .header');
+          header.css({
+          'background-image': 'url(' + scope.defaultImage +')',
+          'background-size' : 'cover',
+          'background-repeat' : 'no-repeat'
+        });
 
         function previewHeight() {
           var windowH = $(window).height();

@@ -14,6 +14,7 @@ angular.module('polliwogApp')
       socket.socket.emit('lecture:speakerConnect', lecture.key);
     });
 
+
     /**
      * Get the currentLecture id
      * @returns lectureId

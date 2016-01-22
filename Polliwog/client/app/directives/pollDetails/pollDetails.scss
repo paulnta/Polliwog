@@ -21,18 +21,18 @@ poll-details {
     background-color: transparent;
     z-index: 10;
 
-
     .header {
+      overflow: hidden;
       position: relative;
       min-height: 400px;
       max-height: 400px;
       color: #ffffff;
-      //padding-top: 40px;
       background-color: #292929;
       background-size: cover;
 
 
       .controls{
+        z-index: 15;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -77,31 +77,6 @@ poll-details {
         transform: scale(1,1);
       }
 
-      .statistics{
-        //position: absolute;
-        width: 100%;
-        height: 100%;
-        //z-index: 10;
-
-        .chart-wrapper{
-          //position: relative;
-          //height: 300px;
-          ////
-          //.chart{
-          //  height: 300px;
-          //  width: 300px;
-          //}
-        }
-        .question-title{
-          display: inline-block;
-          padding-top: 20px;
-          line-height: 50px;
-          font-size: 2.3em;
-          text-align: center;
-          margin: 0 0 0 0;
-          //margin-bottom: 10px;
-        }
-      }
 
       h3 {
         color: #ffffff;
@@ -126,12 +101,17 @@ poll-details {
         }
       }
 
-      .poll-title{
+      .header-footer{
         position: absolute;
-        bottom: 0;
-        font-size: 24px;
-        padding-left: 24px;
+        bottom: 20px;
         z-index: 100;
+
+        h3{
+          display: inline-block;
+          padding-left: 24px;
+          font-size: 24px;
+          margin: 0;
+        }
       }
 
       .header-overlay{
@@ -181,12 +161,6 @@ poll-details {
       color: rgba(0,0,0,.54);
     }
   }
-
-  .poll-title{
-    position: absolute;
-  }
-
-
 }
 
 @media screen and (max-width: 960px){

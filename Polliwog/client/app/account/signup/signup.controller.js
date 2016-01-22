@@ -3,7 +3,7 @@
 angular.module('polliwogApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {
-        type: 'user'
+        type: 'speaker'
     };
     $scope.errors = {};
 

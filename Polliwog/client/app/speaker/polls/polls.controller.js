@@ -7,6 +7,8 @@ angular.module('polliwogApp')
                                      Lecture, EditPoll, $mdMedia, CurrentLecture, $log) {
     'use strict';
 
+    var previewEnabled = true;
+
     // wait for currentLecture resolved
     CurrentLecture.$promise.then(function (lecture) {
       // get currentLecture's polls
@@ -22,7 +24,6 @@ angular.module('polliwogApp')
 
     /**
      * Get audience updates
-     * TODO: user poll:updated to update the chart when someone votes
      */
     socket.socket.on('poll:updated', function (data) {
       var pollIndex = lodash.findIndex($scope.polls, {'_id': data.pollId});
@@ -34,10 +35,11 @@ angular.module('polliwogApp')
 
     $scope.select = function (poll) {
       $scope.selected = EditPoll.registerPoll(poll);
+      previewEnabled = true;
     };
 
     $scope.previewVisible = function (){
-      return $mdMedia('gt-md') || $mdMedia('md');
+      return previewEnabled && ($mdMedia('gt-md') || $mdMedia('md'));
     };
 
     $scope.addPoll = function () {
@@ -56,6 +58,14 @@ angular.module('polliwogApp')
         var newIndex = index < $scope.polls.length ? index : index -1;
         $scope.selected = EditPoll.registerPoll(newIndex < 0 ? {} : $scope.polls[newIndex]);
         $log.debug({deleted: doc});
+      });
+    };
+
+    $scope.resetSatistics = function (poll) {
+      angular.forEach(poll.questions, function (question) {
+        angular.forEach(question.choices, function (choice) {
+          choice.answer_count = 0;
+        });
       });
     };
 

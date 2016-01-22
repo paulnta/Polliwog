@@ -48,7 +48,8 @@ exports.create = function (req, res) {
   generateKey().then(function (key) {
     req.body.speaker = req.user._id;
     req.body.key = key;
-    Lecture.create(req.body, function (err, lecture) {
+    var lecture = new Lecture(req.body);
+    lecture.save(function (err, lecture) {
       if (err) {return handleError(res, err);}
       return res.status(201).json(lecture);
     });
